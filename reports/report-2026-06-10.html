@@ -3,277 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Security Advisory Report - 2026-06-10</title>
+    <title>GitHub安全公告日报 - 2026-06-10</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
         }
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
         }
-        h1 { font-size: 2.2em; margin-bottom: 10px; }
-        .subtitle { font-size: 1.1em; opacity: 0.9; }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
         
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px 40px;
-            background: #f8f9fa;
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
         }
         .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
         }
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-        }
-        .stat-label { color: #666; font-size: 0.95em; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
         
-        .content { padding: 40px; }
         .section-title {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #333;
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
         }
         
         .advisory-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
         }
-        .advisory-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .advisory-card.critical { border-left-color: #dc3545; }
-        .advisory-card.high { border-left-color: #fd7e14; }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
         
         .advisory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
         }
-        .advisory-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
-            flex: 1;
-        }
-        .advisory-id {
-            color: #667eea;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
         
-        .advisory-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
         .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
         }
-        .badge-critical { background: #fee; color: #c33; }
-        .badge-high { background: #ffe4cc; color: #d97706; }
-        .badge-stars { background: #fff3cd; color: #856404; }
-        .badge-poc { background: #f8d7da; color: #721c24; }
-        .badge-analysis { background: #d1ecf1; color: #0c5460; }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
         
-        .advisory-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-        }
-        
-        .advisory-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .advisory-link {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .advisory-link:hover { background: #5568d3; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #f0f6fc; }
+        .advisory-content pre { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 12px 0; font-size: 0.85em; color: #c9d1d9; }
         
         .priority-score {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            background: #d1ecf1;
-            color: #0c5460;
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
         }
         
-        .no-advisories {
-            text-align: center;
-            padding: 60px;
-            color: #999;
-            font-size: 1.2em;
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
         }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #333;
-        }
-        tr:hover { background: #f8f9fa; }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
         
         footer {
-            background: #f8f9fa;
-            padding: 20px 40px;
-            text-align: center;
-            color: #666;
-            border-top: 1px solid #e0e0e0;
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
         }
+        footer a { color: #58a6ff; text-decoration: none; }
     </style>
 </head>
 <body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-10 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>🛡️ GitHub Security Advisory Report</h1>
-            <p class="subtitle">2026-06-10 | Critical & High Severity Advisories</p>
-        </header>
-        
-        <div class="stats">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">1</div>
-                <div class="stat-label">Total (⭐≥5k + PoC/Analysis)</div>
+                <div class="stat-number">2</div>
+                <div class="stat-label">总公告数</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">0</div>
                 <div class="stat-label">Critical</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">1</div>
+                <div class="stat-number">2</div>
                 <div class="stat-label">High</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">1</div>
-                <div class="stat-label">With PoC</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">含PoC/详细分析</div>
             </div>
         </div>
         
-        <div class="content">
-            <h2 class="section-title">📋 Advisory Details (Sorted by Priority)</h2>
-
-            <div class="advisory-card high">
-                <div class="advisory-header">
-                    <div>
-                        <div class="advisory-title">Dex: Token-exchange endpoint is missing AllowedConnectors enforcement</div>
-                        <div class="advisory-id">GHSA-7qjx-gp9h-65qj | CVE: None</div>
-                    </div>
-                    <span class="priority-score">Priority: 145</span>
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 漏洞1: Dex -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 [高危] Dex Token Exchange 端点缺失 AllowedConnectors 访问控制</div>
+                    <div class="advisory-id">GHSA-7qjx-gp9h-65qj | CVE: 暂无</div>
                 </div>
-                
-                <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 10,872</span><span class="badge badge-poc">🔴 PoC Available</span></div>
-                
-                <div class="advisory-description">## Summary
-
-`server/handlers.go::handleTokenExchange` (lines 1804-1893) does not call `isConnectorAllowed(client.AllowedConnectors, connID)` before issuing tokens, while sibling handlers do. This is a per-client connector ACL gap on the token-exchange endpoint; the redirect-flow paths enforce the same field correctly.
-
-## Affected code path
-
-`handleTokenExchange` reads `connector_id` from the request body at `server/handlers.go:1822`. Validators called between read and token issuance:
-
-- `s.getConnector(ctx, connID)` at line 1836 - confirms connector exists
-- `GrantTypeAllowed(conn.GrantTypes, grantTypeTokenExchange)` at line 1842 - confirms connector permits this grant
-- **(missing)** `isConnectorAllowed(client.AllowedConnectors, connID)` - never called
-
-Tokens are issued at lines 1887 / </div>
-                
-                <div class="advisory-footer">
-                    <div><strong>Affected:</strong> dexidp/dex (⭐10,872), advisories/GHSA-7qjx-gp9h-65qj (⭐0)</div>
-                    <a href="https://github.com/advisories/GHSA-7qjx-gp9h-65qj" class="advisory-link" target="_blank">View Details →</a>
-                </div>
+                <span class="priority-score">优先级: 高</span>
             </div>
-
-            <h2 class="section-title" style="margin-top: 40px;">📊 Summary Table</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Priority</th>
-                        <th>GHSA ID</th>
-                        <th>Severity</th>
-                        <th>Product</th>
-                        <th>Stars</th>
-                        <th>PoC</th>
-                        <th>Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td>1</td>
-                        <td><strong>145</strong></td>
-                        <td><code>GHSA-7qjx-gp9h-65qj</code></td>
-                        <td><span class="badge badge-high">HIGH</span></td>
-                        <td>dexidp/dex (⭐10,872), advisories/GHSA-7qjx-gp9h-65qj (⭐0)</td>
-                        <td>⭐ 10,872</td>
-                        <td>🔴</td>
-                        <td><a href="https://github.com/advisories/GHSA-7qjx-gp9h-65qj" target="_blank">View</a></td>
-                    </tr>
-
-                </tbody>
-            </table>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10,872</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Dex（OIDC Identity Provider）的 token exchange 端点 <code>handleTokenExchange</code>（<code>server/handlers.go:1804-1893</code>）在签发 token 前未调用 <code>isConnectorAllowed(client.AllowedConnectors, connID)</code> 进行连接器 ACL 校验。而同文件中的其他 handler（如 <code>handleConnectorLogin</code>、<code>parseAuthorizationRequest</code>）均正确执行了该检查。这导致已授权客户端可通过 token exchange 端点绕过连接器白名单限制，使用被禁止的身份连接器签发 token。</p>
+                
+                <p><strong>影响产品：</strong>dexidp/dex ⭐10,872</p>
+                <p><strong>影响版本：</strong>&lt; 0.0.0-20260303131938-204dbb2e3ff7（尚无正式修复版本）</p>
+                
+                <p><strong>攻击面：</strong>网络远程攻击。攻击者需要获取已泄露的客户端密钥（client_secret），并持有被禁止连接器的合法 subject_token。典型场景：CI/CD 泄露、环境变量泄露、服务账号密钥泄露。</p>
+                
+                <p><strong>触发条件：</strong></p>
+                <ul>
+                    <li>目标 Dex 实例启用了 token exchange grant type</li>
+                    <li>客户端配置了 <code>allowedConnectors</code> 白名单限制</li>
+                    <li>攻击者获取了该客户端的 client_secret</li>
+                    <li>攻击者持有被禁止连接器的合法身份 token</li>
+                </ul>
+                
+                <p><strong>潜在危害：</strong>攻击者可绕过管理员设置的连接器访问控制策略，使用被禁止的高权限连接器（如企业 Okta）签发 token。下游服务信任 Dex 签发的 token，会将攻击者识别为高权限连接器用户，实现权限提升。CVSS 3.1 评分：8.7 HIGH（AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N）。</p>
+                
+                <p><strong>可利用性：</strong>公告包含完整的攻击请求示例（HTTP POST 请求），详细说明了漏洞代码路径和缺失的校验逻辑，提供了具体攻击场景分析。</p>
+                
+                <p><strong>修复建议：</strong></p>
+                <ul>
+                    <li>在 <code>handleTokenExchange</code> 中 token 签发前添加 <code>isConnectorAllowed(client.AllowedConnectors, connID)</code> 调用</li>
+                    <li>参考同文件 <code>handleConnectorLogin:377</code> 的实现方式</li>
+                    <li>如暂时无法升级，可通过反向代理限制 token exchange 端点的访问</li>
+                    <li>审查所有使用 <code>allowedConnectors</code> 的客户端配置，确认无泄露风险</li>
+                </ul>
+            </div>
+            
+            <a href="https://github.com/dexidp/dex/security/advisories/GHSA-7qjx-gp9h-65qj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
         
-        <footer>
-            <p>Auto-generated at 08:10 CST | Data source: GitHub Advisory Database API</p>
-            <p><a href="https://github.com/JsHuang/sec-advisory-daily" style="color: #667eea;">GitHub Repository</a></p>
-        </footer>
+        <!-- 漏洞2: PhoenixStorybook -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 [高危] PhoenixStorybook LiveView 事件参数无限制 Atom 创建导致 DoS</div>
+                    <div class="advisory-id">GHSA-833p-95jq-929q | CVE: CVE-2026-8469</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 862</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PhoenixStorybook 的 LiveView 事件处理函数（<code>handle_set_variation_assign/3</code>、<code>handle_toggle_variation_assign/3</code>、<code>to_variation_id/2</code>、<code>to_value/4</code>）对用户提供的参数直接调用 <code>String.to_atom/1</code> 转换为 Atom，未检查 atom 是否已存在。BEAM VM 的 atom 不会被垃圾回收，攻击者可通过发送大量包含唯一键的事件参数，永久耗尽 atom 表（上限约 1,048,576），导致整个 Erlang/Elixir 节点崩溃。</p>
+                
+                <p><strong>影响产品：</strong>phenixdigital/phoenix_storybook ⭐862</p>
+                <p><strong>影响版本：</strong>&gt;= 0.2.0, &lt; 1.1.0</p>
+                
+                <p><strong>攻击面：</strong>网络远程攻击，无需认证。攻击者只需能访问 Storybook 路由即可发送恶意 LiveView 事件。</p>
+                
+                <p><strong>触发条件：</strong></p>
+                <ul>
+                    <li>目标应用挂载了 Phoenix Storybook 且可被外部访问</li>
+                    <li>攻击者可向 playground 发送 <code>psb-assign</code>、<code>psb-toggle</code> 等 LiveView 事件</li>
+                    <li>每次请求携带大量唯一键名即可触发 atom 泄漏</li>
+                </ul>
+                
+                <p><strong>潜在危害：</strong>BEAM 节点完全崩溃，所有运行在该节点上的应用不可用。Atom 表一旦耗尽不可恢复，必须重启 VM。属于永久性 DoS 攻击。</p>
+                
+                <p><strong>可利用性：</strong>公告包含完整 PoC 脚本，直接调用 <code>handle_set_variation_assign/3</code> 演示 atom 泄漏过程，每次请求注入 5,000 个唯一键。</p>
+                
+                <p><strong>修复建议：</strong></p>
+                <ul>
+                    <li>升级至 PhoenixStorybook &gt;= 1.1.0</li>
+                    <li>如无法升级，将所有 <code>String.to_atom/1</code> 替换为 <code>String.to_existing_atom/1</code></li>
+                    <li>限制 Storybook 路由的访问，仅允许内网/认证用户访问</li>
+                    <li>监控 BEAM atom 表使用量，设置告警阈值</li>
+                </ul>
+            </div>
+            
+            <a href="https://github.com/phenixdigital/phoenix_storybook/security/advisories/GHSA-833p-95jq-929q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-7qjx-gp9h-65qj</code></td>
+                    <td>dexidp/dex</td>
+                    <td>10,872</td>
+                    <td>High</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/dexidp/dex/security/advisories/GHSA-7qjx-gp9h-65qj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-833p-95jq-929q</code></td>
+                    <td>phoenix_storybook</td>
+                    <td>862</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/phenixdigital/phoenix_storybook/security/advisories/GHSA-833p-95jq-929q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-833p-95jq-929q</code></td>
+                    <td>phoenix_storybook</td>
+                    <td>862</td>
+                    <td>High</td>
+                    <td>无需认证即可触发 BEAM 节点崩溃，PoC 完整可复现，Elixir/Erlang 生态项目需关注</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>📊 今日概况：</strong>过去24小时内 GitHub Advisory Database 发布了 <strong>2 个 High 级别</strong>安全公告，无 Critical 级别。其中 1 个影响 Star≥5k 的知名项目，2 个均包含可利用的 PoC 信息。</p>
+                
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Dex (dexidp/dex) Token Exchange ACL 绕过</strong> — 影响所有使用 <code>allowedConnectors</code> 进行连接器访问控制的 Dex 部署。攻击者需获取客户端密钥，但一旦满足条件可实现跨连接器权限提升。建议立即检查 Dex 部署配置，确认 token exchange 端点的暴露范围，并关注上游修复进展。</li>
+                </ul>
+                
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>PhoenixStorybook Atom 表耗尽 DoS</strong> — 影响所有在公网暴露 Storybook 的 Elixir/Elixir 项目。无需认证即可触发，攻击成本极低。建议限制 Storybook 访问范围或升级至 1.1.0+。</li>
+                </ul>
+                
+                <p><strong>💡 趋势观察：</strong></p>
+                <ul>
+                    <li>今日公告数量较少，但质量较高 — 两个漏洞均有详细的代码级分析和 PoC</li>
+                    <li>Dex 漏洞属于典型的 ACL 实现遗漏，提醒在使用访问控制列表时注意所有代码路径的一致性</li>
+                    <li>PhoenixStorybook 漏洞展示了 BEAM VM 特有的 atom 表耗尽风险，Elixir/Erlang 开发者应避免对用户输入使用 <code>String.to_atom/1</code></li>
+                </ul>
+            </div>
+        </div>
     </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
 </body>
 </html>
