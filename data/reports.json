@@ -1,1 +1,28 @@
-{"reports":[]}
+{
+  "date": "2026-06-10",
+  "stats": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "star_projects": 1
+  },
+  "advisories": [
+    {
+      "ghsa_id": "GHSA-7qjx-gp9h-65qj",
+      "cve_id": null,
+      "title": "Dex: Token-exchange endpoint is missing AllowedConnectors enforcement",
+      "severity": "high",
+      "description": "## Summary\n\n`server/handlers.go::handleTokenExchange` (lines 1804-1893) does not call `isConnectorAllowed(client.AllowedConnectors, connID)` before issuing tokens, while sibling handlers do. This is a per-client connector ACL gap on the token-exchange endpoint; the redirect-flow paths enforce the same field correctly.\n\n## Affected code path\n\n`handleTokenExchange` reads `connector_id` from the request body at `server/handlers.go:1822`. Validators called between read and token issuance:\n\n- `s.getConnector(ctx, connID)` at line 1836 - confirms connector exists\n- `GrantTypeAllowed(conn.GrantTypes, grantTypeTokenExchange)` at line 1842 - confirms connector permits this grant\n- **(missing)** `isConnectorAllowed(client.AllowedConnectors, connID)` - never called\n\nTokens are issued at lines 1887 / ",
+      "products": [
+        "dexidp/dex (⭐10,872)",
+        "advisories/GHSA-7qjx-gp9h-65qj (⭐0)"
+      ],
+      "max_stars": 10872,
+      "has_poc": true,
+      "has_detailed_analysis": false,
+      "priority_score": 145,
+      "url": "https://github.com/advisories/GHSA-7qjx-gp9h-65qj",
+      "published_at": "2026-06-09T21:59:33Z"
+    }
+  ]
+}
