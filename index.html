@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Security Advisory Daily Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .report-list {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .report-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .report-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .report-date {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .report-meta {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .report-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .report-link:hover {
+            background: #5568d3;
+        }
+        
+        .no-reports {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .badge-critical {
+            background: #fee;
+            color: #c33;
+        }
+        
+        .badge-high {
+            background: #ffe4cc;
+            color: #d97706;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ GitHub Security Advisory Daily Report</h1>
+            <p class="subtitle">Automated daily monitoring of Critical and High severity advisories</p>
+        </header>
+        
+        <div id="loading" class="loading">Loading latest reports...</div>
+        
+        <div id="content" style="display: none;">
+            <div class="stats" id="stats"></div>
+            
+            <div class="content">
+                <h2 class="section-title">📋 Recent Reports</h2>
+                <div class="report-list" id="reportList"></div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Auto-generated daily at 08:10 CST | Data source: GitHub Advisory Database</p>
+        </footer>
+    </div>
+
+    <script>
+        async function loadReports() {
+            try {
+                const response = await fetch('data/reports.json?t=' + Date.now());
+                if (!response.ok) throw new Error('Failed to load reports');
+                
+                const data = await response.json();
+                renderReports(data);
+            } catch (error) {
+                document.getElementById('loading').textContent = 'No reports available yet. First report will be generated tomorrow at 08:10.';
+            }
+        }
+        
+        function renderReports(data) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            
+            if (data.reports && data.reports.length > 0) {
+                const latest = data.reports[0];
+                renderStats(latest.stats);
+                renderReportList(data.reports);
+            }
+        }
+        
+        function renderStats(stats) {
+            if (!stats) return;
+            
+            const statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total || 0}</div>
+                    <div class="stat-label">Total Advisories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.critical || 0}</div>
+                    <div class="stat-label">Critical</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.high || 0}</div>
+                    <div class="stat-label">High</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.starProjects || 0}</div>
+                    <div class="stat-label">Projects ⭐5k+</div>
+                </div>
+            `;
+            
+            document.getElementById('stats').innerHTML = statsHtml;
+        }
+        
+        function renderReportList(reports) {
+            const listHtml = reports.map(report => `
+                <div class="report-item">
+                    <div class="report-date">${report.date}</div>
+                    <div class="report-meta">
+                        <span class="badge badge-critical">Critical: ${report.stats?.critical || 0}</span>
+                        <span class="badge badge-high">High: ${report.stats?.high || 0}</span>
+                        <span>⭐ 5k+ Projects: ${report.stats?.starProjects || 0}</span>
+                    </div>
+                    <a href="${report.url}" class="report-link">View Full Report →</a>
+                </div>
+            `).join('');
+            
+            document.getElementById('reportList').innerHTML = listHtml || '<div class="no-reports">No reports yet</div>';
+        }
+        
+        loadReports();
+    </script>
+</body>
+</html>
