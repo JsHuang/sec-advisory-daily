@@ -1,28 +1,17 @@
 {
-  "date": "2026-06-10",
-  "stats": {
-    "total": 1,
-    "critical": 0,
-    "high": 1,
-    "star_projects": 1
-  },
-  "advisories": [
+  "reports": [
     {
-      "ghsa_id": "GHSA-7qjx-gp9h-65qj",
-      "cve_id": null,
-      "title": "Dex: Token-exchange endpoint is missing AllowedConnectors enforcement",
-      "severity": "high",
-      "description": "## Summary\n\n`server/handlers.go::handleTokenExchange` (lines 1804-1893) does not call `isConnectorAllowed(client.AllowedConnectors, connID)` before issuing tokens, while sibling handlers do. This is a per-client connector ACL gap on the token-exchange endpoint; the redirect-flow paths enforce the same field correctly.\n\n## Affected code path\n\n`handleTokenExchange` reads `connector_id` from the request body at `server/handlers.go:1822`. Validators called between read and token issuance:\n\n- `s.getConnector(ctx, connID)` at line 1836 - confirms connector exists\n- `GrantTypeAllowed(conn.GrantTypes, grantTypeTokenExchange)` at line 1842 - confirms connector permits this grant\n- **(missing)** `isConnectorAllowed(client.AllowedConnectors, connID)` - never called\n\nTokens are issued at lines 1887 / ",
-      "products": [
-        "dexidp/dex (⭐10,872)",
-        "advisories/GHSA-7qjx-gp9h-65qj (⭐0)"
-      ],
-      "max_stars": 10872,
-      "has_poc": true,
-      "has_detailed_analysis": false,
-      "priority_score": 145,
-      "url": "https://github.com/advisories/GHSA-7qjx-gp9h-65qj",
-      "published_at": "2026-06-09T21:59:33Z"
+      "date": "2026-06-10",
+      "title": "GitHub安全公告日报 - 2026-06-10",
+      "url": "reports/report-2026-06-10.html",
+      "stats": {
+        "total": 2,
+        "critical": 0,
+        "high": 2,
+        "star5k": 1,
+        "with_poc": 1
+      },
+      "summary": "今日发现2个High级别漏洞，其中1个影响Star≥5k项目（Dex 10.8k stars），2个均包含PoC。重点关注Dex token exchange端点ACL绕过漏洞，攻击者可绕过连接器白名单实现权限提升。"
     }
   ]
 }
