@@ -44,34 +44,6 @@
             opacity: 0.9;
         }
         
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px 40px;
-            background: #f8f9fa;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #666;
-            font-size: 0.95em;
-        }
-        
         .content {
             padding: 40px;
         }
@@ -132,12 +104,6 @@
             background: #5568d3;
         }
         
-        .no-reports {
-            text-align: center;
-            padding: 60px;
-            color: #999;
-        }
-        
         .loading {
             text-align: center;
             padding: 40px;
@@ -171,6 +137,19 @@
             background: #ffe4cc;
             color: #d97706;
         }
+        
+        .latest-banner {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+        }
+        
+        .latest-banner a {
+            color: white;
+            font-weight: bold;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -180,19 +159,22 @@
             <p class="subtitle">Automated daily monitoring of Critical and High severity advisories</p>
         </header>
         
-        <div id="loading" class="loading">Loading latest reports...</div>
+        <div id="latestBanner" class="latest-banner" style="display: none;">
+            <p>📅 Latest Report: <a id="latestLink" href="#">View Now →</a></p>
+        </div>
+        
+        <div id="loading" class="loading">Loading reports...</div>
         
         <div id="content" style="display: none;">
-            <div class="stats" id="stats"></div>
-            
             <div class="content">
-                <h2 class="section-title">📋 Recent Reports</h2>
+                <h2 class="section-title">📋 Report History</h2>
                 <div class="report-list" id="reportList"></div>
             </div>
         </div>
         
         <footer>
             <p>Auto-generated daily at 08:10 CST | Data source: GitHub Advisory Database</p>
+            <p><a href="https://github.com/JsHuang/sec-advisory-daily" style="color: #667eea;">GitHub Repository</a></p>
         </footer>
     </div>
 
@@ -205,60 +187,69 @@
                 const data = await response.json();
                 renderReports(data);
             } catch (error) {
-                document.getElementById('loading').textContent = 'No reports available yet. First report will be generated tomorrow at 08:10.';
+                document.getElementById('loading').textContent = 'Loading reports...';
+                // Try to show latest report directly
+                showLatestReport();
             }
+        }
+        
+        function showLatestReport() {
+            const today = new Date().toISOString().split('T')[0];
+            const reportUrl = `reports/report-${today}.html`;
+            
+            fetch(reportUrl)
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = reportUrl;
+                    } else {
+                        document.getElementById('loading').textContent = 'No reports available yet.';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('loading').textContent = 'No reports available yet.';
+                });
         }
         
         function renderReports(data) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('content').style.display = 'block';
             
-            if (data.reports && data.reports.length > 0) {
-                const latest = data.reports[0];
-                renderStats(latest.stats);
-                renderReportList(data.reports);
+            const reports = data.advisories || [];
+            
+            if (reports.length > 0) {
+                // Show latest banner
+                const today = new Date().toISOString().split('T')[0];
+                const latestLink = `reports/report-${today}.html`;
+                document.getElementById('latestLink').href = latestLink;
+                document.getElementById('latestBanner').style.display = 'block';
+                
+                // Build report list
+                const listHtml = reports.map((adv, idx) => {
+                    const severityClass = adv.severity === 'critical' ? 'badge-critical' : 'badge-high';
+                    const pocBadge = adv.has_poc ? '<span class="badge badge-critical">🔴 PoC</span>' : '';
+                    
+                    return `
+                        <div class="report-item">
+                            <div class="report-date">${idx + 1}. ${adv.ghsa_id}</div>
+                            <div class="report-meta">
+                                <span class="badge ${severityClass}">${adv.severity.toUpperCase()}</span>
+                                <span>⭐ ${adv.max_stars?.toLocaleString() || 'N/A'}</span>
+                                ${pocBadge}
+                                <span>Priority: ${adv.priority_score}</span>
+                            </div>
+                            <div style="margin-bottom: 10px; color: #333;">
+                                <strong>${adv.title}</strong><br>
+                                <small>${adv.products?.join(', ') || 'Unknown'}</small>
+                            </div>
+                            <a href="${adv.url}" class="report-link" target="_blank">View Advisory →</a>
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('reportList').innerHTML = listHtml;
+            } else {
+                document.getElementById('loading').textContent = 'No high-priority advisories found today.';
             }
-        }
-        
-        function renderStats(stats) {
-            if (!stats) return;
-            
-            const statsHtml = `
-                <div class="stat-card">
-                    <div class="stat-number">${stats.total || 0}</div>
-                    <div class="stat-label">Total Advisories</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.critical || 0}</div>
-                    <div class="stat-label">Critical</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.high || 0}</div>
-                    <div class="stat-label">High</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.starProjects || 0}</div>
-                    <div class="stat-label">Projects ⭐5k+</div>
-                </div>
-            `;
-            
-            document.getElementById('stats').innerHTML = statsHtml;
-        }
-        
-        function renderReportList(reports) {
-            const listHtml = reports.map(report => `
-                <div class="report-item">
-                    <div class="report-date">${report.date}</div>
-                    <div class="report-meta">
-                        <span class="badge badge-critical">Critical: ${report.stats?.critical || 0}</span>
-                        <span class="badge badge-high">High: ${report.stats?.high || 0}</span>
-                        <span>⭐ 5k+ Projects: ${report.stats?.starProjects || 0}</span>
-                    </div>
-                    <a href="${report.url}" class="report-link">View Full Report →</a>
-                </div>
-            `).join('');
-            
-            document.getElementById('reportList').innerHTML = listHtml || '<div class="no-reports">No reports yet</div>';
         }
         
         loadReports();
