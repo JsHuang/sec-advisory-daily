@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Security Advisory Report - 2026-06-10</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .subtitle { font-size: 1.1em; opacity: 0.9; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label { color: #666; font-size: 0.95em; }
+        
+        .content { padding: 40px; }
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .advisory-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .advisory-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .advisory-card.critical { border-left-color: #dc3545; }
+        .advisory-card.high { border-left-color: #fd7e14; }
+        
+        .advisory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .advisory-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+        }
+        .advisory-id {
+            color: #667eea;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .advisory-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-critical { background: #fee; color: #c33; }
+        .badge-high { background: #ffe4cc; color: #d97706; }
+        .badge-stars { background: #fff3cd; color: #856404; }
+        .badge-poc { background: #f8d7da; color: #721c24; }
+        .badge-analysis { background: #d1ecf1; color: #0c5460; }
+        
+        .advisory-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+        
+        .advisory-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .advisory-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .advisory-link:hover { background: #5568d3; }
+        
+        .priority-score {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .no-advisories {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+            font-size: 1.2em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        tr:hover { background: #f8f9fa; }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ GitHub Security Advisory Report</h1>
+            <p class="subtitle">2026-06-10 | Critical & High Severity Advisories</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Total (⭐≥5k + PoC/Analysis)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">With PoC</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <h2 class="section-title">📋 Advisory Details (Sorted by Priority)</h2>
+
+            <div class="advisory-card high">
+                <div class="advisory-header">
+                    <div>
+                        <div class="advisory-title">Dex: Token-exchange endpoint is missing AllowedConnectors enforcement</div>
+                        <div class="advisory-id">GHSA-7qjx-gp9h-65qj | CVE: None</div>
+                    </div>
+                    <span class="priority-score">Priority: 145</span>
+                </div>
+                
+                <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 10,872</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+                
+                <div class="advisory-description">## Summary
+
+`server/handlers.go::handleTokenExchange` (lines 1804-1893) does not call `isConnectorAllowed(client.AllowedConnectors, connID)` before issuing tokens, while sibling handlers do. This is a per-client connector ACL gap on the token-exchange endpoint; the redirect-flow paths enforce the same field correctly.
+
+## Affected code path
+
+`handleTokenExchange` reads `connector_id` from the request body at `server/handlers.go:1822`. Validators called between read and token issuance:
+
+- `s.getConnector(ctx, connID)` at line 1836 - confirms connector exists
+- `GrantTypeAllowed(conn.GrantTypes, grantTypeTokenExchange)` at line 1842 - confirms connector permits this grant
+- **(missing)** `isConnectorAllowed(client.AllowedConnectors, connID)` - never called
+
+Tokens are issued at lines 1887 / </div>
+                
+                <div class="advisory-footer">
+                    <div><strong>Affected:</strong> dexidp/dex (⭐10,872), advisories/GHSA-7qjx-gp9h-65qj (⭐0)</div>
+                    <a href="https://github.com/advisories/GHSA-7qjx-gp9h-65qj" class="advisory-link" target="_blank">View Details →</a>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 40px;">📊 Summary Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Priority</th>
+                        <th>GHSA ID</th>
+                        <th>Severity</th>
+                        <th>Product</th>
+                        <th>Stars</th>
+                        <th>PoC</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td><strong>145</strong></td>
+                        <td><code>GHSA-7qjx-gp9h-65qj</code></td>
+                        <td><span class="badge badge-high">HIGH</span></td>
+                        <td>dexidp/dex (⭐10,872), advisories/GHSA-7qjx-gp9h-65qj (⭐0)</td>
+                        <td>⭐ 10,872</td>
+                        <td>🔴</td>
+                        <td><a href="https://github.com/advisories/GHSA-7qjx-gp9h-65qj" target="_blank">View</a></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>Auto-generated at 08:10 CST | Data source: GitHub Advisory Database API</p>
+            <p><a href="https://github.com/JsHuang/sec-advisory-daily" style="color: #667eea;">GitHub Repository</a></p>
+        </footer>
+    </div>
+</body>
+</html>
