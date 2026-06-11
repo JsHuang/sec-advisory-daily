@@ -12,6 +12,19 @@
         "with_poc": 1
       },
       "summary": "今日发现2个High级别漏洞，其中1个影响Star≥5k项目（Dex 10.8k stars），2个均包含PoC。重点关注Dex token exchange端点ACL绕过漏洞，攻击者可绕过连接器白名单实现权限提升。"
+    },
+    {
+      "date": "2026-06-11",
+      "title": "GitHub安全公告日报 - 2026-06-11",
+      "url": "reports/report-2026-06-11.html",
+      "stats": {
+        "total": 25,
+        "critical": 3,
+        "high": 22,
+        "star5k": 13,
+        "with_poc": 8
+      },
+      "summary": "今日发现25个Critical/High级别漏洞，其中3个Critical、22个High。13个项目Star≥5k，8个包含PoC或详细分析。紧急关注：FrankenPHP RCE（11.1k★，完整PoC）、Pipecat任意文件读取（12.8k★，%2F编码绕过）、Baileys消息伪造（9.7k★，Critical）、Fission路由绕过（8.9k★，Critical）。AI/ML工具链和路径遍历漏洞是今日主要趋势。"
     }
   ]
 }
