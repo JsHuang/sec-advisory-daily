@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-12</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .stat-number.critical-num { color: #f85149; }
+        .stat-number.high-num { color: #d29922; }
+        .stat-number.poc-num { color: #f85149; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content code { background: #1c2128; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #e6edf3; }
+        .advisory-content pre { background: #1c2128; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; font-size: 0.85em; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .priority-score.urgent { background: #da363322; color: #f85149; border-color: #da363344; }
+        .priority-score.danger { background: #d2992222; color: #d29922; border-color: #d2992244; }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-12 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">40</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number critical-num">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number high-num">40</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number poc-num">11</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <!-- 1. Traefik Auth Bypass -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik StripPrefix 路由级认证绕过 (Path Normalization)</div>
+                    <div class="advisory-id">GHSA-xf64-8mw2-4gr2 | CVE: CVE-2026-48020</div>
+                </div>
+                <span class="priority-score urgent">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 63,636</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Traefik 的 <code>StripPrefix</code> 中间件存在路由级认证/授权绕过漏洞。当公共路由器匹配 <code>PathPrefix</code> 规则并应用 <code>StripPrefix</code> 中间件时，攻击者可以通过在请求路径中使用 <code>..</code> 或其百分号编码形式 <code>%2e%2e</code>，在路由阶段匹配公共路由，但在前缀剥离和路径规范化后，解析为受认证路由器提供的路径。这使攻击者无需满足认证中间件要求即可访问受保护的后端路径（如管理面板或内部配置端点）。</p>
+                <p><strong>影响产品：</strong>Traefik ⭐63,636</p>
+                <p><strong>影响版本：</strong>v2 &lt; 2.11.48, v3 &lt; 3.6.19, v3.7.x &lt; 3.7.3</p>
+                <p><strong>攻击面：</strong>任何使用 StripPrefix + PathPrefix 路由规则并配合认证中间件的 Traefik 部署，未认证远程攻击</p>
+                <p><strong>触发条件：</strong>发送包含 <code>/api../admin</code> 或 <code>/api%2e%2e/admin</code> 的请求即可绕过路由认证</p>
+                <p><strong>潜在危害：</strong>未授权访问管理接口、内部配置端点，可能导致整个后端服务被接管</p>
+                <p><strong>可利用性：</strong>有完整PoC和复现步骤，包含Docker Compose环境配置和curl命令</p>
+                <p><strong>修复建议：</strong>立即升级到 v2.11.48 / v3.6.19 / v3.7.3 及以上版本。如无法立即升级，审查所有使用 StripPrefix 的路由配置，避免公共路由与受保护路由共用 PathPrefix 前缀。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xf64-8mw2-4gr2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. Axios MITM -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Axios 原型链污染导致完全中间人攻击 (config.proxy)</div>
+                    <div class="advisory-id">GHSA-35jp-ww65-95wh | CVE: CVE-2026-44494</div>
+                </div>
+                <span class="priority-score urgent">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 9.4)</span>
+                <span class="badge badge-stars">⭐ 109,074</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Axios 存在原型链污染 Gadget 漏洞，允许将应用依赖树中任何 <code>Object.prototype</code> 污染升级为<strong>完全中间人(MITM)攻击</strong>——拦截、读取和修改所有HTTP流量，包括认证凭据。HTTP适配器在 <code>lib/adapters/http.js:670</code> 通过标准属性访问读取 <code>config.proxy</code>，由于 <code>proxy</code> 不存在于 Axios 默认配置中，攻击者仅需设置 <code>Object.prototype.proxy = {host:'attacker', port:8080}</code> 即可将所有请求路由到攻击者代理。</p>
+                <p><strong>影响产品：</strong>axios ⭐109,074</p>
+                <p><strong>影响版本：</strong>1.0.0 - 1.15.x（所有 v1.x 版本，含 v1.15.0）</p>
+                <p><strong>攻击面：</strong>Node.js 环境使用 axios 发送 HTTP 请求的应用，需存在另一个原型链污染漏洞作为前置条件</p>
+                <p><strong>触发条件：</strong>同进程存在原型链污染漏洞 + 使用 axios 发起 HTTP 请求</p>
+                <p><strong>潜在危害：</strong>窃取所有 HTTP 请求中的认证凭据（Token/Cookie）、篡改响应数据、完全控制 API 通信</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含概念验证代码和利用链分析。无需用户交互，零约束条件</p>
+                <p><strong>修复建议：</strong>升级到 axios v1.16.0+。同时审计依赖树中其他原型链污染漏洞，使用 <code>Object.create(null)</code> 替代 <code>{}</code> 初始化配置对象。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-35jp-ww65-95wh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. Axios Credential Theft -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Axios 原型链污染导致凭据窃取和响应劫持 (transformResponse)</div>
+                    <div class="advisory-id">GHSA-3g43-6gmg-66jw | CVE: CVE-2026-44495</div>
+                </div>
+                <span class="priority-score urgent">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 109,074</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Axios 请求配置处理中存在原型链污染 Gadget。当 <code>Object.prototype.transformResponse</code> 被污染为函数时，Axios 会执行该函数。攻击者可以利用该函数观察响应数据和请求配置（包括URL、headers、auth），并修改返回给应用代码的响应数据。</p>
+                <p><strong>影响产品：</strong>axios ⭐109,074</p>
+                <p><strong>影响版本：</strong>v1.0.0 - v1.15.1, v0.19.0 - v0.31.0</p>
+                <p><strong>攻击面：</strong>浏览器和 Node.js 环境均受影响，需要存在原型链污染前置漏洞</p>
+                <p><strong>触发条件：</strong>Object.prototype.transformResponse 被污染为函数 + Axios 发起请求</p>
+                <p><strong>潜在危害：</strong>窃取请求中的认证信息（URL、headers、auth字段）、篡改响应数据</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含详细的 <code>mergeConfig()</code> 代码分析和利用路径</p>
+                <p><strong>修复建议：</strong>升级到 v1.15.2+ / v0.31.1+。对于普通 JSON 原型链污染（无法创建函数），主要影响为请求失败/DoS。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3g43-6gmg-66jw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 4. FlowiseAI No Auth -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 FlowiseAI Vector Store 缺少权限检查 (CRUD 无鉴权)</div>
+                    <div class="advisory-id">GHSA-hmg2-jjjx-jcp2 | CVE: CVE-2026-46444</div>
+                </div>
+                <span class="priority-score urgent">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS ~8.1)</span>
+                <span class="badge badge-stars">⭐ 53,489</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>FlowiseAI 的 OpenAI Assistants Vector Store 所有 CRUD 端点缺少权限检查中间件（<code>checkAnyPermission()</code>）。任何已认证用户（无论角色）都可以创建向量存储、上传文件、删除向量存储和文件、修改任何向量存储。路由路径 <code>/api/v1/openai-assistants-vector-store</code> 虽然有 API Key 认证但不在白名单中，实际上绕过了主要权限检查。</p>
+                <p><strong>影响产品：</strong>Flowise ⭐53,489</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.1</p>
+                <p><strong>攻击面：</strong>任何部署了 FlowiseAI 并启用认证的环境，任何已认证的低权限用户</p>
+                <p><strong>触发条件：</strong>拥有任何有效 API Key 即可调用所有 Vector Store 端点</p>
+                <p><strong>潜在危害：</strong>上传恶意文件到向量存储、窃取存储的文档、删除关键数据、操纵 RAG 系统输入</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含漏洞路由代码和API调用示例</p>
+                <p><strong>修复建议：</strong>升级到 v3.1.2+。审查所有 API 路由是否正确应用了权限检查中间件。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hmg2-jjjx-jcp2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. Axios ReDoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Axios ReDoS 拒绝服务 (Cookie Name Injection)</div>
+                    <div class="advisory-id">GHSA-hfxv-24rg-xrqf | CVE: CVE-2026-44496</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 109,074</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Axios 在标准浏览器环境中，将配置的 XSRF cookie 名称直接插入正则表达式而未转义正则元字符。当攻击者可以影响传递给 axios 的 cookie 名称时，可以导致昂贵的正则回溯，冻结受影响的浏览器标签页。</p>
+                <p><strong>影响产品：</strong>axios ⭐109,074</p>
+                <p><strong>影响版本：</strong>v1.0.0 - v1.15.x, v0.x &lt;= v0.31.1</p>
+                <p><strong>攻击面：</strong>浏览器环境（XHR/fetch 适配器），需要攻击者控制 XSRF cookie 名称配置</p>
+                <p><strong>触发条件：</strong>攻击者控制 <code>xsrfCookieName</code> 参数 + 浏览器环境</p>
+                <p><strong>潜在危害：</strong>客户端浏览器标签冻结（可用性降级），不影响凭据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含正则回溯 payload 如 <code>(.+)+$</code></p>
+                <p><strong>修复建议：</strong>升级到 v1.16.0+ / v0.32.0+。Node.js HTTP 适配器、React Native、Web Workers 不受影响。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hfxv-24rg-xrqf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. Netty DNS Codec -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty DNS Codec 输入验证绕过（编码器+解码器）</div>
+                    <div class="advisory-id">GHSA-cm33-6792-r9fm | CVE: CVE-2026-42579</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 34,972</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 的 DNS 编解码器在编码和解码时均未强制执行 RFC 1035 域名约束。编码器侧存在空字节注入（CWE-626），允许域名中包含空字节导致不同 DNS 实现产生不同解析结果（DNS 缓存投毒）。解码器侧缺少每标签长度验证（最大63字节）和总域名长度验证（最大255字节），攻击者可通过恶意 DNS 响应触发无界 StringBuilder 增长。</p>
+                <p><strong>影响产品：</strong>Netty (netty-codec-dns) ⭐34,972</p>
+                <p><strong>影响版本：</strong>4.2.0.Alpha1 - 4.2.12.Final, &lt;= 4.1.132.Final</p>
+                <p><strong>攻击面：</strong>使用 Netty DNS 编解码器的应用，双向攻击面（恶意 DNS 响应 + 用户可控主机名）</p>
+                <p><strong>触发条件：</strong>编码：用户可控域名含空字节/超长标签；解码：恶意 DNS 响应</p>
+                <p><strong>潜在危害：</strong>DNS 缓存投毒、域名验证绕过、拒绝服务（内存耗尽）、畸形 DNS 数据包</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含详细的代码行级分析和 RFC 1035 对比</p>
+                <p><strong>修复建议：</strong>升级到 4.2.13.Final+ / 4.1.133.Final+。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cm33-6792-r9fm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 7. js-cookie Prototype Hijack -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 js-cookie assign() 原型劫持导致 Cookie 属性注入</div>
+                    <div class="advisory-id">GHSA-qjx8-664m-686j | CVE: CVE-2026-46625</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 22,597</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><code>js-cookie</code> 的内部 <code>assign()</code> 辅助函数使用 <code>for...in</code> + 直接赋值复制属性。当源对象来自 <code>JSON.parse</code> 时，JSON 对象的 <code>"__proto__"</code> 成员是自身可枚举属性，触发 <code>Object.prototype.__proto__</code> setter，导致实例级原型劫持。攻击者可以在 <code>Set-Cookie</code> 字符串中注入 <code>domain=</code>、<code>secure=</code>、<code>samesite=</code> 等属性。</p>
+                <p><strong>影响产品：</strong>js-cookie ⭐22,597</p>
+                <p><strong>影响版本：</strong>&lt;= 3.0.5</p>
+                <p><strong>攻击面：</strong>任何将 JSON 派生对象作为 <code>attributes</code> 参数传递给 <code>Cookies.set()</code> 的应用</p>
+                <p><strong>触发条件：</strong><code>{"__proto__":{"domain":"evil.example","secure":"false"}}</code> 作为 cookie 属性传入</p>
+                <p><strong>潜在危害：</strong>将 Session Cookie 的域设置为攻击者控制的域，实现会话劫持</p>
+                <p><strong>可利用性：</strong>有完整PoC，Node.js 22.11.0 即可复现，无需第三方依赖</p>
+                <p><strong>修复建议：</strong>升级到 v3.0.7+。避免直接将不可信 JSON 数据作为 cookie 属性参数。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qjx8-664m-686j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. ImageMagick Infinite Loop -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 ImageMagick MIFF 解码器无限循环导致 CPU 耗尽</div>
+                    <div class="advisory-id">GHSA-7gg8-qqx7-92g5 | CVE: CVE-2026-46522</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 16,675</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ImageMagick 的 MIFF 解码器缺少必要的检查，精心构造的 MIFF 文件可以导致无限循环，最终造成 CPU 耗尽（拒绝服务）。</p>
+                <p><strong>影响产品：</strong>ImageMagick (Magick.NET) ⭐16,675</p>
+                <p><strong>影响版本：</strong>Magick.NET &lt; 14.13.1</p>
+                <p><strong>攻击面：</strong>任何处理用户上传 MIFF 格式图片的应用</p>
+                <p><strong>触发条件：</strong>提供特制的 MIFF 文件给 ImageMagick 处理</p>
+                <p><strong>潜在危害：</strong>CPU 资源耗尽导致服务不可用</p>
+                <p><strong>可利用性：</strong>仅描述，无公开PoC代码</p>
+                <p><strong>修复建议：</strong>升级 Magick.NET 到 14.13.1+。限制图片处理超时时间，避免处理不可信的 MIFF 文件。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7gg8-qqx7-92g5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. ImageMagick Heap Overflow -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 ImageMagick IPL 解码器堆缓冲区溢出</div>
+                    <div class="advisory-id">GHSA-36wm-hprc-mcf5 | CVE: CVE-2026-46520</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 16,675</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>当读取多个不同维度的 IPL 格式图片时，ImageMagick 会发生堆越界写入。这可能导致任意代码执行。</p>
+                <p><strong>影响产品：</strong>ImageMagick (Magick.NET) ⭐16,675</p>
+                <p><strong>影响版本：</strong>Magick.NET &lt; 14.13.1</p>
+                <p><strong>攻击面：</strong>处理用户上传 IPL 格式图片的应用</p>
+                <p><strong>触发条件：</strong>提供包含多个不同尺寸图像的 IPL 文件</p>
+                <p><strong>潜在危害：</strong>堆缓冲区越界写入，可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述，无公开PoC代码</p>
+                <p><strong>修复建议：</strong>升级 Magick.NET 到 14.13.1+。IPL 格式较为冷门，但仍建议在图片处理管道中限制接受的格式类型。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-36wm-hprc-mcf5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 10. PDM Plugin RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 PDM 项目插件自动加载导致任意代码执行</div>
+                    <div class="advisory-id">GHSA-qq6c-99pv-prvf | CVE: CVE-2026-47781</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8,639</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PDM 在 <code>Core</code> 初始化期间自动从 <code>.pdm-plugins</code> 加载项目本地插件路径。由于该路径通过 <code>site.addsitedir()</code> 添加，攻击者控制的 <code>.pth</code> 文件会在普通 CLI 解析之前被处理并执行 Python 代码。甚至 <code>pdm --version</code> 这样的无害命令就足以触发执行。</p>
+                <p><strong>影响产品：</strong>PDM ⭐8,639</p>
+                <p><strong>影响版本：</strong>&lt;= 2.26.9</p>
+                <p><strong>攻击面：</strong>CI/CD 环境、特权 shell、自动化场景中 clone 不可信仓库后运行 pdm</p>
+                <p><strong>触发条件：</strong>在包含恶意 <code>.pdm-plugins/.pth</code> 文件的项目目录中运行任何 pdm 命令</p>
+                <p><strong>潜在危害：</strong>以运行 pdm 的用户权限执行任意代码，凭据窃取、权限提升</p>
+                <p><strong>可利用性：</strong>有完整PoC，包含 Bash 脚本复现步骤</p>
+                <p><strong>修复建议：</strong>升级到 v2.27.0+。CI/CD 环境应避免在不可信仓库中运行 pdm 命令。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qq6c-99pv-prvf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 11. MessagePack LZ4 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 MessagePack LZ4 解压 AccessViolation 内存越界读取</div>
+                    <div class="advisory-id">GHSA-hv8m-jj95-wg3x | CVE: CVE-2026-48109</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6,702</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MessagePack 的可选 LZ4 解压路径（<code>Lz4Block</code> 和 <code>Lz4BlockArray</code> 压缩模式）存在漏洞。解码器基于已弃用的快速解压算法，不接受源长度约束。远程攻击者可以发送操纵过的 LZ4 token/length 字段的 MessagePack 负载，强制从压缩输入缓冲区进行越界读取，触发 <code>AccessViolationException</code> 导致进程终止（DoS），在某些条件下可能泄露内存数据。</p>
+                <p><strong>影响产品：</strong>MessagePack-CSharp ⭐6,702</p>
+                <p><strong>影响版本：</strong>v2 &lt; 2.5.301, v3 (3.0.214-rc.1 - 3.1.6)</p>
+                <p><strong>攻击面：</strong>使用 LZ4 压缩模式反序列化不可信数据的应用</p>
+                <p><strong>触发条件：</strong>发送精心构造的 LZ4 压缩 MessagePack 负载</p>
+                <p><strong>潜在危害：</strong>进程崩溃（DoS）、有限的内存信息泄露</p>
+                <p><strong>可利用性：</strong>有PoC指标，描述中包含触发条件</p>
+                <p><strong>修复建议：</strong>升级到 v2.5.301+ / v3.1.7+。或对不可信输入禁用 LZ4 压缩模式。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hv8m-jj95-wg3x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 12. Netty HAProxy Memory Leak -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty HAProxy PROXY Protocol v2 嵌套 TLV 内存泄漏</div>
+                    <div class="advisory-id">GHSA-h2qv-fj59-j46j | CVE: CVE-2026-48059</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 34,972</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 的 HAProxy PROXY protocol v2 编解码器在客户端发送包含嵌套 <code>PP2_TYPE_SSL</code> TLV（深度≥2）的合法头部时，每次连接都会泄漏原生或堆内存。泄漏发生在成功解析路径上——不抛出异常、消息正常传递下游、解码器正常移除，但底层累积缓冲区（池化的直接内存 ByteBuf）永久被固定，无法归还给 JVM 直接内存池。</p>
+                <p><strong>影响产品：</strong>Netty (netty-codec-haproxy) ⭐34,972</p>
+                <p><strong>影响版本：</strong>4.2.0.Final - 4.2.14.Final, &lt;= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>使用 Netty HAProxy 编解码器处理 PROXY protocol v2 的服务器</p>
+                <p><strong>触发条件：</strong>发送包含嵌套 PP2_TYPE_SSL TLV 的合法 PROXY protocol v2 头部</p>
+                <p><strong>潜在危害：</strong>持续的连接流失导致直接内存耗尽，最终整个 JVM 进程的所有 Netty channel 分配失败</p>
+                <p><strong>可利用性：</strong>有详细技术分析，无完整PoC代码</p>
+                <p><strong>修复建议：</strong>升级到 4.2.15.Final+ / 4.1.135.Final+。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 13. Netty Redis ByteBuf Leak -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty RedisArrayAggregator 池化 ByteBuf 泄漏</div>
+                    <div class="advisory-id">GHSA-6jv9-x5w9-2ccm | CVE: CVE-2026-48006</div>
+                </div>
+                <span class="priority-score danger">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 34,972</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>当 Redis 管道连接在 RESP 数组聚合完成之前关闭时，<code>RedisArrayAggregator</code> handler 会永久泄漏池化的直接内存缓冲区。该 handler 在 per-handler 状态（<code>depths</code> 字段）中保留子消息，但未定义 <code>channelInactive</code>、<code>handlerRemoved</code> 或 <code>exceptionCaught</code> 方法来在管道拆除时释放它们。</p>
+                <p><strong>影响产品：</strong>Netty (netty-codec-redis) ⭐34,972</p>
+                <p><strong>影响版本：</strong>4.2.0.Final - 4.2.14.Final, &lt;= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>使用 Netty Redis 编解码器的应用，任何网络对等体可触发</p>
+                <p><strong>触发条件：</strong>在 RESP 数组聚合完成前关闭 Redis 管道连接</p>
+                <p><strong>潜在危害：</strong>反复连接流失单调消耗 JVM 全局直接内存池，最终导致所有 Netty channel 分配失败</p>
+                <p><strong>可利用性：</strong>有详细技术分析，无完整PoC代码</p>
+                <p><strong>修复建议：</strong>升级到 4.2.15.Final+ / 4.1.135.Final+。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xf64-8mw2-4gr2</code></td>
+                    <td>Traefik</td>
+                    <td>63.6k</td>
+                    <td>High</td>
+                    <td>完整PoC+复现步骤</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xf64-8mw2-4gr2">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-35jp-ww65-95wh</code></td>
+                    <td>Axios</td>
+                    <td>109k</td>
+                    <td>High (CVSS 9.4)</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-35jp-ww65-95wh">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-3g43-6gmg-66jw</code></td>
+                    <td>Axios</td>
+                    <td>109k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3g43-6gmg-66jw">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hmg2-jjjx-jcp2</code></td>
+                    <td>FlowiseAI</td>
+                    <td>53.5k</td>
+                    <td>High (CVSS 8.1)</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hmg2-jjjx-jcp2">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hfxv-24rg-xrqf</code></td>
+                    <td>Axios</td>
+                    <td>109k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hfxv-24rg-xrqf">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-cm33-6792-r9fm</code></td>
+                    <td>Netty DNS</td>
+                    <td>35k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cm33-6792-r9fm">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qjx8-664m-686j</code></td>
+                    <td>js-cookie</td>
+                    <td>22.6k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qjx8-664m-686j">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7gg8-qqx7-92g5</code></td>
+                    <td>ImageMagick</td>
+                    <td>16.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7gg8-qqx7-92g5">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-36wm-hprc-mcf5</code></td>
+                    <td>ImageMagick</td>
+                    <td>16.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-36wm-hprc-mcf5">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qq6c-99pv-prvf</code></td>
+                    <td>PDM</td>
+                    <td>8.6k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qq6c-99pv-prvf">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hv8m-jj95-wg3x</code></td>
+                    <td>MessagePack</td>
+                    <td>6.7k</td>
+                    <td>High</td>
+                    <td>PoC指标</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-hv8m-jj95-wg3x">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-h2qv-fj59-j46j</code></td>
+                    <td>Netty HAProxy</td>
+                    <td>35k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6jv9-x5w9-2ccm</code></td>
+                    <td>Netty Redis</td>
+                    <td>35k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-g628-r368-6vh7</code></td>
+                    <td>GeoServer DB2</td>
+                    <td>4.4k</td>
+                    <td>High</td>
+                    <td>JNDI 注入 → RCE，管理员构造恶意 JDBC URL 即可触发</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wxq4-cc2q-338q</code></td>
+                    <td>WsgiDAV</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>编码点段路径穿越，可逃逸文件系统共享根目录</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4x76-22x2-rx8v</code></td>
+                    <td>OpenZeppelin Wizard</td>
+                    <td>-</td>
+                    <td>High</td>
+                    <td>代码注入，未净化的 opts.name/uri 插入生成测试文件</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-9277-mp7x-85jf</code></td>
+                    <td>Dulwich</td>
+                    <td>2.2k</td>
+                    <td>High</td>
+                    <td>命令注入，恶意分支 Merge Driver 路径可利用</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-897w-fcg9-f6xj</code></td>
+                    <td>Dulwich</td>
+                    <td>2.2k</td>
+                    <td>High</td>
+                    <td>Windows 任意文件写入 → RCE，克隆恶意仓库触发</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-2mh5-3cw6-hrrq</code></td>
+                    <td>Spring Cloud Config</td>
+                    <td>2k</td>
+                    <td>High</td>
+                    <td>Google Secrets Manager 后端授权绕过，泄露非预期 GCP 项目密钥</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Traefik (CVE-2026-48020)：</strong>StripPrefix 认证绕过影响所有使用 PathPrefix+StripPrefix 路由配置的部署，攻击者可无认证访问管理端点。立即升级至 v2.11.48/v3.6.19/v3.7.3+。</li>
+                    <li><strong>Axios 原型链污染系列 (CVE-2026-44494/44495/44496)：</strong>三个漏洞构成完整攻击链，其中 MITM gadget 最为严重（CVSS 9.4），可将任何原型链污染升级为完全中间人攻击。建议升级到 v1.16.0+ 并审计依赖树中的原型链污染。</li>
+                    <li><strong>FlowiseAI (CVE-2026-46444)：</strong>Vector Store 完全无鉴权，任何已认证用户可操纵 RAG 系统。AI/LLM 应用部署者应立即升级到 v3.1.2+。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Netty 系列 (3个漏洞)：</strong>DNS 编解码器验证绕过可导致 DNS 缓存投毒；HAProxy 和 Redis 编解码器内存泄漏可导致服务崩溃。Netty 作为 Java 网络基础设施核心组件，建议升级到 4.2.15/4.1.135。</li>
+                    <li><strong>js-cookie (CVE-2026-46625)：</strong>Cookie 属性注入可将 Session 域设置为攻击者控制的域。前端应用使用 JSON 配置 cookie 属性的场景需特别注意。</li>
+                    <li><strong>PDM (CVE-2026-47781)：</strong>CI/CD 环境中克隆不可信仓库后运行 pdm 命令即可触发 RCE，开发者和 DevOps 团队需警惕。</li>
+                    <li><strong>ImageMagick (2个漏洞)：</strong>MIFF 解码器无限循环和 IPL 解码器堆溢出，影响图片处理服务。升级到 Magick.NET 14.13.1+。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Dulwich 命令注入 + 任意文件写入：</strong>Python Git 库用户需注意，克隆恶意仓库或处理恶意分支可能触发 RCE。</li>
+                    <li><strong>Spring Cloud Config 授权绕过：</strong>使用 Google Secrets Manager 后端的用户需注意 GCP 项目密钥泄露风险。</li>
+                    <li><strong>Undertow HTTP 请求走私 (3个CVE)：</strong>目前无补丁版本，使用 Undertow 作为 Web 服务器的应用需关注后续更新。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
