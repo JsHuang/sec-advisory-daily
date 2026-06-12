@@ -1,30 +1,17 @@
 {
   "reports": [
     {
-      "date": "2026-06-10",
-      "title": "GitHub安全公告日报 - 2026-06-10",
-      "url": "reports/report-2026-06-10.html",
+      "date": "2026-06-12",
+      "title": "GitHub安全公告日报 - 2026-06-12",
+      "url": "reports/report-2026-06-12.html",
       "stats": {
-        "total": 2,
+        "total": 40,
         "critical": 0,
-        "high": 2,
-        "star5k": 1,
-        "with_poc": 1
-      },
-      "summary": "今日发现2个High级别漏洞，其中1个影响Star≥5k项目（Dex 10.8k stars），2个均包含PoC。重点关注Dex token exchange端点ACL绕过漏洞，攻击者可绕过连接器白名单实现权限提升。"
-    },
-    {
-      "date": "2026-06-11",
-      "title": "GitHub安全公告日报 - 2026-06-11",
-      "url": "reports/report-2026-06-11.html",
-      "stats": {
-        "total": 25,
-        "critical": 3,
-        "high": 22,
+        "high": 40,
         "star5k": 13,
-        "with_poc": 8
+        "with_poc": 11
       },
-      "summary": "今日发现25个Critical/High级别漏洞，其中3个Critical、22个High。13个项目Star≥5k，8个包含PoC或详细分析。紧急关注：FrankenPHP RCE（11.1k★，完整PoC）、Pipecat任意文件读取（12.8k★，%2F编码绕过）、Baileys消息伪造（9.7k★，Critical）、Fission路由绕过（8.9k★，Critical）。AI/ML工具链和路径遍历漏洞是今日主要趋势。"
+      "summary": "今日发现40个High级别漏洞，其中13个影响Star≥5k的高影响力项目，11个包含完整PoC或详细分析。重点关注：Traefik StripPrefix认证绕过（63.6k stars）、Axios原型链污染系列漏洞（109k stars，CVSS 9.4）、FlowiseAI Vector Store无鉴权（53.5k stars）、Netty DNS/HAProxy/Redis编解码器漏洞（35k stars）。建议立即升级Traefik至v2.11.48/v3.6.19/v3.7.3+，Axios至v1.16.0+，Flowise至v3.1.2+，Netty至4.2.15/4.1.135。"
     }
   ]
 }
