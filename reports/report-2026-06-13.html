@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-13</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-13 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">59</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">59</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. esbuild RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 esbuild Deno模块缺少二进制完整性校验导致远程代码执行</div>
+                    <div class="advisory-id">GHSA-gv7w-rqvm-qjhr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 39.9k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>esbuild Deno模块（lib/deno/mod.ts）从npm注册表下载原生二进制可执行文件并以可执行权限（0o755）写入磁盘，但未进行任何完整性校验（如SHA-256哈希检查）。Node.js等效代码包含binaryIntegrityCheck()函数，但Deno版本未实现此保护。</p>
+                <p><strong>影响产品：</strong>esbuild ⭐39.9k</p>
+                <p><strong>影响版本：</strong>>= 0.17.0, &lt; 0.28.1</p>
+                <p><strong>攻击面：</strong>供应链攻击 - 通过控制NPM_CONFIG_REGISTRY环境变量指向恶意注册表</p>
+                <p><strong>触发条件：</strong>用户使用Deno运行esbuild且设置了恶意NPM_CONFIG_REGISTRY环境变量</p>
+                <p><strong>潜在危害：</strong>远程代码执行，攻击者可在目标系统上执行任意命令</p>
+                <p><strong>可利用性：</strong>有详细原理 - 公告明确说明攻击路径和条件</p>
+                <p><strong>修复建议：</strong>升级至esbuild 0.28.1或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gv7w-rqvm-qjhr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. Netty DNS缓存投毒 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Netty DNS缓存投毒 - NS记录bailiwick验证不足</div>
+                    <div class="advisory-id">GHSA-5pvg-856g-cp85 | CVE-2026-47691</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.0k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty的DnsResolveContext对NS记录的bailiwick验证不足，攻击者控制子域的权威名称服务器后，可以向父域（如.co.uk）投毒缓存。</p>
+                <p><strong>影响产品：</strong>netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong>4.2.0.Final - 4.2.14.Final, &lt;= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>DNS解析 - 控制子域权威服务器的攻击者可投毒父域DNS缓存</p>
+                <p><strong>触发条件：</strong>使用netty-resolver-dns的应用查询攻击者控制的子域</p>
+                <p><strong>潜在危害：</strong>DNS缓存投毒，可将流量重定向到恶意服务器</p>
+                <p><strong>可利用性：</strong>有完整PoC和详细原理 - 包含具体代码位置（DnsResolveContext.AuthoritativeNameServerList#add）</p>
+                <p><strong>修复建议：</strong>升级至netty 4.1.135.Final或4.2.15.Final</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. Netty CNAME缓存投毒 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Netty DNS缓存投毒 - CNAME记录bailiwick检查缺失</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc | CVE-2026-45674</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.0k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty的DnsResolveContext在buildAliasMap方法中未验证CNAME记录的来源（bailiwick），盲目缓存所有CNAME记录，违反RFC 5452第6节规定。</p>
+                <p><strong>影响产品：</strong>netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong>4.2.0.Final - 4.2.14.Final, &lt;= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>DNS解析 - 攻击者可通过恶意DNS响应投毒缓存</p>
+                <p><strong>触发条件：</strong>使用netty-resolver-dns进行DNS解析</p>
+                <p><strong>潜在危害：</strong>DNS缓存投毒，域名劫持</p>
+                <p><strong>可利用性：</strong>有详细原理 - 引用RFC 5452，说明DnsResolveContext#buildAliasMap的缺陷</p>
+                <p><strong>修复建议：</strong>升级至netty 4.1.135.Final或4.2.15.Final</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. Apache ECharts XSS -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Apache ECharts 跨站脚本漏洞</div>
+                    <div class="advisory-id">GHSA-7gf9-j694-jvh7 | CVE-2026-49151</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 66.6k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache ECharts 6.0.0之前版本存在跨站脚本漏洞。公告引用了修复提交，受影响用户应升级至6.0.0版本。</p>
+                <p><strong>影响产品：</strong>echarts ⭐66.6k</p>
+                <p><strong>影响版本：</strong>&lt; 6.0.0</p>
+                <p><strong>攻击面：</strong>Web前端 - 使用ECharts渲染不可信数据的页面</p>
+                <p><strong>触发条件：</strong>用户访问使用受影响版本ECharts渲染恶意数据的页面</p>
+                <p><strong>潜在危害：</strong>XSS攻击，可窃取用户会话凭证、执行任意操作</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至Apache ECharts 6.0.0或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7gf9-j694-jvh7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. Netty SNI DoS -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Netty SNI处理器内存预分配DoS - 9字节触发16MiB分配</div>
+                    <div class="advisory-id">GHSA-x4gw-5cx5-pgmh | CVE-2026-45416</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.0k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SslClientHelloHandler.decode()读取24位TLS握手长度后，在ClientHello不完整时急切地分配handshakeLength大小的缓冲区。常用SniHandler构造函数传递maxClientHelloLength=0，导致无上限检查。</p>
+                <p><strong>影响产品：</strong>netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong>4.2.0.Final - 4.2.14.Final, &lt;= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>TLS握手 - 任何可建立TLS连接的远程攻击者</p>
+                <p><strong>触发条件：</strong>发送特制的TLS ClientHello，声明大握手长度但实际只发送9字节</p>
+                <p><strong>潜在危害：</strong>内存耗尽DoS，9字节输入可导致16MiB内存分配</p>
+                <p><strong>可利用性：</strong>有完整PoC - 详细说明了SslClientHelloHandler.decode()第161行的触发点</p>
+                <p><strong>修复建议：</strong>升级至netty 4.1.135.Final或4.2.15.Final</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x4gw-5cx5-pgmh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. Chisel ACL绕过 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Chisel SSH通道ACL绕过 - 握手后注入ExtraData</div>
+                    <div class="advisory-id">GHSA-24fp-5v3p-rvpw | CVE-2026-48113</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 16.1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Chisel客户端可在SSH握手后绕过--authfile ACL限制，向任意目标建立隧道。ACL仅在初始握手时验证声明的远程端点，但实际流量的后续SSH通道不再检查。</p>
+                <p><strong>影响产品：</strong>chisel ⭐16.1k</p>
+                <p><strong>影响版本：</strong>&lt;= 1.11.4</p>
+                <p><strong>攻击面：</strong>SSH隧道 - 已认证但恶意使用ACL的客户端</p>
+                <p><strong>触发条件：</strong>先用允许的远程端点认证，然后打开任意host:port的通道</p>
+                <p><strong>潜在危害：</strong>访问控制绕过，可隧道化访问服务器可达的任意内部服务</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了ACL验证的两处位置和缺失验证的第三处</p>
+                <p><strong>修复建议：</strong>升级至chisel 1.11.5或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-24fp-5v3p-rvpw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 7. Jenkins Stored XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Jenkins节点离线原因描述存储型XSS漏洞</div>
+                    <div class="advisory-id">GHSA-93qh-vwrm-c5pw | CVE-2026-53441</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 25.4k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Jenkins 2.483至2.567版本（含LTS）未对用户提供的通用离线原因描述进行转义，该描述可通过POST config.xml API设置，导致存储型XSS漏洞。</p>
+                <p><strong>影响产品：</strong>jenkins ⭐25.4k</p>
+                <p><strong>影响版本：</strong>2.483 - 2.567, LTS 2.492.1 - 2.555.2</p>
+                <p><strong>攻击面：</strong>Jenkins管理API - 需要Agent/Configure权限的攻击者</p>
+                <p><strong>触发条件：</strong>通过POST config.xml API注入恶意离线原因描述</p>
+                <p><strong>潜在危害：</strong>存储型XSS，可窃取其他管理员的会话凭证</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至Jenkins 2.568或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-93qh-vwrm-c5pw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 8. Spring Kafka反序列化 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Spring for Apache Kafka过于宽泛的受信任包匹配导致JDK类反序列化</div>
+                    <div class="advisory-id">GHSA-xq69-5h5v-x9x4 | CVE-2026-41731</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 2.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>JsonKafkaHeaderMapper使用前缀检查匹配受信任包，这意味着信任任何包会隐式信任其所有子包。结合Jackson默认bean反序列化，生产者可提供特制header值导致消费者反序列化任意JDK类型。</p>
+                <p><strong>影响产品：</strong>spring-kafka ⭐2.5k (star未达5k但为重要框架)</p>
+                <p><strong>影响版本：</strong>4.0.0-4.0.5, 3.3.0-3.3.15, 3.2.0-3.2.13, 2.9.0-2.9.13</p>
+                <p><strong>攻击面：</strong>Kafka消息头 - 恶意Kafka生产者</p>
+                <p><strong>触发条件：</strong>消费者使用JsonKafkaHeaderMapper处理恶意header</p>
+                <p><strong>潜在危害：</strong>远程代码执行 - 反序列化任意JDK类型</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了前缀匹配和Jackson反序列化的组合问题</p>
+                <p><strong>修复建议：</strong>升级至4.0.6、3.3.16或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xq69-5h5v-x9x4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 9. OpenSearch RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 OpenSearch 2.19.4前版本远程代码执行漏洞</div>
+                    <div class="advisory-id">GHSA-958p-3c7r-6w47 | CVE-2026-48150</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 13.2k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenSearch 2.19.4之前版本存在远程代码执行漏洞。详细披露信息将在30天后公开。</p>
+                <p><strong>影响产品：</strong>OpenSearch ⭐13.2k</p>
+                <p><strong>影响版本：</strong>&lt; 2.19.4</p>
+                <p><strong>攻击面：</strong>网络远程 - 具体攻击向量待披露</p>
+                <p><strong>触发条件：</strong>待披露</p>
+                <p><strong>潜在危害：</strong>远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至OpenSearch 2.19.4或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-958p-3c7r-6w47" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 10. File Browser 命令执行绕过 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser 命令执行允许列表绕过 - Shell元字符注入</div>
+                    <div class="advisory-id">GHSA-8c9q-7855-wfxq | CVE-2026-54090</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.1k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser的命令执行功能允许列表可通过Shell元字符注入绕过。注意：从v2.33.8起该功能已默认禁用。</p>
+                <p><strong>影响产品：</strong>filebrowser ⭐35.1k</p>
+                <p><strong>影响版本：</strong>&lt; 2.33.8</p>
+                <p><strong>攻击面：</strong>Web管理界面 - 需要启用命令执行功能且管理员忽略警告</p>
+                <p><strong>触发条件：</strong>管理员主动启用命令执行功能</p>
+                <p><strong>潜在危害：</strong>命令执行，绕过允许列表限制</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了shell元字符注入绕过机制</p>
+                <p><strong>修复建议：</strong>升级至v2.33.8或更高版本；保持命令执行功能禁用</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8c9q-7855-wfxq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 11. File Browser 访问控制 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser 公共目录共享访问控制绕过</div>
+                    <div class="advisory-id">GHSA-j9jx-hp4c-ghhh | CVE-2026-54091</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.1k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser的公共共享处理器将共享所有者的文件系统根目录重新基准到共享目录，然后使用重新基准后的相对路径而非原始路径评估规则，导致攻击者可访问被规则阻止的文件。</p>
+                <p><strong>影响产品：</strong>filebrowser ⭐35.1k</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.5</p>
+                <p><strong>攻击面：</strong>公共共享URL - 知道共享URL的未认证攻击者</p>
+                <p><strong>触发条件：</strong>访问公共目录共享URL</p>
+                <p><strong>潜在危害：</strong>访问控制绕过，可读取被规则阻止的敏感文件</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了路径重新基准的逻辑缺陷</p>
+                <p><strong>修复建议：</strong>升级至v2.63.6或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j9jx-hp4c-ghhh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 12. File Browser DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser 公共登录API拒绝服务漏洞</div>
+                    <div class="advisory-id">GHSA-w5fm-68j4-fpc4 | CVE-2026-54092</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.1k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>登录API未检查密码最大长度，攻击者可发送超大密码导致CPU和内存飙升，甚至崩溃容器并影响Docker守护进程。</p>
+                <p><strong>影响产品：</strong>filebrowser ⭐35.1k</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.5</p>
+                <p><strong>攻击面：</strong>登录API (/api/login) - 任何未认证用户</p>
+                <p><strong>触发条件：</strong>向登录API发送超大JSON密码字段</p>
+                <p><strong>潜在危害：</strong>拒绝服务，可导致服务崩溃甚至影响宿主机Docker</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了密码长度检查和bcrypt处理的资源消耗</p>
+                <p><strong>修复建议：</strong>升级至v2.63.6或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w5fm-68j4-fpc4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 13. Apache Hadoop HTTP访问绕过 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Hadoop HTTP web页面访问绕过</div>
+                    <div class="advisory-id">GHSA-q6gp-2f9f-9jc2 | CVE-2026-46797</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15.6k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Hadoop 3.4.0至3.4.5版本存在HTTP web页面访问绕过漏洞。启用Kerberos身份验证后，特定URL路径允许访问原本应受保护的功能。</p>
+                <p><strong>影响产品：</strong>hadoop ⭐15.6k</p>
+                <p><strong>影响版本：</strong>3.4.0 - 3.4.5</p>
+                <p><strong>攻击面：</strong>HTTP web界面 - 需要Kerberos认证环境</p>
+                <p><strong>触发条件：</strong>使用受影响版本且启用Kerberos</p>
+                <p><strong>潜在危害：</strong>访问控制绕过，未授权访问受保护功能</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至Apache Hadoop 3.4.6或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q6gp-2f9f-9jc2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 14. Apache Hadoop 任意文件写 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Hadoop SFTP连接器任意文件写入</div>
+                    <div class="advisory-id">GHSA-jx9x-fg7m-xv2m | CVE-2026-46821</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15.6k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Hadoop的SFTP连接器实现不验证服务器对文件路径的响应，恶意SFTP服务器可在任意路径创建文件。</p>
+                <p><strong>影响产品：</strong>hadoop ⭐15.6k</p>
+                <p><strong>影响版本：</strong>2.7.0 - 3.4.5</p>
+                <p><strong>攻击面：</strong>SFTP连接 - 需要恶意SFTP服务器</p>
+                <p><strong>触发条件：</strong>Hadoop连接到攻击者控制的SFTP服务器</p>
+                <p><strong>潜在危害：</strong>任意文件写入，可能覆盖系统关键文件</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至Apache Hadoop 3.4.6或更高版本；使用受信任的SFTP服务器</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jx9x-fg7m-xv2m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 15. SwiftNIO OOB Write -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SwiftNIO ByteBuffer越界写入 - UInt32索引溢出</div>
+                    <div class="advisory-id">GHSA-r3rc-9hpw-54v9 | CVE-2026-43671</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SwiftNIO的ByteBuffer内部使用UInt32存储索引和容量，_toIndex和_toCapacity辅助函数在Int到UInt32转换时使用UInt32(truncatingIfNeeded:)导致溢出时无检查。</p>
+                <p><strong>影响产品：</strong>swift-nio ⭐8.5k</p>
+                <p><strong>影响版本：</strong>1.0.0 - 2.99.0</p>
+                <p><strong>攻击面：</strong>ByteBuffer API - 攻击者可控的索引或长度值</p>
+                <p><strong>触发条件：</strong>传入超过UInt32.max的索引或长度值给ByteBuffer方法</p>
+                <p><strong>潜在危害：</strong>越界写入，可能导致内存损坏和代码执行</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了UInt32截断溢出的具体机制</p>
+                <p><strong>修复建议：</strong>升级至swift-nio 2.100.0或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r3rc-9hpw-54v9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 16. SwiftNIO HTTP DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SwiftNIO HTTPDecoder无界HTTP/1头部块DoS</div>
+                    <div class="advisory-id">GHSA-rj37-6j9x-74q6 | CVE-2026-28980</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NIOHTTP1的HTTPDecoder未限制HTTP/1消息头部块总大小或头部字段数量，远程对等方可提交任意数量的小有效头部，在应用代码运行前全部累积到HTTPHeaders中。</p>
+                <p><strong>影响产品：</strong>swift-nio ⭐8.5k</p>
+                <p><strong>影响版本：</strong>&lt;= 2.99.0</p>
+                <p><strong>攻击面：</strong>HTTP/1连接 - 任何可建立HTTP连接的远程攻击者</p>
+                <p><strong>触发条件：</strong>发送包含大量头部的HTTP请求</p>
+                <p><strong>潜在危害：</strong>内存耗尽DoS或进程崩溃</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了HTTPHeaders累积机制</p>
+                <p><strong>修复建议：</strong>升级至swift-nio 2.100.0或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rj37-6j9x-74q6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 17. Appsmith 超级用户竞争条件 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Appsmith 超级用户创建竞争条件 - TOCTOU绕过</div>
+                    <div class="advisory-id">GHSA-9wcp-79g5-5c3c | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 40.0k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>/api/v1/users/super端点的signupAndLoginSuper()方法存在TOCTOU竞争条件，并发请求可绕过只能创建一个超级用户的限制，使多个未授权用户获得实例管理员权限。</p>
+                <p><strong>影响产品：</strong>appsmith ⭐40.0k</p>
+                <p><strong>影响版本：</strong>&lt; 1.99.0</p>
+                <p><strong>攻击面：</strong>用户注册API - 初始设置期间的并发攻击</p>
+                <p><strong>触发条件：</strong>在初始设置期间发送并发注册请求</p>
+                <p><strong>潜在危害：</strong>权限提升，多个攻击者可获得实例管理员权限</p>
+                <p><strong>可利用性：</strong>有完整PoC - CWE-367竞争条件，详细说明了TOCTOU机制</p>
+                <p><strong>修复建议：</strong>升级至Appsmith 1.99或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9wcp-79g5-5c3c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 18. Budibase SSRF -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Budibase OAuth2配置验证SSRF - 缺少fetchWithBlacklist保护</div>
+                    <div class="advisory-id">GHSA-g6qx-g4pr-92v7 | CVE-2026-48146</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28.0k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OAuth2 token获取函数使用原始fetch(config.url)无SSRF保护，而代码库中的fetchWithBlacklist()安全包装器未应用于此位置。BUILDER角色用户可将OAuth2 token URL指向内部服务。</p>
+                <p><strong>影响产品：</strong>budibase ⭐28.0k</p>
+                <p><strong>影响版本：</strong>&lt; 3.39.0</p>
+                <p><strong>攻击面：</strong>OAuth2配置 - 需要BUILDER角色</p>
+                <p><strong>触发条件：</strong>配置OAuth2 token URL指向内部服务（如CouchDB、云元数据）</p>
+                <p><strong>潜在危害：</strong>SSRF，可访问内部服务并窃取敏感数据</p>
+                <p><strong>可利用性：</strong>有完整PoC - 指定了具体文件位置和行号（utils.ts第59行）</p>
+                <p><strong>修复建议：</strong>升级至Budibase 3.39.0或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g6qx-g4pr-92v7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 19. PyO3 OOB Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 PyO3 PyList/PyTuple迭代器越界读取</div>
+                    <div class="advisory-id">GHSA-36hh-v3qg-5jq4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15.8k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PyO3 0.24.0添加的优化nth/nth_back实现使用未检查的usize加法计算目标索引，足够大的n可能导致溢出和越界读取。</p>
+                <p><strong>影响产品：</strong>pyo3 ⭐15.8k</p>
+                <p><strong>影响版本：</strong>&lt; 0.29.0</p>
+                <p><strong>攻击面：</strong>Rust-Python FFI - 使用迭代器nth方法</p>
+                <p><strong>触发条件：</strong>在PyList/PyTuple迭代器上调用nth/nth_back并传入大值</p>
+                <p><strong>潜在危害：</strong>越界读取，可能泄露内存数据或导致崩溃</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了index+n溢出和get_item_unchecked的组合问题</p>
+                <p><strong>修复建议：</strong>升级至PyO3 0.29.0或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-36hh-v3qg-5jq4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 20. GeoServer 任意文件写 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GeoServer Master Password Dump页面任意文件写入</div>
+                    <div class="advisory-id">GHSA-7qmg-grcp-qf25 | CVE-2025-52465</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4.4k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GeoServer安全系统允许管理员通过Master Password Dump页面传递任意文件名，在指定路径创建包含主密码明文的文件。</p>
+                <p><strong>影响产品：</strong>geoserver ⭐4.4k (star未达5k但含详细PoC)</p>
+                <p><strong>影响版本：</strong>2.27.0-2.27.2, &lt;= 2.26.3</p>
+                <p><strong>攻击面：</strong>管理界面 - 需要管理员权限</p>
+                <p><strong>触发条件：</strong>管理员访问Master Password Dump页面并提供绝对路径</p>
+                <p><strong>潜在危害：</strong>任意文件写入，主密码泄露</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了文件名注入机制</p>
+                <p><strong>修复建议：</strong>升级至GeoServer 2.27.3或2.26.4</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7qmg-grcp-qf25" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 21. CoreDNS DoH DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 CoreDNS DoH GET超大dns=参数CPU/内存放大攻击</div>
+                    <div class="advisory-id">GHSA-63cw-r7xf-jmwr | CVE-2026-32936</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.1k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CoreDNS的DNS-over-HTTPS GET路径接受超大dns=查询值，在返回400之前执行大量解析、转义、base64解码和消息解包工作。</p>
+                <p><strong>影响产品：</strong>coredns ⭐14.1k</p>
+                <p><strong>影响版本：</strong>&lt; 1.14.3</p>
+                <p><strong>攻击面：</strong>DoH端点 - 任何未认证的远程攻击者</p>
+                <p><strong>触发条件：</strong>向/dns-query?dns=...发送超大GET请求</p>
+                <p><strong>潜在危害：</strong>DoS，高CPU使用、内存消耗、GC压力</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至CoreDNS 1.14.3或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-63cw-r7xf-jmwr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 22. FlowiseAI Mass Assignment -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 FlowiseAI Assistant跨工作区接管 - Mass Assignment漏洞</div>
+                    <div class="advisory-id">GHSA-78pr-c5x5-jggc | CVE-2026-46475</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 53.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Assistant控制器使用Object.assign(entity, body)无字段白名单，客户端可控的workspaceId被覆盖到Assistant实体，导致跨工作区数据接管和IDOR。</p>
+                <p><strong>影响产品：</strong>Flowise ⭐53.5k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.1</p>
+                <p><strong>攻击面：</strong>Assistant API - 需要基本认证</p>
+                <p><strong>触发条件：</strong>在创建/更新Assistant时传递恶意workspaceId</p>
+                <p><strong>潜在危害：</strong>跨工作区数据接管、IDOR</p>
+                <p><strong>可利用性：</strong>有详细原理 - 说明了Object.assign无白名单的mass assignment问题</p>
+                <p><strong>修复建议：</strong>升级至Flowise 3.1.2或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-78pr-c5x5-jggc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 23. mise本地配置信任绕过 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 mise本地设置绕过配置信任检查 - 供应链攻击</div>
+                    <div class="advisory-id">GHSA-436v-8fw5-4mj8 | CVE-2026-35533</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 29.4k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>mise在信任检查运行之前从本地项目.mise.toml加载信任控制设置。攻击者可在仓库中放置恶意.mise.toml使该文件自身显示为受信任，然后执行危险的指令。</p>
+                <p><strong>影响产品：</strong>mise ⭐29.4k</p>
+                <p><strong>影响版本：</strong>2026.2.18 - 2026.6.3</p>
+                <p><strong>攻击面：</strong>Git仓库 - clone恶意仓库</p>
+                <p><strong>触发条件：</strong>在包含恶意.mise.toml的目录运行mise命令</p>
+                <p><strong>潜在危害：</strong>任意代码执行 - 通过hooks、tasks、env.source等</p>
+                <p><strong>可利用性：</strong>有完整PoC - 包含trusted_config_paths=["/"]的具体利用方式</p>
+                <p><strong>修复建议：</strong>升级至mise 2026.6.4或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-436v-8fw5-4mj8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-gv7w-rqvm-qjhr</code></td>
+                    <td>esbuild</td>
+                    <td>39.9k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv7w-rqvm-qjhr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-5pvg-856g-cp85</code></td>
+                    <td>netty</td>
+                    <td>35.0k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-676x-f7gg-47vc</code></td>
+                    <td>netty</td>
+                    <td>35.0k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-7gf9-j694-jvh7</code></td>
+                    <td>echarts</td>
+                    <td>66.6k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7gf9-j694-jvh7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-x4gw-5cx5-pgmh</code></td>
+                    <td>netty</td>
+                    <td>35.0k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x4gw-5cx5-pgmh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-24fp-5v3p-rvpw</code></td>
+                    <td>chisel</td>
+                    <td>16.1k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-24fp-5v3p-rvpw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-93qh-vwrm-c5pw</code></td>
+                    <td>jenkins</td>
+                    <td>25.4k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-93qh-vwrm-c5pw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-xq69-5h5v-x9x4</code></td>
+                    <td>spring-kafka</td>
+                    <td>2.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-xq69-5h5v-x9x4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-958p-3c7r-6w47</code></td>
+                    <td>OpenSearch</td>
+                    <td>13.2k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-958p-3c7r-6w47" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-8c9q-7855-wfxq</code></td>
+                    <td>filebrowser</td>
+                    <td>35.1k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8c9q-7855-wfxq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-j9jx-hp4c-ghhh</code></td>
+                    <td>filebrowser</td>
+                    <td>35.1k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j9jx-hp4c-ghhh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-w5fm-68j4-fpc4</code></td>
+                    <td>filebrowser</td>
+                    <td>35.1k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w5fm-68j4-fpc4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-q6gp-2f9f-9jc2</code></td>
+                    <td>hadoop</td>
+                    <td>15.6k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q6gp-2f9f-9jc2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jx9x-fg7m-xv2m</code></td>
+                    <td>hadoop</td>
+                    <td>15.6k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jx9x-fg7m-xv2m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-r3rc-9hpw-54v9</code></td>
+                    <td>swift-nio</td>
+                    <td>8.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-r3rc-9hpw-54v9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-rj37-6j9x-74q6</code></td>
+                    <td>swift-nio</td>
+                    <td>8.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-rj37-6j9x-74q6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-9wcp-79g5-5c3c</code></td>
+                    <td>appsmith</td>
+                    <td>40.0k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9wcp-79g5-5c3c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-g6qx-g4pr-92v7</code></td>
+                    <td>budibase</td>
+                    <td>28.0k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g6qx-g4pr-92v7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-36hh-v3qg-5jq4</code></td>
+                    <td>pyo3</td>
+                    <td>15.8k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-36hh-v3qg-5jq4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-7qmg-grcp-qf25</code></td>
+                    <td>geoserver</td>
+                    <td>4.4k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-7qmg-grcp-qf25" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-63cw-r7xf-jmwr</code></td>
+                    <td>coredns</td>
+                    <td>14.1k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-63cw-r7xf-jmwr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-78pr-c5x5-jggc</code></td>
+                    <td>Flowise</td>
+                    <td>53.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-78pr-c5x5-jggc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-436v-8fw5-4mj8</code></td>
+                    <td>mise</td>
+                    <td>29.4k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-436v-8fw5-4mj8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-xq69-5h5v-x9x4</code></td>
+                    <td>spring-kafka</td>
+                    <td>2.5k</td>
+                    <td>High</td>
+                    <td>JDK类反序列化，影响广泛使用的Spring框架</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-7qmg-grcp-qf25</code></td>
+                    <td>geoserver</td>
+                    <td>4.4k</td>
+                    <td>High</td>
+                    <td>任意文件写入+主密码泄露，GIS领域核心组件</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>esbuild (GHSA-gv7w-rqvm-qjhr)</strong>: Deno模块供应链攻击风险，通过NPM_CONFIG_REGISTRY可实现RCE。使用Deno+esbuild的团队立即升级至0.28.1</li>
+                    <li><strong>Netty DNS缓存投毒 (GHSA-5pvg-856g-cp85, GHSA-676x-f7gg-47vc)</strong>: 两个独立的DNS缓存投毒漏洞，影响所有使用netty-resolver-dns的应用。立即升级至4.1.135.Final/4.2.15.Final</li>
+                    <li><strong>Apache ECharts XSS (GHSA-7gf9-j694-jvh7)</strong>: 极高star项目(66.6k)的XSS漏洞，影响大量Web应用。升级至6.0.0</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Netty SNI DoS (GHSA-x4gw-5cx5-pgmh)</strong>: 9字节触发16MiB内存分配，极易被利用进行DoS攻击</li>
+                    <li><strong>Chisel ACL绕过 (GHSA-24fp-5v3p-rvpw)</strong>: SSH隧道访问控制绕过，影响内网安全</li>
+                    <li><strong>mise信任绕过 (GHSA-436v-8fw5-4mj8)</strong>: 恶意Git仓库可通过.mise.toml执行任意代码，供应链攻击风险</li>
+                    <li><strong>Appsmith TOCTOU (GHSA-9wcp-79g5-5c3c)</strong>: 竞争条件可导致多管理员权限提升</li>
+                    <li><strong>Flowise Mass Assignment (GHSA-78pr-c5x5-jggc)</strong>: AI工具平台跨工作区数据接管</li>
+                    <li><strong>File Browser系列漏洞</strong>: 5个High级别漏洞集中披露，影响广泛使用的文件管理器</li>
+                    <li><strong>Spring Kafka反序列化 (GHSA-xq69-5h5v-x9x4)</strong>: 虽star未达5k但为Java生态核心组件，可导致RCE</li>
+                </ul>
+                <p><strong>📋 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Netty系列DoS漏洞</strong>: 本日共披露10+个Netty相关漏洞，涵盖Redis/HAProxy/SCTP/QUIC/HTTP3等多个协议编解码器，建议统一升级</li>
+                    <li><strong>SwiftNIO越界写入</strong>: UInt32索引溢出可能导致内存损坏</li>
+                    <li><strong>Budibase SSRF</strong>: OAuth2配置缺少黑名单保护</li>
+                    <li><strong>CoreDNS DoH DoS</strong>: 超大参数导致CPU放大</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
