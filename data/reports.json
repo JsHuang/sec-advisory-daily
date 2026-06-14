@@ -1,6 +1,52 @@
 {
   "reports": [
     {
+      "date": "2026-06-14",
+      "total": 23,
+      "critical": 1,
+      "high": 22,
+      "star_5k_plus": 16,
+      "with_poc": 22,
+      "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-06-14.html",
+      "top_vulnerabilities": [
+        {
+          "ghsa": "GHSA-j9gf-vw2f-9hrw",
+          "product": "Appsmith",
+          "stars": 40042,
+          "severity": "High",
+          "rating": "紧急"
+        },
+        {
+          "ghsa": "GHSA-9wcp-79g5-5c3c",
+          "product": "Appsmith",
+          "stars": 40042,
+          "severity": "High",
+          "rating": "紧急"
+        },
+        {
+          "ghsa": "GHSA-gv7w-rqvm-qjhr",
+          "product": "esbuild",
+          "stars": 39924,
+          "severity": "High",
+          "rating": "紧急"
+        },
+        {
+          "ghsa": "GHSA-8c9q-7855-wfxq",
+          "product": "File Browser",
+          "stars": 35081,
+          "severity": "High",
+          "rating": "紧急"
+        },
+        {
+          "ghsa": "GHSA-6xp4-cf37-ppjh",
+          "product": "Budibase",
+          "stars": 28018,
+          "severity": "Critical",
+          "rating": "紧急"
+        }
+      ]
+    },
+    {
       "date": "2026-06-13",
       "title": "GitHub安全公告日报 - 2026-06-13",
       "url": "reports/report-2026-06-13.html",
