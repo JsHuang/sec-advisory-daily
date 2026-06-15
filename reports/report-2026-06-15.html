@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-15</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-15 · 监控最近72小时 Critical &amp; High 级别安全公告（含24h内新增/更新）</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. Docker cp Race Condition -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Docker: Race condition in docker cp allows bind mount redirection to host path</div>
+                    <div class="advisory-id">GHSA-rg2x-37c3-w2rh | CVE: CVE-2026-42306</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 71,681</span>
+                <span class="badge badge-analysis">📖 详细原理</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>docker cp 在挂载设置期间存在竞争条件。守护进程在创建挂载目标后、执行 mount() 系统调用前，容器内进程可将目标路径替换为指向宿主机任意路径的符号链接，导致 bind mount 被重定向到宿主机任意位置。</p>
+                <p><strong>影响产品：</strong>moby/moby (Docker Engine) ⭐71,681</p>
+                <p><strong>影响版本：</strong>&lt;= 28.5.2（暂无补丁）</p>
+                <p><strong>攻击面：</strong>需要容器内有进程执行能力。攻击者需在容器内运行恶意进程，在 docker cp 操作的极短窗口内替换挂载点为符号链接。</p>
+                <p><strong>触发条件：</strong>1) 攻击者拥有容器内进程执行权限；2) 在 docker cp 挂载点创建与 mount() 调用之间替换路径为符号链接；3) 需要精确的时序竞争。</p>
+                <p><strong>潜在危害：</strong>若卷可写，可覆写宿主机任意文件；若卷只读，可遮蔽宿主机路径造成DoS。挂载虽是临时的（docker cp完成后拆除），但写入效果持久化。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，包含漏洞代码路径说明。竞争窗口较窄，需要精确时序，实际利用有难度但原理清晰。</p>
+                <p><strong>修复建议：</strong>目前暂无官方补丁（patched: null）。建议限制非信任容器的 docker cp 操作，监控异常的符号链接行为。可升级到 moby v2 的 2.0.0-beta.14+ 版本。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rg2x-37c3-w2rh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. esbuild RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 esbuild: Missing binary integrity verification in Deno module enables RCE via NPM_CONFIG_REGISTRY</div>
+                    <div class="advisory-id">GHSA-gv7w-rqvm-qjhr | CVE: 待分配</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 39,926</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>esbuild 的 Deno 模块（lib/deno/mod.ts）从 npm 注册表下载原生二进制文件并以可执行权限（0o755）写入磁盘，但未执行任何完整性校验（如 SHA-256 哈希检查）。Node.js 版本包含 binaryIntegrityCheck() 函数，但 Deno 版本遗漏了此保护。</p>
+                <p><strong>影响产品：</strong>evanw/esbuild ⭐39,926</p>
+                <p><strong>影响版本：</strong>&gt;= 0.17.0, &lt; 0.28.1</p>
+                <p><strong>攻击面：</strong>NPM_CONFIG_REGISTRY 环境变量。当该变量被设置时，Deno 模块会使用该值构造下载URL。攻击者若能控制此环境变量（CI/CD管道、共享开发环境、企业内网自定义npm镜像），即可注入恶意二进制文件。</p>
+                <p><strong>触发条件：</strong>1) 使用 Deno 运行 esbuild；2) NPM_CONFIG_REGISTRY 环境变量被设置为攻击者控制的 registry；3) 恶意 registry 返回恶意二进制文件代替正常 esbuild 二进制。</p>
+                <p><strong>潜在危害：</strong>完全远程代码执行。恶意二进制以 Deno 进程权限运行，可完全控制开发/CI环境。</p>
+                <p><strong>可利用性：</strong>有完整漏洞原理和代码路径分析。利用场景明确：在CI/CD环境中设置 NPM_CONFIG_REGISTRY 为恶意registry即可触发RCE。</p>
+                <p><strong>修复建议：</strong>升级到 esbuild 0.28.1+。检查 CI/CD 环境中的 NPM_CONFIG_REGISTRY 设置，确保不被篡改。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gv7w-rqvm-qjhr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. File Browser Command Injection -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 File Browser: Command Execution Allowlist Bypass via Shell Metacharacter Injection</div>
+                    <div class="advisory-id">GHSA-8c9q-7855-wfxq | CVE: CVE-2026-54090</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,092</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser 的命令白名单仅校验用户输入的第一个token（通过 SplitCommandAndArgs），但将整个原始字符串传递给 shell 执行。攻击者可通过分号、管道、反引号、$() 等 shell 元字符在白名单命令后链式执行任意命令。</p>
+                <p><strong>影响产品：</strong>filebrowser/filebrowser ⭐35,092</p>
+                <p><strong>影响版本：</strong>&lt; 2.33.8</p>
+                <p><strong>攻击面：</strong>需要 File Browser 实例开启了命令执行功能（默认从 v2.33.8 起已禁用）。需要认证用户权限。</p>
+                <p><strong>触发条件：</strong>1) 管理员开启了命令执行功能（shell interpreter配置如 /bin/sh -c）；2) 认证用户在命令输入中注入 shell 元字符，如：allowed_cmd; malicious_cmd</p>
+                <p><strong>潜在危害：</strong>以 File Browser 进程权限执行任意系统命令，可能导致服务器完全控制。</p>
+                <p><strong>可利用性：</strong>有完整原理和代码级分析。漏洞位于 runner/parser.go 的 ParseCommand 函数（第10-25行）和 http/commands.go 的 commandsHandler（第72-86行）。利用简单，只需在允许的命令后附加 shell 元字符。</p>
+                <p><strong>修复建议：</strong>升级到 v2.33.8+（该版本默认禁用命令执行功能）。如必须使用命令执行，确保升级到修复版本并理解相关风险。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8c9q-7855-wfxq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. File Browser DoS -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 File Browser: DoS Vulnerability via Public Login API</div>
+                    <div class="advisory-id">GHSA-w5fm-68j4-fpc4 | CVE: CVE-2026-54092</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,092</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser 的登录 API（/api/login）未对密码长度设置上限。攻击者可提交超大密码字符串，触发 bcrypt 等高成本哈希计算，导致 CPU 和内存暴涨，最终使服务崩溃甚至影响 Docker daemon。</p>
+                <p><strong>影响产品：</strong>filebrowser/filebrowser ⭐35,092</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.5</p>
+                <p><strong>攻击面：</strong>公开的登录接口 /api/login，无需认证即可利用。</p>
+                <p><strong>触发条件：</strong>向 /api/login 发送包含超大密码（如 1GB+）的 JSON 请求体。CheckPwd 函数（users/password.go）会对任意长度密码进行哈希运算。</p>
+                <p><strong>潜在危害：</strong>完全拒绝服务。可使容器崩溃、Docker daemon 返回 500 错误。并发请求可同时耗尽多个 worker。</p>
+                <p><strong>可利用性：</strong>有完整 PoC 脚本，包括生成超大密码文件的命令和 Docker 部署测试步骤。利用零门槛，无需认证。</p>
+                <p><strong>修复建议：</strong>升级到 v2.63.6+。在反向代理层限制请求体大小。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w5fm-68j4-fpc4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. Jenkins Stored XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Jenkins: Stored XSS vulnerability in node offline cause description</div>
+                    <div class="advisory-id">GHSA-93qh-vwrm-c5pw | CVE: CVE-2026-53441</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 25,432</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Jenkins 未对通过 POST config.xml API 设置的通用离线原因描述进行转义，导致存储型 XSS 漏洞。具有 Agent/Configure 权限的攻击者可注入恶意 JavaScript。</p>
+                <p><strong>影响产品：</strong>jenkinsci/jenkins ⭐25,432</p>
+                <p><strong>影响版本：</strong>2.483 ~ 2.567（含），LTS 2.492.1 ~ 2.555.2（含）</p>
+                <p><strong>攻击面：</strong>POST config.xml API，需要 Agent/Configure 权限。</p>
+                <p><strong>触发条件：</strong>1) 攻击者拥有 Agent/Configure 权限；2) 通过 API 设置包含 XSS payload 的离线原因描述；3) 其他用户查看节点状态时触发脚本执行。</p>
+                <p><strong>潜在危害：</strong>在其他用户（包括管理员）的浏览器中执行任意 JavaScript，可窃取会话凭证、执行管理操作。</p>
+                <p><strong>可利用性：</strong>仅有公告描述，无公开PoC。但 XSS 利用模式成熟，构造 payload 并不复杂。</p>
+                <p><strong>修复建议：</strong>升级到 Jenkins 2.568+ 或对应的 LTS 版本。审查 config.xml API 的使用日志。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-93qh-vwrm-c5pw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. Parse Server DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Parse Server: Pre-authentication denial of service via client version header regex backtracking</div>
+                    <div class="advisory-id">GHSA-38m6-82c8-4xfm | CVE: CVE-2026-47138</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 21,400</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Parse Server 的客户端 SDK 版本解析器存在 ReDoS 漏洞。攻击者可通过 X-Parse-Client-Version 请求头或 _ClientVersion JSON 字段注入对抗性输入，触发多项式回溯，在认证和限流之前消耗数秒到数分钟的同步 CPU 时间。</p>
+                <p><strong>影响产品：</strong>parse-community/parse-server ⭐21,400</p>
+                <p><strong>影响版本：</strong>&gt;= 9.0.0, &lt; 9.9.1-alpha.1；&lt; 8.6.77</p>
+                <p><strong>攻击面：</strong>所有 /parse/* 请求的 X-Parse-Client-Version 头和 _ClientVersion 字段。解析在会话认证和限流之前执行。</p>
+                <p><strong>触发条件：</strong>1) 攻击者知道 Parse Application ID（通常公开可知）；2) 发送包含对抗性输入的单个 HTTP 请求；3) 少量并发请求即可饱和 worker。单个大请求可 pin 住 worker 数分钟。</p>
+                <p><strong>潜在危害：</strong>生产环境完全拒绝服务。Node.js worker 被同步阻塞，无法处理其他请求。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，包含漏洞代码路径和修复方案说明。预认证、无速率限制、利用简单。</p>
+                <p><strong>修复建议：</strong>升级到 9.9.1-alpha.1+ 或 8.6.77+。部署反向代理/WAF 限制 X-Parse-Client-Version 头和 _ClientVersion 字段的大小。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-38m6-82c8-4xfm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 7. Koel SSRF -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Koel: SSRF via Podcast Episode Enclosure URLs</div>
+                    <div class="advisory-id">GHSA-7j2f-6h2r-6cqc | CVE: CVE-2026-47260</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 17,165</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Koel 在订阅播客时通过 SafeUrl 规则验证 feed URL，但从 RSS XML 中解析的 episode enclosure URL 未经任何 SSRF 验证直接存入数据库。用户播放 episode 时，服务器通过 Http::sink()->get() 下载完整响应并流式返回，实现全读取 SSRF。</p>
+                <p><strong>影响产品：</strong>koel/koel ⭐17,165</p>
+                <p><strong>影响版本：</strong>&lt;= 9.3.4</p>
+                <p><strong>攻击面：</strong>播客订阅和播放功能。攻击者需能添加播客源（认证用户）。</p>
+                <p><strong>触发条件：</strong>1) 攻击者创建一个恶意 RSS feed，enclosure URL 指向内部服务；2) 在 Koel 中订阅该播客；3) 播放任意 episode 触发服务端请求内部 URL。</p>
+                <p><strong>潜在危害：</strong>完全读取内部服务的响应内容，可探测内网拓扑、访问内部 API、读取元数据服务等敏感信息。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，包含完整的代码路径（PodcastService.php:146, EpisodePlayable.php:42）。利用链清晰，仅需认证用户权限。</p>
+                <p><strong>修复建议：</strong>升级到 9.3.5+。对 episode enclosure URL 也应用 SafeUrl 验证规则。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7j2f-6h2r-6cqc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 8. PyO3 OOB Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 PyO3: Out-of-bounds Read in nth/nth_back for PyList and PyTuple iterators</div>
+                    <div class="advisory-id">GHSA-36hh-v3qg-5jq4 | CVE: 待分配</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15,787</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PyO3 0.24.0 为 BoundListIterator 和 BoundTupleIterator 添加了优化的 nth/nth_back 实现。这些实现使用未检查的 usize 加法（index + n）计算目标索引，在足够大的 n 值下可导致溢出/下溢，通过 get_item_unchecked 读取列表/元组存储之外的任意内存。</p>
+                <p><strong>影响产品：</strong>PyO3/pyo3 ⭐15,787</p>
+                <p><strong>影响版本：</strong>&lt; 0.29.0</p>
+                <p><strong>攻击面：</strong>使用 PyO3 进行 Python-Rust 互操作的 Rust 应用程序。攻击者需能影响迭代器的 nth 参数值。</p>
+                <p><strong>触发条件：</strong>1) 使用 PyO3 0.24.0+ 版本；2) 代码中对 PyList/PyTuple 迭代器调用 nth 或 nth_back 方法；3) n 值与内部索引的组合导致 usize 溢出。</p>
+                <p><strong>潜在危害：</strong>nth_back 可读取 list/tuple 存储之后的任意内存，可能导致信息泄露或崩溃。nth 可读取已迭代过的前方元素。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，包含溢出机制说明。Rust 内存安全问题，利用难度较高但影响面广。</p>
+                <p><strong>修复建议：</strong>升级到 PyO3 0.29.0+。检查代码中是否使用了 PyList/PyTuple 迭代器的 nth/nth_back 方法。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-36hh-v3qg-5jq4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 9. File Browser Access Control Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser: Incorrect access control for public directory shares via rule path rebasing</div>
+                    <div class="advisory-id">GHSA-j9jx-hp4c-ghhh | CVE: CVE-2026-54091</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,092</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser 的公开分享处理器将文件系统根目录重新基于共享目录后，使用重定向后的相对路径评估规则，而非原始路径。这导致被 deny 规则明确阻止的子目录仍可通过公开分享链接访问。</p>
+                <p><strong>影响产品：</strong>filebrowser/filebrowser ⭐35,092</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.5</p>
+                <p><strong>攻击面：</strong>公开分享 API（/api/public/share/*, /api/public/dl/*），无需认证。</p>
+                <p><strong>触发条件：</strong>1) 存在一个被分享的目录；2) 该目录下有被 deny 规则阻止的子路径；3) 攻击者知道公开分享 URL。</p>
+                <p><strong>潜在危害：</strong>未认证信息泄露。可绕过管理员设置的访问规则，访问本应被禁止的文件和子目录。</p>
+                <p><strong>可利用性：</strong>有详细代码级分析，包含 http/public.go 中的漏洞代码路径。利用简单，只需知道公开分享 URL。</p>
+                <p><strong>修复建议：</strong>升级到 v2.63.6+。审计公开分享目录中是否有敏感文件。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j9jx-hp4c-ghhh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 10. File Browser Pre-Created Share -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser: Improper Access Control via Pre-Created Public Share for Non-existent Path</div>
+                    <div class="advisory-id">GHSA-3q2p-72cj-682c | CVE: CVE-2026-54096</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,092</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>类似 Android MediaProvider CVE-2026-0035。File Browser 的 POST /api/share/&lt;path&gt; 接受认证请求并为任意路径创建公开分享记录，但不检查目标文件是否存在。当文件后续在该路径创建时，预创建的分享自动生效并暴露新文件。</p>
+                <p><strong>影响产品：</strong>filebrowser/filebrowser ⭐35,092</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.6</p>
+                <p><strong>攻击面：</strong>分享创建 API，需要认证和分享权限。</p>
+                <p><strong>触发条件：</strong>1) 攻击者有分享/下载权限；2) 为尚不存在的路径预创建分享；3) 当目标文件在该路径被创建时，分享自动生效。</p>
+                <p><strong>潜在危害：</strong>未来文件的信息泄露。攻击者可提前"埋伏"分享链接，等待目标文件出现后自动公开。</p>
+                <p><strong>可利用性：</strong>有详细原理和代码级分析。利用需要认证和一定的权限。</p>
+                <p><strong>修复建议：</strong>升级到 v2.63.7+。审计已有的分享记录。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3q2p-72cj-682c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 11. File Browser Cross-user Deletion -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser: Cross-user unauthorized share-link deletion via unbounded prefix match</div>
+                    <div class="advisory-id">GHSA-5ww9-jg6q-38r7 | CVE: CVE-2026-54097</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,092</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>低权限用户删除自己目录中的文件时，DeleteWithPathPrefix 使用逻辑路径进行前缀匹配清理分享记录。若该路径恰好是其他用户（包括管理员）分享链接路径的字节前缀，其他用户的分享链接也会被静默删除。</p>
+                <p><strong>影响产品：</strong>filebrowser/filebrowser ⭐35,092</p>
+                <p><strong>影响版本：</strong>&lt;= 2.63.5</p>
+                <p><strong>攻击面：</strong>文件删除 API，需要 create + delete 权限。</p>
+                <p><strong>触发条件：</strong>1) 攻击者有 create + delete 权限；2) 在自己的目录中删除一个文件；3) 该文件的逻辑路径是其他用户分享路径的字节前缀。</p>
+                <p><strong>潜在危害：</strong>不可逆地破坏其他用户（包括管理员）的分享链接。文件内容不泄露，但分享链接被永久擦除。</p>
+                <p><strong>可利用性：</strong>有详细代码级分析。利用需要认证和特定权限，但攻击模式清晰。</p>
+                <p><strong>修复建议：</strong>升级到 v2.63.6+。检查 DeleteWithPathPrefix 是否应增加 UserID 过滤。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5ww9-jg6q-38r7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 12. Spring Kafka Deserialization -->
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Spring for Apache Kafka: Overly broad trusted-package matching exposes JDK classes to deserialization</div>
+                    <div class="advisory-id">GHSA-xq69-5h5v-x9x4 | CVE: CVE-2026-41731</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 2,486</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spring Kafka 的 JsonKafkaHeaderMapper 和 DefaultKafkaHeaderMapper 使用包名前缀匹配来判定可信包，导致信任某个包时隐式信任其所有子包。配合 Jackson 默认 bean 反序列化，生产者可提供构造的 header 值使消费者反序列化任意 JDK 类型。</p>
+                <p><strong>影响产品：</strong>spring-projects/spring-kafka ⭐2,486</p>
+                <p><strong>影响版本：</strong>4.0.0~4.0.5; 3.3.0~3.3.15; 3.2.0~3.2.13; 2.9.0~2.9.13; 2.8.0~2.8.11</p>
+                <p><strong>攻击面：</strong>Kafka 消息头。攻击者需能向 Kafka topic 发送包含恶意 header 的消息。</p>
+                <p><strong>触发条件：</strong>1) 使用 Spring Kafka 的消息头映射器；2) 攻击者可向同一 topic 发送消息；3) 消费者使用 JsonKafkaHeaderMapper 或 DefaultKafkaHeaderMapper。</p>
+                <p><strong>潜在危害：</strong>JDK 反序列化攻击，可能导致远程代码执行（取决于可利用的 gadget chain）。</p>
+                <p><strong>可利用性：</strong>仅有公告描述，无公开PoC。但 Java 反序列化利用链成熟。</p>
+                <p><strong>修复建议：</strong>升级到 4.0.6、3.3.16 或对应修复版本。严格配置可信包白名单，避免使用过宽的前缀。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xq69-5h5v-x9x4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-rg2x-37c3-w2rh</code></td>
+                    <td>moby/moby (Docker)</td>
+                    <td>71,681</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rg2x-37c3-w2rh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-gv7w-rqvm-qjhr</code></td>
+                    <td>evanw/esbuild</td>
+                    <td>39,926</td>
+                    <td>High</td>
+                    <td>PoC+详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv7w-rqvm-qjhr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-8c9q-7855-wfxq</code></td>
+                    <td>filebrowser</td>
+                    <td>35,092</td>
+                    <td>High</td>
+                    <td>PoC+详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8c9q-7855-wfxq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-w5fm-68j4-fpc4</code></td>
+                    <td>filebrowser</td>
+                    <td>35,092</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w5fm-68j4-fpc4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-93qh-vwrm-c5pw</code></td>
+                    <td>Jenkins</td>
+                    <td>25,432</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-93qh-vwrm-c5pw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-38m6-82c8-4xfm</code></td>
+                    <td>parse-server</td>
+                    <td>21,400</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-38m6-82c8-4xfm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-7j2f-6h2r-6cqc</code></td>
+                    <td>koel</td>
+                    <td>17,165</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7j2f-6h2r-6cqc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-36hh-v3qg-5jq4</code></td>
+                    <td>PyO3</td>
+                    <td>15,787</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-36hh-v3qg-5jq4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-j9jx-hp4c-ghhh</code></td>
+                    <td>filebrowser</td>
+                    <td>35,092</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j9jx-hp4c-ghhh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3q2p-72cj-682c</code></td>
+                    <td>filebrowser</td>
+                    <td>35,092</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3q2p-72cj-682c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-5ww9-jg6q-38r7</code></td>
+                    <td>filebrowser</td>
+                    <td>35,092</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5ww9-jg6q-38r7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-xq69-5h5v-x9x4</code></td>
+                    <td>spring-kafka</td>
+                    <td>2,486</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-xq69-5h5v-x9x4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-gf43-24g3-5hw2</code></td>
+                    <td>apostrophecms/apostrophe</td>
+                    <td>4,567</td>
+                    <td>High</td>
+                    <td>Host头劫持密码重置令牌，完整账户接管。详细原理+PoC步骤。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-pr28-mf3q-qpg6</code></td>
+                    <td>apostrophecms/apostrophe</td>
+                    <td>4,567</td>
+                    <td>High</td>
+                    <td>认证SSRF，通过富文本widget导入可获取任意URL响应。完整PoC代码。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-5f64-7vfc-rcx6</code></td>
+                    <td>apostrophecms/apostrophe</td>
+                    <td>4,567</td>
+                    <td>High</td>
+                    <td>Image Widget存储型XSS，javascript: URL注入。详细复现步骤+截图。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-63gr-g7jc-v8rg</code></td>
+                    <td>agenticmail/agenticmail</td>
+                    <td>147</td>
+                    <td>High</td>
+                    <td>MCP HTTP端点无认证，可调用master-key管理操作。完整PoC+修复commit。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r236-5pc3-3qcp</code></td>
+                    <td>aws/aws-advanced-go-wrapper</td>
+                    <td>72</td>
+                    <td>High</td>
+                    <td>Aurora PostgreSQL权限提升至rds_superuser。AWS安全公告已发布。</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Docker Engine (CVE-2026-42306)：</strong>docker cp 竞争条件可劫持宿主机路径。目前官方无补丁，建议限制非信任容器的 docker cp 操作，优先使用 moby v2 beta 版本。</li>
+                    <li><strong>esbuild (GHSA-gv7w-rqvm-qjhr)：</strong>Deno 模块缺少二进制完整性校验，通过 NPM_CONFIG_REGISTRY 可实现 RCE。立即升级到 0.28.1+，审计 CI/CD 环境变量。</li>
+                    <li><strong>File Browser (CVE-2026-54090, CVE-2026-54092)：</strong>命令注入白名单绕过和登录 DoS 漏洞。立即升级到 2.33.8+/2.63.6+，确认命令执行功能已默认禁用。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Jenkins (CVE-2026-53441)：</strong>存储型XSS，升级至 2.568+。审查 config.xml API 使用日志。</li>
+                    <li><strong>Parse Server (CVE-2026-47138)：</strong>预认证ReDoS DoS，利用门槛极低。升级至 9.9.1-alpha.1+ 或 8.6.77+，或在 WAF 层限制 header 大小。</li>
+                    <li><strong>Koel (CVE-2026-47260)：</strong>播客SSRF，可读取内网服务响应。升级至 9.3.5+。</li>
+                    <li><strong>PyO3 (GHSA-36hh-v3qg-5jq4)：</strong>迭代器越界读取，影响所有 Rust-Python 互操作项目。升级至 0.29.0+。</li>
+                    <li><strong>File Browser 系列漏洞：</strong>本次披露5个漏洞（命令注入、DoS、权限绕过×3），建议统一升级至 v2.63.7+。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Spring Kafka (CVE-2026-41731)：</strong>Kafka 消息头反序列化，升级到对应修复版本。检查可信包白名单配置。</li>
+                    <li><strong>Apostrophe CMS 系列漏洞：</strong>3个高危漏洞（密码重置劫持、SSRF、存储XSS），如使用该产品应立即关注官方修复。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
