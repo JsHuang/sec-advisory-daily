@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-18</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-card.withdrawn { border-left-color: #484f58; opacity: 0.7; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .badge-withdrawn { background: #484f5822; color: #8b949e; border: 1px solid #484f5844; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-18 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">High (含1撤回)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. Langflow Unauthenticated Upload -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Langflow: Unauthenticated file upload leads to DoS and information leak</div>
+                    <div class="advisory-id">GHSA-x223-p2gf-v735 | CVE: CVE-2026-55450</div>
+                </div>
+                <span class="priority-score">优先级: 95/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.3)</span>
+                <span class="badge badge-stars">⭐ 149,801</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Langflow的文件上传端点 <code>POST /api/v1/upload/{flow_id}</code> 没有任何身份认证机制，任何未认证用户都可以向服务器上传任意大小的文件。该端点已标记为deprecated但仍可访问。上传成功后，服务器会在响应中返回文件的绝对路径，造成信息泄露。</p>
+                <p><strong>影响产品：</strong>langflow-ai/langflow ⭐149,801</p>
+                <p><strong>影响版本：</strong>&lt; 1.9.1</p>
+                <p><strong>攻击面：</strong>网络可达，无需认证</p>
+                <p><strong>触发条件：</strong>向 <code>/api/v1/upload/&lt;任意UUID&gt;</code> 发送multipart文件上传请求</p>
+                <p><strong>潜在危害：</strong>① 服务器磁盘空间耗尽导致DoS；② 泄露服务器缓存目录绝对路径，辅助其他攻击链</p>
+                <p><strong>可利用性：</strong>极高 — 完整PoC仅需一条curl命令：<code>curl 'http://target:7860/api/v1/upload/11111111-1111-1111-1111-111111111111' -F "file=@any_file"</code></p>
+                <p><strong>修复建议：</strong>升级至 Langflow ≥ 1.9.1，该版本为deprecated端点添加了认证依赖</p>
+            </div>
+            <a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-x223-p2gf-v735" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. Gitea API Fork Org Secret Exfiltration -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Gitea: API Fork Missing CanCreateOrgRepo Check Allows Org Secret Exfiltration</div>
+                    <div class="advisory-id">GHSA-fhx7-m96w-mv29 | CVE: CVE-2026-22555</div>
+                </div>
+                <span class="priority-score">优先级: 93/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.1)</span>
+                <span class="badge badge-stars">⭐ 56,352</span>
+                <span class="badge badge-poc">🔴 完整PoC (含Docker环境)</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea的API端点 <code>POST /api/v1/repos/{owner}/{repo}/forks</code> 在fork到组织时仅检查 <code>IsOrgMember()</code>，未检查 <code>CanCreateOrgRepo()</code>。这允许只读组织成员通过API在组织命名空间创建仓库，获得完整管理员权限，启用Actions，推送恶意工作流文件，从而窃取所有组织级CI/CD密钥（部署密钥、云凭证、API令牌）。</p>
+                <p><strong>影响产品：</strong>go-gitea/gitea ⭐56,352</p>
+                <p><strong>影响版本：</strong>&lt; 1.26.0</p>
+                <p><strong>攻击面：</strong>组织内只读成员 → 组织密钥泄露</p>
+                <p><strong>触发条件：</strong>① 拥有组织只读成员身份；② 通过API fork仓库到组织；③ 启用Actions并推送恶意工作流</p>
+                <p><strong>潜在危害：</strong>窃取所有组织CI/CD密钥，包括部署密钥、云凭证、第三方API令牌</p>
+                <p><strong>可利用性：</strong>极高 — 公告包含完整的Docker环境搭建和攻击步骤复现脚本</p>
+                <p><strong>修复建议：</strong>升级至 Gitea ≥ 1.26.0；检查组织成员权限配置；审计Actions运行历史</p>
+            </div>
+            <a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-fhx7-m96w-mv29" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. Open WebUI Mermaid XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Stored XSS in Mermaid Markdown Preview</div>
+                    <div class="advisory-id">GHSA-v8qj-hxv7-mgvv | CVE: CVE-2026-54011</div>
+                </div>
+                <span class="priority-score">优先级: 92/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.7)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI在文件预览面板中渲染Mermaid块，由于Mermaid配置为 <code>securityLevel: 'loose'</code> 模式，攻击者控制的Mermaid内容可以注入JavaScript。生成的SVG通过 <code>innerHTML</code> 插入DOM，未进行清理，实现存储型XSS。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>上传包含恶意Mermaid代码的Markdown文件</p>
+                <p><strong>触发条件：</strong>受害者打开预览面板查看恶意Markdown文件</p>
+                <p><strong>潜在危害：</strong>在受害者浏览器中执行任意JavaScript，实现账户接管</p>
+                <p><strong>可利用性：</strong>极高 — PoC payload：<code>```mermaid\nflowchart LR\n  A[click me]\n  click A href "javascript:alert(document.domain)" "x"\n```</code></p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；将Mermaid的securityLevel设为strict；避免上传来源不明的Markdown文件</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-v8qj-hxv7-mgvv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 4. Gitea glTF Stored XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Gitea: Stored XSS via glTF extensionsRequired in 3D File Viewer</div>
+                    <div class="advisory-id">GHSA-9cpj-qc93-vw8v | CVE: CVE-2026-28737</div>
+                </div>
+                <span class="priority-score">优先级: 91/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.7)</span>
+                <span class="badge badge-stars">⭐ 56,352</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea的内置3D文件查看器（基于Online3DViewer）在解析glTF文件时，如果存在不支持的 <code>extensionsRequired</code> 扩展，会将扩展名称直接通过 <code>innerHTML</code> 插入DOM，无任何转义或清理。攻击者可以向仓库推送包含恶意HTML/JS的 <code>.gltf</code> 文件，实现存储型XSS。</p>
+                <p><strong>影响产品：</strong>go-gitea/gitea ⭐56,352</p>
+                <p><strong>影响版本：</strong>1.25.0 - 1.26.0</p>
+                <p><strong>攻击面：</strong>向任意仓库推送恶意.gltf文件</p>
+                <p><strong>触发条件：</strong>受害者查看包含恶意.gltf文件的页面</p>
+                <p><strong>潜在危害：</strong>完整账户接管（创建Token、修改设置、操纵仓库），无需用户交互</p>
+                <p><strong>可利用性：</strong>极高 — 只需推送一个.gltf文件到任意仓库，payload持久化并在每次查看时触发</p>
+                <p><strong>修复建议：</strong>升级至 Gitea ≥ 1.26.0；对3D文件查看器的错误信息进行HTML转义</p>
+            </div>
+            <a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-9cpj-qc93-vw8v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. Open WebUI Stored XSS to Account Takeover via Model Profile -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Stored XSS to Account Takeover via Model Profile Images</div>
+                    <div class="advisory-id">GHSA-v2qm-5wxj-qhj7 | CVE: CVE-2026-54013</div>
+                </div>
+                <span class="priority-score">优先级: 89/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.6)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI之前修复了用户和Webhook头像的SVG XSS漏洞（GHSA-3wgj-c2hg-vm6q, GHSA-3856-3vxq-m6fc），但遗漏了<strong>模型头像</strong>的相同修复。<code>ModelMeta</code> 类没有 <code>validate_profile_image_url</code> 验证器，模型图片服务端点也没有MIME白名单或 <code>nosniff</code> 头。任何具有 <code>workspace.models</code> 权限的用户（默认启用）都可以将SVG XSS payload存入模型的头像中。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>模型配置接口</p>
+                <p><strong>触发条件：</strong>受害者导航到模型图片URL</p>
+                <p><strong>潜在危害：</strong>完整账户接管</p>
+                <p><strong>可利用性：</strong>高 — 有详细的漏洞原理和绕过分析，payload构造明确</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；对模型头像URL添加与用户头像相同的验证</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-v2qm-5wxj-qhj7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. Open WebUI Forged chat-file link -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Forged chat-file link allows cross-user file read and deletion</div>
+                    <div class="advisory-id">GHSA-vrhc-3fr6-pc3c | CVE: CVE-2026-54010</div>
+                </div>
+                <span class="priority-score">优先级: 88/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.3)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI允许认证用户将任意 <code>file_id</code> 值附加到自己的聊天消息中，无需检查用户是否拥有或能读取该文件。攻击者随后分享该聊天并授予自己读权限，<code>has_access_to_file()</code> 会将受害者文件视为可通过共享聊天访问，从而读取或删除受害者文件。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>聊天消息附件接口</p>
+                <p><strong>触发条件：</strong>攻击者知道受害者的file_id</p>
+                <p><strong>潜在危害：</strong>跨用户文件读取和删除，破坏文件机密性和完整性</p>
+                <p><strong>可利用性：</strong>高 — 有详细的源码分析和利用链说明</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；在消息附件存储时验证文件所有权</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-vrhc-3fr6-pc3c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 7. Open WebUI Forged model meta.knowledge -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Forged model meta.knowledge allows cross-user file read and deletion</div>
+                    <div class="advisory-id">GHSA-vjqm-6gcc-62cr | CVE: CVE-2026-54012</div>
+                </div>
+                <span class="priority-score">优先级: 87/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.1)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI允许创建/更新/导入工作区模型的用户在 <code>meta.knowledge</code> 中存储任意条目，而不检查是否拥有或能读取引用的文件。系统将 <code>meta.knowledge</code> 中的file类型条目视为授权来源：内置的 <code>view_file</code> 工具读取文件的提取文本，<code>has_access_to_file()</code> 授权文件内容和删除端点。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>模型元数据接口</p>
+                <p><strong>触发条件：</strong>攻击者有 <code>workspace.models</code> 权限并知道受害者file_id</p>
+                <p><strong>潜在危害：</strong>读取受害者文件的提取文本（每次最多10万字符）、读取文件内容、删除文件</p>
+                <p><strong>可利用性：</strong>高 — 有详细源码分析</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；对model meta.knowledge添加文件所有权验证</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-vjqm-6gcc-62cr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. Open WebUI SSRF bypass via redirect -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: SSRF Protection Bypass in Playwright Web Loader via HTTP Redirects</div>
+                    <div class="advisory-id">GHSA-jrfp-m64g-pcwv | CVE: CVE-2026-54018</div>
+                </div>
+                <span class="priority-score">优先级: 86/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.7)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SafePlaywrightURLLoader的 <code>validate_url</code> 函数仅在初始URL上进行SSRF防护检查。由于Playwright默认自动跟随HTTP重定向（301/302），攻击者可以通过提供一个安全URL，该URL重定向到内部网络地址（如localhost、Docker容器网络、云元数据169.254.169.254），绕过验证。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>RAG Web抓取功能</p>
+                <p><strong>触发条件：</strong>使用RAG功能抓取经过精心构造的重定向URL</p>
+                <p><strong>潜在危害：</strong>访问内部服务、云元数据端点，获取敏感信息</p>
+                <p><strong>可利用性：</strong>高 — 有详细的重定向绕过原理说明</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；对重定向链的每个URL进行验证</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-jrfp-m64g-pcwv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. Open WebUI Path traversal / SSRF in terminal server -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Path traversal / SSRF in terminal server proxy via encoded traversal</div>
+                    <div class="advisory-id">GHSA-r2wg-2mcr-66rv | CVE: CVE-2026-54017</div>
+                </div>
+                <span class="priority-score">优先级: 85/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.7)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>terminal-server反向代理在处理用户控制的 <code>path</code> 段时，未完全限制路径遍历。认证用户可以通过编码的 <code>../</code> 遍历序列（包括双重编码 <code>%252e%252e</code> 绕过后续修复），逃逸到终端服务器的意外端点和文件。当终端服务器将请求扇出到内部服务时，还可实现SSRF。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>终端服务器代理接口</p>
+                <p><strong>触发条件：</strong>构造编码路径遍历的URL</p>
+                <p><strong>潜在危害：</strong>访问终端服务器上的非预期文件和内部服务</p>
+                <p><strong>可利用性：</strong>高 — 包含双重编码绕过技巧</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；加强路径规范化和验证</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-r2wg-2mcr-66rv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 10. Open WebUI OAuth SSRF -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Redirect-Bypass SSRF in OAuth _process_picture_url</div>
+                    <div class="advisory-id">GHSA-226f-f24g-524w | CVE: CVE-2026-54008</div>
+                </div>
+                <span class="priority-score">优先级: 85/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.5)</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><code>_process_picture_url</code> 仅对初始URL进行 <code>validate_url()</code> 验证，然后调用 <code>aiohttp.ClientSession.get()</code> 时未禁用重定向跟随。aiohttp默认允许最多10次重定向，攻击者可通过OAuth IdP提交一个302重定向到内部地址的图片URL，通过自己的 <code>profile_image_url</code> 字段读取内部响应内容。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>OAuth认证流程中的头像处理</p>
+                <p><strong>触发条件：</strong>通过OAuth IdP配置重定向到内部服务的头像URL</p>
+                <p><strong>潜在危害：</strong>SSRF读取内部网络资源</p>
+                <p><strong>可利用性：</strong>高 — CVE-2026-45401的不完整修复，第6个调用点</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；设置 <code>allow_redirects=False</code></p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-226f-f24g-524w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 11. Open WebUI postMessage bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI: Cross-origin postMessage confirmation bypass via action:submit</div>
+                    <div class="advisory-id">GHSA-3vv5-8xxp-4f55 | CVE: CVE-2026-54007</div>
+                </div>
+                <span class="priority-score">优先级: 84/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 142,039</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>聊天消息监听器允许非同源的 <code>input:prompt</code> 和 <code>action:submit</code> 消息，外部网站可以设置提示文本并在受害者的已认证会话中触发 <code>submitPrompt()</code>。这导致跨站强制操作和模型/工具执行。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐142,039</p>
+                <p><strong>影响版本：</strong>≤ 0.9.5</p>
+                <p><strong>攻击面：</strong>postMessage跨域通信</p>
+                <p><strong>触发条件：</strong>受害者访问攻击者控制的页面，同时已登录Open WebUI</p>
+                <p><strong>潜在危害：</strong>跨域命令执行，在受害者权限下发送API请求</p>
+                <p><strong>可利用性：</strong>高 — 有已验证的攻击页面</p>
+                <p><strong>修复建议：</strong>升级至 Open WebUI &gt; 0.9.5；严格限制postMessage的源</p>
+            </div>
+            <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-3vv5-8xxp-4f55" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 12. Gitea token bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Gitea: Public-only tokens bypass private-resource restrictions on /api/v1/user self routes</div>
+                    <div class="advisory-id">GHSA-wrr5-99h5-gq57 | CVE: CVE-2026-24791</div>
+                </div>
+                <span class="priority-score">优先级: 83/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.1)</span>
+                <span class="badge badge-stars">⭐ 56,352</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea的 <code>/api/v1/user/...</code> 多个认证自我路由未强制执行 <code>public-only</code> Token限制。标记为public-only但携带所需读写作用域的Token/OAuth授权，可以通过自我路由访问或修改私有账户资源。这是系统性的Token/OAuth作用域边界绕过，不是单个端点的bug。这是CVE-2025-68941的不完整修复。</p>
+                <p><strong>影响产品：</strong>go-gitea/gitea ⭐56,352</p>
+                <p><strong>影响版本：</strong>1.22.3 - 1.26.1</p>
+                <p><strong>攻击面：</strong>API认证自我路由</p>
+                <p><strong>触发条件：</strong>使用public-only Token访问私有资源路由</p>
+                <p><strong>潜在危害：</strong>绕过Token限制读取/修改私有账户资源（邮件、SSH密钥、OAuth2应用等）</p>
+                <p><strong>可利用性：</strong>高 — 有详细的代码路径分析和PoC</p>
+                <p><strong>修复建议：</strong>升级至 Gitea &gt; 1.26.1；审计所有Token权限配置</p>
+            </div>
+            <a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-wrr5-99h5-gq57" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 13. Pi Agent privilege escalation -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Pi Agent: Predictable temp extension install paths allow local privilege escalation</div>
+                    <div class="advisory-id">GHSA-jfgx-wxx8-mp94 | CVE: CVE-2026-54328</div>
+                </div>
+                <span class="priority-score">优先级: 82/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.3)</span>
+                <span class="badge badge-stars">⭐ 63,593</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pi Agent在使用 <code>--extension</code> 或 <code>-e</code> 加载临时npm/git扩展包时，使用可预测的临时目录路径（<code>os.tmpdir()/pi-extensions</code>）。在Linux多用户共享主机上，本地攻击者可以预先在共享临时目录中创建预期的包位置，当其他用户运行Pi时加载攻击者控制的扩展代码，实现本地提权。</p>
+                <p><strong>影响产品：</strong>earendil-works/pi ⭐63,593</p>
+                <p><strong>影响版本：</strong>npm: 0.50.0 - 0.78.1; 其他: 0.74.0 - 0.78.1</p>
+                <p><strong>攻击面：</strong>本地多用户共享主机</p>
+                <p><strong>触发条件：</strong>共享Linux主机上，攻击者在临时目录中预设恶意包</p>
+                <p><strong>潜在危害：</strong>以受害者用户权限执行任意代码</p>
+                <p><strong>可利用性：</strong>高 — 有详细的代码路径分析和修复commit</p>
+                <p><strong>修复建议：</strong>升级至 ≥ 0.78.1；在多用户环境中使用私有临时目录</p>
+            </div>
+            <a href="https://github.com/earendil-works/pi/security/advisories/GHSA-jfgx-wxx8-mp94" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 14. LangChain4j SQL injection -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 LangChain4j: SQL injection via metadata filters in mariadb and pgvector</div>
+                    <div class="advisory-id">GHSA-2mfg-cc43-9pcj | CVE: CVE-2026-55405</div>
+                </div>
+                <span class="priority-score">优先级: 80/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.6)</span>
+                <span class="badge badge-stars">⭐ 12,359</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>LangChain4j的MariaDB和pgvector嵌入存储通过字符串拼接构建元数据过滤器SQL，未充分转义过滤键（和MariaDB中的字符串值）。攻击者可以通过 <code>EmbeddingSearchRequest.filter()</code> 注入精心构造的元数据键来执行SQL注入。pgvector的JSON模式和列模式、MariaDB的JSON模式和列模式均受影响。</p>
+                <p><strong>影响产品：</strong>langchain4j/langchain4j ⭐12,359</p>
+                <p><strong>影响版本：</strong>≤ 1.16.2-beta26 (多个版本范围)</p>
+                <p><strong>攻击面：</strong>元数据过滤接口（特别是LLM生成的过滤器）</p>
+                <p><strong>触发条件：</strong>应用允许用户影响元数据过滤键</p>
+                <p><strong>潜在危害：</strong>盲数据泄露、数据篡改、拒绝服务</p>
+                <p><strong>可利用性：</strong>高 — 有详细的SQL注入payload示例（如 <code>pg_sleep(1)</code>）</p>
+                <p><strong>修复建议：</strong>升级至最新版本；对元数据过滤键使用参数化查询</p>
+            </div>
+            <a href="https://github.com/langchain4j/langchain4j/security/advisories/GHSA-2mfg-cc43-9pcj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 15. OpenClaw MCP redirect header leak -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 OpenClaw: MCP Streamable HTTP redirects could forward custom headers to another origin</div>
+                    <div class="advisory-id">GHSA-rjxq-qqhf-8hwh | CVE: CVE-2026-53840</div>
+                </div>
+                <span class="priority-score">优先级: 72/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.1)</span>
+                <span class="badge badge-stars">⭐ 379,224</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenClaw支持配置远程MCP Streamable HTTP服务器及自定义头部。在受影响版本中，当MCP端点响应跨域重定向时，这些自定义头部可能被转发到重定向目标。此问题仅限于配置了自定义头部的MCP Streamable HTTP服务器。</p>
+                <p><strong>影响产品：</strong>openclaw/openclaw ⭐379,224</p>
+                <p><strong>影响版本：</strong>&lt; 2026.5.12</p>
+                <p><strong>攻击面：</strong>MCP服务器配置</p>
+                <p><strong>触发条件：</strong>MCP端点发生跨域重定向</p>
+                <p><strong>潜在危害：</strong>API密钥或租户路由头部泄露到重定向目标</p>
+                <p><strong>可利用性：</strong>中 — 仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级至 openclaw@2026.5.12 或更高版本；轮换可能已暴露的MCP凭证</p>
+            </div>
+            <a href="https://github.com/openclaw/openclaw/security/advisories/GHSA-rjxq-qqhf-8hwh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 16. Laravel CRLF injection -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Laravel Framework: CRLF injection in default email rule</div>
+                    <div class="advisory-id">GHSA-5vg9-5847-vvmq</div>
+                </div>
+                <span class="priority-score">优先级: 70/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.9)</span>
+                <span class="badge badge-stars">⭐ 34,773</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Laravel的email验证中存在CRLF注入漏洞，结合Symfony Mailer和Symfony Mime处理某些字符序列的方式，可能允许未认证的攻击者干扰应用的出站邮件处理。攻击者可以提供包含CRLF序列的邮件地址来影响邮件内容、使邮件发送到非预期接收者，或导致邮件服务器发送非预期消息。</p>
+                <p><strong>影响产品：</strong>laravel/framework ⭐34,773</p>
+                <p><strong>影响版本：</strong>&lt; 12.60.0; 13.0.0 - 13.9.0</p>
+                <p><strong>攻击面：</strong>邮件发送功能（认证流程、联系表单等）</p>
+                <p><strong>触发条件：</strong>应用向用户提供的地址发送邮件</p>
+                <p><strong>潜在危害：</strong>未授权访问、邮件中继滥用</p>
+                <p><strong>可利用性：</strong>中 — 仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Laravel ≥ 12.60.0 或 ≥ 13.10.0</p>
+            </div>
+            <a href="https://github.com/laravel/framework/security/advisories/GHSA-5vg9-5847-vvmq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 17. Filament XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Filament: Disabled RichEditor field state can be used for XSS</div>
+                    <div class="advisory-id">GHSA-m9cv-24rx-8mv7 | CVE: CVE-2026-55409</div>
+                </div>
+                <span class="priority-score">优先级: 68/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.6)</span>
+                <span class="badge badge-stars">⭐ 31,145</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>在Filament v3中，禁用的RichEditor字段渲染其原始状态时未清理HTML。如果表单状态填充时数据未经过清理，攻击者可以植入恶意HTML或JavaScript，对查看表单的用户实现XSS。注意Filament v4及以上不受影响。</p>
+                <p><strong>影响产品：</strong>filamentphp/filament ⭐31,145</p>
+                <p><strong>影响版本：</strong>3.0.0 - 3.3.52</p>
+                <p><strong>攻击面：</strong>禁用的RichEditor字段渲染</p>
+                <p><strong>触发条件：</strong>查看包含恶意HTML的禁用RichEditor字段</p>
+                <p><strong>潜在危害：</strong>XSS执行</p>
+                <p><strong>可利用性：</strong>中 — 仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Filament ≥ 3.3.53</p>
+            </div>
+            <a href="https://github.com/filamentphp/filament/security/advisories/GHSA-m9cv-24rx-8mv7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 18. Multer DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Multer: Denial of Service via deeply nested field names</div>
+                    <div class="advisory-id">GHSA-72gw-mp4g-v24j | CVE: CVE-2026-5079</div>
+                </div>
+                <span class="priority-score">优先级: 66/100</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.5)</span>
+                <span class="badge badge-stars">⭐ 12,056</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Multer的依赖 <code>append-field</code> 解析字段名的括号表示法（如 <code>a[b][c]</code>）时无嵌套深度限制，攻击者可以强制分配深层嵌套的对象结构，消耗CPU和内存。单个带有精心构造的multipart body的HTTP请求即可利用。</p>
+                <p><strong>影响产品：</strong>expressjs/multer ⭐12,056</p>
+                <p><strong>影响版本：</strong>1.0.0 - 2.2.0; 3.0.0-alpha.1</p>
+                <p><strong>攻击面：</strong>Multipart表单上传</p>
+                <p><strong>触发条件：</strong>发送深层嵌套字段名的multipart请求</p>
+                <p><strong>潜在危害：</strong>服务器CPU和内存耗尽导致DoS</p>
+                <p><strong>可利用性：</strong>中 — 仅描述，但攻击原理简单</p>
+                <p><strong>修复建议：</strong>升级至 Multer ≥ 2.2.0 并配置 <code>limits.fieldNestingDepth</code></p>
+            </div>
+            <a href="https://github.com/expressjs/multer/security/advisories/GHSA-72gw-mp4g-v24j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 19. esbuild (Withdrawn) -->
+        <div class="advisory-card withdrawn">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">⚫ [已撤回] esbuild: Missing binary integrity verification in Deno module</div>
+                    <div class="advisory-id">GHSA-gv7w-rqvm-qjhr</div>
+                </div>
+                <span class="priority-score">已撤回</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-withdrawn">Withdrawn</span>
+                <span class="badge badge-stars">⭐ 39,938</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>说明：</strong>此公告已被撤回。原因：受影响的包被错误识别，实际受影响的包（deno-esbuild）不在支持的生态系统中。</p>
+            </div>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-x223-p2gf-v735</code></td>
+                    <td>langflow</td>
+                    <td>149k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-x223-p2gf-v735" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-fhx7-m96w-mv29</code></td>
+                    <td>gitea</td>
+                    <td>56k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-fhx7-m96w-mv29" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-v8qj-hxv7-mgvv</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-v8qj-hxv7-mgvv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-9cpj-qc93-vw8v</code></td>
+                    <td>gitea</td>
+                    <td>56k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-9cpj-qc93-vw8v" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-v2qm-5wxj-qhj7</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-v2qm-5wxj-qhj7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-vrhc-3fr6-pc3c</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-vrhc-3fr6-pc3c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-vjqm-6gcc-62cr</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-vjqm-6gcc-62cr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jrfp-m64g-pcwv</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-jrfp-m64g-pcwv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-r2wg-2mcr-66rv</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-r2wg-2mcr-66rv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-226f-f24g-524w</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-226f-f24g-524w" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3vv5-8xxp-4f55</code></td>
+                    <td>open-webui</td>
+                    <td>142k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-3vv5-8xxp-4f55" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-wrr5-99h5-gq57</code></td>
+                    <td>gitea</td>
+                    <td>56k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/go-gitea/gitea/security/advisories/GHSA-wrr5-99h5-gq57" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jfgx-wxx8-mp94</code></td>
+                    <td>pi-agent</td>
+                    <td>63k</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/earendil-works/pi/security/advisories/GHSA-jfgx-wxx8-mp94" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-2mfg-cc43-9pcj</code></td>
+                    <td>langchain4j</td>
+                    <td>12k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/langchain4j/langchain4j/security/advisories/GHSA-2mfg-cc43-9pcj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-rjxq-qqhf-8hwh</code></td>
+                    <td>openclaw</td>
+                    <td>379k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/openclaw/openclaw/security/advisories/GHSA-rjxq-qqhf-8hwh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-5vg9-5847-vvmq</code></td>
+                    <td>laravel</td>
+                    <td>34k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/laravel/framework/security/advisories/GHSA-5vg9-5847-vvmq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-m9cv-24rx-8mv7</code></td>
+                    <td>filament</td>
+                    <td>31k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/filamentphp/filament/security/advisories/GHSA-m9cv-24rx-8mv7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-72gw-mp4g-v24j</code></td>
+                    <td>multer</td>
+                    <td>12k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/expressjs/multer/security/advisories/GHSA-72gw-mp4g-v24j" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>⚫撤回</td>
+                    <td><code>GHSA-gv7w-rqvm-qjhr</code></td>
+                    <td>esbuild</td>
+                    <td>39k</td>
+                    <td>High</td>
+                    <td>已撤回</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/evanw/esbuild/security/advisories/GHSA-gv7w-rqvm-qjhr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-8fq9-273g-6mrg</code></td>
+                    <td>avo-hq/avo</td>
+                    <td>1,781</td>
+                    <td>Critical (CVSS 9.6)</td>
+                    <td>关联端点缺少授权检查，允许低权限用户附加关联记录实现权限提升和跨租户数据泄露。有详细PoC和攻击路径分析。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-2f55-g35j-5jmf</code></td>
+                    <td>hapifhir/org.hl7.fhir.core</td>
+                    <td>196</td>
+                    <td>Critical</td>
+                    <td><code>saxonTransform</code> 使用未加固的 Saxon TransformerFactory，导致XXE注入。同文件中 <code>transform</code> 方法已正确加固，但 <code>saxonTransform</code> 遗漏。有详细源码分析。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-fxj4-p9xp-37v5</code></td>
+                    <td>hapifhir/org.hl7.fhir.dstu2</td>
+                    <td>196</td>
+                    <td>High</td>
+                    <td>CVE-2026-45367的不完整修复，DSTU2 FHIRPathEngine.matches() 存在SSRF。</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r4gv-qr8j-p3pg</code></td>
+                    <td>jknack/handlebars.java</td>
+                    <td>1,554</td>
+                    <td>High</td>
+                    <td>FileTemplateLoader路径遍历漏洞</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Langflow (GHSA-x223-p2gf-v735)</strong>：Critical级未认证文件上传，一条curl即可利用。影响149k Star项目。立即升级至 ≥ 1.9.1。</li>
+                    <li><strong>Gitea API Fork (GHSA-fhx7-m96w-mv29)</strong>：完整PoC含Docker环境，组织只读成员可窃取所有CI/CD密钥。升级至 ≥ 1.26.0 并审计Actions历史。</li>
+                    <li><strong>Open WebUI Mermaid XSS (GHSA-v8qj-hxv7-mgvv)</strong>：存储型XSS，Mermaid securityLevel配置为loose。升级并设置strict模式。</li>
+                    <li><strong>Gitea glTF XSS (GHSA-9cpj-qc93-vw8v)</strong>：通过3D文件查看器的存储型XSS，推送恶意.gltf文件即可。升级至 ≥ 1.26.0。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Open WebUI 批量漏洞 (8个GHSA)</strong>：≤ 0.9.5版本存在多个严重安全问题，包括SSRF绕过、跨用户文件读写/删除、XSS到账户接管、postMessage跨域控制。强烈建议升级至 &gt; 0.9.5。</li>
+                    <li><strong>Gitea Token绕过 (GHSA-wrr5-99h5-gq57)</strong>：public-only Token可访问私有资源，CVE-2025-68941不完整修复。升级至 &gt; 1.26.1。</li>
+                    <li><strong>Pi Agent (GHSA-jfgx-wxx8-mp94)</strong>：多用户共享主机上的本地提权风险。升级至 ≥ 0.78.1。</li>
+                    <li><strong>LangChain4j SQL注入 (GHSA-2mfg-cc43-9pcj)</strong>：如果应用使用LLM生成的元数据过滤器，存在SQL注入风险。升级至最新版本。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>OpenClaw (GHSA-rjxq-qqhf-8hwh)</strong>：MCP重定向可能泄露自定义头部。升级至 ≥ 2026.5.12。</li>
+                    <li><strong>Laravel (GHSA-5vg9-5847-vvmq)</strong>：邮件验证CRLF注入。升级至 ≥ 12.60.0 或 ≥ 13.10.0。</li>
+                    <li><strong>Filament (GHSA-m9cv-24rx-8mv7)</strong>：RichEditor禁用状态XSS。升级至 ≥ 3.3.53。</li>
+                    <li><strong>Multer (GHSA-72gw-mp4g-v24j)</strong>：深层嵌套字段DoS。升级至 ≥ 2.2.0。</li>
+                </ul>
+                <p style="margin-top:16px;"><strong>📌 补充：</strong>Avo (Critical, CVSS 9.6) 和 HAPI FHIR XXE 虽然项目Star数较低，但漏洞严重性极高且有详细PoC，如项目使用了这些组件也应尽快修复。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
