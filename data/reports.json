@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-18",
+      "title": "GitHub安全公告日报 - 2026-06-18",
+      "url": "reports/report-2026-06-18.html",
+      "stats": {
+        "total": 23,
+        "critical": 3,
+        "high": 20,
+        "star5k": 10,
+        "with_poc": 12
+      },
+      "summary": "监控到23个高危公告（3 Critical、20 High），其中Langflow未认证文件上传（Critical 9.3）、Gitea API Fork密钥窃取（含完整PoC）、Open WebUI 8个高危漏洞需重点关注。"
+    },
+    {
       "date": "2026-06-14",
       "title": "GitHub安全公告日报 - 2026-06-14",
       "url": "reports/report-2026-06-14.html",
