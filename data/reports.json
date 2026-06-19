@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-19",
+      "title": "GitHub安全公告日报 - 2026-06-19",
+      "url": "reports/report-2026-06-19.html",
+      "stats": {
+        "total": 87,
+        "critical": 22,
+        "high": 65,
+        "star5k": 55,
+        "with_poc": 70
+      },
+      "summary": "今日发现87个高危/严重漏洞，其中Critical 22个、High 65个。重点关注Crawl4AI（RCE）、PraisonAI（多个RCE和认证绕过）、OpenClaw（多个安全问题）等项目。55个项目Star数≥5k，70个漏洞含PoC或详细分析。"
+    },
+    {
       "date": "2026-06-18",
       "title": "GitHub安全公告日报 - 2026-06-18",
       "url": "reports/report-2026-06-18.html",
