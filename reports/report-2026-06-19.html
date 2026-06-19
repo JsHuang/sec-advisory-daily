@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-19</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-19 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">87</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">65</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">55</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">70</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Crawl4AI: Unauthenticated RCE via Chromium launch-argument injection in browser_config.extra_args</div>
+                    <div class="advisory-id">GHSA-r253-r9jw-qg44 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 30.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 68,876</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 10.0</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>The Docker API server accepted a request-supplied `browser_config.extra_args`, which flowed into Chromium's launch arguments. An attacker could inject Chromium switches that replace a child-process launch command (`--utility-cmd-prefix`, `--renderer-cmd-prefix`, `--gpu-launcher`, `--browser-subprocess-path`) together with `--no-zygote`, causing Chromium to fork/exec an attacker-controlled command as the container's runtime user. The Docker API is unauthenticated by default, so a single request yields arbitrary command execution.<br><br>The earlier `extra_args` SSRF patch (0.8.9) used a denylist scoped to proxy/DNS flags; a denylist of launch switches is inherently incomplete, and these command-execution switches were not covered.<br><br>### Affected paths<br><br>`/crawl`, `/crawl/stream`, `/cra</p>
+                <p><strong>影响产品：</strong>crawl4ai (pip) ⭐68,876</p>
+                <p><strong>影响版本：</strong>受影响: <= 0.8.9</p>
+                <p><strong>CWE类型：</strong>CWE-88, CWE-94</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 crawl4ai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r253-r9jw-qg44" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Crawl4AI: Arbitrary file write (path traversal) in crawler downloads can lead to RCE</div>
+                    <div class="advisory-id">GHSA-2jq4-q6vv-4cp3 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 30.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 68,876</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.6</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>When the crawler saves a downloaded file, the destination filename was taken from attacker-influenced input and joined to the downloads directory with no confinement. A filename containing an absolute path (e.g. `/etc/cron.d/evil`) or `../` traversal escaped the downloads directory, giving an arbitrary file write with attacker-controlled contents. Because the written bytes are attacker-controlled, this escalates to remote code execution (overwriting a shell rc-file, `~/.ssh/authorized_keys`, a cron entry, or a Python module on the import path).<br><br>### Affected paths<br><br>Two download sinks in `crawl4ai/async_crawler_strategy.py`:<br>- HTTP crawler (`AsyncHTTPCrawlerStrategy`): the filename is parsed from the response `Content-Disposition` header by `_extract_filename()` and written via</p>
+                <p><strong>影响产品：</strong>crawl4ai (pip) ⭐68,876</p>
+                <p><strong>影响版本：</strong>受影响: <= 0.8.9</p>
+                <p><strong>CWE类型：</strong>CWE-22, CWE-59</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 crawl4ai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2jq4-q6vv-4cp3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: Linux and macOS exec allowlists skipped configured argument patterns</div>
+                    <div class="advisory-id">GHSA-v2ww-5rh7-2h5v | CVE: CVE-2026-53853</div>
+                </div>
+                <span class="priority-score">优先级: 27.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>OpenClaw's exec allowlist supported optional `argPattern` entries to restrict the arguments accepted for an allowlisted executable. In affected releases, Linux and macOS gateways skipped `argPattern` checks and treated a matching executable path as sufficient to satisfy the allowlist.<br><br>This meant an operator could configure an allowlist entry that appeared to permit only a narrow argv shape, but OpenClaw would allow other argv for the same executable without an approval prompt when `tools.exec.security` was set to `allowlist`.<br><br>This issue is limited to direct enforcement of configured `argPattern` values. OpenClaw's exec approvals remain best-effort guardrails and do not attempt to semantically model every interpreter, loader, package script, shell feature, or transitive file </p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.5.12</p>
+                <p><strong>CWE类型：</strong>CWE-693, CWE-863</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v2ww-5rh7-2h5v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Crawl4AI: Unauthenticated SSRF on the Docker server streaming crawl path (/crawl/stream)</div>
+                    <div class="advisory-id">GHSA-wm69-2pc3-rmmf | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 27.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 68,876</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.6</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>The Docker API server applied its SSRF destination check (`validate_url_destination`) on the non-streaming `/crawl` path but not on the streaming path. `handle_stream_crawl_request` passed seed URLs straight to the crawler with no destination validation. A remote, unauthenticated client could call `POST /crawl/stream` (or `POST /crawl` with `crawler_config.stream=true`, which short-circuits to the same handler) with a URL pointing at an internal, private, or link-local address; the server fetched it and streamed the response body back. The Docker API is unauthenticated by default.<br><br>### Affected paths<br><br>`POST /crawl/stream`, and `POST /crawl` with `crawler_config.stream=true` (both route to `handle_stream_crawl_request`, `deploy/docker/api.py`).<br><br>### Impact<br><br>Unauthenticated read</p>
+                <p><strong>影响产品：</strong>crawl4ai (pip) ⭐68,876</p>
+                <p><strong>影响版本：</strong>受影响: <= 0.8.9</p>
+                <p><strong>CWE类型：</strong>CWE-918</p>
+                <p><strong>攻击面：</strong>无需认证的远程攻击</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 crawl4ai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wm69-2pc3-rmmf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 budibase: Database Connector SQL Injections in PostgreSQL, MS SQL, and MySQL</div>
+                    <div class="advisory-id">GHSA-qqf5-x7mj-v43p | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 22.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 28,031</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.4</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>This advisory covers three distinct SQL Injection vulnerabilities within Budibase's database connectors (PostgreSQL, Microsoft SQL Server, and MySQL). Because user-controlled schema and table configurations are interpolated directly into raw SQL queries without proper escaping or parameterization during database introspection, an authenticated administrator can break out of string delimiters. This allows for arbitrary DDL/DML execution, database compromise, and potential underlying OS command execution (e.g., via MS SQL `xp_cmdshell`).<br><br>### Details<br><br>### Vulnerability Type & Title<br>**PostgreSQL `SET search_path` SQL Injection**<br><br>### Description & Root Cause<br>The `schema` datasource config field is interpolated directly into a raw SQL statement without proper escaping. Double quote</p>
+                <p><strong>影响产品：</strong>budibase (npm) ⭐28,031</p>
+                <p><strong>影响版本：</strong>受影响: < 3.39.19</p>
+                <p><strong>CWE类型：</strong>CWE-89</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 budibase 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qqf5-x7mj-v43p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: Arbitrary File Read/Write via `multiedit` Tool Without Path Validation</div>
+                    <div class="advisory-id">GHSA-29w3-p9w9-wc47 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The `multiedit` tool in `src/praisonai/praisonai/tools/multiedit.py` allows LLM-controlled arbitrary file read and write without any path validation, workspace boundary check, or protected path guard. This enables an attacker who can influence agent tool arguments (via crafted prompts, user input in chat bots, or malicious YAML workflow configs) to read sensitive files (e.g., `/etc/shadow`, `~/.ssh/id_rsa`, `~/.aws/credentials`) and overwrite arbitrary files on the filesystem.<br><br>## Details<br>The `filepath` parameter is used directly with `open()` for both reading (line 74) and writing (line 130) without any of the following protections that exist in other tools in the same codebase:<br><br>1. **No `..` path traversal check** — unlike `file_tools.py` (line 66: `if '..' in filepath: raise</p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: < 4.6.61</p>
+                <p><strong>CWE类型：</strong>CWE-22</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-29w3-p9w9-wc47" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 npm PraisonAI MCPServer exposes unauthenticated HTTP tools/call</div>
+                    <div class="advisory-id">GHSA-j4f3-55x4-r6q2 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The published npm package `praisonai` exports a TypeScript `MCPServer` that can expose tools, resources, and prompts over an HTTP JSON-RPC transport with:<br><br>```ts<br>await server.start({ port: 3000 });<br>```<br><br>The HTTP transport has no authentication or authorization path. `MCPServerConfig` does not expose an auth/security setting, `startHttp()` ignores the `Authorization` header, and every POST request is parsed and forwarded directly to `handleRequest()`. That request handler dispatches sensitive MCP methods such as `tools/call`, `resources/read`, and `prompts/get`.<br><br>The implementation also calls `this.httpServer.listen(port)` without a host argument. In Node.js this binds to the unspecified address; the local PoV observed `{ address: "::", family: "IPv6" }`, making the service reac</p>
+                <p><strong>影响产品：</strong>praisonai (npm) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: >= 1.5.0, <= 1.7.1</p>
+                <p><strong>CWE类型：</strong>CWE-306, CWE-862, CWE-1188</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j4f3-55x4-r6q2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 npm PraisonAI AgentOS exposes unauthenticated agent listing and invocation</div>
+                    <div class="advisory-id">GHSA-9752-mhqh-h34f | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.4</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The published npm package `praisonai` ships a TypeScript `AgentOS` HTTP server that defaults to `host: "0.0.0.0"` and registers sensitive agent routes without any authentication or authorization middleware.<br><br>When a developer starts `AgentOS`, a network attacker who can reach the service can:<br><br>- read configured agent names, roles, and the first 100 characters of each agent's instructions through `GET /api/agents`; and<br>- invoke the selected agent through `POST /api/chat` without credentials.<br><br>This is distinct from the existing Python/PyPI AgentOS and API-server advisories. The affected package here is `npm:praisonai`; the current published npm package is `1.7.1`, and the same TypeScript source is still present in refreshed `origin/main` at `v4.6.58`.<br><br>## Technical Details<br><br>`Agent</p>
+                <p><strong>影响产品：</strong>praisonai (npm) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: >= 1.6.0, <= 1.7.1</p>
+                <p><strong>CWE类型：</strong>CWE-306</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9752-mhqh-h34f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: Remote Code Execution via Sandbox Escape in `codeMode` Tool</div>
+                    <div class="advisory-id">GHSA-p69m-4f92-2v84 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The `codeMode` tool in `src/praisonai-ts/src/tools/builtins/code-mode.ts` uses `new Function()` with a `with(sandbox)` pattern to execute LLM-generated code. The blocklist-based "sandbox" can be trivially bypassed via `Function('return this')()` to recover the global object, followed by `global.require()` with string concatenation to evade the blocklist regex. This allows full arbitrary code execution on the host system. This affects all deployments where the code-mode tool is enabled for agents.<br>## Details<br>**Vulnerable code (lines 187–191):**<br>```typescript<br>const fn = new Function(<br>  'sandbox',<br>  `with (sandbox) { ${code} }`<br>);<br>const result = fn(sandbox);<br>```<br><br>The `code` parameter comes from LLM tool call arguments (the `execute` method at line 104). Before execution, a regex-b</p>
+                <p><strong>影响产品：</strong>praisonai (npm) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: <= 1.7.1</p>
+                <p><strong>CWE类型：</strong>CWE-94</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p69m-4f92-2v84" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 npm PraisonAI codeMode sandbox escape via Function constructor</div>
+                    <div class="advisory-id">GHSA-vmmj-pfw7-fjwp | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.9</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The published npm package `praisonai` exports a TypeScript built-in tool named `codeMode`. The package describes this tool as executing code in a sandboxed environment, marks its capability as `sandbox: true`, and registers it through the public tools facade.<br><br>The implementation does not create an isolation boundary. It applies a small regular-expression blocklist, sets `process` and `require` to `undefined` inside a plain JavaScript object, and then executes attacker-controlled code with the host process `new Function` constructor:<br><br>```text<br>const fn = new Function('sandbox', `with (sandbox) { ${code} }`);<br>const result = fn(sandbox);<br>```<br><br>Because this runs in the host V8 context, code inside `codeMode` can use the JavaScript prototype chain to recover the real `Function` constr</p>
+                <p><strong>影响产品：</strong>praisonai (npm) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: >= 1.4.0, <= 1.7.1</p>
+                <p><strong>CWE类型：</strong>CWE-184, CWE-693</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vmmj-pfw7-fjwp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: Missing Authentication for Critical Function and Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') in praisonai</div>
+                    <div class="advisory-id">GHSA-p75f-6fp4-p57w | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Unauthenticated PraisonAI UI MCP connect endpoint executes attacker-chosen local commands<br><br>## Summary<br><br>PraisonAI v4.6.48 exposes the PraisonAIUI MCP client management API through the default UI host apps without authentication. A remote unauthenticated client can send `POST /api/mcp/connect` with a `command` and `args` field. The endpoint passes those values into the MCP stdio client, which starts the attacker-selected local process as the PraisonAI UI service user.<br><br>The issue is reachable through PraisonAI's hosted UI integration (`praisonai ui`, `praisonai ui agents`, `praisonai claw`, and any app using `praisonai.integration.host_app.create_host_app()` / `build_host_app()`). `praisonai ui` and related Typer UI commands bind to `0.0.0.0` by default.<br><br>## Affected Versions<br><br>Confirmed aff</p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: <= 4.6.48</p>
+                <p><strong>CWE类型：</strong>CWE-78, CWE-306</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p75f-6fp4-p57w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: AgentOS remains unauthenticated after incomplete fix version and allows remote agent invocation</div>
+                    <div class="advisory-id">GHSA-892r-p3jq-jp24 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># AgentOS remains unauthenticated after GHSA-pm96 patched version and allows remote agent invocation<br><br>## Summary<br><br>PraisonAI's `AgentOS` FastAPI deployment surface remains unauthenticated in<br>current main and in releases after the published patched version for<br>`GHSA-pm96-6xpr-978x` / `CVE-2026-40151`.<br><br>The public AgentOS advisory is published as an instruction-disclosure issue<br>with affected versions `&lt; 4.5.128` and patched version `4.5.128`. However,<br>`v4.5.128`, latest release `v4.6.57`, and current main still register<br>`GET /api/agents` and `POST /api/chat` without authentication. The chat route<br>directly calls `agent.chat(request.message)`. No-auth and wrong-bearer requests<br>both execute the deployed agent.<br><br>This is broader than passive metadata disclosure. In any deployment where<br>AgentOS wra</p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: >= 4.2.1, <= 4.6.57</p>
+                <p><strong>CWE类型：</strong>CWE-200, CWE-306, CWE-862</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-892r-p3jq-jp24" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: Jobs API exposes agent-execution endpoints with no authentication </div>
+                    <div class="advisory-id">GHSA-fq2m-6wqh-x44g | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># praisonai: Jobs API exposes agent-execution endpoints with no authentication<br><br>**Researcher:** Kai Aizen — SnailSploit (@SnailSploit), Adversarial & Offensive Security Research <br>**Target:** https://github.com/MervinPraison/PraisonAI<br><br>---<br><br>**Package:** `praisonai` on PyPI<br>**Affected version (empirically tested):** 4.6.48<br>**Components:**<br>- `praisonai.jobs.server.create_app` — `praisonai/jobs/server.py`<br>- `praisonai.jobs.router.create_router` — `praisonai/jobs/router.py`<br>- Routes mounted at `/api/v1/runs/...`<br>**Weakness:** CWE-306 Missing Authentication for Critical Function · CWE-862 Missing Authorization · CWE-94 Code Injection (via prompt / agent_yaml). <br><br>---<br><br>## TL;DR<br><br>`praisonai` ships a standalone async-jobs HTTP server (`python -m praisonai.jobs.server --host=0.0.0.0 --port=8005`) who</p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: < 4.6.59</p>
+                <p><strong>CWE类型：</strong>CWE-94, CWE-306, CWE-862</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fq2m-6wqh-x44g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 praisonai: recipe serve auth middleware silently disables itself when no secret is set</div>
+                    <div class="advisory-id">GHSA-j4hj-7hfh-g2f4 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># praisonai: `recipe serve` authentication middleware silently disables itself when no secret is set<br><br>**Researcher:** Kai Aizen — SnailSploit (@SnailSploit), Adversarial & Offensive Security Research<br>**Target:** https://github.com/MervinPraison/PraisonAI<br><br>---<br><br>**Package:** `praisonai` on PyPI<br>**Version tested:** 4.6.48.<br>**File:** `praisonai/recipe/serve.py` (sha256 `491bf8f29e399418260810ba4bf0f6802c6e4aa675628e2be68a9726c15d9b23`).<br><br>---<br><br>## TL;DR<br><br>`praisonai/recipe/serve.py:312-410` defines two auth middlewares (`APIKeyAuthMiddleware`, `JWTAuthMiddleware`). Both contain the same "fail open when the secret is unset" branch at the top of their `dispatch`:<br><br>```python<br>async def dispatch(self, request, call_next):<br>    if request.url.path == "/health":<br>        return await call_next(request)<br>  </p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183</p>
+                <p><strong>影响版本：</strong>受影响: <= 4.6.48</p>
+                <p><strong>CWE类型：</strong>CWE-306, CWE-1188</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j4hj-7hfh-g2f4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: Unauthenticated RCE via Jobs API + Approval Bypass </div>
+                    <div class="advisory-id">GHSA-4869-x4pr-q22x | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 21.6</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 8,183</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Unauthenticated Remote Code Execution via Jobs API and Approval Bypass in PraisonAI<br> <br>## Summary<br> <br>An unauthenticated attacker can execute arbitrary OS commands on any server running<br>the PraisonAI Jobs API by submitting a crafted workflow YAML. The attack chains two<br>weaknesses: the `/api/v1/runs` endpoint requires no credentials, and a top-level<br>`approve` field in the submitted YAML unconditionally bypasses the<br>`@require_approval` safety decorator on dangerous tools such as `execute_command`.<br> <br>**Ecosystem:** pip | **Package:** `praisonai` | **Affected:** `&lt;= 4.6.48` | **Patched:** *(none)*<br> <br>---<br> <br>## Details<br> <br>### Step 1 — No authentication on the Jobs API<br> <br>`POST /api/v1/runs` accepts and executes agent jobs from any caller with no token<br>or session required:<br> <br>```python<br># src/praisonai</p>
+                <p><strong>影响产品：</strong>praisonai (pip) ⭐8,183; praisonaiagents (pip) ⭐4</p>
+                <p><strong>影响版本：</strong>受影响: <= 4.6.48; 受影响: < 1.6.59</p>
+                <p><strong>CWE类型：</strong>CWE-306, CWE-863</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonai 官方安全更新；关注 praisonaiagents 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4869-x4pr-q22x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Workspace-derived service PATH could influence trash command selection</div>
+                    <div class="advisory-id">GHSA-rx78-29qr-5hq8 | CVE: CVE-2026-53865</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Workspace-derived service PATH could influence trash command selection. In affected versions, a workspace-derived environment path could select an unintended `trash` executable during maintenance.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could run a local executable from a path the operator did not intend for maintenance tasks. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path.<br><br>### Pat</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.5.2</p>
+                <p><strong>CWE类型：</strong>CWE-426</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rx78-29qr-5hq8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Workspace .env STATE_DIRECTORY could influence bundled runtime dependency roots</div>
+                    <div class="advisory-id">GHSA-wc84-j36w-pw4x | CVE: CVE-2026-53858</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Workspace .env STATE_DIRECTORY could influence bundled runtime dependency roots. In affected versions, a workspace `.env` in a repository opened by a trusted operator could set `STATE_DIRECTORY` before runtime dependency root resolution.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could load bundled runtime dependencies from an unintended local state path. Practical impact depends on the operator's configuration and whether lower-trust input can</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.5.2</p>
+                <p><strong>CWE类型：</strong>CWE-426</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wc84-j36w-pw4x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Discord allowFrom could bind to mutable display names</div>
+                    <div class="advisory-id">GHSA-cw4q-gqg5-g38h | CVE: CVE-2026-53849</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Discord allowFrom could bind to mutable display names. In affected versions, a Discord account able to change display or global name metadata could match a policy entry through mutable display metadata.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could receive agent access intended for another Discord identity. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path.<br><br>### Patched Versions<br><br>The f</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: <= 2026.5.6</p>
+                <p><strong>CWE类型：</strong>CWE-290</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cw4q-gqg5-g38h" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Workspace .env npm_execpath could influence bundled runtime dependency install</div>
+                    <div class="advisory-id">GHSA-24vr-rprv-67rf | CVE: CVE-2026-53846</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Workspace .env npm_execpath could influence bundled runtime dependency install. In affected versions, a workspace `.env` in a repository opened by a trusted operator could override the package-manager executable path used by the install helper.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could run an unintended local package-manager executable during dependency setup. Practical impact depends on the operator's configuration and whether lower-tru</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.4.29</p>
+                <p><strong>CWE类型：</strong>CWE-426</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-24vr-rprv-67rf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Zalo allowFrom could bind to mutable display names</div>
+                    <div class="advisory-id">GHSA-8c59-hr4w-qg69 | CVE: CVE-2026-53857</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Zalo allowFrom could bind to mutable display names. In affected versions, a Zalo friend or contact with mutable display metadata could match a policy entry through mutable display metadata.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could receive agent responses intended for another Zalo identity. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path.<br><br>### Patched Versions<br><br>The first stable p</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: <= 2026.5.2</p>
+                <p><strong>CWE类型：</strong>CWE-290</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8c59-hr4w-qg69" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Shell positional parameters could weaken strict inline-eval checks</div>
+                    <div class="advisory-id">GHSA-5cj2-3jr2-5h77 | CVE: CVE-2026-53855</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Shell positional parameters could weaken strict inline-eval checks. In affected versions, a command request that combines allowlisted tools with shell positional arguments could place inline-eval content in a shell carrier not covered by the strict check.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could run shell-provided content outside the intended allowlist rule. Practical impact depends on the operator's configuration and whether lower-trus</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.4.2</p>
+                <p><strong>CWE类型：</strong>CWE-78, CWE-269, CWE-284, CWE-863</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5cj2-3jr2-5h77" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Workspace .env CLOUDSDK_PYTHON could influence Gmail setup gcloud execution</div>
+                    <div class="advisory-id">GHSA-fq9j-vw4w-fr6v | CVE: CVE-2026-53842</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Workspace .env CLOUDSDK_PYTHON could influence Gmail setup gcloud execution. In affected versions, a workspace `.env` in a repository opened by a trusted operator could influence which Python runtime `gcloud` used through `CLOUDSDK_PYTHON`.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could run setup through an unintended local Python path. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path.</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.5.2</p>
+                <p><strong>CWE类型：</strong>CWE-426</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fq9j-vw4w-fr6v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Shell inline-command parsing could miss an allowlist check</div>
+                    <div class="advisory-id">GHSA-f397-5vjw-v2c2 | CVE: CVE-2026-53866</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Shell inline-command parsing could miss an allowlist check. In affected versions, a command request using shell inline-command forms could route an inline command through a parser case that did not receive the expected allowlist decision.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could run shell content without the intended approval or allowlist prompt. Practical impact depends on the operator's configuration and whether lower-trust input can </p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: <= 2026.5.10-beta.1</p>
+                <p><strong>CWE类型：</strong>CWE-184</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f397-5vjw-v2c2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Pairing-scoped device session could restore revoked node token authority</div>
+                    <div class="advisory-id">GHSA-q99w-vh6v-q3v7 | CVE: CVE-2026-53843</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>In affected releases, a surviving pairing-scoped session for a device could re-establish node token authority after that node token had been revoked. Revocation should require the device to lose that authority unless it is approved again through the normal pairing flow.<br><br>This issue affects token revocation and device-role containment. It does not allow unauthenticated device creation.<br><br>### Affected configurations<br><br>This affects deployments where an already paired device keeps a same-device session with pairing-related scope after its node token is revoked.<br><br>### Impact<br><br>A device that should have lost node WebSocket authority could regain it without renewed approval. That weakens revocation as an operator control and can keep node-level access alive longer than intended.<br><br>The imp</p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: < 2026.5.26</p>
+                <p><strong>CWE类型：</strong>CWE-284, CWE-863</p>
+                <p><strong>攻击面：</strong>无需认证的远程攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能影响系统完整性、可用性或机密性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q99w-vh6v-q3v7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenClaw: Host environment sanitizer missed two Node.js control variables</div>
+                    <div class="advisory-id">GHSA-ccwh-wwpp-6wg5 | CVE: CVE-2026-53864</div>
+                </div>
+                <span class="priority-score">优先级: 21.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 379,410</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 8.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Host environment sanitizer missed two Node.js control variables. In affected versions, a lower-trust env source such as a workspace `.env`, tool env override, or skill env block could pass Node.js control variables through the shared sanitizer.<br><br>This advisory is scoped to the named feature and configuration. It does not change OpenClaw's trusted-operator model: authenticated Gateway operators, installed plugins, and intentional local execution surfaces remain trusted unless a separate policy, approval, allowlist, sandbox, or auth boundary is crossed.<br><br>### Impact<br><br>When the affected feature is enabled and reachable, this could influence a later Node.js child process or coverage output path when that process is launched under the accepted environment. Practical impact depends on </p>
+                <p><strong>影响产品：</strong>openclaw (npm) ⭐379,410</p>
+                <p><strong>影响版本：</strong>受影响: <= 2026.5.22</p>
+                <p><strong>CWE类型：</strong>CWE-184</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>仅公告描述，需自行研究</p>
+                <p><strong>潜在危害：</strong>可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 openclaw 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-ccwh-wwpp-6wg5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Nodemailer: Message-level raw option bypasses disableFileAccess/disableUrlAccess, enabling arbitrary file read and full-response SSRF in the delivered message</div>
+                    <div class="advisory-id">GHSA-p6gq-j5cr-w38f | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 20.5</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 17,589</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 7.1</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Message-level `raw` option bypasses `disableFileAccess` / `disableUrlAccess`, enabling arbitrary file read and full-response SSRF in the sent message<br><br>- **Target:** nodemailer/nodemailer, npm `nodemailer` **v9.0.0** (HEAD `4e58450eb490e5097a74b2b2cce35a8d9e21856e`)<br>- **Verdict:** CONFIRMED (local PoC, no network)<br><br>## Summary<br><br>Nodemailer exposes `disableFileAccess` and `disableUrlAccess` so an application that passes<br>**untrusted** message data to the library can forbid that data from reading local files or<br>fetching URLs. Every attachment, alternative, `html`/`text`/`watchHtml`/`amp` and `icalEvent`<br>content node honors these flags. **The message-level `raw` option does not.**<br><br>`MailComposer.compile()` builds the root MIME node for a `raw` message **without** threading the<br>two flags, so a `</p>
+                <p><strong>影响产品：</strong>nodemailer (npm) ⭐17,589</p>
+                <p><strong>影响版本：</strong>受影响: <= 9.0.0</p>
+                <p><strong>CWE类型：</strong>CWE-73, CWE-918</p>
+                <p><strong>攻击面：</strong>需要一定前置条件的攻击</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，导致权限提升或未授权访问</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 nodemailer 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p6gq-j5cr-w38f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 python-statemachine SCXML <data expr> Eval Injection</div>
+                    <div class="advisory-id">GHSA-v4jc-pm6r-3vj8 | CVE: CVE-2026-47103</div>
+                </div>
+                <span class="priority-score">优先级: 20.2</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 1,250</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>python-statemachine 3.1.2 evaluates `&lt;data expr="..."&gt;` attributes in SCXML documents using Python's `eval()`. Any application that passes attacker-controlled SCXML content to `SCXMLProcessor` is vulnerable to arbitrary code execution in the context of the hosting process.<br><br>### Details<br><br>`SCXMLProcessor.parse_scxml_file()` processes SCXML documents and evaluates `&lt;data&gt;` element `expr` attributes via the following call chain:<br><br>```<br>SCXMLProcessor.parse_scxml_file()<br>SCXMLProcessor.process_definition()<br>create_datamodel_action_callable()<br>_create_dataitem_callable()<br>_eval()<br>eval()<br>```<br><br>`_eval()` calls Python's built-in `eval()` directly on the expression string without sandboxing or restriction.<br><br>### PoC<br><br>```<br>1. Install:<br>   pip install python-statemachine==3.1.2<br><br>2. Create an SCXML </p>
+                <p><strong>影响产品：</strong>python-statemachine (pip) ⭐1,250</p>
+                <p><strong>影响版本：</strong>受影响: >= 3.0.0, < 3.2.0</p>
+                <p><strong>CWE类型：</strong>CWE-95</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 python-statemachine 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v4jc-pm6r-3vj8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Jupyter Server: Stored XSS in `NbconvertFileHandler` / `NbconvertPostHandler` via missing `sandbox` CSP </div>
+                    <div class="advisory-id">GHSA-fcw5-x6j4-ccmp | CVE: CVE-2026-44727</div>
+                </div>
+                <span class="priority-score">优先级: 20.1</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 666</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: None</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The nbconvert HTTP handlers in jupyter_server render user-authored notebook HTML under the Jupyter origin without a sandbox directive in their `Content-Security-Policy`. <br><br>Combined with `nbconvert.HTMLExporter`'s default non-sanitizing behavior, a notebook carrying an HTML payload in a display_data output triggers stored XSS with cookie access, full /api/* authority, and kernel RCE.<br><br>### Impact<br><br>An authenticated victim who navigates to `/nbconvert/html/&lt;path&gt;` containing attacker-authored output can have their token exfiltrated to another domain because it is executed in the Jupyter origin.<br><br>### Patches<br><br>Fixed in v2.20.0, commit [6cbee8d](https://github.com/jupyter-server/jupyter_server/commit/6cbee8d65e71abac851c4492fea987ad080580bd)<br><br><br>### Workarounds<br><br>For deployments where editing the in</p>
+                <p><strong>影响产品：</strong>jupyter-server (pip) ⭐666</p>
+                <p><strong>影响版本：</strong>受影响: <= 2.19.0</p>
+                <p><strong>CWE类型：</strong>CWE-79, CWE-1021</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 jupyter-server 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fcw5-x6j4-ccmp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI AgentTeam.launch exposes unauthenticated remote agent listing and invocation endpoints</div>
+                    <div class="advisory-id">GHSA-x8cv-xmq7-p8xp | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 20.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 4</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># PraisonAI `AgentTeam.launch()` exposes unauthenticated remote agent invocation endpoints<br><br>## Summary<br><br>PraisonAI's documented Python `AgentTeam.launch()` / `Agents.launch()` HTTP server starts externally reachable agent invocation endpoints without any authentication enforcement.<br><br>The current implementation registers `GET /{path}/list`, `POST /{path}`, and `POST /{path}/{agent_id}` routes. The POST routes directly call `agent.chat(...)`. Requests with no `Authorization` header are accepted, and requests with an obviously wrong bearer token are also accepted. The default Python API bind host for `Agents.launch()` is `0.0.0.0`, and official documentation shows `host="0.0.0.0"` for remote access.<br><br>This is a sibling/incomplete-fix variant of PraisonAI's prior unauthenticated API server and ca</p>
+                <p><strong>影响产品：</strong>praisonaiagents (pip) ⭐4</p>
+                <p><strong>影响版本：</strong>受影响: < 1.6.59</p>
+                <p><strong>CWE类型：</strong>CWE-306, CWE-862</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonaiagents 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x8cv-xmq7-p8xp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI: MCP SSE transport binds 0.0.0.0 with no authentication and no Origin validation; bundled SecurityConfig is never wired in</div>
+                    <div class="advisory-id">GHSA-x227-pf99-vffg | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 20.0</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 4</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">CVSS: 9.8</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The MCP SSE server started via ToolsMCPServer.run_sse() / launch_tools_mcp_server(transport="sse")<br>binds to 0.0.0.0 by default and builds its Starlette application with no authentication middleware<br>and no Origin-header validation. The module mcp/mcp_security.py provides exactly the needed controls<br>(origin validation, DNS-rebinding detection, auth-header enforcement, a SecurityConfig), but none of<br>these functions are ever called by any transport — they are dead code. Any host that can reach the<br>port can list and invoke every registered tool with no credentials, and a victim's browser can drive<br>the same calls against a localhost instance via DNS rebinding.<br><br>Affected code: src/praisonai-agents/praisonaiagents/mcp/mcp_server.py<br>- run_sse defaults host to all interfaces (line 245) and builds th</p>
+                <p><strong>影响产品：</strong>praisonaiagents (pip) ⭐4</p>
+                <p><strong>影响版本：</strong>受影响: < 1.6.59</p>
+                <p><strong>CWE类型：</strong>CWE-306, CWE-350, CWE-1327</p>
+                <p><strong>攻击面：</strong>可直接远程利用，无需认证</p>
+                <p><strong>触发条件：</strong>已公开PoC，可直接复现</p>
+                <p><strong>潜在危害：</strong>可导致远程代码执行、数据泄露或系统完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 praisonaiagents 官方安全更新</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x227-pf99-vffg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-r253-r9jw-qg44</code></td>
+        <td>crawl4ai</td>
+        <td>68,876</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-r253-r9jw-qg44" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>2</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-2jq4-q6vv-4cp3</code></td>
+        <td>crawl4ai</td>
+        <td>68,876</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-2jq4-q6vv-4cp3" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>3</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-v2ww-5rh7-2h5v</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-v2ww-5rh7-2h5v" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>4</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-wm69-2pc3-rmmf</code></td>
+        <td>crawl4ai</td>
+        <td>68,876</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-wm69-2pc3-rmmf" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>5</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qqf5-x7mj-v43p</code></td>
+        <td>budibase</td>
+        <td>28,031</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-qqf5-x7mj-v43p" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>6</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-29w3-p9w9-wc47</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-29w3-p9w9-wc47" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>7</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-j4f3-55x4-r6q2</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-j4f3-55x4-r6q2" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>8</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-9752-mhqh-h34f</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-9752-mhqh-h34f" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>9</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-p69m-4f92-2v84</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-p69m-4f92-2v84" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>10</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-vmmj-pfw7-fjwp</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-vmmj-pfw7-fjwp" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>11</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-p75f-6fp4-p57w</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-p75f-6fp4-p57w" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>12</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-892r-p3jq-jp24</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-892r-p3jq-jp24" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-fq2m-6wqh-x44g</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-fq2m-6wqh-x44g" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-j4hj-7hfh-g2f4</code></td>
+        <td>praisonai</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-j4hj-7hfh-g2f4" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-4869-x4pr-q22x</code></td>
+        <td>praisonai, praisonaiagents</td>
+        <td>8,183</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-4869-x4pr-q22x" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-rx78-29qr-5hq8</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-rx78-29qr-5hq8" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>17</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-wc84-j36w-pw4x</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-wc84-j36w-pw4x" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>18</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-cw4q-gqg5-g38h</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-cw4q-gqg5-g38h" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>19</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-24vr-rprv-67rf</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-24vr-rprv-67rf" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>20</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-8c59-hr4w-qg69</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-8c59-hr4w-qg69" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>21</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-5cj2-3jr2-5h77</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-5cj2-3jr2-5h77" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>22</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-fq9j-vw4w-fr6v</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-fq9j-vw4w-fr6v" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>23</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-f397-5vjw-v2c2</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-f397-5vjw-v2c2" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>24</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-q99w-vh6v-q3v7</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-q99w-vh6v-q3v7" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>25</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-ccwh-wwpp-6wg5</code></td>
+        <td>openclaw</td>
+        <td>379,410</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-ccwh-wwpp-6wg5" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>26</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-p6gq-j5cr-w38f</code></td>
+        <td>nodemailer</td>
+        <td>17,589</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-p6gq-j5cr-w38f" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>27</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-v4jc-pm6r-3vj8</code></td>
+        <td>python-statemachine</td>
+        <td>1,250</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-v4jc-pm6r-3vj8" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>28</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-fcw5-x6j4-ccmp</code></td>
+        <td>jupyter-server</td>
+        <td>666</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-fcw5-x6j4-ccmp" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>29</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-x8cv-xmq7-p8xp</code></td>
+        <td>praisonaiagents</td>
+        <td>4</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-x8cv-xmq7-p8xp" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>30</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-x227-pf99-vffg</code></td>
+        <td>praisonaiagents</td>
+        <td>4</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-x227-pf99-vffg" style="color:#58a6ff;">查看</a></td>
+    </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td><code>GHSA-v4jc-pm6r-3vj8</code></td>
+        <td>python-statemachine</td>
+        <td>1,250</td>
+        <td>CRITICAL</td>
+        <td>完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-fcw5-x6j4-ccmp</code></td>
+        <td>jupyter-server</td>
+        <td>666</td>
+        <td>CRITICAL</td>
+        <td>完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-x8cv-xmq7-p8xp</code></td>
+        <td>praisonaiagents</td>
+        <td>4</td>
+        <td>CRITICAL</td>
+        <td>完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-x227-pf99-vffg</code></td>
+        <td>praisonaiagents</td>
+        <td>4</td>
+        <td>CRITICAL</td>
+        <td>完整PoC</td>
+    </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-r253-r9jw-qg44</strong> - Crawl4AI: Unauthenticated RCE via Chromium launch-argument injection in browser_：立即检查并升级</li><li><strong>GHSA-2jq4-q6vv-4cp3</strong> - Crawl4AI: Arbitrary file write (path traversal) in crawler downloads can lead to：立即检查并升级</li><li><strong>GHSA-v2ww-5rh7-2h5v</strong> - OpenClaw: Linux and macOS exec allowlists skipped configured argument patterns：立即检查并升级</li><li><strong>GHSA-wm69-2pc3-rmmf</strong> - Crawl4AI: Unauthenticated SSRF on the Docker server streaming crawl path (/crawl：立即检查并升级</li><li><strong>GHSA-qqf5-x7mj-v43p</strong> - budibase: Database Connector SQL Injections in PostgreSQL, MS SQL, and MySQL：立即检查并升级</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-29w3-p9w9-wc47</strong> - PraisonAI: Arbitrary File Read/Write via `multiedit` Tool Without Path Validatio：尽快评估影响并升级</li><li><strong>GHSA-j4f3-55x4-r6q2</strong> - npm PraisonAI MCPServer exposes unauthenticated HTTP tools/call：尽快评估影响并升级</li><li><strong>GHSA-9752-mhqh-h34f</strong> - npm PraisonAI AgentOS exposes unauthenticated agent listing and invocation：尽快评估影响并升级</li><li><strong>GHSA-p69m-4f92-2v84</strong> - PraisonAI: Remote Code Execution via Sandbox Escape in `codeMode` Tool：尽快评估影响并升级</li><li><strong>GHSA-vmmj-pfw7-fjwp</strong> - npm PraisonAI codeMode sandbox escape via Function constructor：尽快评估影响并升级</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li>无中危级别漏洞</li>
+                </ul>
+                <p style="margin-top:16px;"><strong>总体建议：</strong>今日发现大量高危和严重漏洞，主要集中在Crawl4AI（RCE）、PraisonAI（多个RCE和认证绕过）、OpenClaw（多个安全问题）以及budibase（SQL注入）等项目。建议相关用户立即检查是否使用受影响版本并尽快升级。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
