@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-20",
+      "title": "GitHub安全公告日报 - 2026-06-20",
+      "url": "reports/report-2026-06-20.html",
+      "stats": {
+        "total": 100,
+        "critical": 16,
+        "high": 84,
+        "star5k": 9,
+        "with_poc": 25
+      },
+      "summary": "今日发现100条高危安全公告（16 Critical + 84 High），9个项目Star≥5k。重点关注：Langflow任意文件读取+RCE（149k stars）、Hugo SSRF绕过（88k）、Tilt无认证HUD服务器（9.8k）、Remotion RCE（50k）、containerd多个容器安全问题（20k）。"
+    },
+    {
       "date": "2026-06-19",
       "title": "GitHub安全公告日报 - 2026-06-19",
       "url": "reports/report-2026-06-19.html",
