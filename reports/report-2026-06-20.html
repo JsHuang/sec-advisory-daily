@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-20</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-20 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">100</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">16</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">84</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">25</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. Langflow RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Langflow: BaseFileComponent-based nodes arbitrary file read with RCE exploit</div>
+                    <div class="advisory-id">GHSA-ccv6-r384-xp75 | CVE: CVE-2026-55447</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 149,854</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Langflow中所有基于BaseFileComponent的组件都存在任意文件读取漏洞，攻击者可以通过构造恶意文件路径读取系统任意文件。该漏洞可进一步利用实现远程代码执行(RCE)。</p>
+                <p><strong>影响产品：</strong>Langflow ⭐149,854</p>
+                <p><strong>影响版本：</strong>&lt; 1.9.2</p>
+                <p><strong>攻击面：</strong>受影响组件包括Docling、Read File、NVIDIA Retriever、Video File、Unstructured API等6个组件，攻击面广泛</p>
+                <p><strong>触发条件：</strong>攻击者需要能够向受影响的组件提交文件路径参数，无需认证即可利用</p>
+                <p><strong>潜在危害：</strong>任意文件读取可导致敏感信息泄露（配置文件、密钥、用户数据），结合RCE可完全控制服务器</p>
+                <p><strong>可利用性：</strong>有完整PoC，利用步骤清晰，包括路径构造和文件读取方法</p>
+                <p><strong>修复建议：</strong>立即升级到 1.9.2 或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-ccv6-r384-xp75" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. Hugo SSRF -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Hugo: security.http.urls deny rules bypassed by alternate IPv4 encodings (SSRF)</div>
+                    <div class="advisory-id">GHSA-r46f-3rpw-hxrv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 88,654</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Hugo的安全HTTP URL策略仅匹配点分十进制格式的IPv4地址，攻击者可以使用整数、十六进制或八进制格式的IPv4地址绕过deny规则，访问内部网络和云元数据服务。</p>
+                <p><strong>影响产品：</strong>Hugo ⭐88,654</p>
+                <p><strong>影响版本：</strong>&gt;= 0.162.0, &lt; 0.163.1</p>
+                <p><strong>攻击面：</strong>所有使用Hugo构建静态站点且启用了HTTP资源获取功能的用户</p>
+                <p><strong>触发条件：</strong>攻击者构造使用非标准IPv4编码的URL（如http://2130706433/代替http://127.0.0.1/，或http://2852039166/代替http://169.254.169.254/）</p>
+                <p><strong>潜在危害：</strong>SSRF攻击可访问内部服务、云元数据（AWS/Azure/GCP credentials）、本地服务</p>
+                <p><strong>可利用性：</strong>有完整PoC，包括多种IPv4编码格式的绕过示例</p>
+                <p><strong>修复建议：</strong>升级到 0.163.1 或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/gohugoio/hugo/security/advisories/GHSA-r46f-3rpw-hxrv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. Tilt Missing Auth -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Tilt: Missing authentication on the network-exposed Tilt HUD server</div>
+                    <div class="advisory-id">GHSA-c73q-8xxr-rgqm | CVE: CVE-2026-55884</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 9,875</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Tilt HUD HTTP服务器暴露了状态更改和敏感读取端点，完全没有认证机制。当HUD绑定到非回环地址时，网络攻击者可以触发开发者的预定义资源、篡改Tiltfile参数、读取完整引擎状态（包括会话令牌），并通过令牌附加代理访问Tilt apiserver。</p>
+                <p><strong>影响产品：</strong>Tilt ⭐9,875</p>
+                <p><strong>影响版本：</strong>&gt;= 0.20.8, &lt;= 0.37.3</p>
+                <p><strong>攻击面：</strong>所有将Tilt HUD暴露到网络的开发者，特别是绑定到0.0.0.0或非localhost地址的情况</p>
+                <p><strong>触发条件：</strong>Tilt HUD绑定到非回环地址且网络可达</p>
+                <p><strong>潜在危害：</strong>完全控制开发环境、执行任意Tiltfile资源、窃取会话令牌、访问apiserver</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和利用步骤，包括具体的端点和攻击方法</p>
+                <p><strong>修复建议：</strong>升级到 0.37.4 或更高版本，确保HUD仅绑定到localhost</p>
+            </div>
+            
+            <a href="https://github.com/tilt-dev/tilt/security/advisories/GHSA-c73q-8xxr-rgqm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. Remotion RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Remotion: remote code execution (RCE) vulnerability</div>
+                    <div class="advisory-id">GHSA-2jqp-f4gr-44fr | CVE: CVE-2026-30120</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 50,628</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Remotion v4.0.409存在远程代码执行漏洞，攻击者可以在服务器端执行任意代码。</p>
+                <p><strong>影响产品：</strong>Remotion ⭐50,628</p>
+                <p><strong>影响版本：</strong>&lt; 4.0.410</p>
+                <p><strong>攻击面：</strong>所有使用Remotion进行视频渲染的服务端应用</p>
+                <p><strong>触发条件：</strong>攻击者需要能够向Remotion渲染服务提交恶意输入</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令，窃取敏感数据</p>
+                <p><strong>可利用性：</strong>有外部PoC文档链接，详细利用方法可获取</p>
+                <p><strong>修复建议：</strong>升级到 4.0.410 或更高版本</p>
+            </div>
+            
+            <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-30120" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. MCP Toolbox Auth Bypass -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 googleapis/mcp-toolbox: authentication bypass vulnerability in the generic opaque token validation path</div>
+                    <div class="advisory-id">GHSA-wcpr-6g7x-p44r | CVE: CVE-2026-11718</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 15,666</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Toolbox在不透明令牌验证路径中存在认证绕过漏洞。当通过OAuth 2.0内省端点验证令牌时，如果外部OAuth提供者的内省响应省略了可选的iss（issuer）声明，验证逻辑会错误地允许通过。</p>
+                <p><strong>影响产品：</strong>MCP Toolbox for Databases ⭐15,666</p>
+                <p><strong>影响版本：</strong>&lt; 1.4.0</p>
+                <p><strong>攻击面：</strong>所有使用MCP Toolbox并配置了OAuth 2.0不透明令牌验证的部署</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意OAuth响应，省略iss声明</p>
+                <p><strong>潜在危害：</strong>完全绕过认证，未授权访问数据库和敏感数据</p>
+                <p><strong>可利用性：</strong>有详细的代码分析和修复PR链接，利用原理清晰</p>
+                <p><strong>修复建议：</strong>升级到 1.4.0 或更高版本</p>
+            </div>
+            
+            <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-11718" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. containerd Multiple Issues -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 containerd CRI checkpoint restore CDI annotation smuggling</div>
+                    <div class="advisory-id">GHSA-33vj-92qq-66hc | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 20,844</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>containerd的CRI实现在容器恢复时不当信任检查点镜像元数据中的CDI注解。攻击者可以利用此漏洞绕过Kubernetes资源分配和设备插件强制执行，注入恶意设备配置。</p>
+                <p><strong>影响产品：</strong>containerd ⭐20,844</p>
+                <p><strong>影响版本：</strong>2.1.0 - 2.1.9, 2.2.0 - 2.2.5, 2.3.0 - 2.3.2</p>
+                <p><strong>攻击面：</strong>所有使用containerd CRI和检查点恢复功能的Kubernetes集群</p>
+                <p><strong>触发条件：</strong>攻击者需要有pod创建权限，并构造恶意检查点镜像</p>
+                <p><strong>潜在危害：</strong>绕过资源限制、注入恶意设备、可能的容器逃逸</p>
+                <p><strong>可利用性：</strong>有详细的技术分析和利用路径说明</p>
+                <p><strong>修复建议：</strong>升级到 2.1.9, 2.2.5, 或 2.3.2</p>
+            </div>
+            
+            <a href="https://github.com/containerd/containerd/security/advisories/GHSA-33vj-92qq-66hc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 7. SurrealDB File Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SurrealDB: Arbitrary file read via DEFINE ANALYZER mapper() filter</div>
+                    <div class="advisory-id">GHSA-cc8f-fcx3-gpjr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 32,423</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB的全文搜索功能允许定义文本分析器，其mapper过滤器从磁盘加载术语映射文件。拥有EDITOR或OWNER角色的数据库用户可以将过滤器指向SurrealDB进程可读取的任意文件，并在查询错误消息中返回文件内容。</p>
+                <p><strong>影响产品：</strong>SurrealDB ⭐32,423</p>
+                <p><strong>影响版本：</strong>&lt; 3.1.5</p>
+                <p><strong>攻击面：</strong>所有暴露了数据库访问接口的SurrealDB实例</p>
+                <p><strong>触发条件：</strong>攻击者需要EDITOR或OWNER角色权限，构造恶意DEFINE ANALYZER语句</p>
+                <p><strong>潜在危害：</strong>读取服务器任意文件（配置文件、密钥、其他数据库文件）</p>
+                <p><strong>可利用性：</strong>有完整的利用代码示例和SURREAL_FILE_ALLOWLIST配置绕过方法</p>
+                <p><strong>修复建议：</strong>升级到 3.1.5 或更高版本，配置严格的SURREAL_FILE_ALLOWLIST</p>
+            </div>
+            
+            <a href="https://github.com/surrealdb/surrealdb/security/advisories/GHSA-cc8f-fcx3-gpjr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 8. Home Assistant Info Disclosure -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Home Assistant: Konnected alarm-panel switch state and zone topology disclosed to unauthenticated actors on the LAN</div>
+                    <div class="advisory-id">GHSA-x84v-g949-293w | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 87,842</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Home Assistant的Konnected集成注册了一个不需要认证的HTTP端点。写请求（POST/PUT）会验证Bearer令牌，但读请求（GET）完全无认证，任何局域网内的用户都可以获取警报面板状态和区域拓扑信息。</p>
+                <p><strong>影响产品：</strong>Home Assistant ⭐87,842</p>
+                <p><strong>影响版本：</strong>&lt; 2026.6.0</p>
+                <p><strong>攻击面：</strong>所有使用Konnected集成且暴露在局域网的Home Assistant实例</p>
+                <p><strong>触发条件：</strong>攻击者在同一局域网内，发送GET请求到Konnected端点</p>
+                <p><strong>潜在危害：</strong>泄露家庭安全系统状态、区域配置、传感器信息，可能被用于物理安全攻击</p>
+                <p><strong>可利用性：</strong>有详细的代码分析和利用方法，包括具体的HTTP请求示例</p>
+                <p><strong>修复建议：</strong>升级到 2026.6.0 或更高版本，限制Konnected端点的网络访问</p>
+            </div>
+            
+            <a href="https://github.com/home-assistant/core/security/advisories/GHSA-x84v-g949-293w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 9. OpenTofu File Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 OpenTofu: Possible arbitrary file read during certain git operations via a maliciously crafted URL</div>
+                    <div class="advisory-id">GHSA-q7j3-v8qv-22vq | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 29,111</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenTofu依赖go-getter下载providers和modules等包。从恶意构造的URL下载时，某些git操作可能导致任意文件读取，泄露机密信息。</p>
+                <p><strong>影响产品：</strong>OpenTofu ⭐29,111</p>
+                <p><strong>影响版本：</strong>&lt; 1.11.10, 1.12.0-beta1 - 1.12.3</p>
+                <p><strong>攻击面：</strong>所有使用OpenTofu从外部源下载模块和providers的用户</p>
+                <p><strong>触发条件：</strong>用户从攻击者控制的恶意URL下载Terraform/OpenTofu模块</p>
+                <p><strong>潜在危害：</strong>读取操作者机器上的任意文件（SSH密钥、云凭证、源代码）</p>
+                <p><strong>可利用性：</strong>有详细的利用链说明和恶意URL构造方法</p>
+                <p><strong>修复建议：</strong>升级到 1.11.10 或 1.12.3，避免从不可信源下载模块</p>
+            </div>
+            
+            <a href="https://github.com/opentofu/opentofu/security/advisories/GHSA-q7j3-v8qv-22vq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 10. Blocky DNSSEC Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Blocky DNSSEC validation bypass and validation-cache scope pollution</div>
+                    <div class="advisory-id">GHSA-x845-2f78-7v36 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6,705</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Blocky在启用dnssec.validate: true时仍会接受和缓存伪造的DNS应答。攻击者可以通过两条路径利用：1) 基本DNSSEC验证绕过 - 未签名的正向应答被错误分类为"Insecure"；2) 验证缓存范围污染 - 影响其他客户端的DNS解析。</p>
+                <p><strong>影响产品：</strong>Blocky ⭐6,705</p>
+                <p><strong>影响版本：</strong>&gt;= 0.28.0, &lt; 0.32.0</p>
+                <p><strong>攻击面：</strong>所有启用DNSSEC验证的Blocky DNS服务器</p>
+                <p><strong>触发条件：</strong>攻击者控制上游DNS服务器或能够注入DNS响应</p>
+                <p><strong>潜在危害：</strong>DNS欺骗、中间人攻击、重定向到恶意站点</p>
+                <p><strong>可利用性：</strong>有极其详细的16000+字符技术分析，包括完整的攻击场景和PoC</p>
+                <p><strong>修复建议：</strong>升级到 0.32.0 或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/0xERR0R/blocky/security/advisories/GHSA-x845-2f78-7v36" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-ccv6-r384-xp75</code></td>
+                    <td>Langflow</td>
+                    <td>149k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-ccv6-r384-xp75" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-r46f-3rpw-hxrv</code></td>
+                    <td>Hugo</td>
+                    <td>88k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/gohugoio/hugo/security/advisories/GHSA-r46f-3rpw-hxrv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-c73q-8xxr-rgqm</code></td>
+                    <td>Tilt</td>
+                    <td>9.8k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/tilt-dev/tilt/security/advisories/GHSA-c73q-8xxr-rgqm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-2jqp-f4gr-44fr</code></td>
+                    <td>Remotion</td>
+                    <td>50k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-30120" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-wcpr-6g7x-p44r</code></td>
+                    <td>MCP Toolbox</td>
+                    <td>15k</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-11718" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-33vj-92qq-66hc</code></td>
+                    <td>containerd</td>
+                    <td>20k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/containerd/containerd/security/advisories/GHSA-33vj-92qq-66hc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-cc8f-fcx3-gpjr</code></td>
+                    <td>SurrealDB</td>
+                    <td>32k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/surrealdb/surrealdb/security/advisories/GHSA-cc8f-fcx3-gpjr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-x84v-g949-293w</code></td>
+                    <td>Home Assistant</td>
+                    <td>87k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/home-assistant/core/security/advisories/GHSA-x84v-g949-293w" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-q7j3-v8qv-22vq</code></td>
+                    <td>OpenTofu</td>
+                    <td>29k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/opentofu/opentofu/security/advisories/GHSA-q7j3-v8qv-22vq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-x845-2f78-7v36</code></td>
+                    <td>Blocky</td>
+                    <td>6.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/0xERR0R/blocky/security/advisories/GHSA-x845-2f78-7v36" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-c55v-343g-5xff</code></td>
+                    <td>Craft CMS</td>
+                    <td>3.5k</td>
+                    <td>Critical</td>
+                    <td>SSRF + JS注入，有详细PoC和Host Header Poisoning利用</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4936-9hrh-qqpw</code></td>
+                    <td>TinaCMS CLI</td>
+                    <td>13k</td>
+                    <td>High</td>
+                    <td>RCE via Forestry migration，有完整利用代码</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-f962-v9hr-pfg5</code></td>
+                    <td>jupyterlab-git</td>
+                    <td>1.5k</td>
+                    <td>High</td>
+                    <td>Stored XSS leading to RCE，有详细攻击链</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rpj2-4hq8-938g</code></td>
+                    <td>VCR.py</td>
+                    <td>2.9k</td>
+                    <td>High</td>
+                    <td>YAML反序列化RCE，有完整PoC代码</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-gqv6-pwcg-87r8</code></td>
+                    <td>CoreWCF</td>
+                    <td>N/A</td>
+                    <td>High</td>
+                    <td>XML Signature Wrapping，可重放签名消息</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Langflow (149k stars)</strong> - 任意文件读取+RCE，影响所有BaseFileComponent组件，立即升级到1.9.2</li>
+                    <li><strong>Hugo (88k stars)</strong> - SSRF绕过，可通过IPv4编码绕过安全策略，升级到0.163.1</li>
+                    <li><strong>Tilt (9.8k stars)</strong> - 完全无认证的HUD服务器，确保仅绑定localhost并升级到0.37.4</li>
+                    <li><strong>Remotion (50k stars)</strong> - RCE漏洞，影响所有视频渲染服务，升级到4.0.410</li>
+                    <li><strong>MCP Toolbox (15k stars)</strong> - OAuth认证绕过，升级到1.4.0</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>containerd (20k stars)</strong> - 多个容器安全问题，包括CDI注解走私和文件读取，升级到2.1.9/2.2.5/2.3.2</li>
+                    <li><strong>Home Assistant (87k stars)</strong> - Konnected集成信息泄露，升级到2026.6.0并限制网络访问</li>
+                    <li><strong>SurrealDB (32k stars)</strong> - 任意文件读取，升级到3.1.5并配置严格的文件白名单</li>
+                    <li><strong>OpenTofu (29k stars)</strong> - 恶意模块下载导致文件读取，升级到1.11.10/1.12.3</li>
+                    <li><strong>Blocky (6.7k stars)</strong> - DNSSEC验证绕过，升级到0.32.0</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>多个MCP相关工具存在认证和授权问题，使用MCP Toolbox、SearXNG MCP等工具时注意网络隔离</li>
+                    <li>多个CMS和Web框架存在XSS和路径遍历漏洞，定期更新依赖</li>
+                    <li>开发工具链（jupyterlab-git、VCR.py等）存在安全问题，避免在敏感环境使用</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
