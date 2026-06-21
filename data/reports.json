@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-21",
+      "title": "GitHub安全公告日报 - 2026-06-21",
+      "url": "reports/report-2026-06-21.html",
+      "stats": {
+        "total": 83,
+        "critical": 10,
+        "high": 73,
+        "star5k": 25,
+        "with_poc": 13
+      },
+      "summary": "今日发现83个高危/严重漏洞公告，其中25个影响Star≥5k项目，13个包含PoC或详细分析。重点关注：Langflow RCE利用链(149.8k⭐)、Crossplane签名验证TOCTOU(11.8k⭐)、Tilt三重认证缺失(9.9k⭐)、Hugo SSRF绕过(88.7k⭐)、containerd CRI容器逃逸链(20.8k⭐)。"
+    },
+    {
       "date": "2026-06-20",
       "title": "GitHub安全公告日报 - 2026-06-20",
       "url": "reports/report-2026-06-20.html",
