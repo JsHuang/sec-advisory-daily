@@ -17,7 +17,6 @@
         header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
         header p { color: #8b949e; }
         .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-        
         .stats-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px; margin-bottom: 30px;
@@ -28,12 +27,10 @@
         }
         .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
         .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
-        
         .section-title {
             font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
             padding-bottom: 8px; border-bottom: 1px solid #21262d;
         }
-        
         .advisory-card {
             background: #161b22; border: 1px solid #30363d; border-radius: 8px;
             padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
@@ -41,14 +38,12 @@
         .advisory-card.critical { border-left-color: #f85149; }
         .advisory-card.high { border-left-color: #d29922; }
         .advisory-card.medium { border-left-color: #8b949e; }
-        
         .advisory-header {
             display: flex; justify-content: space-between; align-items: start;
             margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
         }
         .advisory-title { font-size: 1.2em; color: #f0f6fc; }
         .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
-        
         .badge {
             display: inline-block; padding: 4px 12px; border-radius: 20px;
             font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
@@ -58,19 +53,16 @@
         .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
         .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
         .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
-        
         .advisory-meta { margin-bottom: 16px; }
         .advisory-content { color: #8b949e; margin-bottom: 16px; }
         .advisory-content strong { color: #c9d1d9; }
         .advisory-content ul { margin-left: 20px; margin-top: 8px; }
         .advisory-content li { margin-bottom: 6px; }
-        
         .priority-score {
             display: inline-block; padding: 6px 14px; border-radius: 6px;
             font-size: 0.85em; font-weight: 600; background: #388bfd22;
             color: #58a6ff; border: 1px solid #388bfd44;
         }
-        
         .summary-table {
             width: 100%; border-collapse: collapse; margin-top: 20px;
             background: #161b22; border-radius: 8px; overflow: hidden;
@@ -81,602 +73,528 @@
         }
         .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
         .summary-table tr:hover { background: #1c2128; }
-        
         footer {
             text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
             margin-top: 40px; font-size: 0.85em;
         }
         footer a { color: #58a6ff; text-decoration: none; }
+        details summary { font-weight: 500; }
+        code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
     </style>
 </head>
 <body>
     <header>
         <h1>🛡️ GitHub 安全公告日报</h1>
-        <p>2026-06-22 · 监控最近24小时 Critical & High 级别安全公告</p>
+        <p>2026-06-22 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
     </header>
     
     <div class="container">
-        <!-- 监控概况 -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">50</div>
-                <div class="stat-label">总公告数（Critical+High）</div>
+                <div class="stat-number">20</div>
+                <div class="stat-label">重点公告数</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" style="color:#f85149">6</div>
+                <div class="stat-number">10</div>
                 <div class="stat-label">Critical</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" style="color:#d29922">44</div>
+                <div class="stat-number">10</div>
                 <div class="stat-label">High</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">9</div>
+                <div class="stat-number">14</div>
                 <div class="stat-label">Star≥5k 项目</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" style="color:#f85149">14</div>
+                <div class="stat-number">20</div>
                 <div class="stat-label">含PoC/详细分析</div>
             </div>
         </div>
         
-        <!-- 漏洞详情 -->
         <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
         
-        <!-- 1. CoreWCF SAML Authentication Bypass -->
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 CoreWCF SAML Token签名验证绕过（完全身份伪造）</div>
-                    <div class="advisory-id">GHSA-xjr9-gg9q-jx3v | CVE: CVE-2026-54782 | CVSS: 10.0</div>
+                    <div class="advisory-title">🔴 紧急 Langflow: BaseFileComponent-based nodes arbitrary file read with RCE exploit</div>
+                    <div class="advisory-id">GHSA-ccv6-r384-xp75 | Repo: langflow-ai/langflow</div>
                 </div>
-                <span class="priority-score">优先级: 极高</span>
+                <span class="priority-score">优先级评分: 11/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 1,773</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 149.9k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>CoreWCF 的 SAML 1.1 / 2.0 token 签名验证存在严重缺陷，攻击者可以完全绕过签名校验，伪造任何 STS（Security Token Service）可以颁发的声明，实现完全身份冒充。</p>
-                <p><strong>影响产品：</strong>CoreWCF ⭐1,773（.NET Core WCF 框架）</p>
-                <p><strong>影响版本：</strong>CoreWCF.Primitives &lt; 1.8.1 以及 1.9.0 - 1.9.1</p>
-                <p><strong>攻击面：</strong>使用 WSFederationHttpBinding 或 WS2007FederationHttpBinding 并启用 IdentityConfiguration 的服务</p>
-                <p><strong>触发条件：</strong>攻击者能通过网络访问服务，且知道受信任 STS 的公开证书（公开证书按设计是可发现的）</p>
-                <p><strong>潜在危害：</strong>完全冒充任何主体（包括管理员），影响 SAML 1.1 和 2.0 两种协议</p>
-                <p><strong>可利用性：</strong>有详细的漏洞原理说明和前提交代，攻击路径清晰</p>
-                <p><strong>修复建议：</strong>立即升级到 CoreWCF v1.8.1 或 v1.9.1；无变通方案</p>
+                <p><strong>漏洞描述：</strong>Langflow: BaseFileComponent-based nodes arbitrary file read with RCE exploit</p>
+                <p><strong>影响产品：</strong>langflow-ai/langflow ⭐149.9k</p>
+                <p><strong>影响版本：</strong>pip/langflow (< 1.9.2 → 1.9.2)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br>All components based on `BaseFileComponent` are vulnerable to the following vulnerability:<br>1. Docling (`DoclingInlineComponent`)<br>2. Docling Serve (`DoclingRemoteComponent`)<br>3. Read File (`FileComponent`)<br>4. NVIDIA Retriever Extraction (`NvidiaIngestComponent`)<br>5. Video File (`VideoFileComponent`)<br>6. Unstructured API (`UnstructuredComponent`)<br><br>For clarity, from now on I'll only refer to Read File component.<br><br>The Read File node processes user-controlled files.<br>Example scenario is a RAG chatbot - a system that allows users of an organization to ask questions about documents saved in t
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/CoreWCF/CoreWCF/security/advisories/GHSA-xjr9-gg9q-jx3v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-ccv6-r384-xp75" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 2. Langflow File Read + RCE -->
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 Langflow BaseFileComponent 任意文件读取 + RCE</div>
-                    <div class="advisory-id">GHSA-ccv6-r384-xp75 | CVE: CVE-2026-55447 | CVSS: 9.6</div>
+                    <div class="advisory-title">🔴 紧急 Langflow: IDOR Vulnerability in `/api/v1/responses` Endpoint Allows Authenticated Attackers to Access Another User's Flow</div>
+                    <div class="advisory-id">GHSA-qrpv-q767-xqq2 | Repo: langflow-ai/langflow</div>
                 </div>
-                <span class="priority-score">优先级: 极高</span>
+                <span class="priority-score">优先级评分: 11/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 149,909</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 149.9k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Langflow 中所有基于 BaseFileComponent 的组件（Docling、Read File、Video File、Unstructured 等）均存在任意文件读取漏洞。攻击者可通过控制被摄入 RAG 的文件，将节点重定向到读取文件系统上的任意绝对路径文件，进而实现远程代码执行。</p>
-                <p><strong>影响产品：</strong>Langflow ⭐149,909（AI Agent 工作流构建平台）</p>
-                <p><strong>影响版本：</strong>langflow &lt; 1.9.2</p>
-                <p><strong>攻击面：</strong>任何接受用户上传或外部文件输入的 Langflow 部署</p>
-                <p><strong>触发条件：</strong>攻击者能控制被 BaseFileComponent 处理的文件内容</p>
-                <p><strong>潜在危害：</strong>服务器任意文件读取 + 远程代码执行</p>
-                <p><strong>可利用性：</strong>有完整利用链描述（文件读取 → RCE），已公开修复PR</p>
-                <p><strong>修复建议：</strong>立即升级到 langflow >= 1.9.2；审查所有 BaseFileComponent 组件的输入验证</p>
+                <p><strong>漏洞描述：</strong>Langflow: IDOR Vulnerability in `/api/v1/responses` Endpoint Allows Authenticated Attackers to Access Another User's Flow</p>
+                <p><strong>影响产品：</strong>langflow-ai/langflow ⭐149.9k</p>
+                <p><strong>影响版本：</strong>pip/langflow (< 1.9.1 → 1.9.1)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br><br>Insecure Direct Object Reference (IDOR) vulnerability in `/api/v1/responses` endpoint allows an authenticated attacker to execute any flow belonging to another user by specifying the victim's flow ID in the request.<br><br>## Details<br><br>The vulnerability exists in the `get_flow_by_id_or_endpoint_name` helper function in [`src/backend/base/langflow/helpers/flow.py` (lines 399-414)](https://github.com/langflow-ai/langflow/blob/v1.9.0/src/backend/base/langflow/helpers/flow.py#L399C1-L414C67).<br><br>When a flow is accessed via UUID (flow_id), the function queries the database directly without verif
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-ccv6-r384-xp75" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-qrpv-q767-xqq2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 3. Langflow IDOR -->
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 Langflow IDOR：跨用户执行 Flow</div>
-                    <div class="advisory-id">GHSA-qrpv-q767-xqq2 | CVE: CVE-2026-55255 | CVSS: 9.9</div>
+                    <div class="advisory-title">🔴 紧急 Crossplane: Signature verification TOCTOU allows installing unverified package content via mutable tag</div>
+                    <div class="advisory-id">GHSA-wfqx-gjrf-g28r | Repo: crossplane/crossplane</div>
                 </div>
-                <span class="priority-score">优先级: 极高</span>
+                <span class="priority-score">优先级评分: 9/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 149,909</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 11.8k</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Langflow 的 /api/v1/responses 端点存在 IDOR 漏洞，已认证的攻击者可以通过指定受害者的 flow ID 来执行属于其他用户的任何 Flow。漏洞源于 get_flow_by_id_or_endpoint_name 函数在通过 UUID 访问 Flow 时未验证当前用户是否为 Flow 的所有者。</p>
-                <p><strong>影响产品：</strong>Langflow ⭐149,909</p>
-                <p><strong>影响版本：</strong>langflow &lt; 1.9.1</p>
-                <p><strong>攻击面：</strong>多租户 Langflow 部署</p>
-                <p><strong>触发条件：</strong>拥有有效账户的攻击者知道目标用户的 Flow UUID</p>
-                <p><strong>潜在危害：</strong>跨用户执行 Flow，可能泄露敏感数据和业务逻辑</p>
-                <p><strong>可利用性：</strong>有详细漏洞代码定位（flow.py L399-414）和修复PR</p>
-                <p><strong>修复建议：</strong>升级到 langflow >= 1.9.1</p>
+                <p><strong>漏洞描述：</strong>Crossplane: Signature verification TOCTOU allows installing unverified package content via mutable tag</p>
+                <p><strong>影响产品：</strong>crossplane/crossplane ⭐11.8k</p>
+                <p><strong>影响版本：</strong>go/github.com/crossplane/crossplane/v2 (>= 2.3.0-rc.0, <= 2.3.2 → N/A), go/github.com/crossplane/crossplane/v2 (<= 2.2.2 → N/A), go/github.com/crossplane/crossplane (<= 1.21.0-rc.0 → N/A)</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br><br>Crossplane allows package signature verification to be configured via the `ImageConfig` mechanism. When enabled, the package manager uses cosign to verify that packages are correctly signed before pulling and installing them.<br><br>When a package is installed using a tag reference (e.g., a semantic version), a malicious OCI registry could serve a correctly signed image for verification, then subsequently serve an unsigned image for installation. This is possible because Crossplane resolves the tag reference separately for each step.<br><br>This vulnerability is relevant only for users who do 
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-qrpv-q767-xqq2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-wfqx-gjrf-g28r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 4. Crossplane TOCTOU -->
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 Crossplane 包签名验证 TOCTOU 绕过</div>
-                    <div class="advisory-id">GHSA-wfqx-gjrf-g28r | CVE: N/A | CVSS: 9.0</div>
+                    <div class="advisory-title">🔴 紧急 Tilt: Missing authentication on the network-exposed Tilt HUD server</div>
+                    <div class="advisory-id">GHSA-c73q-8xxr-rgqm | Repo: tilt-dev/tilt</div>
                 </div>
-                <span class="priority-score">优先级: 极高</span>
+                <span class="priority-score">优先级评分: 9/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 11,786</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 9.9k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Crossplane 在使用 tag 引用（如语义版本号）安装包时存在 TOCTOU（检查时间与使用时间不一致）漏洞。恶意 OCI 注册表可以在签名验证阶段提供正确签名的镜像，然后在安装阶段提供未签名的恶意镜像，因为 Crossplane 对每个步骤分别解析 tag 引用。</p>
-                <p><strong>影响产品：</strong>Crossplane ⭐11,786（云原生控制平面）</p>
-                <p><strong>影响版本：</strong>v2.3.0-rc.0 至 v2.3.2, v2.2.2 及以下, v1.21.0-rc.0 及以下（暂无补丁）</p>
-                <p><strong>攻击面：</strong>配置了签名验证、使用 tag 引用安装、从非受控注册表安装包的用户</p>
-                <p><strong>触发条件：</strong>同时满足三个条件：启用签名验证 + 使用 tag 引用 + 不受信任的注册表</p>
-                <p><strong>潜在危害：</strong>安装未经验证的恶意包内容，可能接管整个 Kubernetes 集群</p>
-                <p><strong>可利用性：</strong>有详细攻击场景描述，但需要控制 OCI 注册表</p>
-                <p><strong>修复建议：</strong>使用 digest 引用代替 tag 引用；仅从受信任的注册表安装包；等待官方补丁</p>
+                <p><strong>漏洞描述：</strong>Tilt: Missing authentication on the network-exposed Tilt HUD server</p>
+                <p><strong>影响产品：</strong>tilt-dev/tilt ⭐9.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/tilt-dev/tilt (>= 0.20.8, <= 0.37.3 → 0.37.4)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br>The Tilt HUD HTTP server exposes state-changing and sensitive-read endpoints with no authentication. When the HUD is bound to a non-loopback address, a network attacker can trigger the developer's pre-defined Tiltfile resources, tamper with Tiltfile arguments, read full engine state including the session token, and reach the Tilt apiserver through a token-attaching proxy.<br><br>## Details<br>The HUD server registers its handlers on a `gorilla/mux` router with no authenticating middleware. The `cookieWrapper` helper emits the `Tilt-Token` cookie but never validates it, and is attached only t
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/crossplane/crossplane/security/advisories/GHSA-wfqx-gjrf-g28r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-c73q-8xxr-rgqm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 5. Craft CMS SSRF + JS Injection -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Langflow: Unauthenticated DoS through multipart form boundary file upload</div>
+                    <div class="advisory-id">GHSA-qwqc-p3q8-wcg9 | Repo: langflow-ai/langflow</div>
+                </div>
+                <span class="priority-score">优先级评分: 9/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 149.9k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Langflow: Unauthenticated DoS through multipart form boundary file upload</p>
+                <p><strong>影响产品：</strong>langflow-ai/langflow ⭐149.9k</p>
+                <p><strong>影响版本：</strong>pip/langflow (< 1.0.19 → 1.0.19)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br>An attacker can send a `/api/v1/files/upload/` request without any authentication token/cookies and abuse a very long multipart form boundary to make the langflow app unusable for all users for an indefinite amount of time. <br><br>### Details<br>https://github.com/langflow-ai/langflow/blob/v1.0.18/src/backend/base/langflow/api/v1/files.py#L40<br><br>The file upload function will try to process the multipart form data even if it is malformed and contains a payload such as an extremely large amount of hyphens after the boundary. It also does not do the authentication check before trying to process
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qwqc-p3q8-wcg9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Home Assistant: Konnected alarm-panel switch state and zone topology disclosed to unauthenticated actors on the LAN</div>
+                    <div class="advisory-id">GHSA-x84v-g949-293w | Repo: home-assistant/core</div>
+                </div>
+                <span class="priority-score">优先级评分: 9/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 87.9k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Home Assistant: Konnected alarm-panel switch state and zone topology disclosed to unauthenticated actors on the LAN</p>
+                <p><strong>影响产品：</strong>home-assistant/core ⭐87.9k</p>
+                <p><strong>影响版本：</strong>pip/homeassistant (< 2026.6.0 → 2026.6.0)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br><br>The Konnected integration registers an HTTP endpoint, `KonnectedView` (`homeassistant/components/konnected/__init__.py`), that is marked as **not requiring authentication** (`requires_auth = False`). A comment next to that line says auth is instead handled &quot;via the access token from configuration.&quot;<br><br>That promise is only half true:<br><br>- **Write requests (POST and PUT)** are handled by `update_sensor()`, which *does* check the request's `Authorization: Bearer &lt;token&gt;` header against the integration's stored access tokens (using `hmac.compare_digest`).<br>- **Read requests (GET)** are han
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-x84v-g949-293w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 Craft CMS Host头投毒 → SSRF + 任意JS注入</div>
-                    <div class="advisory-id">GHSA-c55v-343g-5xff | CVE: CVE-2026-55791</div>
+                    <div class="advisory-title">🟠 高危 Craft CMS: Blind SSRF and Arbitrary JavaScript Injection via Host Header Poisoning in actionResourceJs</div>
+                    <div class="advisory-id">GHSA-c55v-343g-5xff | Repo: craftcms/cms</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 3,583</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 3.6k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Craft CMS 的 /actions/app/resource-js 端点存在 SSRF 和任意 JavaScript 注入漏洞。攻击者通过利用默认宽松的 trustedHosts 配置，毒化 Host 或 X-Forwarded-Host 头来操纵 $baseUrl，绕过 URL 验证，迫使后端 Guzzle 客户端从攻击者控制的服务器获取恶意内容并以 Content-Type: application/javascript 反射给客户端。</p>
-                <p><strong>影响产品：</strong>Craft CMS ⭐3,583</p>
-                <p><strong>影响版本：</strong>5.0.0-RC1 至 5.10 以及 4.0.0-RC1 至 4.18</p>
-                <p><strong>攻击面：</strong>任何 Craft CMS 实例（尤其是配置了反向代理的部署）</p>
-                <p><strong>触发条件：</strong>assetManager.cacheSourcePaths 设为 false 时可利用</p>
-                <p><strong>潜在危害：</strong>SSRF + 在用户浏览器执行任意 JavaScript</p>
-                <p><strong>可利用性：</strong>有详细的三个结构性缺陷分析，攻击链完整</p>
-                <p><strong>修复建议：</strong>升级到 Craft CMS 5.10 或 4.18；严格配置 trustedHosts</p>
+                <p><strong>漏洞描述：</strong>Craft CMS: Blind SSRF and Arbitrary JavaScript Injection via Host Header Poisoning in actionResourceJs</p>
+                <p><strong>影响产品：</strong>craftcms/cms ⭐3.6k</p>
+                <p><strong>影响版本：</strong>composer/craftcms/cms (>= 5.0.0-RC1, < 5.10 → 5.10), composer/craftcms/cms (>= 4.0.0-RC1, < 4.18 → 4.18)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        **1. Overview**<br><br>Craft CMS is vulnerable to Server-Side Request Forgery (SSRF) and Arbitrary JavaScript Injection through the `/actions/app/resource-js` endpoint. By exploiting the default permissive `trustedHosts` configuration, an attacker can poison the `Host` or `X-Forwarded-Host` header to manipulate the application’s `$baseUrl`. This bypasses the endpoint’s internal URL validation, forcing the backend Guzzle client to fetch a malicious payload from an attacker-controlled server and reflect it to the client with a `Content-Type: application/javascript` header.<br><br>**2. Vulnerability Mechanis
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/craftcms/cms/security/advisories/GHSA-c55v-343g-5xff" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-c55v-343g-5xff" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 6. OpenRemote IDOR -->
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 OpenRemote Manager 跨租户 IDOR 批量删除告警</div>
-                    <div class="advisory-id">GHSA-h3m5-97jq-qjrf | CVE: N/A | CVSS: 9.6</div>
+                    <div class="advisory-title">🟠 高危 OpenRemote Manager: removeAlarms cross-realm IDOR (bulk delete)</div>
+                    <div class="advisory-id">GHSA-h3m5-97jq-qjrf | Repo: openremote/openremote</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical</span>
-                <span class="badge badge-stars">⭐ 1,779</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 1.8k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>OpenRemote Manager 的批量告警删除端点存在跨租户 IDOR 漏洞。已认证用户可以删除其他租户的告警记录，因为 removeAlarms() 方法仅验证调用者自身 realm 是否活跃，而不检查目标告警 ID 是否属于调用者的 realm。</p>
-                <p><strong>影响产品：</strong>OpenRemote ⭐1,779（开源 IoT 平台）</p>
-                <p><strong>影响版本：</strong>&lt; 1.24.2</p>
-                <p><strong>攻击面：</strong>多租户 OpenRemote 部署</p>
-                <p><strong>触发条件：</strong>拥有告警写权限的用户提供其他租户的告警 ID</p>
-                <p><strong>潜在危害：</strong>永久删除安全关键告警（包括安全警报），影响其他租户</p>
-                <p><strong>可利用性：</strong>有源码级分析，提供了 AlarmResourceImpl.java 和 AlarmService.java 链接</p>
-                <p><strong>修复建议：</strong>升级到 OpenRemote >= 1.24.2</p>
+                <p><strong>漏洞描述：</strong>OpenRemote Manager: removeAlarms cross-realm IDOR (bulk delete)</p>
+                <p><strong>影响产品：</strong>openremote/openremote ⭐1.8k</p>
+                <p><strong>影响版本：</strong>maven/io.openremote:openremote-manager (< 1.24.2 → 1.24.2)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br>OpenRemote Manager is vulnerable to a cross-tenant Insecure Direct<br>Object Reference (IDOR) in the bulk alarm deletion endpoint. An<br>authenticated user in any realm can delete alarms belonging to other<br>realms (tenants) by supplying arbitrary alarm IDs. The vulnerability<br>exists because the bulk removeAlarms() method only verifies that the<br>caller's own realm is active and accessible, but never checks whether<br>the targeted alarm IDs belong to the caller's realm before deleting<br>them.<br><br>This allows any user with alarm write permissions in their own realm<br>to permanently destroy alarm records
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/openremote/openremote/security/advisories/GHSA-h3m5-97jq-qjrf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-h3m5-97jq-qjrf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 7. Anki Local HTTP Server -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 CoreWCF: Authentication bypass in CoreWCF SAML 1.1 / 2.0 token signature validation</div>
+                    <div class="advisory-id">GHSA-xjr9-gg9q-jx3v | Repo: CoreWCF/CoreWCF</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-stars">⭐ 1.8k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CoreWCF: Authentication bypass in CoreWCF SAML 1.1 / 2.0 token signature validation</p>
+                <p><strong>影响产品：</strong>CoreWCF/CoreWCF ⭐1.8k</p>
+                <p><strong>影响版本：</strong>nuget/CoreWCF.Primitives (< 1.8.1 → 1.8.1), nuget/CoreWCF.Primitives (>= 1.9.0, < 1.9.1 → 1.9.1)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Impact<br>Full impersonation of any principal the trusted STS could have issued an assertion for — including administrative principals when the relying party grants them via SAML claims. Affects both SAML 1.1 and SAML 2.0.<br><br>#### Preconditions<br>Relying-party service is hosted with WSFederationHttpBinding or WS2007FederationHttpBinding (or any binding that triggers FederatedSecurityTokenManager for issued-token validation), and IdentityConfiguration is wired (UseIdentityConfiguration = true).<br>Attacker can reach the service over the network and knows the trusted STS’s public certificate (public c
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xjr9-gg9q-jx3v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Network-AI: Improper Neutralization of Special Elements used in an OS Command </div>
+                    <div class="advisory-id">GHSA-qw6v-5fcf-5666 | Repo: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Network-AI: Improper Neutralization of Special Elements used in an OS Command </p>
+                <p><strong>影响产品：</strong>N/A ⭐0</p>
+                <p><strong>影响版本：</strong>npm/network-ai (< 5.9.1 → 5.9.1)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br><br>The agent sandbox gates shell commands behind an allowlist (`SandboxPolicy.isCommandAllowed`), which THREAT_MODEL.md calls the main control against a compromised agent (Adversary 3.2). The allowlist glob-matches the whole command string, but `ShellExecutor` runs that string through `/bin/sh -c`. So any wildcard allow such as `git *`, `npm *` or `node *` also matches `git status; &lt;anything&gt;`, and a scoped command becomes arbitrary execution.<br><br>## Root cause<br><br>Matching and execution disagree on what a command is. Lines pinned to `40e42d7` (`lib/agent-runtime.ts` is identical to the v5.
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qw6v-5fcf-5666" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Network-AI: CVE-2026-46701 fix incomplete — empty default secret still authorizes all requests</div>
+                    <div class="advisory-id">GHSA-r78r-rwrf-rjwp | Repo: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Network-AI: CVE-2026-46701 fix incomplete — empty default secret still authorizes all requests</p>
+                <p><strong>影响产品：</strong>N/A ⭐0</p>
+                <p><strong>影响版本：</strong>npm/network-ai (<= 5.7.1 → 5.7.2)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Advisory / Disclosure<br><br># Network-AI — CVE-2026-46701 fix is incomplete: the &quot;Empty Default Secret&quot; unauth path survives<br><br>**Target:** Jovancoding/Network-AI (npm `network-ai`), **latest v5.7.1**<br>**Status:** the advisory (&quot;Unauthenticated Cross-Origin MCP Tool Invocation via Empty<br>Default Secret&quot;) named three flaws. The fix (5.4.5) closed the **CORS** flaw<br>(`Access-Control-Allow-Origin` is now set only for localhost origins), but left the<br>**empty-default-secret** flaw the title is about: the SSE MCP server still defaults to an<br>empty secret, `_isAuthorized()` still returns `true` when the secr
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-r78r-rwrf-rjwp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Anki 本地 HTTP 服务器请求验证不足（文件泄露）</div>
-                    <div class="advisory-id">GHSA-869j-r97x-hx2g | CVE: N/A</div>
+                    <div class="advisory-title">🟠 高危 Gogs: XSS in .ipynb files renderer due to outdated notebookjs</div>
+                    <div class="advisory-id">GHSA-6vxv-wg6j-5qwp | Repo: gogs/gogs</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 28,670</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 47.6k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Anki 启动的本地 HTTP 服务器未能充分验证请求，包括：(1) Origin 头验证不足；(2) 部分端点存在路径遍历攻击。恶意网站可利用已知路径窃取本地文件。</p>
-                <p><strong>影响产品：</strong>Anki ⭐28,670（知名间隔重复记忆软件）</p>
-                <p><strong>影响版本：</strong>aqt &lt;= 25.9.2</p>
-                <p><strong>攻击面：</strong>本地运行的 Anki HTTP 服务器（不同浏览器影响不同，PNA 规范限制了部分攻击）</p>
-                <p><strong>触发条件：</strong>用户在使用 Anki 时访问恶意网站</p>
-                <p><strong>潜在危害：</strong>本地文件泄露</p>
-                <p><strong>可利用性：</strong>有详细描述，Tavis Ormandy（Google Project Zero）已在 Twitter 讨论</p>
-                <p><strong>修复建议：</strong>升级到 Anki >= 25.9.3</p>
+                <p><strong>漏洞描述：</strong>Gogs: XSS in .ipynb files renderer due to outdated notebookjs</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong>go/gogs.io/gogs (< 0.14.3 → 0.14.3)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br><br>Gogs renders Jupyter notebook files (`.ipynb`) using [jsvine/notebookjs](https://github.com/jsvine/notebookjs), but the version is outdated, missing patches for known XSS vulnerabilities.<br><br>### Details<br><br>Gogs uses version 0.4.2 of notebookjs to render Jupyter notebook files:<br><br>https://github.com/gogs/gogs/blob/7297aee50d4c115836c7de8a3a233daaef87b911/templates/base/head.tmpl#L47<br><br>The latest version of [jsvine/notebookjs](https://github.com/jsvine/notebookjs) is 0.8.3, patching many XSS vulnerabilities in its releases. The proof of concept below shows an example working payload that r
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/ankitects/anki/security/advisories/GHSA-869j-r97x-hx2g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-6vxv-wg6j-5qwp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 8. SurrealDB Arbitrary File Read -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 SurrealDB DEFINE ANALYZER 任意文件读取</div>
-                    <div class="advisory-id">GHSA-cc8f-fcx3-gpjr | CVE: N/A | CVSS: 7.7</div>
+                    <div class="advisory-title">🟠 高危 Anki's local HTTP server does not sufficiently validate requests</div>
+                    <div class="advisory-id">GHSA-869j-r97x-hx2g | Repo: ankitects/anki</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 32,439</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 28.7k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>SurrealDB 的全文搜索功能允许定义 text analyzer，其 mapper 过滤器从磁盘加载映射文件。拥有 EDITOR 或 OWNER 角色的数据库用户可以将过滤器指向 SurrealDB 进程可读的任何文件，并在查询错误消息中获取文件内容。SURREAL_FILE_ALLOWLIST 设置为空时实际上不施加任何限制（默认即空）。</p>
-                <p><strong>影响产品：</strong>SurrealDB ⭐32,439（分布式文档图数据库）</p>
-                <p><strong>影响版本：</strong>surrealdb &lt; 3.1.5</p>
-                <p><strong>攻击面：</strong>任何允许 EDITOR/OWNER 角色用户执行 DEFINE ANALYZER 的 SurrealDB 部署</p>
-                <p><strong>触发条件：</strong>拥有 EDITOR 或 OWNER 角色</p>
-                <p><strong>潜在危害：</strong>读取服务器上的任意文件（配置文件、密钥等）</p>
-                <p><strong>可利用性：</strong>有详细原理说明和修复 PR</p>
-                <p><strong>修复建议：</strong>升级到 SurrealDB >= 3.1.5；配置 SURREAL_FILE_ALLOWLIST 限制可访问文件</p>
+                <p><strong>漏洞描述：</strong>Anki's local HTTP server does not sufficiently validate requests</p>
+                <p><strong>影响产品：</strong>ankitects/anki ⭐28.7k</p>
+                <p><strong>影响版本：</strong>pip/aqt (<= 25.9.2 → 25.9.3)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br><br>Anki launches a local HTTP server to serve media files and web pages for parts of its interface. The server fails to validate requests in the following ways:<br>1. No sufficient validation of the Origin header.<br>2. Some endpoints are vulnerable to path traversal attacks.<br><br>This allows malicious websites to exfiltrate local files given a known path.<br><br>## Browser impact<br><br>The severity varies by browser because of Private Network Access (PNA), a newer spec that restricts web pages from making requests to localhost/local network addresses:<br><br>Chrome/Chromium (including Edge, Brave): Largely pro
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/surrealdb/surrealdb/security/advisories/GHSA-cc8f-fcx3-gpjr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-869j-r97x-hx2g" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 9. Gogs XSS -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Gogs .ipynb 文件渲染器 XSS</div>
-                    <div class="advisory-id">GHSA-6vxv-wg6j-5qwp | CVE: N/A</div>
+                    <div class="advisory-title">🟠 高危 TinaCMS: Cross-origin postMessage handlers and rich-text URL-sanitization bypass enable stored XSS and session takeover</div>
+                    <div class="advisory-id">GHSA-g5qx-h5f3-mp2f | Repo: tinacms/tinacms</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 47,614</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 13.5k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Gogs 使用过时版本的 notebookjs（0.4.2）渲染 Jupyter Notebook 文件，该版本缺少对多个已知 XSS 漏洞的修补。最新版本 0.8.3 已修复这些问题。</p>
-                <p><strong>影响产品：</strong>Gogs ⭐47,614（自托管 Git 服务）</p>
-                <p><strong>影响版本：</strong>gogs &lt; 0.14.3</p>
-                <p><strong>攻击面：</strong>任何允许上传 .ipynb 文件的 Gogs 实例</p>
-                <p><strong>触发条件：</strong>攻击者上传包含恶意内容的 .ipynb 文件，其他用户浏览该文件</p>
-                <p><strong>潜在危害：</strong>存储型 XSS，可窃取其他用户会话、执行操作</p>
-                <p><strong>可利用性：</strong>有明确版本对比和修复路径</p>
-                <p><strong>修复建议：</strong>升级到 Gogs >= 0.14.3</p>
+                <p><strong>漏洞描述：</strong>TinaCMS: Cross-origin postMessage handlers and rich-text URL-sanitization bypass enable stored XSS and session takeover</p>
+                <p><strong>影响产品：</strong>tinacms/tinacms ⭐13.5k</p>
+                <p><strong>影响版本：</strong>npm/tinacms (< 3.9.3 → 3.9.3), npm/@tinacms/app (< 2.5.6 → 2.5.6)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        TinaCMS registers window message listeners — the useTina overlay handler, the OAuth authentication popup handler, and the admin↔preview iframe GraphQL reducer — that act on event.data without verifying event.origin or event.source, and post messages using non-specific target origins. A page the victim visits (or a window in an opener/iframe relationship with a Tina admin) can forge messages to drive the editor, inject preview content, or observe/forge the OAuth popup channel to take over an authenticated editing session.<br><br>Fixed in [#7056](https://github.com/tinacms/tinacms/pull/7056) by allow-
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/gogs/gogs/security/advisories/GHSA-6vxv-wg6j-5qwp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-g5qx-h5f3-mp2f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 10. TinaCMS XSS -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 TinaCMS 跨域 postMessage + 富文本URL绕过 → 存储XSS + 会话劫持</div>
-                    <div class="advisory-id">GHSA-g5qx-h5f3-mp2f | CVE: CVE-2026-55660</div>
+                    <div class="advisory-title">🟠 高危 @tinacms/cli: Remote Code Execution in @tinacms/cli via Forestry migration — unsanitised __TINA_INTERNAL__ marker in user-controlled YAML labels</div>
+                    <div class="advisory-id">GHSA-4936-9hrh-qqpw | Repo: tinacms/tinacms</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 8/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 13,545</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 13.5k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>TinaCMS 注册的多个 window message listener（useTina overlay、OAuth 弹窗、admin↔preview iframe GraphQL reducer）在处理 event.data 时未验证 event.origin 或 event.source，且使用非特定的 target origin 发送消息。恶意页面可伪造消息驱动编辑器、注入预览内容，或劫持 OAuth 认证通道。</p>
-                <p><strong>影响产品：</strong>TinaCMS ⭐13,545（开源 Headless CMS）</p>
-                <p><strong>影响版本：</strong>tinacms &lt; 3.9.3 / @tinacms/app &lt; 2.5.6</p>
-                <p><strong>攻击面：</strong>任何 TinaCMS 管理界面</p>
-                <p><strong>触发条件：</strong>攻击者控制的页面与 Tina admin 存在 opener/iframe 关系</p>
-                <p><strong>潜在危害：</strong>存储型 XSS + 会话劫持 + OAuth 认证接管</p>
-                <p><strong>可利用性：</strong>有详细攻击路径分析和修复 PR</p>
-                <p><strong>修复建议：</strong>升级到 tinacms >= 3.9.3 和 @tinacms/app >= 2.5.6</p>
+                <p><strong>漏洞描述：</strong>@tinacms/cli: Remote Code Execution in @tinacms/cli via Forestry migration — unsanitised __TINA_INTERNAL__ marker in user-controlled YAML labels</p>
+                <p><strong>影响产品：</strong>tinacms/tinacms ⭐13.5k</p>
+                <p><strong>影响版本：</strong>npm/@tinacms/cli (< 2.4.3 → 2.4.3)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Description<br><br>### Summary<br><br>`@tinacms/cli` contains a Remote Code Execution vulnerability in its<br>Forestry-to-Tina migration command. The internal helper `addVariablesToCode`<br>unquotes any value matching the marker `&quot;__TINA_INTERNAL__:::(.*?):::&quot;`<br>inside the stringified collection JSON. User-supplied `label` and `name`<br>fields from `.forestry/**/*.yml` are placed into that JSON without any<br>sanitisation. An attacker who controls a Forestry-style project can therefore<br>inject arbitrary JavaScript into the generated `tina/templates.{ts,js}`<br>file. The injected code is written at module top level, so 
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/tinacms/tinacms/security/advisories/GHSA-g5qx-h5f3-mp2f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-4936-9hrh-qqpw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 11. TinaCMS CLI RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 DotVVM: Missing authorization in AuthorizeActionFilter</div>
+                    <div class="advisory-id">GHSA-c8qj-jx8j-fg2w | Repo: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 7/11</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span> <span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>DotVVM: Missing authorization in AuthorizeActionFilter</p>
+                <p><strong>影响产品：</strong>N/A ⭐0</p>
+                <p><strong>影响版本：</strong>nuget/DotVVM (< 4.2.11 → 4.2.11), nuget/DotVVM (> 4.3.0-preview01-final, < 4.3.15 → 4.3.15), nuget/DotVVM (>= 5.0.0-preview01-final, < 5.0.0-preview09-final → 5.0.0-preview09-final)</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>产品影响力：</strong>低</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Impact<br><br>All users of the `AuthorizeActionFilter` class are affected. The `AuthorizeActionFilter` simply does nothing, no “hacking” is needed to bypass the filter.<br><br>### Patches<br><br>DotVVM 4.3.15, 4.2.11 and 5.0.0-preview09 fix this.<br><br>### Workarounds<br><br>As a workaround, you can use the `AuthorizeAttribute` instead. It implements the same interfaces (correctly). Note that is it deprecated for unrelated reasons, feel free to suppress the warning when using it as action filter.
+                    </div>
+                </details>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c8qj-jx8j-fg2w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 @tinacms/cli Forestry迁移 RCE</div>
-                    <div class="advisory-id">GHSA-4936-9hrh-qqpw | CVE: CVE-2026-54074 | CVSS: 7.8</div>
+                    <div class="advisory-title">🟠 高危 SurrealDB: Arbitrary file read via DEFINE ANALYZER mapper() filter</div>
+                    <div class="advisory-id">GHSA-cc8f-fcx3-gpjr | Repo: surrealdb/surrealdb</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 7/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 13,545</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 32.4k</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>@tinacms/cli 的 Forestry-to-Tina 迁移命令存在 RCE 漏洞。内部辅助函数 addVariablesToCode 会取消引用匹配 "__TINA_INTERNAL__:::(.*?):::" 标记的任何值。用户提供的 .forestry/**/*.yml 中的 label 和 name 字段未经消毒就被放入 JSON，攻击者可注入任意 JavaScript。</p>
-                <p><strong>影响产品：</strong>TinaCMS ⭐13,545</p>
-                <p><strong>影响版本：</strong>@tinacms/cli &lt; 2.4.3</p>
-                <p><strong>攻击面：</strong>Forestry 迁移工作流</p>
-                <p><strong>触发条件：</strong>执行 Forestry 迁移时处理恶意 .forestry 配置文件</p>
-                <p><strong>潜在危害：</strong>在开发者机器上执行任意代码</p>
-                <p><strong>可利用性：</strong>有详细代码分析、修复提交和发布链接</p>
-                <p><strong>修复建议：</strong>升级到 @tinacms/cli >= 2.4.3</p>
+                <p><strong>漏洞描述：</strong>SurrealDB: Arbitrary file read via DEFINE ANALYZER mapper() filter</p>
+                <p><strong>影响产品：</strong>surrealdb/surrealdb ⭐32.4k</p>
+                <p><strong>影响版本：</strong>rust/surrealdb (< 3.1.5 → 3.1.5)</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        SurrealDB's full-text search lets you define a text analyzer whose `mapper` filter loads a term-mapping file from disk (`DEFINE ANALYZER ... FILTERS mapper('&lt;path&gt;')`). A database user with the `EDITOR` or `OWNER` role could point that filter at any file the SurrealDB process can read and have its content returned in the query's error message.<br><br>File access is meant to be restricted by the `SURREAL_FILE_ALLOWLIST` setting, but an empty allowlist applied no restriction at all — and empty is the default. <br><br>## Impact<br><br>The file is read with the privileges of the SurrealDB process, so a database `ED
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/tinacms/tinacms/security/advisories/GHSA-4936-9hrh-qqpw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-cc8f-fcx3-gpjr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 12. Blocky DNSSEC Bypass -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Blocky DNSSEC 验证绕过 + 验证缓存污染</div>
-                    <div class="advisory-id">GHSA-x845-2f78-7v36 | CVE: N/A | CVSS: 8.6</div>
+                    <div class="advisory-title">🟠 高危 Stanza: Remote Code Execution via Unsafe Pickle Deserialization in Model Loaders</div>
+                    <div class="advisory-id">GHSA-v5jw-96jm-7h2c | Repo: stanfordnlp/stanza</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 7/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 6,714</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 7.8k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Blocky 在启用 dnssec.validate 时仍会接受和缓存伪造的 DNS 应答。存在两条攻击路径：(1) 基础 DNSSEC 验证绕过——不受信任的上游返回未签名的正应答时，Blocky 仅因缺少 RRSIG 就将其归类为 "Insecure"；(2) 验证缓存范围污染。</p>
-                <p><strong>影响产品：</strong>Blocky ⭐6,714（DNS 代理/广告拦截器）</p>
-                <p><strong>影响版本：</strong>blocky 0.28.0 至 0.32.0</p>
-                <p><strong>攻击面：</strong>使用 Blocky 作为 DNS 解析器并启用 DNSSEC 验证的网络</p>
-                <p><strong>触发条件：</strong>控制或中间人攻击 DNS 上游响应</p>
-                <p><strong>潜在危害：</strong>DNS 欺骗，将用户重定向到恶意站点</p>
-                <p><strong>可利用性：</strong>有两条完整攻击路径描述</p>
-                <p><strong>修复建议：</strong>升级到 Blocky >= 0.32.0</p>
+                <p><strong>漏洞描述：</strong>Stanza: Remote Code Execution via Unsafe Pickle Deserialization in Model Loaders</p>
+                <p><strong>影响产品：</strong>stanfordnlp/stanza ⭐7.8k</p>
+                <p><strong>影响版本：</strong>pip/stanza (<= 1.12.1 → 1.12.2)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br><br>Stanza 1.12.0 attempts to safely load PyTorch checkpoint files using `torch.load(..., weights_only=True)`, but automatically falls back to the fully unsafe `torch.load(..., weights_only=False)` when the safe load raises `pickle.UnpicklingError`. Because the `UnpicklingError` condition is fully attacker-controllable, any `.pt` file that contains a single unsupported pickle global will trigger it.<br><br>An attacker who can place a malicious pretrain or model file on disk (via supply-chain compromise, a poisoned model repository, or a shared model cache) can achieve arbitrary code executi
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/0xERR0R/blocky/security/advisories/GHSA-x845-2f78-7v36" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-v5jw-96jm-7h2c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 13. VCR.py YAML Deserialization -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 VCR.py 不安全 YAML 反序列化导致任意代码执行</div>
-                    <div class="advisory-id">GHSA-rpj2-4hq8-938g | CVE: N/A | CVSS: 7.8</div>
+                    <div class="advisory-title">🟠 高危 Blocky DNSSEC validation bypass and validation-cache scope pollution</div>
+                    <div class="advisory-id">GHSA-x845-2f78-7v36 | Repo: 0xERR0R/blocky</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 7/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 2,969</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 6.7k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>vcrpy 使用 PyYAML 的对象构造 loader（yaml.CLoader/yaml.Loader）而非安全 loader 来反序列化 cassette 文件。包含 !!python/object/apply: 标签的 cassette 在加载时即会执行任意 Python 代码，甚至不需要任何 HTTP 交互。</p>
-                <p><strong>影响产品：</strong>VCR.py ⭐2,969（HTTP 测试工具）</p>
-                <p><strong>影响版本：</strong>vcrpy &lt; 8.2.1</p>
-                <p><strong>攻击面：</strong>任何使用 vcrpy 加载不受信任 cassette 文件的项目</p>
-                <p><strong>触发条件：</strong>加载包含恶意 YAML 标签的 cassette 文件</p>
-                <p><strong>潜在危害：</strong>在测试/CI 环境中执行任意代码</p>
-                <p><strong>可利用性：</strong>有完整利用路径（YAML 标签 → 代码执行），攻击门槛极低</p>
-                <p><strong>修复建议：</strong>升级到 vcrpy >= 8.2.1；不要使用不受信任的 cassette 文件</p>
+                <p><strong>漏洞描述：</strong>Blocky DNSSEC validation bypass and validation-cache scope pollution</p>
+                <p><strong>影响产品：</strong>0xERR0R/blocky ⭐6.7k</p>
+                <p><strong>影响版本：</strong>go/github.com/0xERR0R/blocky (>= 0.28.0, < 0.32.0 → 0.32.0)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ## Summary<br><br>Blocky accepts and caches forged DNS answers while `dnssec.validate: true` is enabled. The issue has two related exploit paths:<br><br>1. **Basic DNSSEC validation bypass.** If an untrusted upstream returns an unsigned positive answer for a DNSSEC-signed public domain, Blocky classifies the response as `Insecure` solely because the response contains no RRSIG records. It does not first check the DS/DNSKEY chain to determine whether the queried name is below a signed delegation. The forged unsigned answer is returned and cached.<br><br>2. **Validation-cache scope pollution through forged insecur
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/kevin1024/vcrpy/security/advisories/GHSA-rpj2-4hq8-938g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-x845-2f78-7v36" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 14. Symfony ux-toolkit Path Traversal -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 symfony/ux-toolkit 路径遍历 → 任意文件读写</div>
-                    <div class="advisory-id">GHSA-p9xj-fpr2-jf2q | CVE: CVE-2026-55878 | CVSS: 7.8</div>
+                    <div class="advisory-title">🟠 高危 Concurrent Ruby : `AtomicReference#update` livelocks when the stored value is `Float::NAN`</div>
+                    <div class="advisory-id">GHSA-h8w8-99g7-qmvj | Repo: ruby-concurrency/concurrent-ruby</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级评分: 7/11</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 31,084</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span> <span class="badge badge-stars">⭐ 5.8k</span> <span class="badge badge-poc">🔴 PoC Available</span> <span class="badge badge-analysis">📖 详细分析</span></div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>ux:install 命令从 recipe kit 安装文件时，copy-files 映射中的路径仅通过 Path::isRelative() 检查，但该函数对 ../../../etc 这样的路径返回 true。Path::join() 会解析 .. 段，导致最终路径可以逃逸目标目录。被入侵的 kit 可以向开发者机器任意位置写入攻击者控制的内容。</p>
-                <p><strong>影响产品：</strong>Symfony ⭐31,084（PHP 框架）</p>
-                <p><strong>影响版本：</strong>symfony/ux-toolkit 2.32.0-2.36.0 和 3.0.0-3.1.x</p>
-                <p><strong>攻击面：</strong>使用 ux:install 命令安装 recipe kit 的 Symfony 项目</p>
-                <p><strong>触发条件：</strong>安装被篡改的 recipe kit</p>
-                <p><strong>潜在危害：</strong>开发者机器任意文件写入/读取（供应链攻击）</p>
-                <p><strong>可利用性：</strong>有详细路径绕过原理说明</p>
-                <p><strong>修复建议：</strong>升级到 symfony/ux-toolkit 2.36.1 或 3.2.0</p>
+                <p><strong>漏洞描述：</strong>Concurrent Ruby : `AtomicReference#update` livelocks when the stored value is `Float::NAN`</p>
+                <p><strong>影响产品：</strong>ruby-concurrency/concurrent-ruby ⭐5.8k</p>
+                <p><strong>影响版本：</strong>rubygems/concurrent-ruby (< 1.3.7 → 1.3.7)</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <details style="margin-top:12px">
+                    <summary style="cursor:pointer;color:#58a6ff;font-size:0.9em;">📋 查看完整漏洞分析</summary>
+                    <div style="margin-top:12px;padding:12px;background:#0d1117;border-radius:6px;font-size:0.85em;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ### Summary<br>`Concurrent::AtomicReference#update` can enter a permanent busy retry loop when the current value is `Float::NAN`.<br><br>The issue is caused by the interaction between:<br>- `AtomicReference#update`, which retries until `compare_and_set(old_value, new_value)` succeeds.<br>- Numeric `compare_and_set`, which checks `old == old_value` before attempting the underlying atomic swap.<br>- Ruby NaN semantics, where `Float::NAN == Float::NAN` is always `false`.<br><br>As a result, once an `AtomicReference` contains `Float::NAN`, calling `#update` repeatedly evaluates the caller's block and never returns. In se
+                    </div>
+                </details>
             </div>
-            
-            <a href="https://github.com/symfony/ux/security/advisories/GHSA-p9xj-fpr2-jf2q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-h8w8-99g7-qmvj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 15. Oj Memory Corruption (Grouped) -->
-        <div class="advisory-card high">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 Oj (Ruby JSON) 6个内存安全漏洞（UAF/溢出/负尺寸memcpy）</div>
-                    <div class="advisory-id">GHSA-475m/9cv6/m578/vwm4/q2gm/9ppp | CVE: CVE-2026-54903/54902/54901/54900/54898/54897</div>
-                </div>
-                <span class="priority-score">优先级: 高危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High × 6</span>
-                <span class="badge badge-stars">⭐ 3,218</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Oj gem 存在 6 个严重的内存安全漏洞：</p>
-                <ul>
-                    <li><strong>CVE-2026-54903:</strong> Oj.load 处理 >2GB 字符串时整数溢出导致堆损坏</li>
-                    <li><strong>CVE-2026-54902:</strong> Parser SAJ 模式下长 key 未受 GC 保护导致 UAF</li>
-                    <li><strong>CVE-2026-54901:</strong> Parser usual 模式下 array_class/hash_class 未标记导致 UAF</li>
-                    <li><strong>CVE-2026-54900:</strong> create_id 属性处理中整数截断导致负尺寸 memcpy</li>
-                    <li><strong>CVE-2026-54898:</strong> SAJ 回调中输入变异导致 UAF</li>
-                    <li><strong>CVE-2026-54897:</strong> Oj::Doc 迭代器中重入 close 导致 UAF</li>
-                </ul>
-                <p><strong>影响产品：</strong>Oj ⭐3,218（Ruby 高性能 JSON 库）</p>
-                <p><strong>影响版本：</strong>oj &lt; 3.17.2</p>
-                <p><strong>攻击面：</strong>任何解析不受信任 JSON 输入的 Ruby 应用</p>
-                <p><strong>触发条件：</strong>解析特制的 JSON 输入</p>
-                <p><strong>潜在危害：</strong>进程崩溃（DoS）或潜在的代码执行（内存损坏）</p>
-                <p><strong>可利用性：</strong>每个漏洞都有详细的 C 源码级分析和 PoC 代码片段</p>
-                <p><strong>修复建议：</strong>升级到 oj >= 3.17.3</p>
-            </div>
-            
-            <a href="https://github.com/ohler55/oj/security/advisories" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 16. Concurrent Ruby Livelock -->
-        <div class="advisory-card high">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 Concurrent Ruby AtomicReference NaN 活锁</div>
-                    <div class="advisory-id">GHSA-h8w8-99g7-qmvj | CVE: CVE-2026-54904</div>
-                </div>
-                <span class="priority-score">优先级: 中危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 5,829</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Concurrent::AtomicReference#update 在当前值为 Float::NAN 时会进入永久忙重试循环。原因是 update 重试直到 compare_and_set 成功，但 NaN 语义中 NaN == NaN 始终为 false，导致 CAS 永远无法成功。</p>
-                <p><strong>影响产品：</strong>Concurrent Ruby ⭐5,829（Ruby 并发库）</p>
-                <p><strong>影响版本：</strong>concurrent-ruby &lt; 1.3.7</p>
-                <p><strong>攻击面：</strong>使用 AtomicReference 的 Ruby 应用</p>
-                <p><strong>触发条件：</strong>AtomicReference 存储了 Float::NAN 值</p>
-                <p><strong>潜在危害：</strong>CPU 耗尽（100% 单核），DoS</p>
-                <p><strong>可利用性：</strong>有完整的 Ruby NaN 语义分析</p>
-                <p><strong>修复建议：</strong>升级到 concurrent-ruby >= 1.3.7</p>
-            </div>
-            
-            <a href="https://github.com/ruby-concurrency/concurrent-ruby/security/advisories/GHSA-h8w8-99g7-qmvj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 17. Langflow DoS -->
-        <div class="advisory-card high">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 Langflow 未认证 DoS（multipart form boundary 滥用）</div>
-                    <div class="advisory-id">GHSA-qwqc-p3q8-wcg9 | CVE: CVE-2026-55446 | CVSS: 7.5</div>
-                </div>
-                <span class="priority-score">优先级: 高危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 149,909</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>攻击者无需认证即可向 /api/v1/files/upload/ 发送请求，利用超长 multipart form boundary 使 langflow 应用长时间不可用。文件上传函数即使在格式错误时也会尝试处理 multipart form data。</p>
-                <p><strong>影响产品：</strong>Langflow ⭐149,909</p>
-                <p><strong>影响版本：</strong>langflow &lt; 1.0.19</p>
-                <p><strong>攻击面：</strong>任何暴露在网络上的 Langflow 实例</p>
-                <p><strong>触发条件：</strong>发送特制的 multipart form 请求（无需认证）</p>
-                <p><strong>潜在危害：</strong>服务不可用（DoS）</p>
-                <p><strong>可利用性：</strong>有详细代码定位（files.py L40）和修复 PR</p>
-                <p><strong>修复建议：</strong>升级到 langflow >= 1.0.19</p>
-            </div>
-            
-            <a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-qwqc-p3q8-wcg9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 18. CoreWCF Pre-auth DoS -->
-        <div class="advisory-card high">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 CoreWCF 预认证无限循环 CPU 耗尽</div>
-                    <div class="advisory-id">GHSA-p86g-xrr2-pf7c | CVE: CVE-2026-54772 | CVSS: 7.5</div>
-                </div>
-                <span class="priority-score">优先级: 高危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High</span>
-                <span class="badge badge-stars">⭐ 1,773</span>
-                <span class="badge badge-analysis">📖 详细分析</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>未认证的远程攻击者可以通过 net.tcp/net.pipe/net.uds 帧握手，使每个连接占用一个服务器线程池工作线程 100% CPU。少量连接即可耗尽 CPU 资源。</p>
-                <p><strong>影响产品：</strong>CoreWCF ⭐1,773</p>
-                <p><strong>影响版本：</strong>CoreWCF.NetFramingBase &lt; 1.8.1 以及 1.9.0-1.9.1</p>
-                <p><strong>攻击面：</strong>暴露 NetTcpBinding、NetNamedPipeBinding 或 UnixDomainSocketBinding 端点的服务</p>
-                <p><strong>触发条件：</strong>能通过网络访问服务的端点</p>
-                <p><strong>潜在危害：</strong>CPU 资源耗尽，服务不可用</p>
-                <p><strong>可利用性：</strong>有详细前提条件和影响分析</p>
-                <p><strong>修复建议：</strong>升级到 CoreWCF v1.8.1 或 v1.9.1</p>
-            </div>
-            
-            <a href="https://github.com/CoreWCF/CoreWCF/security/advisories/GHSA-p86g-xrr2-pf7c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 汇总表 -->
+        
         <h2 class="section-title">📊 漏洞清单汇总表</h2>
         <table class="summary-table">
             <thead>
@@ -694,207 +612,209 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-xjr9-gg9q-jx3v</code></td>
-                    <td>CoreWCF</td>
-                    <td>1.8k</td>
-                    <td>Critical (CVSS 10.0)</td>
-                    <td>详细原理</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/CoreWCF/CoreWCF/security/advisories/GHSA-xjr9-gg9q-jx3v" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-ccv6-r384-xp75</code></td>
-                    <td>Langflow</td>
-                    <td>149.9k</td>
-                    <td>Critical (CVSS 9.6)</td>
-                    <td>有完整PoC</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-ccv6-r384-xp75" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-qrpv-q767-xqq2</code></td>
-                    <td>Langflow</td>
-                    <td>149.9k</td>
-                    <td>Critical (CVSS 9.9)</td>
-                    <td>有完整PoC</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-qrpv-q767-xqq2" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-wfqx-gjrf-g28r</code></td>
-                    <td>Crossplane</td>
-                    <td>11.8k</td>
-                    <td>Critical (CVSS 9.0)</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/crossplane/crossplane/security/advisories/GHSA-wfqx-gjrf-g28r" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-c55v-343g-5xff</code></td>
-                    <td>Craft CMS</td>
-                    <td>3.6k</td>
-                    <td>Critical</td>
-                    <td>详细原理</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/craftcms/cms/security/advisories/GHSA-c55v-343g-5xff" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-869j-r97x-hx2g</code></td>
-                    <td>Anki</td>
-                    <td>28.7k</td>
-                    <td>High</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/ankitects/anki/security/advisories/GHSA-869j-r97x-hx2g" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-cc8f-fcx3-gpjr</code></td>
-                    <td>SurrealDB</td>
-                    <td>32.4k</td>
-                    <td>High (CVSS 7.7)</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/surrealdb/surrealdb/security/advisories/GHSA-cc8f-fcx3-gpjr" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-6vxv-wg6j-5qwp</code></td>
-                    <td>Gogs</td>
-                    <td>47.6k</td>
-                    <td>High</td>
-                    <td>详细原理</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/gogs/gogs/security/advisories/GHSA-6vxv-wg6j-5qwp" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-g5qx-h5f3-mp2f</code></td>
-                    <td>TinaCMS</td>
-                    <td>13.5k</td>
-                    <td>High</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/tinacms/tinacms/security/advisories/GHSA-g5qx-h5f3-mp2f" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-4936-9hrh-qqpw</code></td>
-                    <td>TinaCMS CLI</td>
-                    <td>13.5k</td>
-                    <td>High (CVSS 7.8)</td>
-                    <td>有完整PoC</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/tinacms/tinacms/security/advisories/GHSA-4936-9hrh-qqpw" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>11</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-x845-2f78-7v36</code></td>
-                    <td>Blocky</td>
-                    <td>6.7k</td>
-                    <td>High (CVSS 8.6)</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/0xERR0R/blocky/security/advisories/GHSA-x845-2f78-7v36" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>12</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-rpj2-4hq8-938g</code></td>
-                    <td>VCR.py</td>
-                    <td>3.0k</td>
-                    <td>High (CVSS 7.8)</td>
-                    <td>有完整PoC</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/kevin1024/vcrpy/security/advisories/GHSA-rpj2-4hq8-938g" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>13</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-p9xj-fpr2-jf2q</code></td>
-                    <td>Symfony ux-toolkit</td>
-                    <td>31.1k</td>
-                    <td>High (CVSS 7.8)</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/symfony/ux/security/advisories/GHSA-p9xj-fpr2-jf2q" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>14</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-(6个)</code></td>
-                    <td>Oj (Ruby)</td>
-                    <td>3.2k</td>
-                    <td>High × 6</td>
-                    <td>有完整PoC</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/ohler55/oj/security/advisories" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>15</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-qwqc-p3q8-wcg9</code></td>
-                    <td>Langflow</td>
-                    <td>149.9k</td>
-                    <td>High (CVSS 7.5)</td>
-                    <td>详细原理</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/langflow-ai/langflow/security/advisories/GHSA-qwqc-p3q8-wcg9" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>16</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-h8w8-99g7-qmvj</code></td>
-                    <td>Concurrent Ruby</td>
-                    <td>5.8k</td>
-                    <td>High</td>
-                    <td>详细原理</td>
-                    <td>高</td>
-                    <td><a href="https://github.com/ruby-concurrency/concurrent-ruby/security/advisories/GHSA-h8w8-99g7-qmvj" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>17</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-p86g-xrr2-pf7c</code></td>
-                    <td>CoreWCF</td>
-                    <td>1.8k</td>
-                    <td>High (CVSS 7.5)</td>
-                    <td>详细原理</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/CoreWCF/CoreWCF/security/advisories/GHSA-p86g-xrr2-pf7c" style="color:#58a6ff;">查看</a></td>
-                </tr>
-                <tr>
-                    <td>18</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-h3m5-97jq-qjrf</code></td>
-                    <td>OpenRemote</td>
-                    <td>1.8k</td>
-                    <td>Critical (CVSS 9.6)</td>
-                    <td>详细原理</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/openremote/openremote/security/advisories/GHSA-h3m5-97jq-qjrf" style="color:#58a6ff;">查看</a></td>
-                </tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-ccv6-r384-xp75</code></td>
+        <td>langflow</td>
+        <td>149.9k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-ccv6-r384-xp75" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>2</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qrpv-q767-xqq2</code></td>
+        <td>langflow</td>
+        <td>149.9k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-qrpv-q767-xqq2" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>3</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-wfqx-gjrf-g28r</code></td>
+        <td>crossplane</td>
+        <td>11.8k</td>
+        <td>CRITICAL</td>
+        <td>有详细原理</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-wfqx-gjrf-g28r" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>4</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-c73q-8xxr-rgqm</code></td>
+        <td>tilt</td>
+        <td>9.9k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-c73q-8xxr-rgqm" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>5</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qwqc-p3q8-wcg9</code></td>
+        <td>langflow</td>
+        <td>149.9k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-qwqc-p3q8-wcg9" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>6</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-x84v-g949-293w</code></td>
+        <td>core</td>
+        <td>87.9k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-x84v-g949-293w" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>7</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-c55v-343g-5xff</code></td>
+        <td>cms</td>
+        <td>3.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-c55v-343g-5xff" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>8</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-h3m5-97jq-qjrf</code></td>
+        <td>openremote</td>
+        <td>1.8k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-h3m5-97jq-qjrf" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>9</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-xjr9-gg9q-jx3v</code></td>
+        <td>CoreWCF</td>
+        <td>1.8k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-xjr9-gg9q-jx3v" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>10</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-qw6v-5fcf-5666</code></td>
+        <td>A</td>
+        <td>0</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-qw6v-5fcf-5666" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>11</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-r78r-rwrf-rjwp</code></td>
+        <td>A</td>
+        <td>0</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-r78r-rwrf-rjwp" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>12</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6vxv-wg6j-5qwp</code></td>
+        <td>gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6vxv-wg6j-5qwp" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-869j-r97x-hx2g</code></td>
+        <td>anki</td>
+        <td>28.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-869j-r97x-hx2g" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-g5qx-h5f3-mp2f</code></td>
+        <td>tinacms</td>
+        <td>13.5k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-g5qx-h5f3-mp2f" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-4936-9hrh-qqpw</code></td>
+        <td>tinacms</td>
+        <td>13.5k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-4936-9hrh-qqpw" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-c8qj-jx8j-fg2w</code></td>
+        <td>A</td>
+        <td>0</td>
+        <td>CRITICAL</td>
+        <td>有详细原理</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-c8qj-jx8j-fg2w" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>17</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-cc8f-fcx3-gpjr</code></td>
+        <td>surrealdb</td>
+        <td>32.4k</td>
+        <td>HIGH</td>
+        <td>有详细原理</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-cc8f-fcx3-gpjr" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>18</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-v5jw-96jm-7h2c</code></td>
+        <td>stanza</td>
+        <td>7.8k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-v5jw-96jm-7h2c" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>19</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-x845-2f78-7v36</code></td>
+        <td>blocky</td>
+        <td>6.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-x845-2f78-7v36" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>20</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-h8w8-99g7-qmvj</code></td>
+        <td>concurrent-ruby</td>
+        <td>5.8k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-h8w8-99g7-qmvj" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
             </tbody>
         </table>
         
-        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
         <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
         <table class="summary-table">
             <thead>
@@ -908,69 +828,82 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><code>GHSA-rpj2-4hq8-938g</code></td>
-                    <td>VCR.py</td>
-                    <td>2,969</td>
-                    <td>High (CVSS 7.8)</td>
-                    <td>YAML 反序列化 RCE，攻击门槛极低，!!python/object/apply 直接执行代码</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-v75r-vx73-82pj</code></td>
-                    <td>@cyclonedx/cyclonedx-npm</td>
-                    <td>143</td>
-                    <td>High</td>
-                    <td>Shell 注入（--workspace 参数），SBOM 供应链工具</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-f4xh-w4cj-qxq8</code></td>
-                    <td>LangSmith SDK</td>
-                    <td>-</td>
-                    <td>High</td>
-                    <td>TracingMiddleware 任意服务端文件读取</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-6v7p-g79w-8964</code></td>
-                    <td>MessagePack for Python</td>
-                    <td>2,098</td>
-                    <td>High</td>
-                    <td>越界读取/崩溃，Unpacker 重用后触发</td>
-                </tr>
+        <td><code>GHSA-f4xh-w4cj-qxq8</code></td>
+        <td>LangSmith SDK TracingMiddleware: Arbitrary server-side file </td>
+        <td>933</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-rpj2-4hq8-938g</code></td>
+        <td>VCR.py: Arbitrary code execution via unsafe YAML deserializa</td>
+        <td>3.0k</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-p9xj-fpr2-jf2q</code></td>
+        <td>symfony/ux-toolkit: Path Traversal Allows Arbitrary File Wri</td>
+        <td>1.1k</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-f962-v9hr-pfg5</code></td>
+        <td>jupyterlab-git extension: Stored XSS leading to RCE</td>
+        <td>1.6k</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-fwh2-95jw-g4j6</code></td>
+        <td>Duplicate Advisory: PraisonAI has Memory State Leakage and P</td>
+        <td>0</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-436q-jwfr-rm2h</code></td>
+        <td>jupyterlab-git excluded_paths Case-Sensitivity Bypass Allows</td>
+        <td>1.6k</td>
+        <td>HIGH</td>
+        <td>PoC, 详细分析</td>
+    </tr><tr>
+        <td><code>GHSA-wcpr-6g7x-p44r</code></td>
+        <td>googleapis/mcp-toolbox: authentication bypass vulnerability </td>
+        <td>0</td>
+        <td>CRITICAL</td>
+        <td>详细分析</td>
+    </tr>
             </tbody>
         </table>
         
-        <!-- 总结与建议 -->
         <h2 class="section-title">📝 总结与建议</h2>
         <div class="advisory-card">
             <div class="advisory-content">
                 <p><strong>🔴 紧急关注：</strong></p>
                 <ul>
-                    <li><strong>Langflow（3个漏洞）</strong>— 149k Star 的 AI 工作流平台同时曝出文件读取RCE、IDOR和DoS三个漏洞，影响面极大。建议所有 Langflow 用户立即升级到 >= 1.9.2</li>
-                    <li><strong>CoreWCF SAML 签名绕过（CVSS 10.0）</strong>— 完全身份冒充，影响所有使用 WS-Federation + SAML 的 .NET 服务。无变通方案，必须升级</li>
-                    <li><strong>Crossplane 包签名 TOCTOU</strong>— 云原生基础设施的供应链攻击风险，暂无补丁，需改用 digest 引用</li>
+                    <li><strong>Langflow (⭐150k)</strong>：存在多个严重漏洞——BaseFileComponent任意文件读取可导致RCE，IDOR漏洞可执行其他用户的Flow，以及未认证DoS攻击。建议立即升级至1.9.2+，审查所有已部署的Langflow实例。</li>
+                    <li><strong>Tilt (⭐9.9k)</strong>：HUD HTTP服务器缺少认证机制，非环回地址绑定时可被网络攻击者控制开发环境。确保不使用 <code>--host 0.0.0.0</code> 或 <code>TILT_HOST</code> 环境变量。</li>
+                    <li><strong>Crossplane (⭐11.8k)</strong>：包签名验证存在TOCTOU漏洞，恶意注册表可安装未经验证的包内容。使用镜像摘要(digest)而非标签(tag)安装。</li>
+                    <li><strong>CoreWCF (⭐1.8k)</strong>：SAML令牌签名验证被绕过，可实现完全身份冒充。立即升级至1.8.1或1.9.1。</li>
                 </ul>
                 <p><strong>🟠 重点关注：</strong></p>
                 <ul>
-                    <li><strong>SurrealDB 任意文件读取</strong>— 32k Star 数据库的默认配置不安全，空 allowlist 等于无限制</li>
-                    <li><strong>Gogs XSS</strong>— 47k Star 的 Git 服务因过时依赖导致存储型 XSS</li>
-                    <li><strong>Anki 本地文件泄露</strong>— 28k Star 的学习软件本地 HTTP 服务器存在路径遍历</li>
-                    <li><strong>Blocky DNSSEC 绕过</strong>— DNS 安全验证形同虚设，可导致 DNS 欺骗</li>
-                    <li><strong>TinaCMS（2个漏洞）</strong>— postMessage XSS + Forestry 迁移 RCE</li>
-                    <li><strong>Symfony ux-toolkit 路径遍历</strong>— 供应链攻击向量</li>
-                    <li><strong>Oj（6个内存漏洞）</strong>— Ruby JSON 解析器大量 UAF/溢出，需升级到 3.17.3</li>
+                    <li><strong>Home Assistant (⭐87.9k)</strong>：Konnected集成未认证GET请求泄露报警面板状态。升级至2026.6.0。</li>
+                    <li><strong>Gogs (⭐47.6k)</strong>：.ipynb文件渲染器存在XSS漏洞（outdated notebookjs）。升级至0.14.3。</li>
+                    <li><strong>SurrealDB (⭐32.4k)</strong>：DEFINE ANALYZER mapper()任意文件读取。升级至3.1.5，配置SURREAL_FILE_ALLOWLIST。</li>
+                    <li><strong>Anki (⭐28.7k)</strong>：本地HTTP服务器缺少Origin验证和路径遍历，Firefox用户风险最高。升级至25.09.3。</li>
+                    <li><strong>TinaCMS (⭐13.5k)</strong>：postMessage处理器未验证origin导致存储型XSS和会话劫持；CLI迁移命令存在RCE。升级至3.9.3/2.4.3。</li>
+                    <li><strong>Stanza (⭐7.8k)</strong>：模型加载器不安全的Pickle反序列化导致RCE。升级至1.12.2。</li>
+                    <li><strong>Blocky (⭐6.7k)</strong>：DNSSEC验证绕过和验证缓存污染。升级至0.32.0。</li>
                 </ul>
                 <p><strong>🟡 常规关注：</strong></p>
                 <ul>
-                    <li><strong>CoreWCF 预认证 DoS</strong>— .NET WCF 服务的 CPU 耗尽攻击</li>
-                    <li><strong>Concurrent Ruby 活锁</strong>— NaN 导致的 CPU 100% 问题</li>
-                    <li><strong>VCR.py YAML 反序列化</strong>— Python 测试工具的经典不安全反序列化模式</li>
-                    <li><strong>Craft CMS Host 头投毒</strong>— SSRF + JS 注入组合攻击</li>
+                    <li><strong>Concurrent Ruby (⭐5.8k)</strong>：AtomicReference#update在存储Float::NAN时活锁。升级至1.3.7。</li>
+                    <li>补充关注：jupyterlab-git XSS→RCE、VCR.py YAML反序列化RCE、Symfony UX Toolkit路径遍历、Remotion RCE等Star较低但含完整PoC的漏洞。</li>
                 </ul>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories">GitHub Advisory Database</a></p>
         <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
     </footer>
 </body>
