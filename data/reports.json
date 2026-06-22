@@ -5,13 +5,13 @@
       "title": "GitHub安全公告日报 - 2026-06-22",
       "url": "reports/report-2026-06-22.html",
       "stats": {
-        "total": 50,
-        "critical": 6,
-        "high": 44,
-        "star5k": 9,
-        "with_poc": 14
+        "total": 20,
+        "critical": 10,
+        "high": 10,
+        "star5k": 14,
+        "with_poc": 20
       },
-      "summary": "今日发现6个Critical和44个High级别漏洞。Langflow(149k Star)同时曝出文件读取RCE、IDOR和DoS三个漏洞；CoreWCF SAML签名验证绕过(CVSS 10.0)可完全伪造身份；Crossplane包签名TOCTOU暂无补丁；SurrealDB、Gogs、Anki、TinaCMS、Blocky、Oj等知名项目均有高危漏洞。"
+      "summary": "今日发现10个Critical和10个High级别漏洞，其中Langflow存在多个严重漏洞（任意文件读取+RCE、IDOR、DoS），Tilt HUD缺少认证，Crossplane签名验证TOCTOU，CoreWCF SAML认证绕过。Star≥5k项目14个，含PoC/详细分析20个。"
     },
     {
       "date": "2026-06-21",
