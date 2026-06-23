@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-23",
+      "title": "GitHub安全公告日报 - 2026-06-23",
+      "url": "reports/report-2026-06-23.html",
+      "stats": {
+        "total": 22,
+        "critical": 5,
+        "high": 17,
+        "star5k": 19,
+        "with_poc": 19
+      },
+      "summary": "今日重点关注：Budibase任意文件读取(CVE-2026-54352)有完整PoC、Mise任意代码执行供应链攻击(CVE-2026-33646)、Gogs 5个High漏洞、Glances 3个High漏洞"
+    },
+    {
       "date": "2026-06-22",
       "title": "GitHub安全公告日报 - 2026-06-22",
       "url": "reports/report-2026-06-22.html",
