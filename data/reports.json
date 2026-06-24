@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-24",
+      "title": "GitHub安全公告日报 - 2026-06-24",
+      "url": "reports/report-2026-06-24.html",
+      "stats": {
+        "total": 41,
+        "critical": 11,
+        "high": 30,
+        "star5k": 20,
+        "with_poc": 19
+      },
+      "summary": "今日发现41个高危/严重漏洞，其中20个来自Star≥5k项目。Gogs存在多个严重漏洞（RCE/路径遍历/CSRF），Langflow存在IDOR漏洞，Budibase存在NoSQL注入漏洞，LiteLLM存在权限提升漏洞。建议立即关注Gogs和Budibase的严重级别漏洞。"
+    },
+    {
       "date": "2026-06-23",
       "title": "GitHub安全公告日报 - 2026-06-23",
       "url": "reports/report-2026-06-23.html",
