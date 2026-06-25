@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-25</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-25 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">27</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（Star≥5k，按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Budibase has nonymous NoSQL operator injection via published-app query templates</div>
+                    <div class="advisory-id">GHSA-8qv3-p479-cj62 | CVE: CVE-2026-54350 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 28.1k</span>
+<span class="badge badge-high">CVSS 10.0</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">## Summary
+
+`enrichContext` at `packages/server/src/sdk/workspace/queries/queries.ts:121-138` substitutes parameter values into the raw JSON body of a query, then `JSON.parse`s the result. The validator `validateQueryInputs` at `packages/server/src/api/controllers/query/index.ts:61-71` rejects only Handlebars markers (`{{`, `}}`) in user input and does not escape JSON metacharacters (`&quot;`, `\`, `}`). A parameter value containing a closing quote and additional keys lifts attacker-controlled fields into the parsed filter object.
+
+For Mongo `find`, the parsed filter passes directly to `collection.find()` (`packages/server/src/integrations/mongodb.ts:506-510`). Duplicate-key JSON parsing overrides the builder&#x27;s `{name: &quot;...&quot;}` with `{name: {$exists: true}}` and returns every document. The same </p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28.1k</p>
+                <p><strong>影响版本：</strong><br>@budibase/server: &lt; 3.39.12</p>
+                
+                <p><strong>攻击面：</strong>无需认证、API接口、Web接口、命令行/执行、Git操作</p>
+                <p><strong>触发条件：</strong>需要用户交互（访问恶意页面/点击链接）</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、注入攻击、会话劫持</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8qv3-p479-cj62" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs has Path Traversal in organization name that results in RCE through Git hooks</div>
+                    <div class="advisory-id">GHSA-c39w-43gm-34h5 | CVE: CVE-2026-52813 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-high">CVSS 10.0</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+
+Organization names containing path traversal sequences (`../`) are accepted by Gogs, and repositories under them are written to paths following these path traversals. This allows storing/retrieving data for repositories at arbitrary locations on the filesystem.
+By creating nested structure of Git repositories, one can overwrite the other&#x27;s `hooks` configuration to result in Remote Code Execution (RCE).
+
+### Details
+
+During organization creation, `internal/database/org.go` calls `os.MkdirAll(repox.UserPath(org.Name))` without sanitizing `org.Name`. 
+
+https://github.com/gogs/gogs/blob/d7571322a04a29476d4241406ed50bf7eef0a5b7/internal/database/org.go#L165
+
+Repository creation uses this name to decide where to write the Git bare repository&#x27;s (`org/name.git`). By setting the org na</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>克隆/检出恶意仓库或处理恶意PR时触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、目录遍历</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c39w-43gm-34h5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs: UploadRepoFiles writes outside repo working tree via committed parent sym</div>
+                    <div class="advisory-id">GHSA-89mr-xqfv-758m | CVE: CVE-2026-52811 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">Summary
+
+`(*Repository).UploadRepoFiles` checks for symlinks only on the **leaf** of the upload target (`osx.IsSymlink(targetPath)`). The siblings `UpdateRepoFile`, `DeleteRepoFile`, and `GetDiffPreview` use `hasSymlinkInPath`, which lstats every component — `UploadRepoFiles` is the lone outlier. An attacker with repo-write access plus a multipart upload whose filename contains a literal backslash (preserved by `filepath.Base` on Linux, then converted to `/` by `pathx.Clean`) redirects the write through a previously-committed directory symlink. `iox.CopyFile` opens the destination with `os.Create` (no `O_NOFOLLOW`), so the kernel follows the parent symlink and writes attacker bytes anywhere the gogs UID can write — `~git/.ssh/authorized_keys` → SSH foothold, or `&lt;repo&gt;.git/hooks/post-recei</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>克隆/检出恶意仓库或处理恶意PR时触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、会话劫持</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-89mr-xqfv-758m" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs vulnerable to RCE via git rebase --exec argument injection in pull request merge</div>
+                    <div class="advisory-id">GHSA-qf6p-p7ww-cwr9 | CVE: CVE-2026-52806 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-high">CVSS 9.9</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;"># Gogs: RCE via `git rebase --exec` Argument Injection in PR Merge
+
+## Summary
+
+Gogs allows authenticated users to achieve Remote Code Execution (RCE) on the server by creating a pull request with a specially crafted branch name that injects the `--exec` flag into the `git rebase` command during the &quot;Rebase before merging&quot; merge operation.
+
+## Severity
+
+**Critical** - CVSS 3.1 Base Score: 9.9 (AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H)
+
+## Affected Versions
+
+- **Gogs 0.14.2** (latest supported release)
+- Gogs 0.15.0+dev (commit `b53d3162`, main branch as of 2026-03-16)
+- All prior versions that support the &quot;Rebase before merging&quot; merge style
+
+## Impact
+
+This is a **privilege escalation from authenticated user to server-level code execution**. The attacker uses their own repository as the deliver</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>无需认证、API接口、Web接口、命令行/执行、文件操作</p>
+                <p><strong>触发条件：</strong>需要用户交互（访问恶意页面/点击链接）</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、注入攻击、安全绕过、权限提升</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qf6p-p7ww-cwr9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Crawl4AI: Multiple Docker API Vulnerabilities - File Write, SSRF, Auth Bypass, XSS, JS Execution</div>
+                    <div class="advisory-id">GHSA-365w-hqf6-vxfg | CVE: CVE-2026-56266 | 发布: 2026-06-16</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 69.5k</span>
+<span class="badge badge-high">CVSS 9.8</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+
+Multiple security vulnerabilities in the Crawl4AI Docker API server affecting endpoints for crawling, markdown/LLM extraction, screenshots, PDFs, webhooks, monitoring, JavaScript execution, and configuration.
+
+### Vulnerabilities
+
+#### 1. Arbitrary File Write via /screenshot and /pdf (CWE-22, CVSS 9.1)
+
+The `output_path` parameter accepts arbitrary filesystem paths with no validation. An attacker can overwrite server files (DoS) or write to any appuser-writable location.
+
+**Fix:** Added `validate_output_path()` restricting writes to `CRAWL4AI_OUTPUT_DIR` (/tmp/crawl4ai-outputs by default). Added Pydantic `field_validator` rejecting `..` traversal sequences.
+
+#### 2. SSRF via Webhook URL (CWE-918, CVSS 8.6)
+
+Webhook URLs in `/crawl/job` and `/llm/job` accept internal/private IP</p>
+                <p><strong>影响产品：</strong>unclecode/crawl4ai ⭐69.5k</p>
+                <p><strong>影响版本：</strong><br>crawl4ai: &lt;= 0.8.6</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>无需认证，远程可直接触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、跨站脚本攻击（XSS）、注入攻击、安全绕过、服务端请求伪造（SSRF）</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-365w-hqf6-vxfg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Mise vulnerable to arbitrary command execution via task-include files in an untrusted, config-less repository</div>
+                    <div class="advisory-id">GHSA-77g9-363w-rccq | CVE: CVE-2026-55441 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 30.1k</span>
+<span class="badge badge-high">CVSS 8.6</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+
+mise&#x27;s trust feature gates config files (`mise.toml`, `.tool-versions`) through `trust_check`, but task-include files are loaded on a path that never reaches it. When a directory has a task-include dir (`mise-tasks/`, `.mise/tasks/`, …) but no config file, mise falls back to the default includes and renders each task&#x27;s tera fields — and that tera environment has `exec()` registered. A `{{ exec(command=&#x27;…&#x27;) }}` in any rendered field runs arbitrary commands the moment the tasks are merely listed. There&#x27;s no config file to gate on, so no trust prompt ever appears. Read-only commands trigger it: `mise tasks`, `mise task ls`, `mise run`, `mise tasks --usage` (the query shell completion runs on Tab). The victim only has to `cd` into a cloned repo and list or tab-complete a task
+## D</p>
+                <p><strong>影响产品：</strong>jdx/mise ⭐30.1k</p>
+                <p><strong>影响版本：</strong><br>mise: &lt; 2026.6.4</p>
+                
+                <p><strong>攻击面：</strong>命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>克隆/检出恶意仓库或处理恶意PR时触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-77g9-363w-rccq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Glances has arbitrary file write and command execution via `secure_popen` redirection and chaining operators in AMP command configuration</div>
+                    <div class="advisory-id">GHSA-3vwc-qwhc-3mj7 | CVE: CVE-2026-53925 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 33.0k</span>
+<span class="badge badge-high">CVSS 7.8</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+
+The `secure_popen()` function in `glances/secure.py` interprets `&gt;` (file redirection), `|` (pipe), and `&amp;&amp;` (command chaining) operators in command strings. These operators are applied without any validation on the target file path, piped command, or chained command.
+
+When Application Monitoring Process (AMP) modules load their `command` or `service_cmd` configuration values from `glances.conf`, those values are passed directly to `secure_popen()` with no sanitization. This allows an attacker who can modify the Glances configuration file to write arbitrary content to arbitrary filesystem paths (via `&gt;`), chain arbitrary commands (via `&amp;&amp;`), or pipe command output to arbitrary programs (via `|`).
+
+Crucially, this vulnerability is **not mitigated** by the `--disable-config-exec</p>
+                <p><strong>影响产品：</strong>nicolargo/glances ⭐33.0k</p>
+                <p><strong>影响版本：</strong><br>glances: &gt;= 4.0.8, &lt; 4.5.5</p>
+                
+                <p><strong>攻击面：</strong>Web接口、命令行/执行、文件操作</p>
+                <p><strong>触发条件：</strong>克隆/检出恶意仓库或处理恶意PR时触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、目录遍历</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3vwc-qwhc-3mj7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs: LFS dedupe path leaks private repo content across tenants</div>
+                    <div class="advisory-id">GHSA-6p9m-q3jp-47h4 | CVE: CVE-2026-52812 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">Summary
+
+Git LFS storage is content-addressed by OID alone (`&lt;LFS-root&gt;/&lt;oid[0]&gt;/&lt;oid[1]&gt;/&lt;oid&gt;`) but per-repo authorization lives in the `lfs_object` table keyed `(repo_id, oid)`. `serveUpload` skips re-uploading when the OID file already exists on disk and inserts a new `(repo_id, oid)` row pointing at it **without verifying the request body hashes to the OID being claimed**. Any user with write access to one repo can bind their repo to an OID owned by a private repo and download the original bytes via their own download endpoint.
+
+Details
+
+Dedupe shortcut at `internal/lfsx/storage.go:79-82`:
+
+```go
+if fi, err := os.Stat(fpath); err == nil {
+    _, _ = io.Copy(io.Discard, rc)
+    return fi.Size(), nil          // ← returns success with no hash check
+}
+```
+
+Hash verification at `internal/</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>克隆/检出恶意仓库或处理恶意PR时触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、信息泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6p9m-q3jp-47h4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs allows users to write to readonly repositories using receive-pack + service=git-upload-pack confusion</div>
+                    <div class="advisory-id">GHSA-wmfg-5p4h-5fw3 | CVE: CVE-2026-52810 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+
+Git smart HTTP authorizes `POST …/git-receive-pack` using the client-supplied service query string (so `?service=git-upload-pack` is evaluated as read access) while routing still runs git receive-pack, allowing push where only read should be allowed.
+
+### Details
+
+Gogs&#x27; Git Smart HTTP handler for repository RPCs relies on a client-supplied query parameter to decide which authorization policy to apply. The Git protocol exposes two primary RPCs over HTTP: `upload-pack` for fetch (read) and `receive-pack` for push (write).
+
+In the affected implementation, the code derives the access mode from the `service` query parameter (for example, `service=git-upload-pack`) instead of the actual RPC path being executed. As a result, a request sent to the `receive-pack` endpoint can be incorr</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>无需认证、Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>见公告详情</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wmfg-5p4h-5fw3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs&#x27;s write-level collaborators can mutate admin-only repository settings via API</div>
+                    <div class="advisory-id">GHSA-268j-37xf-pp52 | CVE: CVE-2026-52808 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-high">CVSS 7.1</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">## Summary
+
+Three API endpoints — `PATCH /api/v1/repos/:owner/:repo/issue-tracker`, `PATCH /api/v1/repos/:owner/:repo/wiki`, and `POST /api/v1/repos/:owner/:repo/mirror-sync` — are gated by `reqRepoWriter()` rather than `reqRepoAdmin()`. The equivalent operations in the web UI sit behind `reqRepoAdmin`, which requires `AccessMode &gt;= AccessModeAdmin`. A write-level collaborator (who has `AccessMode == AccessModeWrite &lt; AccessModeAdmin`) can therefore call these API endpoints directly to disable the native issue tracker or wiki, inject attacker-controlled external tracker/wiki URLs that redirect all repository visitors, or trigger mirror sync — none of which they are authorized to do.
+
+## Severity
+
+**High** (CVSS 3.1: 7.1)
+
+`CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L`
+
+- **Attack Vector:**</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、命令行/执行、Git操作</p>
+                <p><strong>触发条件：</strong>需要用户交互（访问恶意页面/点击链接）</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、安全绕过、权限提升</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-268j-37xf-pp52" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs has DOM-based XSS via Milestone Name on New Issue Page</div>
+                    <div class="advisory-id">GHSA-vcm5-gvmp-78mp | CVE: CVE-2026-52807 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Summary
+The fix for GHSA-vgjm-2cpf-4g7c (DOM-based XSS via milestone selection) was only applied to `templates/repo/issue/view_content.tmpl` but not to `templates/repo/issue/new_form.tmpl`. An attacker can store an HTML/JavaScript payload in a milestone name, and when any user opens the New Issue page and interacts with the milestone dropdown, the payload executes in their browser via Semantic UI&#x27;s `preserveHTML` behavior.
+
+### Details
+GHSA-vgjm-2cpf-4g7c was patched by adding `| Sanitize` (bluemonday HTML tag stripping) to milestone name rendering in `view_content.tmpl`. However, the same milestone dropdown exists in `new_form.tmpl` and was **not** patched.
+
+In `new_form.tmpl`, milestone names are rendered with Go&#x27;s default auto-escaping (`{{.Name}}`), which converts `&lt;` to `&amp;lt;` etc</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>见公告详情</p>
+                <p><strong>潜在危害：</strong>跨站脚本攻击（XSS）、注入攻击、权限提升、会话劫持</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vcm5-gvmp-78mp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gogs has a Migration Redirect Bypass that Leads to Internal Repository Theft</div>
+                    <div class="advisory-id">GHSA-g2f5-gjr4-qjvm | CVE: CVE-2026-52805 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 47.6k</span>
+<span class="badge badge-high">CVSS 8.7</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;"># Migration URL validation bypass via HTTP redirect to blocked internal endpoints
+
+## Summary
+
+A Server-Side Request Forgery (SSRF) vulnerability exists in the repository migration functionality. The application validates only the initially submitted URL hostname, but `git clone --mirror` follows HTTP redirects. An authenticated user can submit a public URL that redirects to a blocked internal endpoint (e.g., `127.0.0.1`), importing the internal repository&#x27;s contents into an attacker-controlled repository.
+
+## Vulnerability Details
+
+The vulnerability is located in `internal/form/repo.go`. `ParseRemoteAddr()` validates the clone address hostname against a blocklist of local and private-network addresses. However, the actual migration is performed by `git clone --mirror` in `internal/databas</p>
+                <p><strong>影响产品：</strong>gogs/gogs ⭐47.6k</p>
+                <p><strong>影响版本：</strong><br>gogs.io/gogs: &lt; 0.14.3</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、Git操作</p>
+                <p><strong>触发条件：</strong>需要认证（已登录用户）</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、安全绕过、服务端请求伪造（SSRF）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g2f5-gjr4-qjvm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Snipe-IT API Vulnerable to Cross-Tenant Accessory Injection</div>
+                    <div class="advisory-id">GHSA-pwpj-p52h-q484 | CVE: CVE-2026-54329 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 14.0k</span>
+<span class="badge badge-high">CVSS 8.5</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Impact
+A cross-tenant data injection vulnerability was identified in the Snipe-IT Accessories API when Full Multiple Companies Support (FMCS) is enabled. A low-privileged authenticated user belonging to one company can create an accessory record under another company by supplying a foreign company_id value in the API request body.
+
+The issue occurs because the API create path mass-assigns request parameters directly to the Accessory model, and the Accessory model allows company_id to be mass assigned. Unlike the web controller, which uses Company::getIdForCurrentUser() to enforce the authenticated user’s company context, the API controller does not apply equivalent tenant enforcement during accessory creation.
+
+As a result, a Company A user can inject persistent accessory records into </p>
+                <p><strong>影响产品：</strong>grokability/snipe-it ⭐14.0k</p>
+                <p><strong>影响版本：</strong><br>snipe/snipe-it: &lt;= 8.6.1</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、Git操作、注入</p>
+                <p><strong>触发条件：</strong>需要认证（已登录用户）</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、注入攻击、权限提升</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pwpj-p52h-q484" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Snipe-IT: Bulk editing users allowed `ldap_import` and `activated_in` bulk editing users</div>
+                    <div class="advisory-id">GHSA-6f75-x745-xcpr | CVE: CVE-2026-48507 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 14.0k</span>
+<span class="badge badge-high">CVSS 7.1</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Impact
+The vulnerability allows a non-admin user holding only the granular `users.edit` permission to lock every admin out of the instance  by editing the `activated` flag (which determines whether or not a user can login) and the `ldap_import` flag, which determines whether or not the user can request a password reset.
+
+### Patches
+Patched in https://github.com/grokability/snipe-it/commit/403f9c848b05274642f64450696bdcdc242a352a</p>
+                <p><strong>影响产品：</strong>grokability/snipe-it ⭐14.0k</p>
+                <p><strong>影响版本：</strong><br>snipe/snipe-it: &lt; 8.6.0</p>
+                
+                <p><strong>攻击面：</strong>Web接口、Git操作</p>
+                <p><strong>触发条件：</strong>需要管理员/高权限用户</p>
+                <p><strong>潜在危害：</strong>High级别漏洞</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6f75-x745-xcpr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 OctoPrint has possible file exfiltration via query parameters on upload endpoints</div>
+                    <div class="advisory-id">GHSA-j4h9-pm27-4rfw | CVE: CVE-2026-54134 | 发布: 2026-06-23</div>
+                </div>
+                <span class="priority-score">优先级: 7/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 9.0k</span>
+
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong></p>
+                <p style="margin-left:10px;color:#c9d1d9;font-size:0.95em;">### Impact
+
+OctoPrint versions up until and including 1.11.7 as well as 2.0.0rc1 and 2.0.0rc2 contain a vulnerability that allows an attacker with the `FILE_UPLOAD` permission to exfiltrate files from the host that OctoPrint has read access to, by moving them into the upload folder where they then can be downloaded from. This vulnerability was already reported as [GHSA-m9jh-jf9h-x3h2/CVE-2025-48067](https://github.com/OctoPrint/OctoPrint/security/advisories/GHSA-m9jh-jf9h-x3h2) but the fix provided in OctoPrint 1.11.2 turned out to be incomplete.
+
+The primary risk lies in the potential exfiltration of secrets stored inside OctoPrint&#x27;s config, or further system files. By removing important runtime files, this could also be used to impact the availability of the host after an attempted serve</p>
+                <p><strong>影响产品：</strong>OctoPrint/OctoPrint ⭐9.0k</p>
+                <p><strong>影响版本：</strong><br>OctoPrint: &lt;= 1.11.7<br>OctoPrint: &gt;= 2.0.0rc1, &lt;= 2.0.0rc2</p>
+                
+                <p><strong>攻击面：</strong>API接口、Web接口、命令行/执行、文件操作、Git操作</p>
+                <p><strong>触发条件：</strong>见公告详情</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）、信息泄露</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong><br>• 关注项目仓库，等待官方补丁发布<br>• 审查受影响版本的使用情况<br>• 如无法立即升级，采取临时缓解措施（WAF规则、网络隔离等）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j4h9-pm27-4rfw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-8qv3-p479-cj62</code></td>
+        <td>Budibase/budibase</td>
+        <td>28.1k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-8qv3-p479-cj62" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>2</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-c39w-43gm-34h5</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-c39w-43gm-34h5" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>3</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-89mr-xqfv-758m</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-89mr-xqfv-758m" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>4</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qf6p-p7ww-cwr9</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-qf6p-p7ww-cwr9" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>5</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-365w-hqf6-vxfg</code></td>
+        <td>unclecode/crawl4ai</td>
+        <td>69.5k</td>
+        <td>CRITICAL</td>
+        <td>有详细原理</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-365w-hqf6-vxfg" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>6</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-77g9-363w-rccq</code></td>
+        <td>jdx/mise</td>
+        <td>30.1k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-77g9-363w-rccq" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>7</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-3vwc-qwhc-3mj7</code></td>
+        <td>nicolargo/glances</td>
+        <td>33.0k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-3vwc-qwhc-3mj7" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>8</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-6p9m-q3jp-47h4</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6p9m-q3jp-47h4" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>9</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-wmfg-5p4h-5fw3</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-wmfg-5p4h-5fw3" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>10</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-268j-37xf-pp52</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-268j-37xf-pp52" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>11</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-vcm5-gvmp-78mp</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-vcm5-gvmp-78mp" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>12</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-g2f5-gjr4-qjvm</code></td>
+        <td>gogs/gogs</td>
+        <td>47.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-g2f5-gjr4-qjvm" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6c99-87fr-6q7r</code></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-6c99-87fr-6q7r" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-phv5-334h-mxcw</code></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-phv5-334h-mxcw" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-qxvg-h7q2-hcxh</code></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-qxvg-h7q2-hcxh" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-7fq5-7wr8-rjwj</code></td>
+        <td>OliveTin/OliveTin</td>
+        <td>3.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-7fq5-7wr8-rjwj" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>17</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-pwpj-p52h-q484</code></td>
+        <td>grokability/snipe-it</td>
+        <td>14.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-pwpj-p52h-q484" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>18</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6f75-x745-xcpr</code></td>
+        <td>grokability/snipe-it</td>
+        <td>14.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6f75-x745-xcpr" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>19</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-jc3j-x6pg-4hmv</code></td>
+        <td>xyproto/algernon</td>
+        <td>3.0k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-jc3j-x6pg-4hmv" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>20</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-j3rv-43j4-c7qm</code></td>
+        <td>FasterXML/jackson-databind</td>
+        <td>3.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-j3rv-43j4-c7qm" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>21</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-rw9q-97r9-8gvh</code></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-rw9q-97r9-8gvh" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>22</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-wc3f-xc32-435f</code></td>
+        <td>N/A</td>
+        <td>0</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-wc3f-xc32-435f" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>23</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-r9pv-5rpp-vm8g</code></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-r9pv-5rpp-vm8g" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>24</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-vvhj-w2jq-263q</code></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-vvhj-w2jq-263q" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>25</td>
+        <td>🟡 中危</td>
+        <td><code>GHSA-p462-xxwx-pqf4</code></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>CRITICAL</td>
+        <td>仅描述</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-p462-xxwx-pqf4" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>26</td>
+        <td>🟡 中危</td>
+        <td><code>GHSA-j4h9-pm27-4rfw</code></td>
+        <td>OctoPrint/OctoPrint</td>
+        <td>9.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>中</td>
+        <td><a href="https://github.com/advisories/GHSA-j4h9-pm27-4rfw" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+<tr>
+        <td>27</td>
+        <td>🟡 中危</td>
+        <td><code>GHSA-rmj7-2vxq-3g9f</code></td>
+        <td>FasterXML/jackson-databind</td>
+        <td>3.7k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-rmj7-2vxq-3g9f" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td><code>GHSA-6c99-87fr-6q7r</code><br><small style="color:#8b949e">OpenAM: Pre-auth RCE via Java Deserialization in WebAuthn Au</small></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>CRITICAL</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-phv5-334h-mxcw</code><br><small style="color:#8b949e">motionEye Partial Authentication Bypass: Unauthenticated Adm</small></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>CRITICAL</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-qxvg-h7q2-hcxh</code><br><small style="color:#8b949e">motionEye: LFI → pass‑the‑hash admin → unsafe restore → unau</small></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>CRITICAL</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-7fq5-7wr8-rjwj</code><br><small style="color:#8b949e">OliveTin has a Concurrent Template Parsing Race Condition wh</small></td>
+        <td>OliveTin/OliveTin</td>
+        <td>3.7k</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-jc3j-x6pg-4hmv</code><br><small style="color:#8b949e">Algernon: Host header path traversal in --domain mode reads </small></td>
+        <td>xyproto/algernon</td>
+        <td>3.0k</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-j3rv-43j4-c7qm</code><br><small style="color:#8b949e">jackson-databind has a PolymorphicTypeValidator bypass via g</small></td>
+        <td>FasterXML/jackson-databind</td>
+        <td>3.7k</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-rw9q-97r9-8gvh</code><br><small style="color:#8b949e">motionEye&#x27;s Absolute Path Traversal in Media File Handlers A</small></td>
+        <td>motioneye-project/motioneye</td>
+        <td>4.6k</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-wc3f-xc32-435f</code><br><small style="color:#8b949e">AVideo has an incomplete fix of CVE-2026-33482: sanitizeFFmp</small></td>
+        <td>N/A</td>
+        <td>0</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-r9pv-5rpp-vm8g</code><br><small style="color:#8b949e">OpenAM Unauthenticated Session Hijacking via Information Exp</small></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+<tr>
+        <td><code>GHSA-vvhj-w2jq-263q</code><br><small style="color:#8b949e">OpenAM Authenticated Privilege Escalation via Raw Token Disc</small></td>
+        <td>OpenIdentityPlatform/OpenAM</td>
+        <td>875</td>
+        <td>HIGH</td>
+        <td>PoC</td>
+    </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（12个）：</strong></p>
+                <ul><li><strong>Budibase has nonymous NoSQL operator injection via published-app query templates</strong> (Budibase/budibase) — 建议立即排查并升级</li><li><strong>Gogs has Path Traversal in organization name that results in RCE through Git hoo</strong> (gogs/gogs) — 建议立即排查并升级</li><li><strong>Gogs: UploadRepoFiles writes outside repo working tree via committed parent sym</strong> (gogs/gogs) — 建议立即排查并升级</li><li><strong>Gogs vulnerable to RCE via git rebase --exec argument injection in pull request </strong> (gogs/gogs) — 建议立即排查并升级</li><li><strong>Crawl4AI: Multiple Docker API Vulnerabilities - File Write, SSRF, Auth Bypass, X</strong> (unclecode/crawl4ai) — 建议立即排查并升级</li><li><strong>Mise vulnerable to arbitrary command execution via task-include files in an untr</strong> (jdx/mise) — 建议立即排查并升级</li><li><strong>Glances has arbitrary file write and command execution via `secure_popen` redire</strong> (nicolargo/glances) — 建议立即排查并升级</li><li><strong>Gogs: LFS dedupe path leaks private repo content across tenants</strong> (gogs/gogs) — 建议立即排查并升级</li><li><strong>Gogs allows users to write to readonly repositories using receive-pack + service</strong> (gogs/gogs) — 建议立即排查并升级</li><li><strong>Gogs&#x27;s write-level collaborators can mutate admin-only repository settings via A</strong> (gogs/gogs) — 建议立即排查并升级</li></ul>
+                <p><strong>🟠 重点关注（12个）：</strong></p>
+                <ul><li><strong>OpenAM: Pre-auth RCE via Java Deserialization in WebAuthn Authenticator Storage</strong> (OpenIdentityPlatform/OpenAM) — 建议尽快评估影响</li><li><strong>motionEye Partial Authentication Bypass: Unauthenticated Admin Credential Theft </strong> (motioneye-project/motioneye) — 建议尽快评估影响</li><li><strong>motionEye: LFI → pass‑the‑hash admin → unsafe restore → unauth action exec (RCE)</strong> (motioneye-project/motioneye) — 建议尽快评估影响</li><li><strong>OliveTin has a Concurrent Template Parsing Race Condition which Leads to Cross-R</strong> (OliveTin/OliveTin) — 建议尽快评估影响</li><li><strong>Snipe-IT API Vulnerable to Cross-Tenant Accessory Injection</strong> (grokability/snipe-it) — 建议尽快评估影响</li><li><strong>Snipe-IT: Bulk editing users allowed `ldap_import` and `activated_in` bulk editi</strong> (grokability/snipe-it) — 建议尽快评估影响</li><li><strong>Algernon: Host header path traversal in --domain mode reads files and runs Lua f</strong> (xyproto/algernon) — 建议尽快评估影响</li><li><strong>jackson-databind has a PolymorphicTypeValidator bypass via generic type paramete</strong> (FasterXML/jackson-databind) — 建议尽快评估影响</li></ul>
+                <p><strong>🟡 常规关注（3个）：</strong></p>
+                <ul><li><strong>OpenAM Pre-auth User Profile Tampering via Anonymous SOAP Authn in Liberty IDPP/</strong> (OpenIdentityPlatform/OpenAM) — 持续关注</li><li><strong>OctoPrint has possible file exfiltration via query parameters on upload endpoint</strong> (OctoPrint/OctoPrint) — 持续关注</li><li><strong>jackson-databind has an array subtype allowlist bypass in BasicPolymorphicTypeVa</strong> (FasterXML/jackson-databind) — 持续关注</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
