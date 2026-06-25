@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-25",
+      "title": "GitHub安全公告日报 - 2026-06-25",
+      "url": "reports/report-2026-06-25.html",
+      "stats": {
+        "total": 27,
+        "critical": 9,
+        "high": 18,
+        "star5k": 15,
+        "with_poc": 22
+      },
+      "summary": "发现27个Critical/High级别漏洞，其中12个紧急、12个高危。重点关注：Gogs多个RCE漏洞（47.6k Star）、Crawl4AI Docker API漏洞（69.5k Star）、Budibase NoSQL注入（28k Star）、Glances命令执行（33k Star）、Mise任意命令执行（30k Star）。"
+    },
+    {
       "date": "2026-06-24",
       "title": "GitHub安全公告日报 - 2026-06-24",
       "url": "reports/report-2026-06-24.html",
