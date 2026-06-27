@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-27",
+      "title": "GitHub安全公告日报 - 2026-06-27",
+      "url": "reports/report-2026-06-27.html",
+      "stats": {
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "star5k": 1,
+        "with_poc": 1
+      },
+      "summary": "今日发现1个High级别漏洞：pnpm路径遍历漏洞(GHSA-fr4h-3cph-29xv)，影响35.6k star项目，含详细利用分析，建议立即升级至10.34.4或11.7.0。"
+    },
+    {
       "date": "2026-06-25",
       "title": "GitHub安全公告日报 - 2026-06-25",
       "url": "reports/report-2026-06-25.html",
