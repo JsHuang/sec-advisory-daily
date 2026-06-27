@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-27</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-27 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 pnpm: 提升安装时锁文件别名路径遍历漏洞</div>
+                    <div class="advisory-id">GHSA-fr4h-3cph-29xv | CVE: 待分配</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.1)</span>
+                <span class="badge badge-stars">⭐ 35,627</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>pnpm 包管理器在处理提升模式（hoisted install）时存在路径遍历漏洞。恶意构造的锁文件别名可以绕过 node_modules 目录限制，通过路径遍历将包文件写入到安装根目录之外的位置。攻击者可以利用保留别名（如 .bin 或 .pnpm）覆盖 pnpm 管理的目录布局。</p>
+                
+                <p><strong>影响产品：</strong>pnpm ⭐35,627</p>
+                
+                <p><strong>影响版本：</strong>
+                <ul>
+                    <li>pnpm &lt; 10.34.4</li>
+                    <li>pnpm &gt;= 11.0.0, &lt; 11.7.0</li>
+                </ul>
+                </p>
+                
+                <p><strong>攻击面：</strong>供应链攻击 - 攻击者可以通过构造恶意的锁文件（pnpm-lock.yaml）来利用此漏洞。当用户或CI/CD系统执行 pnpm install 时，恶意别名会被解析并创建超出预期目录的文件。</p>
+                
+                <p><strong>触发条件：</strong>
+                <ul>
+                    <li>使用提升模式安装依赖（hoisted install）</li>
+                    <li>存在恶意构造的锁文件，包含路径遍历别名</li>
+                    <li>用户执行 pnpm install 命令</li>
+                </ul>
+                </p>
+                
+                <p><strong>潜在危害：</strong>
+                <ul>
+                    <li>文件系统写入越界：可将文件写入项目目录之外的位置</li>
+                    <li>目录覆盖：可能覆盖 .bin、.pnpm 等关键目录</li>
+                    <li>代码注入：通过写入恶意脚本到 .bin 目录实现代码执行</li>
+                    <li>供应链投毒：可在依赖安装过程中植入后门</li>
+                </ul>
+                </p>
+                
+                <p><strong>可利用性：</strong>高 - 公告包含详细的漏洞原理分析，明确指出：
+                <ul>
+                    <li>遍历别名可逃逸 node_modules 目录</li>
+                    <li>保留别名可覆盖 pnpm 布局</li>
+                    <li>提供具体的文件路径（safeJoinModulesDir.ts）</li>
+                    <li>包含利用回归测试用例</li>
+                    <li>有私有PR仓库展示修复方案</li>
+                </ul>
+                </p>
+                
+                <p><strong>修复建议：</strong>
+                <ul>
+                    <li>立即升级 pnpm 到 10.34.4 或 11.7.0 及以上版本</li>
+                    <li>审查项目中的 pnpm-lock.yaml 文件，检查是否存在可疑的路径遍历别名</li>
+                    <li>在CI/CD环境中固定 pnpm 版本，避免自动升级引入风险</li>
+                    <li>使用 pnpm audit 命令检查依赖安全性</li>
+                </ul>
+                </p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fr4h-3cph-29xv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-fr4h-3cph-29xv</code></td>
+                    <td>pnpm</td>
+                    <td>35.6k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fr4h-3cph-29xv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>pnpm 路径遍历漏洞（GHSA-fr4h-3cph-29xv）</strong> - 这是一个影响广泛的供应链攻击漏洞。pnpm 作为主流包管理器，拥有超过 35k star，大量项目和CI/CD系统在使用。建议所有使用 pnpm 的团队立即升级，并审查现有的锁文件。</li>
+                </ul>
+                <p><strong>供应链安全建议：</strong></p>
+                <ul>
+                    <li>定期更新包管理器到最新版本</li>
+                    <li>使用 lockfile 验证工具检查依赖完整性</li>
+                    <li>在CI/CD中启用依赖审计步骤</li>
+                    <li>考虑使用依赖防火墙或私有仓库过滤恶意包</li>
+                    <li>监控安全公告，及时响应高危漏洞</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
