@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-28",
+      "title": "GitHub安全公告日报 - 2026-06-28",
+      "url": "reports/report-2026-06-28.html",
+      "stats": {
+        "total": 3,
+        "critical": 0,
+        "high": 3,
+        "star5k": 1,
+        "with_poc": 3
+      },
+      "summary": "今日发现3个High级别pnpm供应链漏洞（GHSA-qrv3-253h-g69c/GHSA-72r4-9c5j-mj57/GHSA-fr4h-3cph-29xv），其中1个含完整PoC，均影响pnpm < 10.34.4和11.0.0-11.7.0版本，建议立即升级。"
+    },
+    {
       "date": "2026-06-27",
       "title": "GitHub安全公告日报 - 2026-06-27",
       "url": "reports/report-2026-06-27.html",
