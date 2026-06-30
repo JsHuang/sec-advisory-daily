@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-06-30</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-06-30 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. Dgraph DQL Injection -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Dgraph DQL Injection via checkUserPassword GraphQL Query</div>
+                    <div class="advisory-id">GHSA-q2m9-6jp9-c6mc | CVE: CVE-2026-44840</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 21,716</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Dgraph 的 <code>checkUserPassword</code> GraphQL 查询存在 DQL（Dgraph Query Language）注入漏洞。用户提供的密码值通过 <code>fmt.Sprintf</code> 直接插入到 DQL 的 <code>checkpwd()</code> 查询中，没有任何转义或参数化处理。攻击者可以注入包含双引号的密码，突破 DQL 字符串字面量并追加任意 DQL 查询块。</p>
+                <p><strong>影响产品：</strong>github.com/dgraph-io/dgraph ⭐ 21,716</p>
+                <p><strong>影响版本：</strong>≤ v25.3.3（所有包含 GraphQL @secret 指令支持的版本）</p>
+                <p><strong>攻击面：</strong>网络可达，通过任意 GraphQL 端点访问，<strong>无需认证</strong>（checkUserPassword 是未认证查询）</p>
+                <p><strong>触发条件：</strong>攻击者发送包含特制密码字段的单个 HTTP POST 请求即可触发。漏洞位于 <code>query_rewriter.go</code>（约第364行），密码通过 fmt.Sprintf 直接拼接到 DQL 查询中。</p>
+                <p><strong>潜在危害：</strong>
+                    <ul>
+                        <li><strong>数据枚举</strong>：注入的查询块在服务端执行，可通过 touched_uids 指标探测谓词、类型和节点</li>
+                        <li><strong>Schema 发现</strong>：攻击者可枚举数据库中所有谓词和类型</li>
+                        <li><strong>资源耗尽</strong>：昂贵的注入查询（递归遍历、大聚合）在 DQL 层执行，消耗服务器资源</li>
+                        <li><strong>潜在数据泄露</strong>：取决于 Dgraph 配置，注入查询结果可能泄露到响应中</li>
+                    </ul>
+                </p>
+                <p><strong>可利用性：</strong><span class="badge badge-poc">有完整PoC</span> — 公告包含完整的 curl 命令、漏洞代码路径分析、修复建议代码</p>
+                <p><strong>修复建议：</strong>升级到 v25.3.4。临时缓解：在密码值嵌入 DQL 查询前转义双引号和反斜杠字符，或实施参数化查询支持。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q2m9-6jp9-c6mc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. Kanidm SCIM Filter Stack Overflow -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Kanidm SCIM Filter Stack Exhaustion DoS (Process Abort)</div>
+                    <div class="advisory-id">GHSA-r5fr-9gmv-jggh | CVE: CVE-2026-46689</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 5,081</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Kanidm 身份管理服务器的 SCIM filter 语法解析器（PEG 递归下降解析器）没有深度限制。单个未认证的 GET 请求，携带约 4-12 KB 的嵌套括号 filter 查询字符串，即可使解析器超过工作线程的栈保护页。Rust 对栈溢出的响应是 <code>std::process::abort()</code>——整个 kanidmd 进程退出。</p>
+                <p><strong>影响产品：</strong>github.com/kanidm/kanidm ⭐ 5,081</p>
+                <p><strong>影响版本：</strong>v1.7.0 至 master @ edf50b9da（scim_proto ≤ 1.9.2, kanidm_proto ≤ 1.9.2）</p>
+                <p><strong>攻击面：</strong>网络可达，<strong>无需认证</strong>。解析在 axum 的 Query 提取器中执行，在 ACL 检查之前。9个 SCIM 端点受影响。</p>
+                <p><strong>触发条件：</strong>发送约 3000 层嵌套括号的 GET 请求（~4KB payload），例如：<br>
+                <code>GET /scim/v1/Application?filter=(((((...(a pr)...))))</code><br>
+                Release 构建阈值约 2000 层嵌套 / ~4KB。6011 字节版本可绕过 nginx 默认 8KB header 限制。</p>
+                <p><strong>潜在危害：</strong>
+                    <ul>
+                        <li><strong>进程级服务中断</strong>：栈溢出触发 <code>std::process::abort()</code>，所有进行中的 HTTP 请求、OAuth2/OIDC 会话、LDAP 绑定和 Web UI 全部终止</li>
+                        <li><strong>可重复利用</strong>：一个 ~12KB GET 请求即可导致一次崩溃，循环发送可持续使服务不可用</li>
+                        <li>tokio 的 per-task catch_unwind 隔离不适用于 abort</li>
+                    </ul>
+                </p>
+                <p><strong>可利用性：</strong><span class="badge badge-poc">有完整PoC</span> — 包含 curl 命令、源码分析（PEG 语法递归规则）、基准测试数据、testkit 端到端验证</p>
+                <p><strong>修复建议：</strong>升级到 v1.9.3。在 PEG 解析前添加长度/深度预检查，或降低 hyper 的 max_buf_size。临时缓解：在反向代理层限制 filter 参数长度。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r5fr-9gmv-jggh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. Mattermost Request Body Size DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Mattermost Plugin HTTP 端点请求体大小限制缺失</div>
+                    <div class="advisory-id">GHSA-jmvr-r5hm-fxfr | CVE: CVE-2026-5308</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 38,246</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Mattermost 多个版本未对插件 HTTP 端点强制执行请求体大小限制，攻击者可通过发送超大的 HTTP 请求导致拒绝服务。</p>
+                <p><strong>影响产品：</strong>github.com/mattermost/mattermost ⭐ 38,246</p>
+                <p><strong>影响版本：</strong>11.6.x ≤ 11.6.0, 11.5.x ≤ 11.5.3, 11.4.x ≤ 11.4.4, 10.11.x ≤ 10.11.14</p>
+                <p><strong>攻击面：</strong>通过网络向 Mattermost 插件 HTTP 端点发送请求</p>
+                <p><strong>触发条件：</strong>攻击者向插件 HTTP 端点发送超大请求体</p>
+                <p><strong>潜在危害：</strong>拒绝服务——服务器资源被超大请求耗尽</p>
+                <p><strong>可利用性：</strong>仅描述——公告未提供具体 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级到 11.6.1+、11.5.4+、11.4.5+、10.11.15+。Mattermost Advisory ID: MMSA-2026-00646</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jmvr-r5hm-fxfr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. Mattermost MsgPack WebSocket DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Mattermost MsgPack WebSocket 帧内存分配前验证不当</div>
+                    <div class="advisory-id">GHSA-w9m8-p4cc-4qj9 | CVE: CVE-2026-5740</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 38,246</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Mattermost 多个版本在内存分配前未正确验证 msgpack 编码的 WebSocket 帧，未认证的远程攻击者可通过特制的二进制 WebSocket 消息使服务器进程崩溃，导致所有用户完全服务中断。</p>
+                <p><strong>影响产品：</strong>github.com/mattermost/mattermost ⭐ 38,246</p>
+                <p><strong>影响版本：</strong>11.6.x ≤ 11.6.0, 11.5.x ≤ 11.5.3, 11.4.x ≤ 11.4.4, 10.11.x ≤ 10.11.14</p>
+                <p><strong>攻击面：</strong><strong>无需认证</strong>，通过公共 WebSocket 端点即可触达</p>
+                <p><strong>触发条件：</strong>攻击者向公共 WebSocket 端点发送特制的 msgpack 编码二进制帧</p>
+                <p><strong>潜在危害：</strong>
+                    <ul>
+                        <li>服务器进程崩溃，所有用户完全服务中断</li>
+                        <li>攻击无需认证，攻击复杂度低</li>
+                    </ul>
+                </p>
+                <p><strong>可利用性：</strong>仅描述——公告未提供具体 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级到 11.6.1+、11.5.4+、11.4.5+、10.11.15+。Mattermost Advisory ID: MMSA-2026-00647</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w9m8-p4cc-4qj9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. Scriban array.insert_at DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Scriban array.insert_at DoS - 绕过 LoopLimit 和 LimitToString</div>
+                    <div class="advisory-id">GHSA-24c8-4792-22hx | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 3,911</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Scriban 模板引擎的 <code>ArrayFunctions.InsertAt</code> 在 C# 的 for 循环中分配 <code>index - list.Count</code> 个 null 条目，对 index 没有上限。该函数作为模板内置函数 <code>array.insert_at</code> 暴露给模板作者，填充循环忽略了所有现有安全控制：LoopLimit、LimitToString、ObjectRecursionLimit 和 RecursiveLimit。单个模板如 <code>{{ [1] | array.insert_at 200000000 'x' | array.size }}</code> 在 1GB 内存的主机上不到一秒即可导致 OutOfMemoryException。</p>
+                <p><strong>影响产品：</strong>github.com/scriban/scriban ⭐ 3,911</p>
+                <p><strong>影响版本：</strong>scriban ≤ 7.1.0, Scriban.Signed ≤ 7.1.0</p>
+                <p><strong>攻击面：</strong>任何渲染攻击者控制或影响的 Scriban 模板的主机（邮件模板、报告模板、CMS 模板、静态站点生成器等）</p>
+                <p><strong>触发条件：</strong>一行模板 payload 即可触发，例如：<br>
+                <code>{{ [1] | array.insert_at 2147483647 'x' | array.size }}</code><br>
+                即使 LoopLimit=10、LimitToString=100 也无法防护（循环在编译后的 C# 中执行，不经过 StepLoop）</p>
+                <p><strong>潜在危害：</strong>
+                    <ul>
+                        <li>OOM 终止整个进程（ASP.NET 主机下所有租户受影响）</li>
+                        <li>即使 OOM 被抑制，GC 压力也会导致进程挂起数十秒</li>
+                        <li>~600ms 即可在 1GB Docker 容器中触发</li>
+                    </ul>
+                </p>
+                <p><strong>可利用性：</strong><span class="badge badge-poc">有完整PoC</span> — 包含完整 .NET 9 项目代码、Docker 复现步骤、基准测试数据、源码分析和修复代码建议</p>
+                <p><strong>修复建议：</strong>添加 context-aware 重载，在填充循环运行前验证 index 是否超过 LoopLimit。参照 <code>ArrayFunctions.AddRange</code>、<code>Compact</code> 等已修复函数的模式。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-24c8-4792-22hx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. Netty HTTP Request Smuggling -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty HTTP Request Smuggling (历史漏洞更新)</div>
+                    <div class="advisory-id">GHSA-p979-4mfw-53vg | CVE: CVE-2019-16869</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 34,996</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 4.1.42.Final 之前的版本错误处理 HTTP 头中冒号前的空格（如 "Transfer-Encoding : chunked"），导致 HTTP 请求走私。这是一个 2019 年发布的经典漏洞，本次为公告更新。</p>
+                <p><strong>影响产品：</strong>github.com/netty/netty ⭐ 34,996</p>
+                <p><strong>影响版本：</strong>io.netty 4.0.0.Beta1 - 4.1.42.Final, org.jboss.netty ≤ 3.2.9.Final</p>
+                <p><strong>攻击面：</strong>使用 Netty 作为 HTTP 服务器的应用</p>
+                <p><strong>触发条件：</strong>发送包含冒号前空格的 HTTP 头</p>
+                <p><strong>潜在危害：</strong>HTTP 请求走私，可绕过安全控制、缓存投毒、请求劫持</p>
+                <p><strong>可利用性：</strong>仅描述——经典已知漏洞，大量公开研究资料</p>
+                <p><strong>修复建议：</strong>升级到 Netty ≥ 4.1.42.Final</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p979-4mfw-53vg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 7. TYPO3 ceselector RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 TYPO3 Content Element Selector PHP 反序列化 RCE</div>
+                    <div class="advisory-id">GHSA-8x3j-439w-537c | CVE: CVE-2026-46725</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 57</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>TYPO3 的 "Content Element Selector" (ceselector) 扩展将攻击者控制的 cookie 直接传递给 PHP 的 <code>unserialize()</code>，没有安全处理输入。远程未认证攻击者可提供特制的序列化 payload 触发 PHP 对象注入，导致 TYPO3 服务器上的远程代码执行。利用需要内容元素配置为 "Persistent Mode: Static"。</p>
+                <p><strong>影响产品：</strong>TYPO3 扩展 mmc/ceselector ⭐ 57</p>
+                <p><strong>影响版本：</strong>&lt; 3.0.3, 4.0.0-4.0.1, 5.0.0, 6.0.0</p>
+                <p><strong>攻击面：</strong>远程未认证，通过 Cookie 注入</p>
+                <p><strong>触发条件：</strong>需要 ceselector 插件配置为 "Persistent Mode: Static"</p>
+                <p><strong>潜在危害：</strong>远程代码执行——攻击者可在服务器上执行任意命令</p>
+                <p><strong>可利用性：</strong>有详细原理——描述了攻击路径（Cookie → unserialize → PHP Object Injection → RCE），需要特定配置条件</p>
+                <p><strong>修复建议：</strong>升级到 ceselector 3.0.3、4.0.2、5.0.1 或 6.0.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8x3j-439w-537c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 8. Apache CXF LDAP Injection -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache CXF XKMS Server LDAP 注入</div>
+                    <div class="advisory-id">GHSA-pg32-686q-qh6x | CVE: CVE-2026-44930</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 922</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache CXF 的 XKMS 服务器 LDAP 证书仓库中存在 LDAP 注入漏洞，攻击者可能从仓库中检索任意证书。</p>
+                <p><strong>影响产品：</strong>Apache CXF (org.apache.cxf.services.xkms:cxf-services-xkms-x509-repo-ldap) ⭐ 922</p>
+                <p><strong>影响版本：</strong>&lt; 3.6.11, 4.1.0-4.1.5, 4.2.0</p>
+                <p><strong>攻击面：</strong>XKMS LDAP 证书仓库服务</p>
+                <p><strong>触发条件：</strong>攻击者向 XKMS LDAP 证书仓库发送包含 LDAP 注入 payload 的请求</p>
+                <p><strong>潜在危害：</strong>未授权检索任意证书，可能泄露敏感信息</p>
+                <p><strong>可利用性：</strong>仅描述——公告描述简短，无 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级到 Apache CXF 4.2.1、4.1.6 或 3.6.11</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pg32-686q-qh6x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 9. Apache CXF JMS RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache CXF JMS 配置不完整修复导致 RCE</div>
+                    <div class="advisory-id">GHSA-2hvc-5c6v-f533 | CVE: CVE-2026-44417</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 922</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CVE-2025-48913（Apache CXF: 不受信任的 JMS 配置可导致 RCE）的修复不完整，代码中的另一条路径可能导致代码执行能力，如果不受信任的用户被允许为 Apache CXF 配置 JMS。</p>
+                <p><strong>影响产品：</strong>Apache CXF (org.apache.cxf:cxf-rt-transports-jms) ⭐ 922</p>
+                <p><strong>影响版本：</strong>&lt; 3.6.11, 4.1.0-4.1.5, 4.2.0</p>
+                <p><strong>攻击面：</strong>需要能够配置 JMS 的不受信任用户</p>
+                <p><strong>触发条件：</strong>不受信任用户配置 JMS</p>
+                <p><strong>潜在危害：</strong>远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述——公告描述简短，无 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级到 Apache CXF 4.2.1、4.1.6 或 3.6.11</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2hvc-5c6v-f533" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 10. OpenAM OAuth Client Impersonation -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 OpenAM OAuth 客户端冒充 via JWKS Resolver Cache</div>
+                    <div class="advisory-id">GHSA-f2cx-463q-7m2c | CVE: CVE-2026-47426</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 876</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenAM 的 OAuth2 private_key_jwt 客户端认证路径存在不当认证（CWE-287）问题，允许任何已注册的 OAuth2 客户端以其他客户端的名义铸造令牌，而无需知道受害者的签名密钥。通过 JWKS URI 发布密钥的任何客户端都可被冒充。</p>
+                <p><strong>影响产品：</strong>OpenIdentityPlatform/OpenAM (org.openidentityplatform.openam:openam-oauth2) ⭐ 876</p>
+                <p><strong>影响版本：</strong>OpenAM Community Edition ≤ 16.0.6</p>
+                <p><strong>攻击面：</strong>已注册的 OAuth2 客户端可冒充其他客户端</p>
+                <p><strong>触发条件：</strong>需要有已注册的 OAuth2 客户端，且目标客户端使用 jwks_uri 发布密钥</p>
+                <p><strong>潜在危害：</strong>OAuth2 令牌伪造，可以其他客户端身份获取资源访问权限</p>
+                <p><strong>可利用性：</strong>有详细原理——描述了完整的攻击路径和 JWKS 缓存利用机制</p>
+                <p><strong>修复建议：</strong>升级到 OpenAM Community Edition ≥ 16.1.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f2cx-463q-7m2c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 11. OpenAM Groovy Sandbox Escape RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 OpenAM Groovy 沙箱逃逸认证 RCE</div>
+                    <div class="advisory-id">GHSA-69j4-qvqr-hpw3 | CVE: CVE-2026-47424</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 876</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenAM 的服务端脚本沙箱存在保护机制失败（CWE-693），允许已认证的脚本作者在 OpenAM JVM 中执行操作系统命令，使用默认的类允许和拒绝列表即可利用。</p>
+                <p><strong>影响产品：</strong>OpenIdentityPlatform/OpenAM (org.openidentityplatform.openam:openam-scripting) ⭐ 876</p>
+                <p><strong>影响版本：</strong>OpenAM Community Edition ≤ 16.0.6</p>
+                <p><strong>攻击面：</strong>已认证用户（如 realm admin）可创建或编辑服务端脚本</p>
+                <p><strong>触发条件：</strong>需要认证且有权创建/编辑服务端脚本的上下文</p>
+                <p><strong>潜在危害：</strong>在 OpenAM JVM 进程中执行任意操作系统命令</p>
+                <p><strong>可利用性：</strong>有详细原理——描述了 Groovy 沙箱逃逸机制</p>
+                <p><strong>修复建议：</strong>升级到 OpenAM Community Edition ≥ 16.1.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-69j4-qvqr-hpw3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 12. smtp-server DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 smtp-server 命令解析器内存耗尽 DoS</div>
+                    <div class="advisory-id">GHSA-fv2f-rw9f-v9cm | CVE: CVE-2026-38728</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 912</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>smtp-server v3.18.3 之前版本存在未认证的内存耗尽拒绝服务漏洞。命令解析器允许任何远程客户端通过发送不带换行符的数据来消耗服务器内存。<code>SMTPStream._write</code> 中的 <code>_remainder</code> 缓冲区无限制增长，导致堆耗尽、GC 长时间暂停冻结事件循环，在某些情况下进程崩溃。</p>
+                <p><strong>影响产品：</strong>nodemailer/smtp-server ⭐ 912</p>
+                <p><strong>影响版本：</strong>&lt; 3.18.3</p>
+                <p><strong>攻击面：</strong>未认证远程访问，任何 TCP 连接即可触发</p>
+                <p><strong>触发条件：</strong>客户端发送不带换行符的持续数据流</p>
+                <p><strong>潜在危害：</strong>堆耗尽、GC 冻结事件循环、进程崩溃</p>
+                <p><strong>可利用性：</strong>有详细原理——描述了 _write 方法和 _remainder 缓冲区的增长机制</p>
+                <p><strong>修复建议：</strong>升级到 smtp-server ≥ 3.18.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fv2f-rw9f-v9cm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 13. Froxlor DNS Incomplete Fix -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Froxlor DNS 记录验证不完整修复 (CVE-2026-30932 绕过)</div>
+                    <div class="advisory-id">GHSA-j6fm-9rfm-j5hx | CVE: CVE-2026-41237</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1,742</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Froxlor 对 CVE-2026-30932 的修复不完整。LOC 记录正则使用 <code>\s+</code> 匹配换行符（允许嵌入式换行通过），TLSA <code>matchingType=0</code> 对十六进制数据长度没有上限，所有验证器返回原始输入而不进行 zone-file 转义。</p>
+                <p><strong>影响产品：</strong>froxlor/froxlor ⭐ 1,742</p>
+                <p><strong>影响版本：</strong>≤ 2.3.6（修复 commit b34829262dc3 之前的所有版本）</p>
+                <p><strong>攻击面：</strong>DNS 记录管理界面</p>
+                <p><strong>触发条件：</strong>通过 DNS 记录管理功能提交特制的记录数据</p>
+                <p><strong>潜在危害：</strong>注入攻击——绕过输入验证可能导致 DNS zone 文件注入</p>
+                <p><strong>可利用性：</strong>有完整PoC——公告包含详细的攻击代码和分析</p>
+                <p><strong>修复建议：</strong>升级到 Froxlor ≥ 2.3.7（commit b34829262dc3）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j6fm-9rfm-j5hx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-q2m9-6jp9-c6mc</code></td>
+                    <td>dgraph-io/dgraph</td>
+                    <td>21,716</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q2m9-6jp9-c6mc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-r5fr-9gmv-jggh</code></td>
+                    <td>kanidm/kanidm</td>
+                    <td>5,081</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-r5fr-9gmv-jggh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jmvr-r5hm-fxfr</code></td>
+                    <td>mattermost/mattermost</td>
+                    <td>38,246</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jmvr-r5hm-fxfr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-w9m8-p4cc-4qj9</code></td>
+                    <td>mattermost/mattermost</td>
+                    <td>38,246</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w9m8-p4cc-4qj9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-p979-4mfw-53vg</code></td>
+                    <td>netty/netty</td>
+                    <td>34,996</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p979-4mfw-53vg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-24c8-4792-22hx</code></td>
+                    <td>scriban/scriban</td>
+                    <td>3,911</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-24c8-4792-22hx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-8x3j-439w-537c</code></td>
+                    <td>TYPO3 ceselector</td>
+                    <td>57</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8x3j-439w-537c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-pg32-686q-qh6x</code></td>
+                    <td>Apache CXF</td>
+                    <td>922</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-pg32-686q-qh6x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-2hvc-5c6v-f533</code></td>
+                    <td>Apache CXF</td>
+                    <td>922</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2hvc-5c6v-f533" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-f2cx-463q-7m2c</code></td>
+                    <td>OpenAM</td>
+                    <td>876</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f2cx-463q-7m2c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-69j4-qvqr-hpw3</code></td>
+                    <td>OpenAM</td>
+                    <td>876</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-69j4-qvqr-hpw3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-fv2f-rw9f-v9cm</code></td>
+                    <td>smtp-server</td>
+                    <td>912</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-fv2f-rw9f-v9cm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-j6fm-9rfm-j5hx</code></td>
+                    <td>froxlor</td>
+                    <td>1,742</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-j6fm-9rfm-j5hx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-jr8m-x4p7-p3v5</code></td>
+                    <td>TYPO3 crawler</td>
+                    <td>57</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-jr8m-x4p7-p3v5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-3h52-6v6j-6wwv</code></td>
+                    <td>TYPO3 tt_address</td>
+                    <td>-</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3h52-6v6j-6wwv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-24c8-4792-22hx</code></td>
+                    <td>scriban/scriban</td>
+                    <td>3,911</td>
+                    <td>High</td>
+                    <td>完整 .NET PoC 项目 + Docker 复现 + 源码修复方案；影响所有使用 Scriban 模板的 .NET 应用</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-j6fm-9rfm-j5hx</code></td>
+                    <td>froxlor/froxlor</td>
+                    <td>1,742</td>
+                    <td>High</td>
+                    <td>CVE-2026-30932 修复绕过，DNS zone 注入；包含详细攻击代码和多个攻击向量</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8x3j-439w-537c</code></td>
+                    <td>TYPO3 ceselector</td>
+                    <td>57</td>
+                    <td>Critical</td>
+                    <td>PHP 反序列化 → RCE，未认证远程利用；经典 Cookie → unserialize 攻击链</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-fv2f-rw9f-v9cm</code></td>
+                    <td>nodemailer/smtp-server</td>
+                    <td>912</td>
+                    <td>High</td>
+                    <td>未认证内存耗尽 DoS，详细源码分析；影响使用 smtp-server 的 Node.js 邮件服务</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Dgraph DQL Injection (GHSA-q2m9-6jp9-c6mc)</strong>：⭐21k+ 的图数据库，未认证 GraphQL 端点注入，有完整 curl PoC。使用 Dgraph 的团队应立即升级到 v25.3.4，或在 GraphQL 层过滤 checkUserPassword 查询中的特殊字符。</li>
+                    <li><strong>Kanidm SCIM Filter Stack Overflow (GHSA-r5fr-9gmv-jggh)</strong>：未认证单请求导致进程 abort，有完整 PoC 和源码分析。使用 Kanidm 作为身份管理服务器的团队应立即升级到 v1.9.3，或在反代层限制 filter 参数长度。</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>Mattermost 双漏洞 (GHSA-jmvr-r5hm-fxfr / GHSA-w9m8-p4cc-4qj9)</strong>：⭐38k+ 的企业协作平台，msgpack WebSocket DoS 无需认证。使用 Mattermost 的团队应尽快升级到修复版本。</li>
+                    <li><strong>Scriban array.insert_at DoS (GHSA-24c8-4792-22hx)</strong>：.NET 模板引擎，有完整 PoC。任何渲染用户可控模板的应用都受影响。</li>
+                    <li><strong>Netty HTTP Request Smuggling (GHSA-p979-4mfw-53vg)</strong>：⭐35k 的网络框架，经典请求走私漏洞。确认使用的 Netty 版本是否已修复。</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>Apache CXF 双漏洞</strong>：LDAP 注入和 JMS RCE，影响 XKMS 和 JMS 传输模块用户，升级到 4.2.1/4.1.6/3.6.11。</li>
+                    <li><strong>OpenAM 双漏洞</strong>：OAuth 客户端冒充和 Groovy 沙箱逃逸，升级到 16.1.1。</li>
+                    <li><strong>smtp-server DoS</strong>：Node.js 邮件服务器内存耗尽，升级到 3.18.3。</li>
+                    <li><strong>TYPO3 扩展系列漏洞</strong>：ceselector RCE（Critical）、crawler RCE、tt_address SQL 注入，分别升级对应扩展。</li>
+                    <li><strong>Froxlor DNS 注入</strong>：CVE-2026-30932 修复绕过，升级到 2.3.7。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
