@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-06-30",
+      "title": "GitHub安全公告日报 - 2026-06-30",
+      "url": "reports/report-2026-06-30.html",
+      "stats": {
+        "total": 15,
+        "critical": 2,
+        "high": 13,
+        "star5k": 4,
+        "with_poc": 6
+      },
+      "summary": "发现2个Critical和13个High级别漏洞。Dgraph DQL注入（⭐21k，未认证，完整PoC）和Kanidm SCIM Filter栈溢出DoS（⭐5k，未认证进程abort，完整PoC）为紧急级别；Mattermost双漏洞（⭐38k）、Scriban模板DoS（完整PoC）、Netty HTTP走私为高危。"
+    },
+    {
       "date": "2026-06-28",
       "title": "GitHub安全公告日报 - 2026-06-28",
       "url": "reports/report-2026-06-28.html",
