@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-01",
+      "title": "GitHub安全公告日报 - 2026-07-01",
+      "url": "reports/report-2026-07-01.html",
+      "stats": {
+        "total": 34,
+        "critical": 17,
+        "high": 17,
+        "star5k": 9,
+        "with_poc": 12
+      },
+      "summary": "今日发现34个高危公告（17 Critical + 17 High），重点包括Fission K8s容器逃逸系列（4个Critical）、KubeVirt符号链接逃逸、golang.org/x/crypto/ssh认证绕过（CVSS 10.0）、MLflow供应链投毒、Dolibarr未认证RCE、Netty HTTP/3 DoS等"
+    },
+    {
       "date": "2026-06-30",
       "title": "GitHub安全公告日报 - 2026-06-30",
       "url": "reports/report-2026-06-30.html",
