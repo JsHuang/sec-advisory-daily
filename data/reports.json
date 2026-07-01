@@ -5,13 +5,13 @@
       "title": "GitHub安全公告日报 - 2026-07-01",
       "url": "reports/report-2026-07-01.html",
       "stats": {
-        "total": 34,
-        "critical": 17,
-        "high": 17,
-        "star5k": 9,
-        "with_poc": 12
+        "total": 16,
+        "critical": 4,
+        "high": 12,
+        "star5k": 10,
+        "with_poc": 16
       },
-      "summary": "今日发现34个高危公告（17 Critical + 17 High），重点包括Fission K8s容器逃逸系列（4个Critical）、KubeVirt符号链接逃逸、golang.org/x/crypto/ssh认证绕过（CVSS 10.0）、MLflow供应链投毒、Dolibarr未认证RCE、Netty HTTP/3 DoS等"
+      "summary": "发现16个高危/严重漏洞，其中10个影响Star≥5k项目。Fission存在4个Critical级特权逃逸漏洞（CVSS 9.9），需立即升级到v1.24.0。AdonisJS bodyparser原型污染修复不完整，可远程利用。"
     },
     {
       "date": "2026-06-30",
