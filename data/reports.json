@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-02",
+      "title": "GitHub安全公告日报 - 2026-07-02",
+      "url": "reports/report-2026-07-02.html",
+      "stats": {
+        "total": 37,
+        "critical": 0,
+        "high": 37,
+        "star5k": 9,
+        "with_poc": 8
+      },
+      "summary": "今日发现37个高危漏洞，重点关注repomix RCE（完整PoC）、SurrealDB 4个严重漏洞（会话劫持+权限提升+DoS）、Centrifugo JWT跨租户绕过。Star≥5k项目9个，含PoC漏洞8个。"
+    },
+    {
       "date": "2026-07-01",
       "title": "GitHub安全公告日报 - 2026-07-01",
       "url": "reports/report-2026-07-01.html",
