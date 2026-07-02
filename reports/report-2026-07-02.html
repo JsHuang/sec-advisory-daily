@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-02</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-02 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">37</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">37</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- repomix RCE - 最高优先级 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 repomix 远程代码执行漏洞（命令注入）</div>
+                    <div class="advisory-id">GHSA-9mm9-rqhj-j5mx | CVE: CVE-2026-49987</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 26.8k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>repomix 的 <code>--remote-branch</code> CLI 参数存在命令注入漏洞。用户输入直接传递给 <code>git fetch</code> 和 <code>git checkout</code> 子进程，未经过任何消毒、<code>--</code> 分隔符或验证。攻击者可注入任意 git 命令行选项，通过 <code>--upload-pack</code> 参数指定恶意二进制文件实现任意命令执行。</p>
+                <p><strong>影响产品：</strong>repomix ⭐26,755</p>
+                <p><strong>影响版本：</strong>&lt; 1.14.1（已修复）</p>
+                <p><strong>攻击面：</strong>CLI 用户输入 → git 子进程参数注入</p>
+                <p><strong>触发条件：</strong>执行 <code>repomix --remote &lt;url&gt; --remote-branch '--upload-pack=/tmp/malicious-pack'</code></p>
+                <p><strong>潜在危害：</strong>完全控制系统权限；CI/CD 环境泄露密钥；供应链攻击</p>
+                <p><strong>可利用性：</strong>有完整PoC代码和复现步骤，包含端到端攻击流程</p>
+                <p><strong>修复建议：</strong>立即升级至 v1.14.1+；在 git 命令中使用 <code>--</code> 分隔符；对分支参数应用危险参数黑名单</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9mm9-rqhj-j5mx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- SurrealDB Session Hijack -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 SurrealDB HTTP /rpc 会话劫持漏洞</div>
+                    <div class="advisory-id">GHSA-5qfp-32cf-69jh | CVE: 无</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 32.6k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB HTTP <code>/rpc</code> 端点的 <code>sessions</code> 方法无需认证即可返回所有已附加会话的 UUID，且 <code>/rpc</code> 处理器接受任意 <code>session</code> 字段而无所有权验证。匿名攻击者可枚举 UUID 并冒充任何已认证会话。</p>
+                <p><strong>影响产品：</strong>SurrealDB ⭐32,581</p>
+                <p><strong>影响版本：</strong>&lt; 3.1.0（已修复）</p>
+                <p><strong>攻击面：</strong>HTTP /rpc 端点，暴露于网络的 SurrealDB 实例</p>
+                <p><strong>触发条件：</strong>向 <code>/rpc</code> 发送 <code>sessions</code> 请求获取 UUID，随后使用获取的 UUID 发送请求</p>
+                <p><strong>潜在危害：</strong>读取/写入/删除任意数据；权限提升至 root 级别；完全控制数据库</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理说明，攻击路径清晰</p>
+                <p><strong>修复建议：</strong>升级至 v3.1.0+；避免使用 SDK 的 attach 功能；限制 /rpc 端点网络访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5qfp-32cf-69jh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- SurrealDB TOCTOU -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 SurrealDB HTTP RPC 竞态条件权限提升</div>
+                    <div class="advisory-id">GHSA-4vgr-h27g-cf9p | CVE: 无</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 32.6k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB HTTP <code>/rpc</code> 端点存在 TOCTOU（检查时间/使用时间）竞态条件。当已认证和未认证请求并发处理时，未认证请求可继承已认证用户的会话和权限。攻击者无需任何凭据或令牌，仅需发送并发 HTTP 请求即可劫持活跃会话。</p>
+                <p><strong>影响产品：</strong>SurrealDB ⭐32,581</p>
+                <p><strong>影响版本：</strong>&lt; 3.1.0（已修复）</p>
+                <p><strong>攻击面：</strong>HTTP /rpc 端点，所有官方 SDK 的主要接口</p>
+                <p><strong>触发条件：</strong>在已认证用户活跃会话期间发送并发请求</p>
+                <p><strong>潜在危害：</strong>权限提升至 root 用户；完全控制数据库实例</p>
+                <p><strong>可利用性：</strong>有详细攻击原理，无需凭据即可利用</p>
+                <p><strong>修复建议：</strong>立即升级至 v3.1.0+；限制 /rpc 端点网络访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4vgr-h27g-cf9p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Centrifugo JWT Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Centrifugo JWT 认证绕过（跨租户身份伪造）</div>
+                    <div class="advisory-id">GHSA-g6vg-wj8f-48cj | CVE: CVE-2026-49998</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Centrifugo 的动态 JWKS 端点功能仅使用 JWT header 的 <code>kid</code> 值作为缓存键，而非 JWKS 端点、issuer、audience 或其他信任域命名空间。当多个 issuer 的 JWKS 文档使用相同 <code>kid</code> 值时，攻击者可使用租户 A 的有效令牌认证为租户 B，实现跨租户身份伪造。</p>
+                <p><strong>影响产品：</strong>Centrifugo ⭐10,463</p>
+                <p><strong>影响版本：</strong>v6 &lt;= 6.8.0, v5 &lt;= 5.4.9, v4 &lt;= 4.1.5, v3 &lt;= 3.2.3（仅 v6.8.1 已修复）</p>
+                <p><strong>攻击面：</strong>多租户实时通信系统，使用动态 JWKS 配置</p>
+                <p><strong>触发条件：</strong>获取租户 A 的有效令牌，当两个租户 JWKS 使用相同 kid 时伪造租户 B 的令牌</p>
+                <p><strong>潜在危害：</strong>跨租户数据泄露；未授权访问其他租户的 WebSocket 连接和订阅</p>
+                <p><strong>可利用性：</strong>有完整 PoC 单元测试代码，详细源码分析</p>
+                <p><strong>修复建议：</strong>升级至 v6.8.1+；确保不同租户 JWKS 使用不同 kid 值；限制 JWKS 端点访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g6vg-wj8f-48cj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Keycloak Privilege Escalation -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Keycloak 权限提升漏洞（FGAPv2 Scope Mapping）</div>
+                    <div class="advisory-id">GHSA-32h4-44jj-c5vx | CVE: CVE-2026-9795</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keycloak 的细粒度管理员权限（FGAPv2）功能存在缺陷。具有有限客户端管理权限的管理员可利用此漏洞将任意 realm 角色（包括高权限角色）分配给客户端的 scope mapping。注入的角色会被投射到用户访问修改后客户端时的认证令牌中，导致未经授权的权限提升。</p>
+                <p><strong>影响产品：</strong>Keycloak ⭐35,457</p>
+                <p><strong>影响版本：</strong>&lt; 26.6.4（已修复）</p>
+                <p><strong>攻击面：</strong>Keycloak 管理 API，具有有限管理权限的用户</p>
+                <p><strong>触发条件：</strong>具有客户端管理权限的管理员修改 scope mapping</p>
+                <p><strong>潜在危害：</strong>域内任意权限提升；绕过安全控制；获取管理员权限</p>
+                <p><strong>可利用性：</strong>有 PoC 触发条件说明</p>
+                <p><strong>修复建议：</strong>立即升级至 26.6.4+；审计现有 scope mapping 配置；检查异常角色分配</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-32h4-44jj-c5vx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Rancher Auth Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Rancher GitHub App 认证权限过度扩展</div>
+                    <div class="advisory-id">GHSA-4j6x-2764-m8gh | CVE: CVE-2026-41053</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 25.7k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Rancher Manager 的 GitHub App 认证提供程序在评估权限时错误地将用户团队成员身份扩展到整个 GitHub 组织内的所有团队，而非仅限用户实际所属的特定团队。低权限团队成员可获取组织内所有团队的 group principals，继承未授权的 RBAC 权限。</p>
+                <p><strong>影响产品：</strong>Rancher ⭐25,706</p>
+                <p><strong>影响版本：</strong>v2.14.0-2.14.1, v2.13.0-2.13.5（已修复于 v2.14.2, v2.13.6）</p>
+                <p><strong>攻击面：</strong>GitHub App 认证配置，团队 RBAC 绑定</p>
+                <p><strong>触发条件：</strong>GitHub App 认证启用；攻击者属于组织内至少一个团队；其他团队映射到 RBAC 角色</p>
+                <p><strong>潜在危害：</strong>未授权访问集群/项目级资源；绕过登录白名单；权限继承</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和影响分析</p>
+                <p><strong>修复建议：</strong>升级至 v2.14.2 或 v2.13.6+；审计团队 RBAC 绑定；临时禁用 GitHub App 认证或限制 team principals</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4j6x-2764-m8gh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Twig Sandbox Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Twig 沙箱过滤器/标签/函数白名单绕过</div>
+                    <div class="advisory-id">GHSA-529h-vh3j-85hq | CVE: CVE-2026-49981</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8.4k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Twig 模板引擎的 per-template 过滤器、标签和函数白名单检查仅在构造函数中执行一次，且 Template 实例缓存在 Environment 的 <code>$loadedTemplates</code> 中。任何后续对沙箱状态的更改（启用/禁用沙箱、交换策略、SourcePolicyInterface 决策翻转）都会使缓存的验证结果保持原状，导致白名单检查被绕过。长生命周期工作进程（FrankenPHP、RoadRunner、Symfony Messenger）风险最高。</p>
+                <p><strong>影响产品：</strong>Twig ⭐8,363</p>
+                <p><strong>影响版本：</strong>&lt;= 3.26.0（已修复于 3.27.0）</p>
+                <p><strong>攻击面：</strong>PHP 模板渲染，沙箱模式</p>
+                <p><strong>触发条件：</strong>同一 Environment 在沙箱和非沙箱渲染间共享；模板实例预加载</p>
+                <p><strong>潜在危害：</strong>模板沙箱逃逸；执行未授权的过滤器/标签/函数；可能的代码执行</p>
+                <p><strong>可利用性：</strong>有详细源码分析和漏洞原理</p>
+                <p><strong>修复建议：</strong>升级至 3.27.0+；避免在沙箱和非沙箱渲染间共享 Environment 实例</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-529h-vh3j-85hq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- SurrealDB DoS - malformed use -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SurrealDB 未认证远程 DoS（RPC use 命令崩溃）</div>
+                    <div class="advisory-id">GHSA-wjjj-24cx-f28g | CVE: 无</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 32.6k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>向 SurrealDB 的 <code>/rpc</code> 端点发送单条 WebSocket 消息 <code>use { db: "x" }</code>（未先选择命名空间）会触发 panic 并终止进程。由于 <code>surrealdb-core</code> 使用 <code>panic = 'abort'</code> 构建，panic 直接导致进程崩溃。无需任何凭据、令牌或 <code>--allow-guests</code> 标志。</p>
+                <p><strong>影响产品：</strong>SurrealDB ⭐32,581</p>
+                <p><strong>影响版本：</strong>&lt; 3.1.0（已修复）</p>
+                <p><strong>攻击面：</strong>WebSocket /rpc 端点，未认证访问</p>
+                <p><strong>触发条件：</strong>发送单条消息即可崩溃，攻击成本极低</p>
+                <p><strong>潜在危害：</strong>服务完全中断；持续性 DoS 攻击</p>
+                <p><strong>可利用性：</strong>有详细触发条件和攻击路径说明</p>
+                <p><strong>修复建议：</strong>升级至 v3.1.0+；限制 /rpc 端点网络访问；使用进程监控器自动重启</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wjjj-24cx-f28g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- SurrealDB JSON DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SurrealDB JSON 解析器 DoS（深层嵌套）</div>
+                    <div class="advisory-id">GHSA-q729-696q-g9pq | CVE: 无</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 32.6k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB 的 value 和 JSON 解析器未强制执行配置的递归深度限制来解析嵌套的 <code>{</code>、<code>[</code> 或 <code>(</code> 令牌。攻击者可通过 WebSocket <code>/rpc</code> 端点发送深层嵌套 JSON payload 耗尽服务器内存，导致进程崩溃。这是 GHSA-6r8p-hpg7-825g 的不完整修复。</p>
+                <p><strong>影响产品：</strong>SurrealDB ⭐32,581</p>
+                <p><strong>影响版本：</strong>&lt; 3.1.0（已修复）</p>
+                <p><strong>攻击面：</strong>WebSocket /rpc 端点</p>
+                <p><strong>触发条件：</strong>发送深层嵌套 JSON payload</p>
+                <p><strong>潜在危害：</strong>服务崩溃；内存耗尽</p>
+                <p><strong>可利用性：</strong>有 PoC 触发说明</p>
+                <p><strong>修复建议：</strong>升级至 v3.1.0+；限制 /rpc 端点网络访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q729-696q-g9pq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Apify MCP Token Leak -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apify MCP Server Token 泄露（路径权限注入）</div>
+                    <div class="advisory-id">GHSA-6gr2-qh89-hxwm | CVE: CVE-2026-50143</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apify Actors MCP Server 通过直接拼接可信基础 URL 和攻击者控制的 <code>webServerMcpPath</code> 值构建 Actor 备用 URL。攻击者发布恶意 Actor 时将 <code>webServerMcpPath</code> 设为 <code>@attacker.example/mcp</code>，导致最终 URL 解析为完全不同的主机。由于 MCP 客户端无条件附加 <code>Authorization: Bearer &lt;APIFY_TOKEN&gt;</code> 头，受害者的 API 令牌被泄露到攻击者服务器。</p>
+                <p><strong>影响产品：</strong>@apify/actors-mcp-server ⭐1,504</p>
+                <p><strong>影响版本：</strong>&lt; 0.10.11（已修复）</p>
+                <p><strong>攻击面：</strong>MCP 客户端连接，Actor 定义</p>
+                <p><strong>触发条件：</strong>用户调用恶意 Actor 的 MCP 工具</p>
+                <p><strong>潜在危害：</strong>API 令牌泄露；未授权访问受害者 Apify 账户</p>
+                <p><strong>可利用性：</strong>有完整 Docker PoC 和详细数据流分析</p>
+                <p><strong>修复建议：</strong>升级至 0.10.11+；验证 URL 解析后的主机名与预期一致</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6gr2-qh89-hxwm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- wetty XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 wetty DOM XSS 漏洞（文件下载文件名注入）</div>
+                    <div class="advisory-id">GHSA-p26j-h7wj-r568 | CVE: CVE-2026-49864</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ &lt;1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>wetty 客户端解码 base64 文件名并将其原始插入 Toastify HTML 字符串（<code>escapeMarkup: false</code>）。攻击者可通过终端输出中的文件下载转义序列注入 HTML/JavaScript，在 wetty 源站执行脚本并向受害者的 SSH 会话注入恶意命令。</p>
+                <p><strong>影响产品：</strong>wetty（Web Terminal）</p>
+                <p><strong>影响版本：</strong>&lt; 3.0.4（已修复）</p>
+                <p><strong>攻击面：</strong>终端输出渲染，文件下载功能</p>
+                <p><strong>触发条件：</strong>受害者终端渲染攻击者控制的输出（cat 文件、tail 日志、SSH MOTD、curl 响应）</p>
+                <p><strong>潜在危害：</strong>XSS 执行；向 SSH 会话注入命令；会话劫持</p>
+                <p><strong>可利用性：</strong>有完整 PoC 和 Docker 复现步骤</p>
+                <p><strong>修复建议：</strong>升级至 3.0.4+；对文件名进行 HTML 转义</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p26j-h7wj-r568" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- auth-fetch-mcp SSRF -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 auth-fetch-mcp SSRF 绕过（IPv4-mapped IPv6 回环）</div>
+                    <div class="advisory-id">GHSA-pvrj-8cg3-j5f8 | CVE: CVE-2026-49857</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ &lt;1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>auth-fetch-mcp 的 SSRF 防护函数 <code>isPrivateV6()</code> 未能检测 IPv4-mapped IPv6 回环地址的十六进制规范化形式。当攻击者提供 <code>http://[::ffff:127.0.0.1]:PORT/</code> 时，Node.js URL 解析器将其规范化为 <code>[::ffff:7f00:1]</code>，绕过私有 IP 检查，允许访问本应被阻止的回环服务。</p>
+                <p><strong>影响产品：</strong>auth-fetch-mcp</p>
+                <p><strong>影响版本：</strong>&lt;= 3.0.1（已修复于 3.0.2）</p>
+                <p><strong>攻击面：</strong>MCP 工具 auth_fetch 和 download_media</p>
+                <p><strong>触发条件：</strong>使用 IPv4-mapped IPv6 格式的 URL</p>
+                <p><strong>潜在危害：</strong>访问内部服务；SSRF 攻击；敏感信息泄露</p>
+                <p><strong>可利用性：</strong>有完整 PoC 和动态验证</p>
+                <p><strong>修复建议：</strong>升级至 3.0.2+；修复 IPv6 地址规范化处理</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pvrj-8cg3-j5f8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Cortex RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Cortex MCP 未受信项目引导代码执行</div>
+                    <div class="advisory-id">GHSA-gvpp-v77h-5w8g | CVE: CVE-2026-49986</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ &lt;1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Cortex MCP Server 将 <code>CLAUDE_PROJECT_DIR</code> 环境变量（由 Claude Code 自动设置为当前打开的项目目录）视为可信的 Cortex 开发检出。当调用 <code>open_visualization</code> 工具时，<code>_find_dev_source()</code> 将用户活跃项目目录解析为候选 Cortex 源根目录。攻击者只需在恶意仓库中放置 <code>mcp_server/</code> 子目录和 <code>ui/unified-viz.html</code> 文件即可触发任意 Python 脚本执行。</p>
+                <p><strong>影响产品：</strong>neuro-cortex-memory</p>
+                <p><strong>影响版本：</strong>&lt;= 3.17.0（已修复于 3.18.0）</p>
+                <p><strong>攻击面：</strong>Claude Code IDE 扩展，MCP 工具调用</p>
+                <p><strong>触发条件：</strong>受害者打开攻击者控制的项目目录并调用 open_visualization 工具</p>
+                <p><strong>潜在危害：</strong>本地用户权限代码执行；供应链攻击</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级至 3.18.0+；添加 git 远程身份验证和签名校验</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gvpp-v77h-5w8g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Rancher Fleet Webhook -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Rancher Fleet 未认证 Webhook 正则注入</div>
+                    <div class="advisory-id">GHSA-jmf4-m7j9-g72r | CVE: CVE-2026-44937</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1.7k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Rancher Fleet 的 webhook 端点存在未认证正则注入漏洞，通过未消毒的仓库 URL 组件触发。</p>
+                <p><strong>影响产品：</strong>Rancher Fleet ⭐1,709</p>
+                <p><strong>影响版本：</strong>0.15.0-0.15.1, 0.14.0-0.14.5, 0.13.0-0.13.10, 0.12.0-0.12.14（已修复）</p>
+                <p><strong>攻击面：</strong>Webhook 端点，Git 仓库 URL</p>
+                <p><strong>触发条件：</strong>发送恶意构造的 webhook 请求</p>
+                <p><strong>潜在危害：</strong>ReDoS 攻击；服务中断</p>
+                <p><strong>可利用性：</strong>仅漏洞描述，无详细 PoC</p>
+                <p><strong>修复建议：</strong>升级至已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jmf4-m7j9-g72r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- Fleet PSS Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Rancher Fleet PSS 绕过漏洞</div>
+                    <div class="advisory-id">GHSA-864g-863m-vcvq | CVE: CVE-2026-44938</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1.7k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fleet Agent 的 addLabelsFromOptions 函数存在 Pod Security Standards (PSS) 绕过漏洞。</p>
+                <p><strong>影响产品：</strong>Rancher Fleet ⭐1,709</p>
+                <p><strong>影响版本：</strong>多个版本（已修复于 0.15.2, 0.14.6, 0.13.11, 0.12.15）</p>
+                <p><strong>攻击面：</strong>Kubernetes Pod 安全策略</p>
+                <p><strong>触发条件：</strong>通过 Fleet 部署工作负载</p>
+                <p><strong>潜在危害：</strong>绕过 Pod 安全限制；部署特权容器</p>
+                <p><strong>可利用性：</strong>仅漏洞描述</p>
+                <p><strong>修复建议：</strong>升级至已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-864g-863m-vcvq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-9mm9-rqhj-j5mx</code></td>
+                    <td>repomix</td>
+                    <td>26.8k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9mm9-rqhj-j5mx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-5qfp-32cf-69jh</code></td>
+                    <td>SurrealDB</td>
+                    <td>32.6k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5qfp-32cf-69jh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-4vgr-h27g-cf9p</code></td>
+                    <td>SurrealDB</td>
+                    <td>32.6k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4vgr-h27g-cf9p" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-g6vg-wj8f-48cj</code></td>
+                    <td>Centrifugo</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g6vg-wj8f-48cj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-32h4-44jj-c5vx</code></td>
+                    <td>Keycloak</td>
+                    <td>35.5k</td>
+                    <td>High</td>
+                    <td>有PoC触发</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-32h4-44jj-c5vx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-4j6x-2764-m8gh</code></td>
+                    <td>Rancher</td>
+                    <td>25.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4j6x-2764-m8gh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-529h-vh3j-85hq</code></td>
+                    <td>Twig</td>
+                    <td>8.4k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-529h-vh3j-85hq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-wjjj-24cx-f28g</code></td>
+                    <td>SurrealDB</td>
+                    <td>32.6k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wjjj-24cx-f28g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-q729-696q-g9pq</code></td>
+                    <td>SurrealDB</td>
+                    <td>32.6k</td>
+                    <td>High</td>
+                    <td>有PoC触发</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q729-696q-g9pq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-6gr2-qh89-hxwm</code></td>
+                    <td>@apify/actors-mcp-server</td>
+                    <td>1.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-6gr2-qh89-hxwm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-p26j-h7wj-r568</code></td>
+                    <td>wetty</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-p26j-h7wj-r568" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-pvrj-8cg3-j5f8</code></td>
+                    <td>auth-fetch-mcp</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-pvrj-8cg3-j5f8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-gvpp-v77h-5w8g</code></td>
+                    <td>neuro-cortex-memory</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-gvpp-v77h-5w8g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-jmf4-m7j9-g72r</code></td>
+                    <td>Rancher Fleet</td>
+                    <td>1.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-jmf4-m7j9-g72r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-864g-863m-vcvq</code></td>
+                    <td>Rancher Fleet</td>
+                    <td>1.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-864g-863m-vcvq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-6gr2-qh89-hxwm</code></td>
+                    <td>@apify/actors-mcp-server</td>
+                    <td>1.5k</td>
+                    <td>High</td>
+                    <td>MCP Token 泄露，有完整 Docker PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-p26j-h7wj-r568</code></td>
+                    <td>wetty</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>DOM XSS，有完整复现步骤</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-pvrj-8cg3-j5f8</code></td>
+                    <td>auth-fetch-mcp</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>SSRF 绕过，IPv4-mapped IPv6 技术</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-gvpp-v77h-5w8g</code></td>
+                    <td>neuro-cortex-memory</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>Claude Code 供应链攻击向量</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-fxhp-mv3v-67qp</code></td>
+                    <td>oras-go</td>
+                    <td>268</td>
+                    <td>High</td>
+                    <td>tar 硬链接目录逃逸，详细源码分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-3whc-qvhv-xqjp</code></td>
+                    <td>goshs (WebDAV)</td>
+                    <td>&lt;1k</td>
+                    <td>High</td>
+                    <td>WebDAV 只读模式绕过</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-mjgf-xj26-9qf9</code></td>
+                    <td>pay-rails</td>
+                    <td>2.2k</td>
+                    <td>High</td>
+                    <td>HMAC 非常数时间比较，时序攻击</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>repomix RCE (GHSA-9mm9-rqhj-j5mx)</strong>：完整 PoC + 高 Star 项目，CI/CD 供应链攻击风险极高，立即升级至 v1.14.1+</li>
+                    <li><strong>SurrealDB 4个漏洞 (GHSA-5qfp/4vgr/wjjj/q729)</strong>：会话劫持 + 权限提升 + DoS，影响所有暴露网络的实例，立即升级至 v3.1.0+</li>
+                    <li><strong>Centrifugo JWT 绕过 (GHSA-g6vg-wj8f-48cj)</strong>：多租户场景下跨租户身份伪造，有完整 PoC，升级至 v6.8.1+</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>Keycloak 权限提升 (GHSA-32h4-44jj-c5vx)</strong>：FGAPv2 功能缺陷，管理员权限可被滥用，升级至 26.6.4+</li>
+                    <li><strong>Rancher 认证绕过 (GHSA-4j6x-2764-m8gh)</strong>：GitHub App 团队权限过度扩展，审计 RBAC 绑定</li>
+                    <li><strong>Twig 沙箱绕过 (GHSA-529h-vh3j-85hq)</strong>：PHP 长生命周期工作进程风险高，升级至 3.27.0+</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>Open Babel 13个缓冲区溢出漏洞（pip/openbabel &lt; 3.2.0）：化学信息学项目，影响有限</li>
+                    <li>GeoNetwork ACL 绕过和 XSS：地理信息系统，特定用户群</li>
+                    <li>Jenkins 多个插件漏洞：Email Extension、Credentials Binding、Pipeline Groovy Libraries</li>
+                </ul>
+                <p style="margin-top: 16px;"><strong>通用建议：</strong></p>
+                <ul>
+                    <li>对于暴露网络的数据库/消息队列（SurrealDB、Centrifugo），务必限制网络访问</li>
+                    <li>CI/CD 环境中使用的工具（repomix）需严格版本锁定和依赖审计</li>
+                    <li>MCP Server 生态新兴攻击面，关注路径注入、SSRF、Token 泄露类漏洞</li>
+                    <li>PHP 长生命周期工作进程（FrankenPHP、RoadRunner）需特别注意沙箱状态管理</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
