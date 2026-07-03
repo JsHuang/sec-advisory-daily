@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-03",
+      "title": "GitHub安全公告日报 - 2026-07-03",
+      "url": "reports/report-2026-07-03.html",
+      "stats": {
+        "total": 60,
+        "critical": 0,
+        "high": 60,
+        "star5k": 33,
+        "with_poc": 13
+      },
+      "summary": "今日发现60个高危漏洞，0个Critical。重点关注：OpenClaw 22个权限绕过漏洞、Keycloak SAML身份伪造、electerm命令注入、Coder RCE、Mautic SQL注入、golang.org/x/image TIFF DoS。33个漏洞影响Star≥5k项目，13个含详细分析。"
+    },
+    {
       "date": "2026-07-02",
       "title": "GitHub安全公告日报 - 2026-07-02",
       "url": "reports/report-2026-07-02.html",
