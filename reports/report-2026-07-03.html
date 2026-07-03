@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-03</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-03 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">60</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">60</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">33</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">含详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 electerm has Command Injection in File System Operations (rmrf, mv, cp)</div>
+                    <div class="advisory-id">GHSA-v5ff-xmfp-p245 | CVE: CVE-2026-49255</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,413</span>
+                <span class="badge badge-analysis">📖 详细分析+修复</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A command injection vulnerability exists in electerm's file system operations (`rmrf`, `mv`, `cp`) in `src/app/lib/fs.js`. These functions construct shell commands by interpolating file paths directly into command strings without escaping shell metacharacters.</p>
+                <p><strong>影响产品：</strong>electerm ⭐14,413 (electerm/electerm)</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>用户通过SSH终端连接时，恶意服务器可触发</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理+修复提交 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级electerm至修复版本，避免使用未修复版本连接不可信服务器</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v5ff-xmfp-p245" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 electerm has Path Traversal in Zmodem and Trzsz Download Filename Handling</div>
+                    <div class="advisory-id">GHSA-38j7-23hf-9mhc | CVE: CVE-2026-49253</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,413</span>
+                <span class="badge badge-analysis">📖 详细分析+修复</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A path traversal vulnerability exists in the Zmodem and Trzsz file download handlers in electerm. When receiving files via Zmodem or Trzsz protocols, electerm uses the remote-supplied filename directly in `path.join()` with the user-selected download directory without sanitization.</p>
+                <p><strong>影响产品：</strong>electerm ⭐14,413 (electerm/electerm)</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>用户通过SSH终端连接时，恶意服务器可触发</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理+修复提交 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级electerm至修复版本，避免使用未修复版本连接不可信服务器</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-38j7-23hf-9mhc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Coder vulnerable to workspace auto-creation via crafted URL parameters without user consent</div>
+                    <div class="advisory-id">GHSA-m3cr-vc2j-pm27 | CVE: CVE-2026-44454</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 13,686</span>
+                <span class="badge badge-analysis">📖 详细分析+修复</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `dotfiles` registry module passed unsanitized user input to shell commands, allowing arbitrary code execution inside a provisioned workspace. Any user who supplied a crafted `dotfiles_uri` value (for example, one containing shell command substitution such as `$(...)`) could achieve command execution in their own workspace. The Create Workspace page's `mode=auto` deep links amplified this into a one-click attack: an attacker could craft a URL that prefilled `param.dotfiles_uri` and silently provisioned a workspace with the attacker-controlled value, with no explicit user confirmation.</p>
+                <p><strong>影响产品：</strong>github.com/coder/coder/v2 ⭐13,686 (coder/coder)</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>用户点击包含恶意dotfiles参数的链接</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理+修复提交 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级Coder至最新版本，审查dotfiles URI参数处理</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m3cr-vc2j-pm27" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: Native command authorization could skip owner-command enforcement</div>
+                    <div class="advisory-id">GHSA-p73f-w79w-jqr5 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 381,484</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Native command authorization could skip owner-command enforcement. In affected versions, a sender able to trigger native command handling could authorize a native command without enforcing the configured owner-only command policy.</p>
+                <p><strong>影响产品：</strong>openclaw ⭐381,484 (openclaw/openclaw)</p>
+                <p><strong>攻击面：</strong>AI Agent平台权限控制</p>
+                <p><strong>触发条件：</strong>详见公告描述</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>立即更新OpenClaw至最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p73f-w79w-jqr5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: PowerShell encoded-command aliases could miss exec allowlist checks</div>
+                    <div class="advisory-id">GHSA-j472-gf56-x589 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 381,484</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PowerShell encoded-command aliases could miss exec allowlist checks. In affected versions, a command request using abbreviated encoded-command flags could use an alias form not recognized by the allowlist parser.</p>
+                <p><strong>影响产品：</strong>openclaw ⭐381,484 (openclaw/openclaw)</p>
+                <p><strong>攻击面：</strong>AI Agent平台权限控制</p>
+                <p><strong>触发条件：</strong>详见公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致未授权访问或信息泄露</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>立即更新OpenClaw至最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j472-gf56-x589" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: Trusted retry endpoint checks could match hostname prefixes</div>
+                    <div class="advisory-id">GHSA-77q5-rr5v-x43q | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 381,484</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Trusted retry endpoint checks could match hostname prefixes. In affected versions, a retry endpoint URL chosen by lower-trust input could pass validation by using a hostname prefix that resembled a trusted host.</p>
+                <p><strong>影响产品：</strong>openclaw ⭐381,484 (openclaw/openclaw)</p>
+                <p><strong>攻击面：</strong>AI Agent平台权限控制</p>
+                <p><strong>触发条件：</strong>详见公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致未授权访问或信息泄露</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>立即更新OpenClaw至最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-77q5-rr5v-x43q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: Telegram interactive callbacks could skip commands.allowFrom</div>
+                    <div class="advisory-id">GHSA-w5ww-7chg-mxcq | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 381,484</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Telegram interactive callbacks could skip commands.allowFrom. In affected versions, a Telegram user able to invoke an affected callback could mark the callback as an authorized sender before applying `commands.allowFrom`.</p>
+                <p><strong>影响产品：</strong>openclaw ⭐381,484 (openclaw/openclaw)</p>
+                <p><strong>攻击面：</strong>AI Agent平台权限控制</p>
+                <p><strong>触发条件：</strong>详见公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致未授权访问或信息泄露</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>立即更新OpenClaw至最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w5ww-7chg-mxcq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenClaw: Matrix allowFrom could bind to mutable display names</div>
+                    <div class="advisory-id">GHSA-7hxm-f538-3xp6 | CVE: CVE-2026-53811</div>
+                </div>
+                <span class="priority-score">优先级: 7/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 381,484</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Matrix allowFrom could bind to mutable display names. In affected versions, a Matrix account able to change display name metadata could match a policy entry through mutable display metadata.</p>
+                <p><strong>影响产品：</strong>openclaw ⭐381,484 (openclaw/openclaw)</p>
+                <p><strong>攻击面：</strong>AI Agent平台权限控制</p>
+                <p><strong>触发条件：</strong>详见公告描述</p>
+                <p><strong>潜在危害：</strong>攻击者可绕过权限控制访问受限资源</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>立即更新OpenClaw至最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7hxm-f538-3xp6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 golang.org/x/image/tiff has excessive resource consumption in PackBits decompression</div>
+                    <div class="advisory-id">GHSA-q675-qj96-32m9 | CVE: CVE-2026-46599</div>
+                </div>
+                <span class="priority-score">优先级: 6/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 134,972</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The TIFF decoder does not place a limit on the size of PackBits-compressed data. A maliciously-crafted image can exploit this to cause a small image (both in terms of pixel width/height and encoded size) to make the decoder decode large amounts of compressed data.</p>
+                <p><strong>影响产品：</strong>golang.org/x/image ⭐134,972 (golang/go)</p>
+                <p><strong>攻击面：</strong>安全配置/逻辑缺陷</p>
+                <p><strong>触发条件：</strong>应用程序处理不可信TIFF图片</p>
+                <p><strong>潜在危害：</strong>可能导致未授权访问或信息泄露</p>
+                <p><strong>可利用性：</strong>仅描述 | <strong>产品影响力：</strong>极高</p>
+                <p><strong>修复建议：</strong>更新golang.org/x/image至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q675-qj96-32m9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Mautic has Stored Cross-Site Scripting (XSS) in Projects Component</div>
+                    <div class="advisory-id">GHSA-7h65-whp7-rgqf | CVE: CVE-2026-9809</div>
+                </div>
+                <span class="priority-score">优先级: 6/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,016</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A stored Cross-Site Scripting (XSS) vulnerability exists in the Projects component of Mautic 7. When displaying project tags and popovers on administrative detail views (such as campaigns, emails, or forms), user-supplied project names are rendered without proper sanitization. An authenticated user with permissions to create or edit projects can exploit this to inject malicious script payloads.</p>
+                <p><strong>影响产品：</strong>mautic/core ⭐10,016 (mautic/mautic)</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击</p>
+                <p><strong>触发条件：</strong>认证用户通过API接口发送恶意请求</p>
+                <p><strong>潜在危害：</strong>攻击者可窃取用户会话凭证或执行恶意操作</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级Mautic至修复版本，审查API输入验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7h65-whp7-rgqf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Mautic has an Authorization Bypass in API v2 Endpoints</div>
+                    <div class="advisory-id">GHSA-2jrw-c95w-h43g | CVE: CVE-2026-9808</div>
+                </div>
+                <span class="priority-score">优先级: 6/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,016</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>An authorization bypass vulnerability exists in the Mautic 7 API v2 endpoints (utilizing API Platform). Under certain conditions, roles configured with owner-scope restrictions (such as `viewown` or `editown`) are not properly enforced. This allows low-privilege authenticated API users to bypass ownership-logic controls and access or modify resources belonging to other users.</p>
+                <p><strong>影响产品：</strong>mautic/core ⭐10,016 (mautic/mautic)</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>认证用户通过API接口发送恶意请求</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级Mautic至修复版本，审查API输入验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2jrw-c95w-h43g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Mautic has SQL Injection in API Contact Filtering</div>
+                    <div class="advisory-id">GHSA-fcmw-wx57-9p75 | CVE: CVE-2026-4776</div>
+                </div>
+                <span class="priority-score">优先级: 6/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,016</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>An SQL injection vulnerability exists in Mautic's API contact filtering mechanism. Due to insufficient recursive sanitization of nested query parameters, an authenticated API user can bypass input filtering and inject arbitrary SQL commands.</p>
+                <p><strong>影响产品：</strong>mautic/core ⭐10,016 (mautic/mautic)</p>
+                <p><strong>攻击面：</strong>SQL注入</p>
+                <p><strong>触发条件：</strong>认证用户通过API接口发送恶意请求</p>
+                <p><strong>潜在危害：</strong>攻击者可读取/修改/删除数据库中的所有数据</p>
+                <p><strong>可利用性：</strong>有详细原理 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级Mautic至修复版本，审查API输入验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fcmw-wx57-9p75" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 9router has an Incomplete Fix: Local-Only Access Gate Bypass in 9router via Host Header SpoofING</div>
+                    <div class="advisory-id">GHSA-6g2f-w7g3-77vf | CVE: CVE-2026-49353</div>
+                </div>
+                <span class="priority-score">优先级: 5/10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 19,516</span>
+                <span class="badge badge-analysis">📖 详细分析+修复</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The fix for CVE-2026-46339 (unauthenticated RCE via unprotected MCP plugin routes) introduced a local-only access gate in `src/dashboardGuard.js` that restricts spawn-capable routes (`/api/mcp/*`, `/api/tunnel/*`, `/api/cli-tools/*`) to loopback requests. The gate determines "local" by inspecting the `Host` and `Origin` HTTP headers rather than the TCP source address. When 9router is deployed behind a reverse proxy, tunnel (Cloudflare Tunnel, Tailscale — both natively supported), or is subject to DNS rebinding, these headers are attacker-controlled, allowing the local-only gate to be bypassed.</p>
+                <p><strong>影响产品：</strong>9router ⭐19,516 (decolua/9router)</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>攻击者通过Host头伪造绕过本地访问限制</p>
+                <p><strong>潜在危害：</strong>攻击者可在目标系统执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>有详细原理+修复提交 | <strong>产品影响力：</strong>高</p>
+                <p><strong>修复建议：</strong>升级9router至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6g2f-w7g3-77vf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-v5ff-xmfp-p245</code></td>
+                    <td>electerm</td>
+                    <td>14,413</td>
+                    <td>HIGH</td>
+                    <td>详细分析+修复</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v5ff-xmfp-p245" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-38j7-23hf-9mhc</code></td>
+                    <td>electerm</td>
+                    <td>14,413</td>
+                    <td>HIGH</td>
+                    <td>详细分析+修复</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-38j7-23hf-9mhc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-m3cr-vc2j-pm27</code></td>
+                    <td>github.com/coder/coder/v2</td>
+                    <td>13,686</td>
+                    <td>HIGH</td>
+                    <td>详细分析+修复</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m3cr-vc2j-pm27" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p73f-w79w-jqr5</code></td>
+                    <td>openclaw</td>
+                    <td>381,484</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p73f-w79w-jqr5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-j472-gf56-x589</code></td>
+                    <td>openclaw</td>
+                    <td>381,484</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j472-gf56-x589" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-77q5-rr5v-x43q</code></td>
+                    <td>openclaw</td>
+                    <td>381,484</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-77q5-rr5v-x43q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-w5ww-7chg-mxcq</code></td>
+                    <td>openclaw</td>
+                    <td>381,484</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w5ww-7chg-mxcq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-7hxm-f538-3xp6</code></td>
+                    <td>openclaw</td>
+                    <td>381,484</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7hxm-f538-3xp6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-q675-qj96-32m9</code></td>
+                    <td>golang.org/x/image</td>
+                    <td>134,972</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q675-qj96-32m9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7h65-whp7-rgqf</code></td>
+                    <td>mautic/core</td>
+                    <td>10,016</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7h65-whp7-rgqf" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2jrw-c95w-h43g</code></td>
+                    <td>mautic/core</td>
+                    <td>10,016</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2jrw-c95w-h43g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-fcmw-wx57-9p75</code></td>
+                    <td>mautic/core</td>
+                    <td>10,016</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fcmw-wx57-9p75" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6g2f-w7g3-77vf</code></td>
+                    <td>9router</td>
+                    <td>19,516</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6g2f-w7g3-77vf" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但值得关注的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>GHSA-5pmv-rx8r-wmv5</code></td>
+                    <td>jxl-grid (jxl-oxide)</td>
+                    <td>453</td>
+                    <td>HIGH</td>
+                    <td>有PoC代码(miri测试)</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-mm6c-5j6x-hq8m</code></td>
+                    <td>Algernon</td>
+                    <td>3017</td>
+                    <td>HIGH</td>
+                    <td>NTFS文件名源码泄露</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-63wg-wjjj-7cp8</code></td>
+                    <td>Zebra (Zcash)</td>
+                    <td>572</td>
+                    <td>HIGH</td>
+                    <td>P2P网络攻击</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-4m69-67m6-prqp</code></td>
+                    <td>Zebra (Zcash)</td>
+                    <td>572</td>
+                    <td>HIGH</td>
+                    <td>区块抑制攻击</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>OpenClaw 批量安全修复（22个高危漏洞）</strong>：涵盖权限绕过、命令注入、本地伪造等多个安全领域。影响所有OpenClaw部署，建议立即更新至最新版本。特别关注 Control UI locality spoofing（可获取admin token）、hook-triggered CLI权限提升、shell wrapper审批绕过等。</li>
+                    <li><strong>Keycloak SAML 加密断言验证不当（CVE-2026-2092）</strong>：35k+ Star，攻击者可伪造任意用户身份。影响所有使用SAML broker的Keycloak部署。</li>
+                    <li><strong>electerm 命令注入（CVE-2026-49255）</strong>：14k+ Star，恶意SSH服务器可通过文件名执行任意命令。立即升级！</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>electerm 路径遍历（CVE-2026-49253）</strong>：Zmodem/Trzsz文件下载时可写入任意路径。配合命令注入可形成完整攻击链。</li>
+                    <li><strong>Coder dotfiles RCE（CVE-2026-44454）</strong>：13k+ Star，恶意dotfiles URI可导致远程代码执行。检查是否使用了受影响版本。</li>
+                    <li><strong>Mautic SQL注入（CVE-2026-4776）</strong>：10k+ Star，认证API用户可注入任意SQL。审查API访问控制。</li>
+                    <li><strong>golang.org/x/image TIFF DoS（CVE-2026-46599）</strong>：Go标准扩展库，处理不可信TIFF图片的应用受影响。更新x/image包。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>9router Host头绕过（CVE-2026-49353）</strong>：MCP插件路由的本地访问限制可被绕过，导致未授权RCE。</li>
+                    <li><strong>Mautic XSS和授权绕过（CVE-2026-9809/9808）</strong>：存储型XSS和API权限控制缺陷。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
