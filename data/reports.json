@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-06",
+      "title": "GitHub安全公告日报 - 2026-07-06",
+      "url": "reports/report-2026-07-06.html",
+      "stats": {
+        "total": 0,
+        "critical": 0,
+        "high": 0,
+        "star5k": 0,
+        "with_poc": 0
+      },
+      "summary": "最近24小时内无新发布的Critical或High级别安全公告，监控系统正常运行"
+    },
+    {
       "date": "2026-07-03",
       "title": "GitHub安全公告日报 - 2026-07-03",
       "url": "reports/report-2026-07-03.html",
