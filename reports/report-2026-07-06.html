@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-06</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-number.green { color: #3fb950; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #3fb950;
+        }
+        .advisory-content { color: #8b949e; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .no-issues-banner {
+            background: linear-gradient(135deg, #0d2818 0%, #161b22 100%);
+            border: 1px solid #238636; border-radius: 12px;
+            padding: 40px; text-align: center; margin: 30px 0;
+        }
+        .no-issues-banner .icon { font-size: 4em; margin-bottom: 16px; }
+        .no-issues-banner h2 { color: #3fb950; font-size: 1.8em; margin-bottom: 12px; }
+        .no-issues-banner p { color: #8b949e; font-size: 1.1em; max-width: 600px; margin: 0 auto; }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; color: #8b949e; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-06 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number green">0</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number green">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number green">0</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number green">0</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number green">0</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 无漏洞横幅 -->
+        <div class="no-issues-banner">
+            <div class="icon">✅</div>
+            <h2>今日无高危漏洞公告</h2>
+            <p>最近24小时内（2026-07-05 00:10 ~ 2026-07-06 08:10），GitHub Advisory Database 未发布新的 Critical 或 High 级别安全公告。监控系统正常运行。</p>
+        </div>
+        
+        <!-- 近期动态参考 -->
+        <h2 class="section-title">📅 近期已发布的公告参考（上周更新）</h2>
+        <div class="advisory-card" style="border-left-color: #8b949e;">
+            <div class="advisory-content">
+                <p>以下列出上周（2026-07-01 ~ 2026-07-05）有更新的 Critical/High 级别公告，供持续跟踪参考：</p>
+                <ul>
+                    <li><strong>GHSA-rh62-j648-g5qc</strong>（High）— Recce server 未授权 SQL 执行导致本地文件读取（2026-07-02）</li>
+                    <li><strong>GHSA-jphh-m39h-6gwx</strong>（Critical）— 9router 硬编码 JWT Secret 允许认证绕过（2026-07-02）</li>
+                    <li><strong>GHSA-6g2f-w7g3-77vf</strong>（High）— 9router 本地访问门控绕过（2026-07-02）</li>
+                    <li><strong>GHSA-q675-qj96-32m9</strong>（High）— golang.org/x/image/tiff PackBits 资源过度消耗（2026-07-02）</li>
+                    <li><strong>GHSA-5g75-477j-2c2f</strong>（Critical）— LaunchServer FileServerHandler 未授权路径遍历（2026-07-02）</li>
+                    <li><strong>GHSA-q8r6-xj3f-wrrm</strong>（High）— SimpleSAMLphp SP 接受未预期 IdP 的响应（2026-07-02）</li>
+                    <li><strong>GHSA-mm6c-5j6x-hq8m</strong>（High）— Algernon Windows 上服务端脚本源码泄露（2026-07-02）</li>
+                    <li><strong>GHSA-rggm-jjmc-3394</strong>（High）— Kyverno CEL http.Get/http.Post SSRF（2026-04-14，7月更新）</li>
+                </ul>
+                <p style="margin-top: 12px;"><em>这些公告已在前几日报告中详细分析，建议持续关注修复进展。</em></p>
+            </div>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 今日漏洞清单汇总</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="9" style="text-align:center; color:#3fb950; padding:30px; font-size:1.1em;">
+                        ✅ 今日无新发布的 Critical/High 级别公告
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>监控状态：</strong>正常 ✅</p>
+                <p style="margin-top: 8px;"><strong>说明：</strong></p>
+                <ul>
+                    <li>2026-07-06（周一）监控窗口内，GitHub Advisory Database 未发布新的 Critical 或 High 级别公告</li>
+                    <li>周末/周一早间通常为新公告发布的低峰期，属于正常现象</li>
+                    <li>建议持续关注上周发布的多个高危公告的修复进展，特别是 9router 硬编码 JWT Secret（GHSA-jphh-m39h-6gwx）和 LaunchServer 路径遍历（GHSA-5g75-477j-2c2f）</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>持续关注：</strong></p>
+                <ul>
+                    <li>确认 9router、Recce server、LaunchServer 等项目是否已发布安全更新</li>
+                    <li>检查 golang.org/x/image 是否已升级到修复版本</li>
+                    <li>SimpleSAMLphp 用户应检查 IdP 验证配置</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
