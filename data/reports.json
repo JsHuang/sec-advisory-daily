@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-07",
+      "title": "GitHub安全公告日报 - 2026-07-07",
+      "url": "reports/report-2026-07-07.html",
+      "stats": {
+        "total": 23,
+        "critical": 0,
+        "high": 23,
+        "star5k": 12,
+        "with_poc": 20
+      },
+      "summary": "今日发现23个高危公告，Star≥5k项目12个，含PoC 20个。重点：GHSA-7cfm-pqrj-xgq7(decolua/9router); GHSA-pmf6-rcx4-v53v(uutils/coreutils); GHSA-4c7q-4928-8445(uutils/coreutils)"
+    },
+    {
       "date": "2026-07-06",
       "title": "GitHub安全公告日报 - 2026-07-06",
       "url": "reports/report-2026-07-06.html",
