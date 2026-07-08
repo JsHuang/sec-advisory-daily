@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-08</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-08 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">47</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">14</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">33</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">28</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Langflow: IDOR Vulnerability in `/api/v1/responses` Endpoint Allows Authenticated Attackers to Access Another User's Flo</div>
+                    <div class="advisory-id">GHSA-qrpv-q767-xqq2 | CVE: CVE-2026-55255</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 151.3k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Authorization Bypass Through U</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Langflow: IDOR Vulnerability in `/api/v1/responses` Endpoint Allows Authenticated Attackers to Access Another User's Flow</p>
+                <p><strong>影响产品：</strong>pip/langflow ⭐151.3k</p>
+                <p><strong>影响版本：</strong>< 1.9.1</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>不安全的直接对象引用（IDOR），攻击者可越权访问其他用户的数据</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致越权访问其他用户/工作区的数据，造成数据泄露</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.4 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qrpv-q767-xqq2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI vulnerable to Stored XSS via iFrame embeds in response messages</div>
+                    <div class="advisory-id">GHSA-vjm7-m4xh-7wrc | CVE: CVE-2026-26193</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 144.6k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Inp</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI vulnerable to Stored XSS via iFrame embeds in response messages</p>
+                <p><strong>影响产品：</strong>pip/open-webui ⭐144.6k</p>
+                <p><strong>影响版本：</strong><= 0.6.43</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS），攻击者可注入恶意脚本到其他用户的浏览器中</p>
+                <p><strong>触发条件：</strong>需要管理员权限</p>
+                <p><strong>潜在危害：</strong>可能导致用户会话被劫持、敏感信息窃取、恶意操作</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.3 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vjm7-m4xh-7wrc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI vulnerable to Stored XSS via iFrame in citations model</div>
+                    <div class="advisory-id">GHSA-xc8p-9rr6-97r2 | CVE: CVE-2026-26192</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 144.6k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Inp</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI vulnerable to Stored XSS via iFrame in citations model</p>
+                <p><strong>影响产品：</strong>pip/open-webui ⭐144.6k</p>
+                <p><strong>影响版本：</strong>< 0.7.0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS），攻击者可注入恶意脚本到其他用户的浏览器中</p>
+                <p><strong>触发条件：</strong>需要管理员权限</p>
+                <p><strong>潜在危害：</strong>可能导致用户会话被劫持、敏感信息窃取、恶意操作</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.3 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xc8p-9rr6-97r2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI vulnerable to stored XSS via unescaped markdown token in MarkdownTokens.svelte leading to full account takeov</div>
+                    <div class="advisory-id">GHSA-9f4f-jv96-8766 | CVE: CVE-2025-46719</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 144.6k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Inp</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI vulnerable to stored XSS via unescaped markdown token in MarkdownTokens.svelte leading to full account takeover and RCE via functions</p>
+                <p><strong>影响产品：</strong>pip/open-webui ⭐144.6k</p>
+                <p><strong>影响版本：</strong>< 0.6.6</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），攻击者可在目标服务器上执行任意代码</p>
+                <p><strong>触发条件：</strong>需要管理员权限</p>
+                <p><strong>潜在危害：</strong>可能导致服务器被完全控制，执行任意命令</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>None | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9f4f-jv96-8766" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 axios's shouldBypassProxy does not recognize IPv4-mapped IPv6 addresses, allowing NO_PROXY bypass (incomplete fix for CV</div>
+                    <div class="advisory-id">GHSA-pjwm-pj3p-43mv | CVE: CVE-2026-44492</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 109.1k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Authentication Bypass by Alter</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Server-Side Request Forgery (S</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>axios's shouldBypassProxy does not recognize IPv4-mapped IPv6 addresses, allowing NO_PROXY bypass (incomplete fix for CVE-2025-62718)</p>
+                <p><strong>影响产品：</strong>npm/axios, npm/axios ⭐109.1k</p>
+                <p><strong>影响版本：</strong><= 0.31.1, >= 1.15.0, < 1.16.0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>安全机制绕过，攻击者可规避安全防护措施</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.6 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pjwm-pj3p-43mv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 FlowiseAI: Evaluation create+update mass-assignment allows cross-workspace evaluation takeover</div>
+                    <div class="advisory-id">GHSA-mq53-pc65-wjc4 | CVE: CVE-2026-46479</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 54.4k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improperly Controlled Modifica</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>FlowiseAI: Evaluation create+update mass-assignment allows cross-workspace evaluation takeover</p>
+                <p><strong>影响产品：</strong>npm/flowise ⭐54.4k</p>
+                <p><strong>影响版本：</strong><= 3.1.1</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>账户接管，攻击者可控制其他用户的账户</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致用户账户被完全接管，敏感数据泄露</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.8 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mq53-pc65-wjc4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 FlowiseAI: DatasetRow create+update mass-assignment allows cross-workspace row takeover</div>
+                    <div class="advisory-id">GHSA-7j65-65cr-6644 | CVE: CVE-2026-46478</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 54.4k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improperly Controlled Modifica</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>FlowiseAI: DatasetRow create+update mass-assignment allows cross-workspace row takeover</p>
+                <p><strong>影响产品：</strong>npm/flowise ⭐54.4k</p>
+                <p><strong>影响版本：</strong><= 3.1.1</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>账户接管，攻击者可控制其他用户的账户</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致用户账户被完全接管，敏感数据泄露</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.8 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7j65-65cr-6644" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 FlowiseAI: Dataset create+update mass-assignment allows cross-workspace dataset takeover</div>
+                    <div class="advisory-id">GHSA-5h9v-837x-m97r | CVE: CVE-2026-46477</div>
+                </div>
+                <span class="priority-score">优先级评分: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 54.4k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improperly Controlled Modifica</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>FlowiseAI: Dataset create+update mass-assignment allows cross-workspace dataset takeover</p>
+                <p><strong>影响产品：</strong>npm/flowise ⭐54.4k</p>
+                <p><strong>影响版本：</strong><= 3.1.1</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>账户接管，攻击者可控制其他用户的账户</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致用户账户被完全接管，敏感数据泄露</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.8 | <strong>产品影响力：</strong>极高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5h9v-837x-m97r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 ArchiveBox Vulnerable to RCE via unvalidated per-crawl config overrides in AddView</div>
+                    <div class="advisory-id">GHSA-3h23-7824-pj8r | CVE: CVE-2026-42601</div>
+                </div>
+                <span class="priority-score">优先级评分: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 27.9k</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Arg</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArchiveBox Vulnerable to RCE via unvalidated per-crawl config overrides in AddView</p>
+                <p><strong>影响产品：</strong>pip/archivebox ⭐27.9k</p>
+                <p><strong>影响版本：</strong><= 0.8.6rc0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），攻击者可在目标服务器上执行任意代码</p>
+                <p><strong>触发条件：</strong>无需认证（任何人均可远程利用）</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全事故，如远程代码执行、数据完全泄露或系统被完全控制</p>
+                <p><strong>可利用性：</strong>🟡 有详细漏洞分析或部分利用代码</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>9.8 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>极高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3h23-7824-pj8r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 uutils coreutils: cp/install/mv/ln --suffix alone does not enable backup mode (silent data loss vs GNU)</div>
+                    <div class="advisory-id">GHSA-fqf6-gxhh-2xhw | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23.7k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Expected Behavior Violation</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Protection Mechanism Failure</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>uutils coreutils: cp/install/mv/ln --suffix alone does not enable backup mode (silent data loss vs GNU)</p>
+                <p><strong>影响产品：</strong>rust/uucore ⭐23.7k</p>
+                <p><strong>影响版本：</strong>< 0.6.0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>数据完整性问题，可能导致静默数据丢失</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>None | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fqf6-gxhh-2xhw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Coder vulnerable to workspace auto-creation via crafted URL parameters without user consent</div>
+                    <div class="advisory-id">GHSA-m3cr-vc2j-pm27 | CVE: CVE-2026-44454</div>
+                </div>
+                <span class="priority-score">优先级评分: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13.7k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Spe</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Coder vulnerable to workspace auto-creation via crafted URL parameters without user consent</p>
+                <p><strong>影响产品：</strong>go/github.com/coder/coder/v2, go/github.com/coder/coder/v2, go/github.com/coder/coder ⭐13.7k</p>
+                <p><strong>影响版本：</strong>< 2.29.7, >= 2.30.0, < 2.30.2, <= 0.27.3</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>未授权工作区创建，攻击者可通过精心构造的URL自动创建资源</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>🔴 有完整PoC代码和复现步骤，可被直接利用</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.1 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m3cr-vc2j-pm27" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 @better-auth/sso provider registration has server-side request forgery via unvalidated OIDC endpoints</div>
+                    <div class="advisory-id">GHSA-5rr4-8452-hf4v | CVE: CVE-2026-53513</div>
+                </div>
+                <span class="priority-score">优先级评分: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 29.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Input Validation</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Insufficient Verification of D</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>@better-auth/sso provider registration has server-side request forgery via unvalidated OIDC endpoints</p>
+                <p><strong>影响产品：</strong>npm/@better-auth/sso ⭐29.0k</p>
+                <p><strong>影响版本：</strong>>= 0.1.0, < 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），攻击者可利用服务端发起内部网络请求</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全事故，如远程代码执行、数据完全泄露或系统被完全控制</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>9.6 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>极高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5rr4-8452-hf4v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth: OAuth refresh-token replay via missing client authentication on oidc-provider and mcp plugins</div>
+                    <div class="advisory-id">GHSA-pw9m-5jxm-xr6h | CVE: CVE-2026-53512</div>
+                </div>
+                <span class="priority-score">优先级评分: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 29.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Authentication</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Missing Authentication for Cri</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth: OAuth refresh-token replay via missing client authentication on oidc-provider and mcp plugins</p>
+                <p><strong>影响产品：</strong>npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>< 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>OAuth/Token 安全缺陷，可能导致认证令牌被窃取或滥用</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全事故，如远程代码执行、数据完全泄露或系统被完全控制</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>9.1 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>极高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pw9m-5jxm-xr6h" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 TinyMCE Cross-Site Scripting (XSS) vulnerability using through data-mce- prefixed src, href, style attributes</div>
+                    <div class="advisory-id">GHSA-q742-qvgc-gc2f | CVE: CVE-2026-47759</div>
+                </div>
+                <span class="priority-score">优先级评分: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 16.2k</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Inp</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>TinyMCE Cross-Site Scripting (XSS) vulnerability using through data-mce- prefixed src, href, style attributes</p>
+                <p><strong>影响产品：</strong>npm/tinymce, npm/tinymce, nuget/TinyMCE, nuget/TinyMCE, composer/tinymce/tinymce, composer/tinymce/tinymce, npm/tinymce, nuget/TinyMCE, composer/tinymce/tinymce ⭐16.2k</p>
+                <p><strong>影响版本：</strong>>= 6.0.0, < 7.9.3, >= 8.0.0, < 8.5.1, >= 6.0.0, < 7.9.3, >= 8.0.0, < 8.5.1, >= 6.0.0, < 7.9.3, >= 8.0.0, < 8.5.1, <= 5.10.9, <= 5.10.9, <= 5.10.9</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS），攻击者可注入恶意脚本到其他用户的浏览器中</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能导致用户会话被劫持、敏感信息窃取、恶意操作</p>
+                <p><strong>可利用性：</strong>🟡 有详细漏洞分析或部分利用代码</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q742-qvgc-gc2f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Apache Airflow: Authenticated users can bypass the `is_safe_url` check</div>
+                    <div class="advisory-id">GHSA-6hcw-qqr8-pjj8 | CVE: CVE-2026-40961</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 46.1k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">URL Redirection to Untrusted S</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Airflow: Authenticated users can bypass the `is_safe_url` check</p>
+                <p><strong>影响产品：</strong>pip/apache-airflow ⭐46.1k</p>
+                <p><strong>影响版本：</strong>< 3.2.2</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>安全机制绕过，攻击者可规避安全防护措施</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.2 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6hcw-qqr8-pjj8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 New API: SSRF Protection Bypass via Unresolved Hostname in Notification URLs</div>
+                    <div class="advisory-id">GHSA-6qcr-qxgr-m7fv | CVE: CVE-2026-33655</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 41.4k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Server-Side Request Forgery (S</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>New API: SSRF Protection Bypass via Unresolved Hostname in Notification URLs</p>
+                <p><strong>影响产品：</strong>go/github.com/QuantumNous/new-api ⭐41.4k</p>
+                <p><strong>影响版本：</strong>< 0.12.0-alpha.1</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），攻击者可利用服务端发起内部网络请求</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6qcr-qxgr-m7fv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Leads to Memory Exhaustion</div>
+                    <div class="advisory-id">GHSA-h2qv-fj59-j46j | CVE: CVE-2026-48059</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Missing Release of Memory afte</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Validation of Syntact</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Leads to Memory Exhaustion</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-codec-haproxy, maven/io.netty:netty-codec-haproxy ⭐35.0k</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.14.Final, <= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>内存管理缺陷，可能导致内存泄漏或拒绝服务</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.5 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty's Lack of Lifecycle Cleanup Leads to Pooled ByteBuf Leak in RedisArrayAggregator</div>
+                    <div class="advisory-id">GHSA-6jv9-x5w9-2ccm | CVE: CVE-2026-48006</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty's Lack of Lifecycle Cleanup Leads to Pooled ByteBuf Leak in RedisArrayAggregator</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-codec-redis, maven/io.netty:netty-codec-redis ⭐35.0k</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.14.Final, <= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>内存管理缺陷，可能导致内存泄漏或拒绝服务</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.5 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty has Insufficient Bailiwick Validation for NS Records</div>
+                    <div class="advisory-id">GHSA-5pvg-856g-cp85 | CVE: CVE-2026-47691</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Insufficient Verification of D</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Origin Validation Error</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty has Insufficient Bailiwick Validation for NS Records</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-resolver-dns, maven/io.netty:netty-resolver-dns ⭐35.0k</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.14.Final, <= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>安全漏洞，可能影响系统安全性和数据完整性</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc | CVE: CVE-2026-45674</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Insufficient Verification of D</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Origin Validation Error</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-resolver-dns, maven/io.netty:netty-resolver-dns ⭐35.0k</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.14.Final, <= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>DNS 缓存投毒，攻击者可篡改 DNS 解析结果</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能导致流量被劫持到恶意服务器，影响所有使用该 DNS 解析器的用户</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 @better-auth/scim: Account/provider takeover via missing owner binding on non-org SCIM providers</div>
+                    <div class="advisory-id">GHSA-j8v8-g9cx-5qf4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>@better-auth/scim: Account/provider takeover via missing owner binding on non-org SCIM providers</p>
+                <p><strong>影响产品：</strong>npm/@better-auth/scim ⭐29.0k</p>
+                <p><strong>影响版本：</strong>>= 1.5.0, < 1.7.0-beta.4</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>账户接管，攻击者可控制其他用户的账户</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致用户账户被完全接管，敏感数据泄露</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.3 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j8v8-g9cx-5qf4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 @better-auth/oauth-provider's OAuth authorization-code grant allows concurrent redemption when two token requests race t</div>
+                    <div class="advisory-id">GHSA-7w99-5wm4-3g79 | CVE: CVE-2026-53518</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>@better-auth/oauth-provider's OAuth authorization-code grant allows concurrent redemption when two token requests race the find-then-delete primitive</p>
+                <p><strong>影响产品：</strong>npm/@better-auth/oauth-provider, npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>>= 1.6.0, < 1.6.11, < 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>OAuth/Token 安全缺陷，可能导致认证令牌被窃取或滥用</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.1 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7w99-5wm4-3g79" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth: OAuth refresh-token rotation forks the token family on concurrent redemption</div>
+                    <div class="advisory-id">GHSA-392p-2q2v-4372 | CVE: CVE-2026-53517</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth: OAuth refresh-token rotation forks the token family on concurrent redemption</p>
+                <p><strong>影响产品：</strong>npm/@better-auth/oauth-provider, npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>>= 1.6.0, < 1.6.11, >= 1.4.8-beta.7, < 1.6.0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>OAuth/Token 安全缺陷，可能导致认证令牌被窃取或滥用</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.1 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-392p-2q2v-4372" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth has insecure cryptographic defaults in oidcProvider: alg=none advertised and plain PKCE accepted by default</div>
+                    <div class="advisory-id">GHSA-9h47-pqcx-hjr4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Use of a Broken or Risky Crypt</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Selection of Less-Secure Algor</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth has insecure cryptographic defaults in oidcProvider: alg=none advertised and plain PKCE accepted by default</p>
+                <p><strong>影响产品：</strong>npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>< 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>认证/授权缺陷，可能导致未授权访问</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9h47-pqcx-hjr4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth has stored XSS in the auth-server origin via javascript: redirect_uri in oidc-provider and mcp</div>
+                    <div class="advisory-id">GHSA-86j7-9j95-vpqj | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Neutralization of Inp</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">URL Redirection to Untrusted S</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth has stored XSS in the auth-server origin via javascript: redirect_uri in oidc-provider and mcp</p>
+                <p><strong>影响产品：</strong>npm/better-auth, npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>< 1.6.13, >= 1.7.0-beta.0, < 1.7.0-beta.4</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS），攻击者可注入恶意脚本到其他用户的浏览器中</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能导致用户会话被劫持、敏感信息窃取、恶意操作</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-86j7-9j95-vpqj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth has an account takeover issue via OAuth auto-link to unverified pre-registered email</div>
+                    <div class="advisory-id">GHSA-g38m-r43w-p2q7 | CVE: CVE-2026-53516</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Improper Authentication</span><span class="badge" style="background:#21262d;color:#8b949e;border:1px solid #30363d;">Insufficient Verification of D</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth has an account takeover issue via OAuth auto-link to unverified pre-registered email</p>
+                <p><strong>影响产品：</strong>npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>< 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>账户接管，攻击者可控制其他用户的账户</p>
+                <p><strong>触发条件：</strong>视具体配置而定，建议参照官方公告</p>
+                <p><strong>潜在危害：</strong>可能导致用户账户被完全接管，敏感数据泄露</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>8.3 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g38m-r43w-p2q7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Better Auth vulnerable to unauthorized invitation acceptance via unverified email match in organization plugin</div>
+                    <div class="advisory-id">GHSA-fmh4-wcc4-5jm3 | CVE: CVE-2026-53514</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Better Auth vulnerable to unauthorized invitation acceptance via unverified email match in organization plugin</p>
+                <p><strong>影响产品：</strong>npm/better-auth ⭐29.0k</p>
+                <p><strong>影响版本：</strong>< 1.6.11</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>认证/授权缺陷，可能导致未授权访问</p>
+                <p><strong>触发条件：</strong>需要管理员权限</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>7.7 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fmh4-wcc4-5jm3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Viewing wget extractor output while logged in as an admin allows archived JS to execute in the admins context</div>
+                    <div class="advisory-id">GHSA-cr45-98w9-gwqx | CVE: CVE-2023-45815</div>
+                </div>
+                <span class="priority-score">优先级评分: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 27.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Viewing wget extractor output while logged in as an admin allows archived JS to execute in the admins context</p>
+                <p><strong>影响产品：</strong>pip/archivebox ⭐27.9k</p>
+                <p><strong>影响版本：</strong>< 0.9.0</p>
+                <p><strong>修复版本：</strong>暂无</p>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS）</p>
+                <p><strong>触发条件：</strong>需要认证（攻击者需要拥有有效的用户凭证）</p>
+                <p><strong>潜在危害：</strong>可能影响系统安全，建议尽快评估和修复</p>
+                <p><strong>可利用性：</strong>📋 仅有漏洞描述，暂无公开PoC</p>
+                <p><strong>修复建议：</strong>关注官方更新，及时升级到安全版本</p>
+                <p><strong>CVSS 评分：</strong>6.4 | <strong>产品影响力：</strong>高 | <strong>危害等级：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cr45-98w9-gwqx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qrpv-q767-xqq2</code></td>
+        <td>langflow</td>
+        <td>151.3k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-qrpv-q767-xqq2" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>2</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-vjm7-m4xh-7wrc</code></td>
+        <td>open-webui</td>
+        <td>144.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-vjm7-m4xh-7wrc" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>3</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-xc8p-9rr6-97r2</code></td>
+        <td>open-webui</td>
+        <td>144.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-xc8p-9rr6-97r2" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>4</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-9f4f-jv96-8766</code></td>
+        <td>open-webui</td>
+        <td>144.6k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-9f4f-jv96-8766" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>5</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-pjwm-pj3p-43mv</code></td>
+        <td>axios</td>
+        <td>109.1k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-pjwm-pj3p-43mv" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>6</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-mq53-pc65-wjc4</code></td>
+        <td>Flowise</td>
+        <td>54.4k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-mq53-pc65-wjc4" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>7</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-7j65-65cr-6644</code></td>
+        <td>Flowise</td>
+        <td>54.4k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-7j65-65cr-6644" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>8</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-5h9v-837x-m97r</code></td>
+        <td>Flowise</td>
+        <td>54.4k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>极高</td>
+        <td><a href="https://github.com/advisories/GHSA-5h9v-837x-m97r" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>9</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-3h23-7824-pj8r</code></td>
+        <td>ArchiveBox</td>
+        <td>27.9k</td>
+        <td>CRITICAL</td>
+        <td>有详细分析</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-3h23-7824-pj8r" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>10</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-fqf6-gxhh-2xhw</code></td>
+        <td>coreutils</td>
+        <td>23.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-fqf6-gxhh-2xhw" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>11</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-m3cr-vc2j-pm27</code></td>
+        <td>coder</td>
+        <td>13.7k</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-m3cr-vc2j-pm27" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>12</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-5rr4-8452-hf4v</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>CRITICAL</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-5rr4-8452-hf4v" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-pw9m-5jxm-xr6h</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>CRITICAL</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-pw9m-5jxm-xr6h" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-q742-qvgc-gc2f</code></td>
+        <td>tinymce</td>
+        <td>16.2k</td>
+        <td>HIGH</td>
+        <td>有详细分析</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-q742-qvgc-gc2f" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6hcw-qqr8-pjj8</code></td>
+        <td>airflow</td>
+        <td>46.1k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6hcw-qqr8-pjj8" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6qcr-qxgr-m7fv</code></td>
+        <td>new-api</td>
+        <td>41.4k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6qcr-qxgr-m7fv" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>17</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-h2qv-fj59-j46j</code></td>
+        <td>netty</td>
+        <td>35.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>18</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-6jv9-x5w9-2ccm</code></td>
+        <td>netty</td>
+        <td>35.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>19</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-5pvg-856g-cp85</code></td>
+        <td>netty</td>
+        <td>35.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>20</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-676x-f7gg-47vc</code></td>
+        <td>netty</td>
+        <td>35.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>21</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-j8v8-g9cx-5qf4</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-j8v8-g9cx-5qf4" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>22</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-7w99-5wm4-3g79</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-7w99-5wm4-3g79" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>23</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-392p-2q2v-4372</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-392p-2q2v-4372" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>24</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-9h47-pqcx-hjr4</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-9h47-pqcx-hjr4" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>25</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-86j7-9j95-vpqj</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-86j7-9j95-vpqj" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>26</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-g38m-r43w-p2q7</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-g38m-r43w-p2q7" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>27</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-fmh4-wcc4-5jm3</code></td>
+        <td>better-auth</td>
+        <td>29.0k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-fmh4-wcc4-5jm3" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>28</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-cr45-98w9-gwqx</code></td>
+        <td>ArchiveBox</td>
+        <td>27.9k</td>
+        <td>HIGH</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-cr45-98w9-gwqx" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td><code>GHSA-rm3j-f69w-wqmq</code></td>
+        <td>crypto</td>
+        <td>3.3k</td>
+        <td>CRITICAL</td>
+        <td>有详细分析</td>
+        <td><a href="https://github.com/advisories/GHSA-rm3j-f69w-wqmq" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-h9qx-v5xp-ph8p</code></td>
+        <td>egroupware</td>
+        <td>294</td>
+        <td>CRITICAL</td>
+        <td>有完整PoC</td>
+        <td><a href="https://github.com/advisories/GHSA-h9qx-v5xp-ph8p" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-9296-v3fr-j92j</code></td>
+        <td>lollms</td>
+        <td>85</td>
+        <td>CRITICAL</td>
+        <td>有详细分析</td>
+        <td><a href="https://github.com/advisories/GHSA-9296-v3fr-j92j" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-qj4x-9g63-25g6</code></td>
+        <td>xwiki-platform</td>
+        <td>1.3k</td>
+        <td>HIGH</td>
+        <td>有详细分析</td>
+        <td><a href="https://github.com/advisories/GHSA-qj4x-9g63-25g6" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-4g5x-hcwm-82jw</code></td>
+        <td>goploy</td>
+        <td>1.2k</td>
+        <td>HIGH</td>
+        <td>有详细分析</td>
+        <td><a href="https://github.com/advisories/GHSA-4g5x-hcwm-82jw" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-85rw-g4f4-jprr</code></td>
+        <td>directory-ldap-api</td>
+        <td>50</td>
+        <td>HIGH</td>
+        <td>有详细分析</td>
+        <td><a href="https://github.com/advisories/GHSA-85rw-g4f4-jprr" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td><code>GHSA-4hgp-59h5-gvrj</code></td>
+        <td>unknown</td>
+        <td>0</td>
+        <td>HIGH</td>
+        <td>有完整PoC</td>
+        <td><a href="https://github.com/advisories/GHSA-4hgp-59h5-gvrj" target="_blank" style="color:#58a6ff;">查看</a></td>
+    </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>langflow</strong> (GHSA-qrpv-q767-xqq2) — Langflow: IDOR Vulnerability in `/api/v1/responses` Endpoint Allows Authenticate</li><li><strong>open-webui</strong> (GHSA-vjm7-m4xh-7wrc) — Open WebUI vulnerable to Stored XSS via iFrame embeds in response messages</li><li><strong>open-webui</strong> (GHSA-xc8p-9rr6-97r2) — Open WebUI vulnerable to Stored XSS via iFrame in citations model</li><li><strong>open-webui</strong> (GHSA-9f4f-jv96-8766) — Open WebUI vulnerable to stored XSS via unescaped markdown token in MarkdownToke</li><li><strong>axios</strong> (GHSA-pjwm-pj3p-43mv) — axios's shouldBypassProxy does not recognize IPv4-mapped IPv6 addresses, allowin</li><li><strong>Flowise</strong> (GHSA-mq53-pc65-wjc4) — FlowiseAI: Evaluation create+update mass-assignment allows cross-workspace evalu</li><li><strong>Flowise</strong> (GHSA-7j65-65cr-6644) — FlowiseAI: DatasetRow create+update mass-assignment allows cross-workspace row t</li><li><strong>Flowise</strong> (GHSA-5h9v-837x-m97r) — FlowiseAI: Dataset create+update mass-assignment allows cross-workspace dataset </li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>better-auth</strong> (GHSA-5rr4-8452-hf4v) — @better-auth/sso provider registration has server-side request forgery via unval</li><li><strong>better-auth</strong> (GHSA-pw9m-5jxm-xr6h) — Better Auth: OAuth refresh-token replay via missing client authentication on oid</li><li><strong>tinymce</strong> (GHSA-q742-qvgc-gc2f) — TinyMCE Cross-Site Scripting (XSS) vulnerability using through data-mce- prefixe</li><li><strong>airflow</strong> (GHSA-6hcw-qqr8-pjj8) — Apache Airflow: Authenticated users can bypass the `is_safe_url` check</li><li><strong>new-api</strong> (GHSA-6qcr-qxgr-m7fv) — New API: SSRF Protection Bypass via Unresolved Hostname in Notification URLs</li><li><strong>netty</strong> (GHSA-h2qv-fj59-j46j) — Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Lea</li><li><strong>netty</strong> (GHSA-6jv9-x5w9-2ccm) — Netty's Lack of Lifecycle Cleanup Leads to Pooled ByteBuf Leak in RedisArrayAggr</li><li><strong>netty</strong> (GHSA-5pvg-856g-cp85) — Netty has Insufficient Bailiwick Validation for NS Records</li>
+                </ul>
+                <p><strong>📋 常规建议：</strong></p>
+                <ul>
+                    <li>建议定期检查依赖项版本，及时更新安全补丁</li><li>启用自动化依赖扫描工具（如 Dependabot、Renovate）</li><li>关注 golang.org/x/crypto 多个漏洞，Go 项目应尽快升级</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
