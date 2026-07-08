@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-08",
+      "title": "GitHub安全公告日报 - 2026-07-08",
+      "url": "reports/report-2026-07-08.html",
+      "stats": {
+        "total": 47,
+        "critical": 14,
+        "high": 33,
+        "star5k": 28,
+        "with_poc": 12
+      },
+      "summary": "今日监控到47个高危漏洞公告，其中14个Critical级别，28个影响Star≥5k项目，12个含完整PoC或详细分析。重点关注Langflow、Open WebUI、FlowiseAI等多个超高Star项目的可利用漏洞。"
+    },
+    {
       "date": "2026-07-07",
       "title": "GitHub安全公告日报 - 2026-07-07",
       "url": "reports/report-2026-07-07.html",
