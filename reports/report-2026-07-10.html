@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-10</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-10 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">19</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 mint: Unbounded streams map growth via PUSH_PROMISE without follow-up HEADERS</div>
+                    <div class="advisory-id">GHSA-g586-ccqf-7x4r | CVE: CVE-2026-48862</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 16.5k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+Mint's HTTP/2 client accepts `PUSH_PROMISE` frames from any server it connects to and inserts every promised stream into a per-connection map without consulting `max_concurrent_streams`. A malicious or compromised HTTP/2 server can flood the client with `PUSH_PROMISE` frames and withhol...</p>
+                <p><strong>影响产品：</strong>mint ⭐16.5k</p>
+                <p><strong>攻击面：</strong>远程代码执行入口</p>
+                <p><strong>触发条件：</strong>恶意payload通过未验证的输入点注入</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g586-ccqf-7x4r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 mint: Unbounded CONTINUATION/HEADERS frame accumulation (CONTINUATION flood)</div>
+                    <div class="advisory-id">GHSA-2p26-p43x-fhp8 | CVE: CVE-2026-49754</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 16.5k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+Mint's HTTP/2 client accumulates `CONTINUATION` header-block fragments into a per-connection buffer with no cap on size or frame count. A malicious or compromised HTTP/2 server can drive the client's memory to arbitrary size by streaming an endless chain of `CONTINUATION` frames after a...</p>
+                <p><strong>影响产品：</strong>mint ⭐16.5k</p>
+                <p><strong>攻击面：</strong>远程代码执行入口</p>
+                <p><strong>触发条件：</strong>恶意payload通过未验证的输入点注入</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2p26-p43x-fhp8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki has Unsafe eval() in its Formula Calculato, Leading to Remote Code Execution &amp; Denial of Service</div>
+                    <div class="advisory-id">GHSA-px5m-h76g-p7p8 | CVE: CVE-2026-52778</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+An unsafe execution vulnerability exists in the Bazar form field calculator (CalcField.php) of YesWiki. The application attempts to sanitize user-defined mathematical formulas using a complex recursive regular expression before passing them to the PHP eval() function. This implementatio...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>代码执行函数调用</p>
+                <p><strong>触发条件：</strong>恶意输入触发eval()执行</p>
+                <p><strong>潜在危害：</strong>远程代码执行、完全系统控制或敏感数据大规模泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-px5m-h76g-p7p8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki Vulnerable to Authenticated PHP Object Injection in BazarImportAction via unserialize</div>
+                    <div class="advisory-id">GHSA-9369-69wj-7m2f | CVE: CVE-2026-52777</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Details
+
+### Sink
+
+`tools/bazar/services/CSVManager.php` line 372-399:
+
+```
+public function importEntry(array $importedEntries, string $formId): ?array
+{
+    if (!$this-&gt;importdone) {
+        // ...
+        foreach ($importedEntries as $entry) {
+            $entry = unserialize(base64_decode($...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>数据库查询接口</p>
+                <p><strong>触发条件：</strong>用户输入未正确过滤直接拼接到SQL语句</p>
+                <p><strong>潜在危害：</strong>远程代码执行、完全系统控制或敏感数据大规模泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9369-69wj-7m2f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki vulnerable to unauthenticated arbitrary page deletion via `{{erasespamedcomments}}` action</div>
+                    <div class="advisory-id">GHSA-6x7x-gcmf-7r8x | CVE: CVE-2026-52766</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+The `{{erasespamedcomments}}` wiki action (`actions/EraseSpamedCommentsAction.php`) accepts a `suppr[]` array from `POST` and deletes every wiki page whose tag appears in that array, with no authorization check anywhere in the action body or in the page-deletion path it invokes. Combine...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>需要进一步分析</p>
+                <p><strong>触发条件：</strong>需要进一步分析</p>
+                <p><strong>潜在危害：</strong>远程代码执行、完全系统控制或敏感数据大规模泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6x7x-gcmf-7r8x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠  Mistune: Potential DoS via quadratic-time parsing in parse_link_text</div>
+                    <div class="advisory-id">GHSA-qcq2-496w-v96p | CVE: CVE-2026-49851</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 3.1k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Mistune is vulnerable to a CPU exhaustion DoS due to superlinear (approximately O(n²)) behavior in parse_link_text. A relatively small input consisting of repeated [ characters causes significant parsing slowdown.
+
+### Affected component
+mistune/inline_parser.py → **parse_link_text**
+
+##...</p>
+                <p><strong>影响产品：</strong>mistune ⭐3.1k</p>
+                <p><strong>攻击面：</strong>资源解析/处理模块</p>
+                <p><strong>触发条件：</strong>特殊构造的输入导致资源耗尽</p>
+                <p><strong>潜在危害：</strong>服务不可用、CPU/内存资源耗尽</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qcq2-496w-v96p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki has Authenticated SQL Injection via ReactionManager </div>
+                    <div class="advisory-id">GHSA-4pf7-cc4r-g63h | CVE: CVE-2026-52775</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+YesWiki through the latest development branch contains a SQL injection vulnerability in `ReactionManager::deleteUserReaction()` that allows any authenticated user to inject arbitrary SQL via the `{idreaction}` and `{id}` URL path parameters. The parameters are concatenated directly into ...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>数据库查询接口</p>
+                <p><strong>触发条件：</strong>用户输入未正确过滤直接拼接到SQL语句</p>
+                <p><strong>潜在危害：</strong>数据库完整信息泄露、数据篡改或删除</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4pf7-cc4r-g63h" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki: Second-Order SQL Injection in Page Delete API via Unescaped Page Tag (`ApiController::deletePage`)</div>
+                    <div class="advisory-id">GHSA-8f2v-2qhj-gfwg | CVE: CVE-2026-52771</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+`ApiController::deletePage()` interpolates a page tag retrieved from the database into a `DELETE FROM …_links WHERE to_tag = '$tag'` query without escaping. The page tag is attacker-controlled — the `POST /api/pages/{tag}` API accepts arbitrary URL-encoded values, including single quotes,...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>数据库查询接口</p>
+                <p><strong>触发条件：</strong>用户输入未正确过滤直接拼接到SQL语句</p>
+                <p><strong>潜在危害：</strong>数据库完整信息泄露、数据篡改或删除</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8f2v-2qhj-gfwg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki: SQL Injection possible through public Bazar entry-listing APIs via numeric `query`/`queries` filters</div>
+                    <div class="advisory-id">GHSA-qg78-vmvc-fhjw | CVE: CVE-2026-52770</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+YesWiki’s public Bazar entry-listing APIs are vulnerable to unauthenticated SQL injection in numeric `query` / `queries` filters.
+
+For Bazar fields whose value structure is numeric, YesWiki escapes the attacker-controlled filter value but inserts it into SQL without quotes or numeric val...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>代码执行函数调用</p>
+                <p><strong>触发条件：</strong>恶意输入触发eval()执行</p>
+                <p><strong>潜在危害：</strong>数据库完整信息泄露、数据篡改或删除</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qg78-vmvc-fhjw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki has Unauthenticated Server-Side Request Forgery via ActivityPub `Signature.keyId`</div>
+                    <div class="advisory-id">GHSA-vw42-752g-5mrp | CVE: CVE-2026-52769</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+The `POST /api/forms/{formId}/actor/inbox` route - exposed publicly with `acl:&quot;public&quot;` - accepts an HTTP `Signature` header whose `keyId` parameter is a URL. `HttpSignatureService::verifySignature()` parses the header and **immediately makes a server-side HTTP GET** to that URL...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>服务端URL请求处理</p>
+                <p><strong>触发条件：</strong>用户可控的URL参数未经验证</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vw42-752g-5mrp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki Vulnerable to Unauthenticated ActivityPub Signature-Verification Bypass via `!openssl_verify(...)` accepting `int(-1)`</div>
+                    <div class="advisory-id">GHSA-mv28-wj57-f57g | CVE: CVE-2026-52767</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+`HttpSignatureService::verifySignature()` checks the result of PHP's `openssl_verify()` with a **loose boolean negation** - `if (!openssl_verify(...)) { throw ... }`. PHP's `openssl_verify` has four possible return values:
+
+| return | meaning                                          | `!r...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>代码执行函数调用</p>
+                <p><strong>触发条件：</strong>恶意输入触发eval()执行</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mv28-wj57-f57g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 YesWiki: Authenticated (Admin) Server-Side Template Injection to Remote Code Execution via Bazar Semantic Templates</div>
+                    <div class="advisory-id">GHSA-65p8-9433-jpcp | CVE: CVE-2026-52762</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 134</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+YesWiki Bazar contains a stored Server-Side Template Injection (`SSTI`) vulnerability in the semantic template feature that can be escalated to confirmed Remote Code Execution (`RCE`). An authenticated administrator can place arbitrary Twig expressions into the `Semantic template (Twig)`...</p>
+                <p><strong>影响产品：</strong>yeswiki/yeswiki ⭐134</p>
+                <p><strong>攻击面：</strong>代码执行函数调用</p>
+                <p><strong>触发条件：</strong>恶意输入触发eval()执行</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-65p8-9433-jpcp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 laravel-backup-restore has an OS Command Injection during database restore</div>
+                    <div class="advisory-id">GHSA-w9mx-xmg4-gc4r | CVE: CVE-2026-53932</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 347</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+A crafted backup archive can trigger OS command injection during database restore. The restore workflow extracts a ZIP archive, enumerates files under `db-dumps`, converts the dump path to an absolute path, and passes that path into database import commands that are built as shell command...</p>
+                <p><strong>影响产品：</strong>wnx/laravel-backup-restore ⭐347</p>
+                <p><strong>攻击面：</strong>数据库查询接口</p>
+                <p><strong>触发条件：</strong>用户输入未正确过滤直接拼接到SQL语句</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w9mx-xmg4-gc4r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Craft CMS: RCE via missing cleanseConfig in FieldsController::actionRenderCardPreview</div>
+                    <div class="advisory-id">GHSA-86vw-x4ww-x467 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 3.6k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `actionRenderCardPreview()` method in `FieldsController` passes the `fieldLayoutConfig` POST parameter directly to `Fields::createLayout()` without calling `Component::cleanseConfig()`. This allows Yii2 event handler injection via `on eventName` keys in the config array, leading to arbitrary cod...</p>
+                <p><strong>影响产品：</strong>craftcms/cms ⭐3.6k</p>
+                <p><strong>攻击面：</strong>远程代码执行入口</p>
+                <p><strong>触发条件：</strong>恶意payload通过未验证的输入点注入</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-86vw-x4ww-x467" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Ruby CSS Parser: SSRF and Local File Disclosure in `CssParser::Parser#read_remote_file`</div>
+                    <div class="advisory-id">GHSA-9pmc-p236-855h | CVE: CVE-2026-53727</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 299</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+`CssParser::Parser#read_remote_file` (and therefore `load_uri!`, and the `@import`-following branch of `add_block!`) issues HTTP/HTTPS requests against any host, port and URI it is handed, with no scheme allowlist, no host / IP filtering, and no protection against link-local, loopback or...</p>
+                <p><strong>影响产品：</strong>css_parser ⭐299</p>
+                <p><strong>攻击面：</strong>服务端URL请求处理</p>
+                <p><strong>触发条件：</strong>用户可控的URL参数未经验证</p>
+                <p><strong>潜在危害：</strong>内网服务探测、敏感数据获取或进一步横向渗透</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9pmc-p236-855h" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 org.hl7.fhir.core: ReDoS via FHIRPath matches()/replaceMatches() in FHIR Validator HTTP Endpoint</div>
+                    <div class="advisory-id">GHSA-7cmj-v6x8-frvv | CVE: CVE-2026-49485</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Summary
+All implementations of FHIRPathEngine accept arbitrary FHIRPath expressions and evaluate them without input validation. The utility intended to secure this evaluation did so incorrectly, and did not fully cover all places in which evaluation was being done. An attacker can send a resource ...</p>
+                <p><strong>影响产品：</strong>ca.uhn.hapi.fhir:org.hl7.fhir.dstu2, ca.uhn.hapi.fhir:org.hl7.fhir.dstu2016may, ca.uhn.hapi.fhir:org.hl7.fhir.dstu3, ca.uhn.hapi.fhir:org.hl7.fhir.r4, ca.uhn.hapi.fhir:org.hl7.fhir.r4b, ca.uhn.hapi.fhir:org.hl7.fhir.r5, ca.uhn.hapi.fhir:org.hl7.fhir.validation, ca.uhn.hapi.fhir:org.hl7.fhir.validation.cli, ca.uhn.hapi.fhir:org.hl7.fhir.dstu2, ca.uhn.hapi.fhir:org.hl7.fhir.dstu2016may, ca.uhn.hapi.fhir:org.hl7.fhir.dstu3, ca.uhn.hapi.fhir:org.hl7.fhir.r4, ca.uhn.hapi.fhir:org.hl7.fhir.r4b, ca.uhn.hapi.fhir:org.hl7.fhir.r5, ca.uhn.hapi.fhir:org.hl7.fhir.validation, ca.uhn.hapi.fhir:org.hl7.fhir.validation.cli ⭐0</p>
+                <p><strong>攻击面：</strong>代码执行函数调用</p>
+                <p><strong>触发条件：</strong>恶意输入触发eval()执行</p>
+                <p><strong>潜在危害：</strong>服务不可用、CPU/内存资源耗尽</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7cmj-v6x8-frvv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Note Mark: Path traversal via unsanitized book/note slug in migrate export (sibling of GHSA-g49p)</div>
+                    <div class="advisory-id">GHSA-rqrh-8wpv-x7hh | CVE: CVE-2026-50553</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 750</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+Note Mark validates book and note `slug` values with the OpenAPI/huma tag `pattern:&quot;[a-z0-9-]+&quot;`. huma compiles this with `regexp.MustCompile(s.Pattern)` and tests it with `patternRe.MatchString(str)`, an UNANCHORED match. Because the pattern is not anchored (`^...$`), any stri...</p>
+                <p><strong>影响产品：</strong>github.com/enchant97/note-mark/backend ⭐750</p>
+                <p><strong>攻击面：</strong>需要进一步分析</p>
+                <p><strong>触发条件：</strong>需要进一步分析</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rqrh-8wpv-x7hh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Soup Sieve: Regular Expression Denial of Service (ReDoS) via Selector Parser</div>
+                    <div class="advisory-id">GHSA-836r-79rf-4m37 | CVE: CVE-2026-49477</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 266</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+The CSS selector parser in soupsieve (the CSS selector engine for Beautiful Soup 4) contains a regular expression vulnerable to catastrophic backtracking. When processing an attribute selector with an unterminated quoted value, the `VALUE` regex pattern in `css_parser.py` enters exponen...</p>
+                <p><strong>影响产品：</strong>soupsieve ⭐266</p>
+                <p><strong>攻击面：</strong>资源解析/处理模块</p>
+                <p><strong>触发条件：</strong>特殊构造的输入导致资源耗尽</p>
+                <p><strong>潜在危害：</strong>服务不可用、CPU/内存资源耗尽</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-836r-79rf-4m37" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Soup Sieve has Memory Exhaustion via Large Comma-Separated Selector Lists</div>
+                    <div class="advisory-id">GHSA-2wc2-fm75-p42x | CVE: CVE-2026-49476</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 266</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+The CSS selector parser in soupsieve (the CSS selector engine for Beautiful Soup 4) allocates unbounded memory when compiling large comma-separated selector lists. An attacker who can supply a crafted CSS selector string to `soupsieve.compile()` or Beautiful Soup's `.select()` / `.selec...</p>
+                <p><strong>影响产品：</strong>soupsieve ⭐266</p>
+                <p><strong>攻击面：</strong>资源解析/处理模块</p>
+                <p><strong>触发条件：</strong>特殊构造的输入导致资源耗尽</p>
+                <p><strong>潜在危害：</strong>数据泄露、服务中断或系统被控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到已修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2wc2-fm75-p42x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Micronaut doesn't set a maximum redirect count for its HTTP Client, enabling infinite loop DoS</div>
+                    <div class="advisory-id">GHSA-387m-935m-c4vw | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 6.4k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The Netty-based Micronaut HTTP Client does not impose a limit on HTTP redirections, potentially allowing an infinite redirect loop that could lead to a denial-of-service attack.
+
+### Patches
+
+The following versions are patched: 
+
+- For Micronaut 5, versions equal or greater than [5.0.1](https://gith...</p>
+                <p><strong>影响产品：</strong>io.micronaut:micronaut-http-client, io.micronaut:micronaut-http-client, io.micronaut:micronaut-http-client ⭐6.4k</p>
+                <p><strong>攻击面：</strong>远程代码执行入口</p>
+                <p><strong>触发条件：</strong>恶意payload通过未验证的输入点注入</p>
+                <p><strong>潜在危害：</strong>服务不可用、CPU/内存资源耗尽</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-387m-935m-c4vw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Phantom: Arbitrary file write and decode-bomb DoS via unconfined MCP tool paths</div>
+                    <div class="advisory-id">GHSA-52vm-mxx8-f227 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 5/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact
+
+In Phantom &lt;= 1.3.0, when `PHANTOM_OUTPUT_DIR` was unset (the default), the MCP tools accepted arbitrary absolute output paths with no confinement. Anything able to send tool calls (e.g. an AI agent driving the MCP interface) could **write or overwrite arbitrary files** the process us...</p>
+                <p><strong>影响产品：</strong>phantom-audio ⭐0</p>
+                <p><strong>攻击面：</strong>资源解析/处理模块</p>
+                <p><strong>触发条件：</strong>特殊构造的输入导致资源耗尽</p>
+                <p><strong>潜在危害：</strong>服务不可用、CPU/内存资源耗尽</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>立即升级到最新版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-52vm-mxx8-f227" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-g586-ccqf-7x4r</code></td>
+                    <td>mint</td>
+                    <td>16.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g586-ccqf-7x4r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-2p26-p43x-fhp8</code></td>
+                    <td>mint</td>
+                    <td>16.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2p26-p43x-fhp8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-px5m-h76g-p7p8</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-px5m-h76g-p7p8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-9369-69wj-7m2f</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-9369-69wj-7m2f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-6x7x-gcmf-7r8x</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-6x7x-gcmf-7r8x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-qcq2-496w-v96p</code></td>
+                    <td>mistune</td>
+                    <td>3.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-qcq2-496w-v96p" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-4pf7-cc4r-g63h</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4pf7-cc4r-g63h" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-8f2v-2qhj-gfwg</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8f2v-2qhj-gfwg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-qg78-vmvc-fhjw</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-qg78-vmvc-fhjw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-vw42-752g-5mrp</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vw42-752g-5mrp" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-mv28-wj57-f57g</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-mv28-wj57-f57g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-65p8-9433-jpcp</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-65p8-9433-jpcp" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-w9mx-xmg4-gc4r</code></td>
+                    <td>wnx/laravel-backup-restore</td>
+                    <td>347</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-w9mx-xmg4-gc4r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-86vw-x4ww-x467</code></td>
+                    <td>craftcms/cms</td>
+                    <td>3.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-86vw-x4ww-x467" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>15</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-9pmc-p236-855h</code></td>
+                    <td>css_parser</td>
+                    <td>299</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-9pmc-p236-855h" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>16</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-7cmj-v6x8-frvv</code></td>
+                    <td>ca.uhn.hapi.fhir:org.hl7.fhir.dstu2, ca.uhn.hapi.fhir:org.hl7.fhir.dstu2016may</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-7cmj-v6x8-frvv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>17</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-rqrh-8wpv-x7hh</code></td>
+                    <td>github.com/enchant97/note-mark/backend</td>
+                    <td>750</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rqrh-8wpv-x7hh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>18</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-836r-79rf-4m37</code></td>
+                    <td>soupsieve</td>
+                    <td>266</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-836r-79rf-4m37" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>19</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-2wc2-fm75-p42x</code></td>
+                    <td>soupsieve</td>
+                    <td>266</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2wc2-fm75-p42x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>20</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-387m-935m-c4vw</code></td>
+                    <td>io.micronaut:micronaut-http-client, io.micronaut:micronaut-http-client</td>
+                    <td>6.4k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-387m-935m-c4vw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>21</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-52vm-mxx8-f227</code></td>
+                    <td>phantom-audio</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-52vm-mxx8-f227" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>GHSA-px5m-h76g-p7p8</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-9369-69wj-7m2f</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-6x7x-gcmf-7r8x</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>CRITICAL</td>
+                    <td>有PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-qcq2-496w-v96p</code></td>
+                    <td>mistune</td>
+                    <td>3.1k</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-4pf7-cc4r-g63h</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-8f2v-2qhj-gfwg</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-qg78-vmvc-fhjw</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-vw42-752g-5mrp</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-mv28-wj57-f57g</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-65p8-9433-jpcp</code></td>
+                    <td>yeswiki/yeswiki</td>
+                    <td>134</td>
+                    <td>HIGH</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+<p><strong>紧急关注：</strong></p><ul><li>mint: Unbounded streams map growth via PUSH_PROMISE without follow-up HEADERS (GHSA-g586-ccqf-7x4r) - 立即检查并升级</li><li>mint: Unbounded CONTINUATION/HEADERS frame accumulation (CONTINUATION flood) (GHSA-2p26-p43x-fhp8) - 立即检查并升级</li></ul><p><strong>重点关注：</strong></p><ul><li>YesWiki has Unsafe eval() in its Formula Calculato, Leading to Remote Code Execution &amp; Denial of Service (GHSA-px5m-h76g-p7p8) - 尽快评估影响并制定修复计划</li><li>YesWiki Vulnerable to Authenticated PHP Object Injection in BazarImportAction via unserialize (GHSA-9369-69wj-7m2f) - 尽快评估影响并制定修复计划</li><li>YesWiki vulnerable to unauthenticated arbitrary page deletion via `{{erasespamedcomments}}` action (GHSA-6x7x-gcmf-7r8x) - 尽快评估影响并制定修复计划</li><li> Mistune: Potential DoS via quadratic-time parsing in parse_link_text (GHSA-qcq2-496w-v96p) - 尽快评估影响并制定修复计划</li><li>YesWiki has Authenticated SQL Injection via ReactionManager  (GHSA-4pf7-cc4r-g63h) - 尽快评估影响并制定修复计划</li><li>YesWiki: Second-Order SQL Injection in Page Delete API via Unescaped Page Tag (`ApiController::deletePage`) (GHSA-8f2v-2qhj-gfwg) - 尽快评估影响并制定修复计划</li><li>YesWiki: SQL Injection possible through public Bazar entry-listing APIs via numeric `query`/`queries` filters (GHSA-qg78-vmvc-fhjw) - 尽快评估影响并制定修复计划</li><li>YesWiki has Unauthenticated Server-Side Request Forgery via ActivityPub `Signature.keyId` (GHSA-vw42-752g-5mrp) - 尽快评估影响并制定修复计划</li><li>YesWiki Vulnerable to Unauthenticated ActivityPub Signature-Verification Bypass via `!openssl_verify(...)` accepting `int(-1)` (GHSA-mv28-wj57-f57g) - 尽快评估影响并制定修复计划</li><li>YesWiki: Authenticated (Admin) Server-Side Template Injection to Remote Code Execution via Bazar Semantic Templates (GHSA-65p8-9433-jpcp) - 尽快评估影响并制定修复计划</li><li>laravel-backup-restore has an OS Command Injection during database restore (GHSA-w9mx-xmg4-gc4r) - 尽快评估影响并制定修复计划</li><li>Craft CMS: RCE via missing cleanseConfig in FieldsController::actionRenderCardPreview (GHSA-86vw-x4ww-x467) - 尽快评估影响并制定修复计划</li><li>Ruby CSS Parser: SSRF and Local File Disclosure in `CssParser::Parser#read_remote_file` (GHSA-9pmc-p236-855h) - 尽快评估影响并制定修复计划</li><li>org.hl7.fhir.core: ReDoS via FHIRPath matches()/replaceMatches() in FHIR Validator HTTP Endpoint (GHSA-7cmj-v6x8-frvv) - 尽快评估影响并制定修复计划</li><li>Note Mark: Path traversal via unsanitized book/note slug in migrate export (sibling of GHSA-g49p) (GHSA-rqrh-8wpv-x7hh) - 尽快评估影响并制定修复计划</li><li>Soup Sieve: Regular Expression Denial of Service (ReDoS) via Selector Parser (GHSA-836r-79rf-4m37) - 尽快评估影响并制定修复计划</li><li>Soup Sieve has Memory Exhaustion via Large Comma-Separated Selector Lists (GHSA-2wc2-fm75-p42x) - 尽快评估影响并制定修复计划</li></ul><p><strong>常规关注：</strong></p><ul><li>Micronaut doesn't set a maximum redirect count for its HTTP Client, enabling infinite loop DoS (GHSA-387m-935m-c4vw) - 持续关注官方修复进展</li><li>Phantom: Arbitrary file write and decode-bomb DoS via unconfined MCP tool paths (GHSA-52vm-mxx8-f227) - 持续关注官方修复进展</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
