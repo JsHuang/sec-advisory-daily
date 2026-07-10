@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-10",
+      "title": "GitHub安全公告日报 - 2026-07-10",
+      "url": "reports/report-2026-07-10.html",
+      "stats": {
+        "total": 21,
+        "critical": 3,
+        "high": 18,
+        "star5k": 3,
+        "with_poc": 19
+      },
+      "summary": "今日发现21个高危/严重漏洞，其中3个Critical级别，3个影响Star≥5k项目，19个含PoC或详细分析。重点关注：mint HTTP/2 DoS（⭐16k）、Micronaut无限重定向（⭐6.4k）、YesWiki多个RCE/SQLi漏洞。"
+    },
+    {
       "date": "2026-07-08",
       "title": "GitHub安全公告日报 - 2026-07-08",
       "url": "reports/report-2026-07-08.html",
