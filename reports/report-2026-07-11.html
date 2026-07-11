@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-11</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-11 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">36</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">33</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 MLflow: Environment variable injection in AI Gateway secrets enables server-side credential exfiltration</div>
+                    <div class="advisory-id">GHSA-g35p-px32-whv6 | CVE: CVE-2026-4035</div>
+                </div>
+                <span class="priority-score">优先级: 28</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 26,970</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A vulnerability in mlflow/mlflow versions prior to 3.11.0 allows for the resolution of environment variables in AI Gateway secrets, which can be exploited to exfiltrate sensitive server-side environment credentials to an attacker-controlled endpoint. This issue arises because the `api_key` field in ...</p>
+                <p><strong>影响产品：</strong>mlflow/mlflow ⭐26,970</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g35p-px32-whv6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 ws: Memory exhaustion DoS from tiny fragments and data chunks</div>
+                    <div class="advisory-id">GHSA-96hv-2xvq-fx4p | CVE: CVE-2026-48779</div>
+                </div>
+                <span class="priority-score">优先级: 25</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 22,782</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact
+
+A high volume of exceptionally small fragments and data chunks can be sent by a peer, with modest network traffic, to force the remote peer into allocating and holding structural wrappers that consume far more memory than the default documented message-size limit, leading to process term...</p>
+                <p><strong>影响产品：</strong>websockets/ws ⭐22,782</p>
+                <p><strong>影响版本：</strong>, </p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-96hv-2xvq-fx4p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc | CVE: CVE-2026-45674</div>
+                </div>
+                <span class="priority-score">优先级: 25</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35,006</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty's DnsResolveContext fails to validate the origin (bailiwick) of CNAME records in DNS responses.
+
+### Details
+In `io.netty.resolver.dns.DnsResolveContext#buildAliasMap`, the resolver processes the ANSWER section of a DNS response and blindly caches all CNAME records it finds.
+
+Accor...</p>
+                <p><strong>影响产品：</strong>netty/netty ⭐35,006</p>
+                <p><strong>影响版本：</strong>, </p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 mcp-atlassian: Arbitrary file read via missing path validation in confluence_upload_attachment</div>
+                    <div class="advisory-id">GHSA-g5r6-gv6m-f5jv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 23</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5,534</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+`confluence_upload_attachment` passes `file_path` directly to `open(file_path, "rb")` with no path validation. Any authenticated MCP client — or an AI agent manipulated via prompt injection — can read any file the server process can access and exfiltrate it to Confluence as an attachment...</p>
+                <p><strong>影响产品：</strong>sooperset/mcp-atlassian ⭐5,534</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 mcp-atlassian: Arbitrary server-side file read via attachment upload</div>
+                    <div class="advisory-id">GHSA-wm45-qh3g-v83f | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 23</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5,534</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+A client that can invoke MCP tools can read **arbitrary files from the server host** and exfiltrate them as Atlassian attachments. The attachment-upload tools take a client-supplied `file_path` and `open()` it on the **server's** filesystem.
+
+The upload tools are meant to attach a file ...</p>
+                <p><strong>影响产品：</strong>sooperset/mcp-atlassian ⭐5,534</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wm45-qh3g-v83f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 BabelDOC: Arbitrary Code Execution via CMap Pickle Deserialization in babeldoc/pdfminer/cmapdb.py</div>
+                    <div class="advisory-id">GHSA-m8gf-v64p-gfmg | CVE: CVE-2026-54071</div>
+                </div>
+                <span class="priority-score">优先级: 23</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 8,888</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Arbitrary Code Execution via CMap Pickle Deserialization in babeldoc/pdfminer/cmapdb.py
+
+### Summary
+
+BabelDOC's vendored PDF parser (`babeldoc/pdfminer/cmapdb.py`) deserializes untrusted pickle data when loading CMap files. The `_load_data()` method strips only NUL bytes from a PDF-controlled CM...</p>
+                <p><strong>影响产品：</strong>funstory-ai/BabelDOC ⭐8,888</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m8gf-v64p-gfmg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 TSDProxy: Internal proxy auth token forwarded to backend services enables management API escalation</div>
+                    <div class="advisory-id">GHSA-g936-7jqj-mwv8 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Description
+
+A vulnerability was discovered in TSDProxy where it forwards its internal per-process authentication token to all proxied backend services. When `identityHeaders` is enabled (the default), tsdproxy injects `x-tsdproxy-auth-token` into every upstream HTTP request alongside user identi...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g936-7jqj-mwv8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SiYuan: Stored XSS to RCE via Unsanitized Attribute View Asset Cell Content</div>
+                    <div class="advisory-id">GHSA-56mp-4f3v-fgj2 | CVE: CVE-2026-50551</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan v3.6.5 and earlier versions contain a stored cross-site scripting (XSS) vulnerability in the Attribute View (database) asset cell renderer that escalates to remote code execution (RCE) in the Electron desktop client. This is a neighbor-bug of CVE-2026-44588: the fix for -44588 used `escapeAri...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-56mp-4f3v-fgj2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 prestashop/ps_facetedsearch: PHP Object Injection in faceted search cache allows unauthenticated RCE</div>
+                    <div class="advisory-id">GHSA-m5f5-28qr-9g9r | CVE: CVE-2026-54159</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 62</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact
+
+A PHP Object Injection vulnerability affects the PrestaShop module `ps_facetedsearch`.
+
+The module rebuilds the selected search filters from the request URL. The value of a slider filter (**price** or **weight**) is taken from the URL without sufficient validation, then stored in an inte...</p>
+                <p><strong>影响产品：</strong>PrestaShop/ps_facetedsearch ⭐62</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m5f5-28qr-9g9r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SiYuan: Stored XSS to RCE via attribute-view cell rendering in genAVValueHTML()</div>
+                    <div class="advisory-id">GHSA-5xfx-xj4h-5p7r | CVE: CVE-2026-54158</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+The attribute-view (database) cell renderer `genAVValueHTML` interpolates cell content raw in four of its branches: `text`, `url`, `phone`, and `mAsset`. A cell value like `</textarea><img src=x onerror="...">` or `"><img src=x onerror="...">` breaks out of its surrounding tag and runs ...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5xfx-xj4h-5p7r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser: Command Injection via Authentication Hook Shell Substitution (Pre-Authentication RCE)</div>
+                    <div class="advisory-id">GHSA-m93h-4hw7-5qcm | CVE: CVE-2026-54088</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Overview
+
+The Hook Authentication feature in File Browser allows administrators to delegate login verification to an external shell command. User-supplied credentials (username and password) are interpolated into this command string using `os.Expand` without sanitization. An **unauthenticated rem...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m93h-4hw7-5qcm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 `exploration` was removed from crates.io for malicious code</div>
+                    <div class="advisory-id">GHSA-99j7-fhr2-xfj4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A method within the `exploration` crate attempted to download and execute a payload from a remote site.
+
+The malicious crate had 1 version published on 2026-06-02, approximately 1 hour before removal, and had no evidence of actual usage. This crate had no dependencies on crates.io.
+
+Rustsec to Kiril...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-99j7-fhr2-xfj4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SiYuan: Unauthenticated Admin API Access via Blanket chrome-extension:// Origin Allowlist</div>
+                    <div class="advisory-id">GHSA-hvr9-72v2-fff3 | CVE: CVE-2026-54069</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+SiYuan Note's kernel HTTP server unconditionally trusts all `chrome-extension://` origins, granting `RoleAdministrator` access to every installed browser extension without any authentication. Combined with the default empty `AccessAuthCode` on desktop installs, any Chrome/Chromium extens...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hvr9-72v2-fff3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 File Browser: Authentication Bypass via Proxy Auth Header Forgery</div>
+                    <div class="advisory-id">GHSA-xqp3-jq6g-x3qm | CVE: CVE-2026-54089</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+When FileBrowser is configured with proxy authentication (`auth.method=proxy`), any unauthenticated attacker who can reach the server directly can impersonate **any user - including admin** - by sending a single forged HTTP header. No credentials are required. Additionally, specifying a ...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xqp3-jq6g-x3qm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Authorizer: Unvalidated redirect_uri in /authorize leaks OAuth2 tokens to attacker-controlled URL</div>
+                    <div class="advisory-id">GHSA-h29v-hj44-q8cv | CVE: CVE-2026-54072</div>
+                </div>
+                <span class="priority-score">优先级: 20</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary
+
+The `/authorize` endpoint accepts any `redirect_uri` without validating it against `AllowedOrigins`. When `response_type=token` or `response_type=id_token`, the server appends `access_token`, `id_token`, and `refresh_token` as query parameters and issues a 302 redirect to the attacker-su...</p>
+                <p><strong>影响产品：</strong>None ⭐0</p>
+                <p><strong>影响版本：</strong></p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h29v-hj44-q8cv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-g35p-px32-whv6</code></td>
+                    <td>mlflow/mlflow</td>
+                    <td>26,970</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g35p-px32-whv6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-96hv-2xvq-fx4p</code></td>
+                    <td>websockets/ws</td>
+                    <td>22,782</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-96hv-2xvq-fx4p" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-676x-f7gg-47vc</code></td>
+                    <td>netty/netty</td>
+                    <td>35,006</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-g5r6-gv6m-f5jv</code></td>
+                    <td>sooperset/mcp-atlassian</td>
+                    <td>5,534</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-wm45-qh3g-v83f</code></td>
+                    <td>sooperset/mcp-atlassian</td>
+                    <td>5,534</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-wm45-qh3g-v83f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-m8gf-v64p-gfmg</code></td>
+                    <td>funstory-ai/BabelDOC</td>
+                    <td>8,888</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-m8gf-v64p-gfmg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-g936-7jqj-mwv8</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g936-7jqj-mwv8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-56mp-4f3v-fgj2</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-56mp-4f3v-fgj2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-m5f5-28qr-9g9r</code></td>
+                    <td>PrestaShop/ps_facetedsearch</td>
+                    <td>62</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-m5f5-28qr-9g9r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-5xfx-xj4h-5p7r</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5xfx-xj4h-5p7r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-m93h-4hw7-5qcm</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-m93h-4hw7-5qcm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-99j7-fhr2-xfj4</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-99j7-fhr2-xfj4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-hvr9-72v2-fff3</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-hvr9-72v2-fff3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-xqp3-jq6g-x3qm</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-xqp3-jq6g-x3qm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>15</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-h29v-hj44-q8cv</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-h29v-hj44-q8cv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>16</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-mvjr-vv3c-w4qv</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-mvjr-vv3c-w4qv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>17</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-qf6p-p7ww-cwr9</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-qf6p-p7ww-cwr9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>18</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-h4g2-xfmw-q2c9</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-h4g2-xfmw-q2c9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>19</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-xrmc-c5cg-rv7x</code></td>
+                    <td>Mickdownunder/SafeInstall</td>
+                    <td>3</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-xrmc-c5cg-rv7x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>20</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-qv4m-m73m-8hj7</code></td>
+                    <td>notrinos/NotrinosERP</td>
+                    <td>152</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-qv4m-m73m-8hj7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>GHSA-g936-7jqj-mwv8</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-56mp-4f3v-fgj2</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-m5f5-28qr-9g9r</code></td>
+                    <td>PrestaShop/ps_facetedsearch</td>
+                    <td>62</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-5xfx-xj4h-5p7r</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-m93h-4hw7-5qcm</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-99j7-fhr2-xfj4</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-hvr9-72v2-fff3</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-xqp3-jq6g-x3qm</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-h29v-hj44-q8cv</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-mvjr-vv3c-w4qv</code></td>
+                    <td>None</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>MLflow: Environment variable injection in AI Gateway secrets</strong> (GHSA-g35p-px32-whv6) - 建议立即检查并升级到修复版本</li>
+                    <li><strong>ws: Memory exhaustion DoS from tiny fragments and data chunk</strong> (GHSA-96hv-2xvq-fx4p) - 建议立即检查并升级到修复版本</li>
+                    <li><strong>Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwic</strong> (GHSA-676x-f7gg-47vc) - 建议立即检查并升级到修复版本</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>mcp-atlassian: Arbitrary file read via missing path validati</strong> (GHSA-g5r6-gv6m-f5jv) - 建议尽快评估影响并制定修复计划</li>
+                    <li><strong>mcp-atlassian: Arbitrary server-side file read via attachmen</strong> (GHSA-wm45-qh3g-v83f) - 建议尽快评估影响并制定修复计划</li>
+                    <li><strong>BabelDOC: Arbitrary Code Execution via CMap Pickle Deseriali</strong> (GHSA-m8gf-v64p-gfmg) - 建议尽快评估影响并制定修复计划</li>
+                    <li><strong>TSDProxy: Internal proxy auth token forwarded to backend ser</strong> (GHSA-g936-7jqj-mwv8) - 建议尽快评估影响并制定修复计划</li>
+                    <li><strong>SiYuan: Stored XSS to RCE via Unsanitized Attribute View Ass</strong> (GHSA-56mp-4f3v-fgj2) - 建议尽快评估影响并制定修复计划</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>Clauster: Non-loopback deployments can serve the dashboard u</strong> (GHSA-h4g2-xfmw-q2c9) - 持续关注官方更新</li>
+                    <li><strong>SafeInstall agent guard shell parsing can miss raw package e</strong> (GHSA-xrmc-c5cg-rv7x) - 持续关注官方更新</li>
+                    <li><strong>NotrinosERP: Authenticated arbitrary file upload leads to re</strong> (GHSA-qv4m-m73m-8hj7) - 持续关注官方更新</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
