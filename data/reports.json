@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-11",
+      "title": "GitHub安全公告日报 - 2026-07-11",
+      "url": "reports/report-2026-07-11.html",
+      "stats": {
+        "total": 36,
+        "critical": 12,
+        "high": 24,
+        "star5k": 9,
+        "with_poc": 33
+      },
+      "summary": "今日监控到 36 个高危漏洞公告（12 Critical, 24 High），其中 9 个影响 Star≥5k 的热门项目，33 个包含PoC或详细利用分析。重点关注 MLflow 环境变量注入、SiYuan 多个XSS/RCE漏洞、File Browser 命令注入、Gogs RCE等。"
+    },
+    {
       "date": "2026-07-10",
       "title": "GitHub安全公告日报 - 2026-07-10",
       "url": "reports/report-2026-07-10.html",
