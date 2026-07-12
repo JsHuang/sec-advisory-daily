@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-12",
+      "title": "GitHub安全公告日报 - 2026-07-12",
+      "url": "reports/report-2026-07-12.html",
+      "stats": {
+        "total": 21,
+        "critical": 10,
+        "high": 11,
+        "star5k": 12,
+        "with_poc": 18
+      },
+      "summary": "今日发现21个高危及以上安全公告（Critical 10, High 11），涉及SiYuan（5个漏洞含4个Critical XSS→RCE）、File Browser（2个Critical级Pre-Auth RCE+认证绕过）、mcp-atlassian（2个任意文件读取）、BabelDOC（Pickle反序列化RCE）、Excelize（DoS）等高影响力项目。SiYuan和File Browser漏洞最为严重，建议立即升级。"
+    },
+    {
       "date": "2026-07-11",
       "title": "GitHub安全公告日报 - 2026-07-11",
       "url": "reports/report-2026-07-11.html",
