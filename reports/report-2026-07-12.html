@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-12</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-12 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Stored XSS to RCE via attribute-view cell rendering in genAVValueHTML()</div>
+                    <div class="advisory-id">GHSA-5xfx-xj4h-5p7r | CVE: CVE-2026-54158</div>
+                </div>
+                <span class="priority-score">优先级: 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Stored XSS to RCE via attribute-view cell rendering in genAVValueHTML()</p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>存储型XSS可升级为RCE，在Electron桌面客户端中可执行任意系统命令（nodeIntegration=true）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5xfx-xj4h-5p7r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Unauthenticated Admin API Access via Blanket chrome-extension:// Origin Allowlist</div>
+                    <div class="advisory-id">GHSA-hvr9-72v2-fff3 | CVE: CVE-2026-54069</div>
+                </div>
+                <span class="priority-score">优先级: 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Unauthenticated Admin API Access via Blanket chrome-extension:// Origin Allowlist</p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>未认证管理员API访问，任何浏览器扩展可调用全部管理API，导致数据泄露和配置篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hvr9-72v2-fff3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Stored XSS to RCE via CSS-snippet <style> breakout in renderSnippet()</div>
+                    <div class="advisory-id">GHSA-mvjr-vv3c-w4qv | CVE: CVE-2026-54067</div>
+                </div>
+                <span class="priority-score">优先级: 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Stored XSS to RCE via CSS-snippet <style> breakout in renderSnippet()</p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>存储型XSS可升级为RCE，在Electron桌面客户端中可执行任意系统命令（nodeIntegration=true）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mvjr-vv3c-w4qv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 File Browser: Command Injection via Authentication Hook Shell Substitution (Pre-Authentication RCE)</div>
+                    <div class="advisory-id">GHSA-m93h-4hw7-5qcm | CVE: CVE-2026-54088</div>
+                </div>
+                <span class="priority-score">优先级: 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 35,483</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser: Command Injection via Authentication Hook Shell Substitution (Pre-Authentication RCE)</p>
+                <p><strong>影响产品：</strong>github.com/filebrowser/filebrowser/v2 ⭐35,483</p>
+                <p><strong>影响版本：</strong><= 2.63.5</p>
+                <p><strong>修复版本：</strong>2.63.6</p>
+                <p><strong>攻击面：</strong>远程命令注入，无需认证（Pre-Auth RCE），攻击者可通过构造恶意输入在服务器上执行任意系统命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m93h-4hw7-5qcm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 File Browser: Authentication Bypass via Proxy Auth Header Forgery</div>
+                    <div class="advisory-id">GHSA-xqp3-jq6g-x3qm | CVE: CVE-2026-54089</div>
+                </div>
+                <span class="priority-score">优先级: 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 35,483</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>File Browser: Authentication Bypass via Proxy Auth Header Forgery</p>
+                <p><strong>影响产品：</strong>github.com/filebrowser/filebrowser/v2 ⭐35,483</p>
+                <p><strong>影响版本：</strong>>= 2.0.0-rc.1, <= 2.63.18</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>攻击面：</strong>认证绕过，攻击者可通过伪造HTTP头部冒充任意用户（包括管理员），获取完整系统控制权</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xqp3-jq6g-x3qm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SiYuan: Stored XSS to RCE via Unsanitized Attribute View Asset Cell Content</div>
+                    <div class="advisory-id">GHSA-56mp-4f3v-fgj2 | CVE: CVE-2026-50551</div>
+                </div>
+                <span class="priority-score">优先级: 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Stored XSS to RCE via Unsanitized Attribute View Asset Cell Content</p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>存储型XSS可升级为RCE，在Electron桌面客户端中可执行任意系统命令（nodeIntegration=true）</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-56mp-4f3v-fgj2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SiYuan: Stored XSS in Bazaar marketplace via package README event handlers</div>
+                    <div class="advisory-id">GHSA-w7cg-whh7-xp28 | CVE: CVE-2026-54070</div>
+                </div>
+                <span class="priority-score">优先级: 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Stored XSS in Bazaar marketplace via package README event handlers</p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>OAuth2令牌泄露，攻击者可通过构造恶意链接窃取用户的access_token和refresh_token</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w7cg-whh7-xp28" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SiYuan: Path Traversal via Double URL Encoding in /assets/*path (publish mode arbitrary   file─read), Incomplete fix of CVE-2026-41894 </div>
+                    <div class="advisory-id">GHSA-p4m3-mgmm-c664 | CVE: CVE-2026-54066</div>
+                </div>
+                <span class="priority-score">优先级: 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 45,052</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Path Traversal via Double URL Encoding in /assets/*path (publish mode arbitrary   file─read), Incomplete fix of CVE-2026-41894 </p>
+                <p><strong>影响产品：</strong>github.com/siyuan-note/siyuan/kernel ⭐45,052</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>修复版本：</strong>0.0.0-20260628153353-2d5d72223df4</p>
+                <p><strong>攻击面：</strong>路径穿越导致任意文件读取，可获取配置文件中的认证密钥、API Token等敏感信息</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p4m3-mgmm-c664" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Excelize: Unbounded Row Index Allocation in Worksheet Parser (checkSheet OOM/Panic DoS)</div>
+                    <div class="advisory-id">GHSA-h69g-9hx6-f3v4 | CVE: CVE-2026-54063</div>
+                </div>
+                <span class="priority-score">优先级: 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 20,759</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Excelize: Unbounded Row Index Allocation in Worksheet Parser (checkSheet OOM/Panic DoS)</p>
+                <p><strong>影响产品：</strong>github.com/xuri/excelize/v2 ⭐20,759</p>
+                <p><strong>影响版本：</strong>< 2.11.0</p>
+                <p><strong>修复版本：</strong>2.11.0</p>
+                <p><strong>攻击面：</strong>未认证管理员API访问，任何浏览器扩展可调用全部管理API，导致数据泄露和配置篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>高</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h69g-9hx6-f3v4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 BabelDOC: Arbitrary Code Execution via CMap Pickle Deserialization in babeldoc/pdfminer/cmapdb.py</div>
+                    <div class="advisory-id">GHSA-m8gf-v64p-gfmg | CVE: CVE-2026-54071</div>
+                </div>
+                <span class="priority-score">优先级: 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 8,898</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>BabelDOC: Arbitrary Code Execution via CMap Pickle Deserialization in babeldoc/pdfminer/cmapdb.py</p>
+                <p><strong>影响产品：</strong>BabelDOC ⭐8,898</p>
+                <p><strong>影响版本：</strong><= 0.6.2</p>
+                <p><strong>修复版本：</strong>0.6.3</p>
+                <p><strong>攻击面：</strong>Pickle反序列化漏洞，处理恶意PDF文件时可在服务器端执行任意Python代码</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m8gf-v64p-gfmg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 mcp-atlassian: Arbitrary file read via missing path validation in confluence_upload_attachment</div>
+                    <div class="advisory-id">GHSA-g5r6-gv6m-f5jv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5,540</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>mcp-atlassian: Arbitrary file read via missing path validation in confluence_upload_attachment</p>
+                <p><strong>影响产品：</strong>mcp-atlassian ⭐5,540</p>
+                <p><strong>影响版本：</strong>< 0.22.0</p>
+                <p><strong>修复版本：</strong>0.22.0</p>
+                <p><strong>攻击面：</strong>OAuth2令牌泄露，攻击者可通过构造恶意链接窃取用户的access_token和refresh_token</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 mcp-atlassian: Arbitrary server-side file read via attachment upload</div>
+                    <div class="advisory-id">GHSA-wm45-qh3g-v83f | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5,540</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>mcp-atlassian: Arbitrary server-side file read via attachment upload</p>
+                <p><strong>影响产品：</strong>mcp-atlassian ⭐5,540</p>
+                <p><strong>影响版本：</strong>< 0.22.0</p>
+                <p><strong>修复版本：</strong>0.22.0</p>
+                <p><strong>攻击面：</strong>OAuth2令牌泄露，攻击者可通过构造恶意链接窃取用户的access_token和refresh_token</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>产品影响力：</strong>中</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wm45-qh3g-v83f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-5xfx-xj4h-5p7r</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5xfx-xj4h-5p7r" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hvr9-72v2-fff3</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hvr9-72v2-fff3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-mvjr-vv3c-w4qv</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mvjr-vv3c-w4qv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-m93h-4hw7-5qcm</code></td>
+                    <td>github.com/filebrowser/filebrowser/v2</td>
+                    <td>⭐35,483</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m93h-4hw7-5qcm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xqp3-jq6g-x3qm</code></td>
+                    <td>github.com/filebrowser/filebrowser/v2</td>
+                    <td>⭐35,483</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xqp3-jq6g-x3qm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-56mp-4f3v-fgj2</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-56mp-4f3v-fgj2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-w7cg-whh7-xp28</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w7cg-whh7-xp28" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-p4m3-mgmm-c664</code></td>
+                    <td>github.com/siyuan-note/siyuan/kernel</td>
+                    <td>⭐45,052</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p4m3-mgmm-c664" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-h69g-9hx6-f3v4</code></td>
+                    <td>github.com/xuri/excelize/v2</td>
+                    <td>⭐20,759</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h69g-9hx6-f3v4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-m8gf-v64p-gfmg</code></td>
+                    <td>BabelDOC</td>
+                    <td>⭐8,898</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-m8gf-v64p-gfmg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-g5r6-gv6m-f5jv</code></td>
+                    <td>mcp-atlassian</td>
+                    <td>⭐5,540</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-wm45-qh3g-v83f</code></td>
+                    <td>mcp-atlassian</td>
+                    <td>⭐5,540</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-wm45-qh3g-v83f" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-h29v-hj44-q8cv</code></td>
+                    <td>github.com/authorizerdev/authorizer</td>
+                    <td>⭐1,973</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-g936-7jqj-mwv8</code></td>
+                    <td>github.com/almeidapaulopt/tsdproxy</td>
+                    <td>⭐1,647</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-cwc9-cp4j-mcvv</code></td>
+                    <td>@libp2p/gossipsub</td>
+                    <td>⭐2,562</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-qv4m-m73m-8hj7</code></td>
+                    <td>notrinos/notrinos-erp</td>
+                    <td>⭐152</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-h4g2-xfmw-q2c9</code></td>
+                    <td>clauster</td>
+                    <td>⭐0</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-xrmc-c5cg-rv7x</code></td>
+                    <td>safeinstall-cli</td>
+                    <td>⭐0</td>
+                    <td>HIGH</td>
+                    <td>有详细分析</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-5xfx-xj4h-5p7r</strong> - SiYuan: Stored XSS to RCE via attribute-view cell rendering in genAVValueHTML()：立即升级或应用临时补丁</li><li><strong>GHSA-hvr9-72v2-fff3</strong> - SiYuan: Unauthenticated Admin API Access via Blanket chrome-extension:// Origin Allowlist：立即升级或应用临时补丁</li><li><strong>GHSA-mvjr-vv3c-w4qv</strong> - SiYuan: Stored XSS to RCE via CSS-snippet <style> breakout in renderSnippet()：立即升级或应用临时补丁</li><li><strong>GHSA-m93h-4hw7-5qcm</strong> - File Browser: Command Injection via Authentication Hook Shell Substitution (Pre-Authentication RCE)：立即升级或应用临时补丁</li><li><strong>GHSA-xqp3-jq6g-x3qm</strong> - File Browser: Authentication Bypass via Proxy Auth Header Forgery：立即升级或应用临时补丁</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-56mp-4f3v-fgj2</strong> - SiYuan: Stored XSS to RCE via Unsanitized Attribute View Asset Cell Content：尽快评估影响并安排修复</li><li><strong>GHSA-w7cg-whh7-xp28</strong> - SiYuan: Stored XSS in Bazaar marketplace via package README event handlers：尽快评估影响并安排修复</li><li><strong>GHSA-p4m3-mgmm-c664</strong> - SiYuan: Path Traversal via Double URL Encoding in /assets/*path (publish mode arbitrary   file─read), Incomplete fix of CVE-2026-41894 ：尽快评估影响并安排修复</li><li><strong>GHSA-h69g-9hx6-f3v4</strong> - Excelize: Unbounded Row Index Allocation in Worksheet Parser (checkSheet OOM/Panic DoS)：尽快评估影响并安排修复</li><li><strong>GHSA-h29v-hj44-q8cv</strong> - Authorizer: Unvalidated redirect_uri in /authorize leaks OAuth2 tokens to attacker-controlled URL：尽快评估影响并安排修复</li><li><strong>GHSA-g936-7jqj-mwv8</strong> - TSDProxy: Internal proxy auth token forwarded to backend services enables management API escalation：尽快评估影响并安排修复</li><li><strong>GHSA-m5f5-28qr-9g9r</strong> - prestashop/ps_facetedsearch: PHP Object Injection in faceted search cache allows unauthenticated RCE：尽快评估影响并安排修复</li><li><strong>GHSA-99j7-fhr2-xfj4</strong> - `exploration` was removed from crates.io for malicious code：尽快评估影响并安排修复</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-m8gf-v64p-gfmg</strong> - BabelDOC: Arbitrary Code Execution via CMap Pickle Deserialization in babeldoc/pdfminer/cmapdb.py：纳入常规修复计划</li><li><strong>GHSA-g5r6-gv6m-f5jv</strong> - mcp-atlassian: Arbitrary file read via missing path validation in confluence_upload_attachment：纳入常规修复计划</li><li><strong>GHSA-wm45-qh3g-v83f</strong> - mcp-atlassian: Arbitrary server-side file read via attachment upload：纳入常规修复计划</li><li><strong>GHSA-cwc9-cp4j-mcvv</strong> - libp2p: CPU DoS via oversized IHAVE and IWANT control message arrays：纳入常规修复计划</li><li><strong>GHSA-fpg8-7664-jc5q</strong> - melange: Incomplete package integrity verification allows data section substitution：纳入常规修复计划</li><li><strong>GHSA-qv4m-m73m-8hj7</strong> - NotrinosERP: Authenticated arbitrary file upload leads to remote code execution via HRM employee "Documents" (doc_file)：纳入常规修复计划</li><li><strong>GHSA-h4g2-xfmw-q2c9</strong> - Clauster: Non-loopback deployments can serve the dashboard unauthenticated when auth.enabled is unset：纳入常规修复计划</li><li><strong>GHSA-xrmc-c5cg-rv7x</strong> - SafeInstall agent guard shell parsing can miss raw package execution：纳入常规修复计划</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
