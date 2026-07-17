@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-17</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .advisory-header { flex-direction: column; }
+            .summary-table { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-17 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 MCP Python SDK: Experimental task handlers allow any client to access and cancel other clients' tasks</div>
+                    <div class="advisory-id">GHSA-hvrp-rf83-w775 | CVE: CVE-2026-52870</div>
+                </div>
+                <span class="priority-score">优先级: 10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23,633</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Python SDK的实验性任务处理功能（<code>server.experimental.enable_tasks()</code>）未对任务创建者进行会话验证。在多客户端连接的服务器上，任意客户端可以观察、读取、取消其他客户端的任务。</p>
+        <p><strong>影响产品：</strong>MCP Python SDK (Model Context Protocol) ⭐23,633</p>
+        <p><strong>影响版本：</strong>mcp &gt;= 1.23.0, &lt;= 1.27.1</p>
+        <p><strong>攻击面：</strong>任何连接到MCP服务器的客户端（包括恶意客户端），需要服务器启用了实验性tasks功能</p>
+        <p><strong>触发条件：</strong>服务器调用 <code>server.experimental.enable_tasks()</code> 且同时有多个客户端连接</p>
+        <p><strong>潜在危害：</strong>任务结果泄露、elicitation请求被窃取、任务被恶意取消，可导致跨客户端数据泄露和服务中断</p>
+        <p><strong>可利用性：</strong>有完整PoC - 攻击者只需连接到MCP服务器即可枚举所有任务（<code>tasks/list</code>），无需预先知道任务ID</p>
+        <p><strong>修复建议：</strong>升级到 mcp &gt;= 1.27.2，该版本在任务ID中嵌入了会话标识并限制了跨会话访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hvrp-rf83-w775" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 MCP Python SDK: WebSocket server transport does not support Host/Origin validation</div>
+                    <div class="advisory-id">GHSA-vj7q-gjh5-988w | CVE: CVE-2026-59950</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23,633</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Python SDK的已弃用WebSocket服务器传输层未实施Host/Origin头部验证。TransportSecuritySettings机制未接入WebSocket传输，导致无法限制连接来源。</p>
+        <p><strong>影响产品：</strong>MCP Python SDK (Model Context Protocol) ⭐23,633</p>
+        <p><strong>影响版本：</strong>mcp &lt; 1.28.1（WebSocket传输层）</p>
+        <p><strong>攻击面：</strong>通过恶意网页发起跨域WebSocket连接到本地或LAN上的MCP服务器。注意：该传输层已弃用且不在MCP规范中，FastMCP不可达</p>
+        <p><strong>触发条件：</strong>开发者手动将 <code>websocket_server</code> 接入ASGI应用，且未在前置认证网关；用户访问恶意网页</p>
+        <p><strong>潜在危害：</strong>DNS重绑定攻击可让恶意网页枚举和调用MCP服务器工具、读取资源，后果取决于服务器暴露的能力</p>
+        <p><strong>可利用性：</strong>有详细原理 - 浏览器对WebSocket不执行同源策略响应检查，攻击者可直接建立完整MCP会话</p>
+        <p><strong>修复建议：</strong>升级到 mcp &gt;= 1.28.1；避免使用已弃用的WebSocket传输层；在前置反向代理中添加Origin验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vj7q-gjh5-988w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 MCP Python SDK: HTTP transports serve session requests without verifying the authenticated principal</div>
+                    <div class="advisory-id">GHSA-jpw9-pfvf-9f58 | CVE: CVE-2026-52869</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23,633</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Python SDK的SSE和Streamable HTTP服务器传输层仅凭会话ID路由请求，未验证请求者的认证身份是否与创建会话的主体一致。</p>
+        <p><strong>影响产品：</strong>MCP Python SDK (Model Context Protocol) ⭐23,633</p>
+        <p><strong>影响版本：</strong>mcp &lt;= 1.27.1（SSE自首个版本起受影响，Streamable HTTP自1.8.0起）</p>
+        <p><strong>攻击面：</strong>使用HTTP传输层（SSE/Streamable HTTP）并启用bearer token认证的MCP服务器</p>
+        <p><strong>触发条件：</strong>攻击者获取或猜测到有效会话ID（UUID格式），可通过日志、网络监听等途径获得</p>
+        <p><strong>潜在危害：</strong>绕过每客户端隔离机制，注入JSON-RPC消息到其他用户的会话中，在Streamable HTTP模式下还可读取返回结果</p>
+        <p><strong>可利用性：</strong>有详细原理 - 会话路由仅依赖session_id参数/header，无认证上下文比对</p>
+        <p><strong>修复建议：</strong>升级到 mcp &gt;= 1.27.2，该版本在请求处理时增加了认证主体验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jpw9-pfvf-9f58" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Nuclio: Unsanitized runtimeAttributes.repositories injected into Groovy build.gradle leads to build-time RCE</div>
+                    <div class="advisory-id">GHSA-3v79-m2cg-89ww | CVE: CVE-2026-52833</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuclio的Java运行时在函数构建期间使用Go的<code>text/template</code>生成<code>build.gradle</code>文件。模板渲染<code>runtimeAttributes.repositories[]</code>时未进行转义，攻击者可通过注入闭合括号<code>&#125;</code>突破Groovy的repositories块，注入任意Groovy语句实现RCE。</p>
+        <p><strong>影响产品：</strong>Nuclio ⭐0</p>
+        <p><strong>影响版本：</strong>Nuclio &lt; 1.16.5（动态验证至1.15.27）</p>
+        <p><strong>攻击面：</strong>Dashboard API默认使用NOP认证，无需凭据即可触发函数构建</p>
+        <p><strong>触发条件：</strong>创建函数时在runtimeAttributes.repositories中注入恶意Groovy代码；构建容器以root身份运行</p>
+        <p><strong>潜在危害：</strong>完全RCE - 以root身份执行任意命令，已动态验证确认uid=0(root)</p>
+        <p><strong>可利用性：</strong>有完整PoC - 包含动态测试输出 <code>[RCE-PROOF] uid=0(root) gid=0(root)</code>，CWE-94代码注入</p>
+        <p><strong>修复建议：</strong>升级到 Nuclio &gt;= 1.16.5；启用Dashboard认证；限制构建容器权限</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3v79-m2cg-89ww" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pheditor: Incomplete command sanitization in terminal feature allows RCE via pipe operator, backtick substitution, and newline injection</div>
+                    <div class="advisory-id">GHSA-wg4w-wr5q-6vjc | CVE: CVE-2026-55578</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 181</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pheditor的终端功能使用不完整的字符黑名单进行命令消毒。在修复了GHSA-9643-6xjp-vx57后，管道符<code>|</code>、反引号<code>`</code>和换行符仍未被阻止，可绕过命令白名单执行任意OS命令。</p>
+        <p><strong>影响产品：</strong>Pheditor ⭐181</p>
+        <p><strong>影响版本：</strong>Pheditor &gt;= 2.0.1, &lt; 2.0.6</p>
+        <p><strong>攻击面：</strong>具有terminal权限的已认证用户（默认启用）</p>
+        <p><strong>触发条件：</strong>三种绕过方式：(1) 管道符 <code>ls | id</code> (2) 反引号 <code>echo `id`</code> (3) 换行注入</p>
+        <p><strong>潜在危害：</strong>以Web服务器用户权限执行任意命令，完全RCE</p>
+        <p><strong>可利用性：</strong>有完整PoC - 包含三种独立绕过方法的详细payload和验证commit</p>
+        <p><strong>修复建议：</strong>升级到 Pheditor &gt;= 2.0.6；禁用终端功能或限制仅可信用户访问</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wg4w-wr5q-6vjc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pheditor has an authenticated terminal command whitelist bypass</div>
+                    <div class="advisory-id">GHSA-9643-6xjp-vx57 | CVE: CVE-2026-54540</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 181</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pheditor 2.0.4的终端命令白名单检查仅验证命令前缀，未阻止Shell命令替换（如<code>$()</code>），导致已认证用户可绕过命令限制执行任意命令。</p>
+        <p><strong>影响产品：</strong>Pheditor ⭐181</p>
+        <p><strong>影响版本：</strong>Pheditor &lt;= 2.0.4</p>
+        <p><strong>攻击面：</strong>具有terminal权限的已认证用户</p>
+        <p><strong>触发条件：</strong>使用Shell命令替换语法，如 <code>ls$(whoami)</code>，前缀ls通过白名单检查但<code>$()</code>中的命令被执行</p>
+        <p><strong>潜在危害：</strong>以Web服务器用户权限执行任意命令</p>
+        <p><strong>可利用性：</strong>有完整PoC - 包含Docker复现环境和完整请求/响应对比</p>
+        <p><strong>修复建议：</strong>升级到 Pheditor &gt; 2.0.4（后续版本添加了$字符过滤）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9643-6xjp-vx57" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB has cross-database IDOR: /ts/*, /batch/*, Prometheus and Grafana handlers bypass authorization</div>
+                    <div class="advisory-id">GHSA-x8mg-6r4p-87pf | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB约14个HTTP处理器（/ts/*, /batch/*, Prometheus/Grafana端点）未进行数据库访问授权检查。这些处理器直接继承AbstractServerHttpHandler而非DatabaseAbstractHandler，绕过了唯一的数据库级权限检查。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Server &lt; 26.7.2</p>
+        <p><strong>攻击面：</strong>任何有ArcadeDB API访问权限的已认证用户</p>
+        <p><strong>触发条件：</strong>仅授权访问数据库'a'的用户，通过POST /api/v1/batch/b等端点访问数据库'b'</p>
+        <p><strong>潜在危害：</strong>跨数据库IDOR - 完全读写未经授权数据库的数据，包括时间序列、批量操作和监控数据</p>
+        <p><strong>可利用性：</strong>有详细原理 - 列出了14个受影响的处理器及其源码行号，含完整攻击路径</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.7.2；确保所有数据库操作处理器继承DatabaseAbstractHandler</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x8mg-6r4p-87pf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB: Scripting authorization gate (GHSA-48qw-824m-86pr) bypassed via SQL DEFINE FUNCTION ... LANGUAGE js</div>
+                    <div class="advisory-id">GHSA-vwjc-v7x7-cm6g | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB为修复GHSA-48qw-824m-86pr添加的脚本授权检查仅覆盖多语言引擎，SQL路由到JavaScript的路径（DEFINE FUNCTION ... LANGUAGE js）绕过了权限检查。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Engine &lt; 26.7.2</p>
+        <p><strong>攻击面：</strong>任何有数据库访问权限的用户（包括只读角色）</p>
+        <p><strong>触发条件：</strong>执行 <code>DEFINE FUNCTION x.run "..." LANGUAGE js</code> 然后 <code>SELECT x.run()</code></p>
+        <p><strong>潜在危害：</strong>绕过脚本执行限制，允许SSRF/远程JS加载（IOAccess.ALL）和DoS攻击</p>
+        <p><strong>可利用性：</strong>有详细原理 - 包含源码路径分析和修复建议</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.7.2</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vwjc-v7x7-cm6g" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB: Trigger scripts run with java.lang.* allowed, enabling OS command execution (RCE)</div>
+                    <div class="advisory-id">GHSA-x9f9-r4m8-9xc2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB的ScriptTriggerExecutor将<code>java.lang.*</code>加入允许包列表，使得触发器脚本可通过<code>Java.type("java.lang.Runtime").getRuntime().exec()</code>执行操作系统命令。触发器创建仅需UPDATE_SCHEMA权限（低于安全管理员权限）。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Engine &lt; 26.7.2</p>
+        <p><strong>攻击面：</strong>具有UPDATE_SCHEMA权限的数据库管理员</p>
+        <p><strong>触发条件：</strong>创建触发器时注入 <code>Java.type("java.lang.Runtime").getRuntime().exec("...")</code>，当触发器触发时执行</p>
+        <p><strong>潜在危害：</strong>完整操作系统级RCE - 反射拒绝列表不阻止HostAccess.ALL下的Runtime.exec</p>
+        <p><strong>可利用性：</strong>有详细原理 - 包含源码定位、攻击payload和修复方案</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.7.2；从触发器允许列表中移除java.lang.*</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x9f9-r4m8-9xc2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB: Privilege escalation via reader role in /api/v1/command JS scripting language — arbitrary host file read</div>
+                    <div class="advisory-id">GHSA-48qw-824m-86pr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB的JavaScript脚本执行路径缺少数据库授权检查，只读用户可通过/api/v1/command端点执行任意JVM代码。虽然进程创建被阻止，但可通过反射绕过allowedPackages限制读取宿主机任意文件。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Server &lt; 26.7.1</p>
+        <p><strong>攻击面：</strong>持有只读权限的已认证用户</p>
+        <p><strong>触发条件：</strong>发送 <code>{"language":"js","command":"..."}</code> 到 /api/v1/command/{database} 端点，利用 <code>database.getClass().getClassLoader().loadClass()</code> 反射逃逸沙箱</p>
+        <p><strong>潜在危害：</strong>宿主机任意文件读取（/etc/passwd、配置文件等），机密性影响：高</p>
+        <p><strong>可利用性：</strong>有详细原理 - 包含两个独立缺陷的完整利用链分析</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.7.1；限制脚本执行权限为updateSecurity</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-48qw-824m-86pr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB: Read-only users can mutate database schema (incomplete fix of CVE-2026-44221)</div>
+                    <div class="advisory-id">GHSA-vg6x-6pg9-6qwg | CVE: CVE-2026-54076</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CVE-2026-44221的修复不完整，仅在<code>LocalDocumentType.createProperty</code>添加了权限检查，其余Schema修改方法（DROP PROPERTY、ALTER TYPE、ALTER PROPERTY等）仍未受保护。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Engine &lt; 26.6.1</p>
+        <p><strong>攻击面：</strong>持有只读API Token的已认证用户</p>
+        <p><strong>触发条件：</strong>执行DROP PROPERTY、ALTER TYPE等DDL语句</p>
+        <p><strong>潜在危害：</strong>只读用户可修改数据库Schema（删除属性、修改继承关系、重命名类型），破坏所有存储记录的语义</p>
+        <p><strong>可利用性：</strong>有详细原理 - 列出了所有未受保护的Schema操作方法</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.6.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vg6x-6pg9-6qwg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ArcadeDB: IMPORT DATABASE allows SSRF and arbitrary local file read by authenticated users</div>
+                    <div class="advisory-id">GHSA-8w86-m9h8-hvqg | CVE: CVE-2026-54077</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 1,023</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB的<code>IMPORT DATABASE</code>语句未要求管理员权限，未验证源URL。任何有SQL命令访问权限的已认证用户可利用该功能进行SSRF和任意本地文件读取。</p>
+        <p><strong>影响产品：</strong>ArcadeDB ⭐1,023</p>
+        <p><strong>影响版本：</strong>ArcadeDB Engine &lt; 26.6.1</p>
+        <p><strong>攻击面：</strong>任何有SQL命令访问权限的已认证用户（非仅root/管理员）</p>
+        <p><strong>触发条件：</strong>(1) SSRF: <code>IMPORT DATABASE https://169.254.169.254/...</code> 读取云元数据 (2) 文件读取: <code>IMPORT DATABASE file:///etc/passwd</code></p>
+        <p><strong>潜在危害：</strong>SSRF可探测内网服务和云元数据；本地文件读取可泄露凭据文件；还附带XML DTD实体扩展DoS</p>
+        <p><strong>可利用性：</strong>有详细原理 - 包含CWE-918和CWE-22的完整攻击路径</p>
+        <p><strong>修复建议：</strong>升级到 ArcadeDB &gt;= 26.6.1；限制IMPORT DATABASE为管理员权限；配置importAllowedLocalPaths白名单</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8w86-m9h8-hvqg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Envoy Gateway: xDS Control Plane Information Disclosure when operating in GatewayNamespaceMode </div>
+                    <div class="advisory-id">GHSA-22xc-xg2r-9j7v | CVE: CVE-2026-53714</div>
+                </div>
+                <span class="priority-score">优先级: 7</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 2,884</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Envoy Gateway在GatewayNamespaceMode下运行时，xDS gRPC服务器仅配置了StreamInterceptor进行JWT认证，缺少UnaryInterceptor。同时，SotW协议的DiscoveryRequest类型断言失败导致JWT验证被完全跳过。</p>
+        <p><strong>影响产品：</strong>Envoy Gateway ⭐2,884</p>
+        <p><strong>影响版本：</strong>Envoy Gateway &gt;= 1.8.0-rc.0 &lt; 1.8.1, &lt; 1.7.4</p>
+        <p><strong>攻击面：</strong>Kubernetes集群内可访问xDS服务器（端口18000）的任何Pod</p>
+        <p><strong>触发条件：</strong>使用SotW协议（而非Delta协议）连接xDS服务器，JWT类型断言失败后验证被跳过</p>
+        <p><strong>潜在危害：</strong>TLS私钥泄露（SDS）、所有xDS资源泄露（ADS）、后端端点和路由规则暴露，可导致中间人攻击和服务劫持</p>
+        <p><strong>可利用性：</strong>有详细原理 - 包含协议类型断言绕过的具体代码路径分析</p>
+        <p><strong>修复建议：</strong>升级到 Envoy Gateway &gt;= 1.8.1 或 &gt;= 1.7.4；添加UnaryInterceptor；修复SotW协议的JWT验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-22xc-xg2r-9j7v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hvrp-rf83-w775</code></td>
+                    <td>mcp</td>
+                    <td>23,633</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hvrp-rf83-w775" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vj7q-gjh5-988w</code></td>
+                    <td>mcp</td>
+                    <td>23,633</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vj7q-gjh5-988w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-jpw9-pfvf-9f58</code></td>
+                    <td>mcp</td>
+                    <td>23,633</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jpw9-pfvf-9f58" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-3v79-m2cg-89ww</code></td>
+                    <td>nuclio</td>
+                    <td>N/A</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3v79-m2cg-89ww" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wg4w-wr5q-6vjc</code></td>
+                    <td>pheditor</td>
+                    <td>181</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-wg4w-wr5q-6vjc" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-9643-6xjp-vx57</code></td>
+                    <td>pheditor</td>
+                    <td>181</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-9643-6xjp-vx57" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-x8mg-6r4p-87pf</code></td>
+                    <td>arcadedb-server</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-x8mg-6r4p-87pf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vwjc-v7x7-cm6g</code></td>
+                    <td>arcadedb-engine</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vwjc-v7x7-cm6g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-x9f9-r4m8-9xc2</code></td>
+                    <td>arcadedb-engine</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-x9f9-r4m8-9xc2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-48qw-824m-86pr</code></td>
+                    <td>arcadedb-server</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-48qw-824m-86pr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vg6x-6pg9-6qwg</code></td>
+                    <td>arcadedb-engine</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vg6x-6pg9-6qwg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8w86-m9h8-hvqg</code></td>
+                    <td>arcadedb-engine</td>
+                    <td>1,023</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8w86-m9h8-hvqg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-22xc-xg2r-9j7v</code></td>
+                    <td>gateway</td>
+                    <td>2,884</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-22xc-xg2r-9j7v" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-3v79-m2cg-89ww</code></td>
+                    <td>nuclio</td>
+                    <td>N/A</td>
+                    <td>High</td>
+                    <td>Nuclio: Unsanitized runtimeAttributes.repositories injected into Groovy build.gr</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wg4w-wr5q-6vjc</code></td>
+                    <td>pheditor</td>
+                    <td>181</td>
+                    <td>High</td>
+                    <td>Pheditor: Incomplete command sanitization in terminal feature allows RCE via pip</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-9643-6xjp-vx57</code></td>
+                    <td>pheditor</td>
+                    <td>181</td>
+                    <td>High</td>
+                    <td>Pheditor has an authenticated terminal command whitelist bypass</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（1个）：</strong></p>
+                <ul>
+                    <li><strong>MCP Python SDK 任务处理跨客户端越权</strong>（<a href="https://github.com/advisories/GHSA-hvrp-rf83-w775" style="color:#f85149">GHSA-hvrp-rf83-w775</a>）：实验性tasks功能无任何会话隔离，多客户端环境下可完全窃取其他客户端的任务结果。如在使用MCP Python SDK并启用了tasks功能，请立即升级至1.27.2+。</li>
+                </ul>
+                <p><strong>🟠 重点关注（12个）：</strong></p>
+                <ul>
+                    <li><strong>MCP Python SDK 系列漏洞</strong>（3个）：WebSocket传输层无Origin验证、HTTP传输层会话劫持、DNS重绑定攻击。MCP生态安全需重点关注，建议全面升级SDK版本。</li>
+                    <li><strong>Nuclio RCE</strong>：Groovy build.gradle代码注入，默认无认证+root权限=完美RCE条件。使用Nuclio作为serverless平台的团队应立即升级。</li>
+                    <li><strong>Pheditor RCE</strong>（2个）：命令消毒不完整导致三种独立绕过方式，Web文件管理器类产品应谨慎使用终端功能。</li>
+                    <li><strong>ArcadeDB 系列漏洞</strong>（6个）：IDOR、RCE、SSRF、文件读取、权限提升，攻击面覆盖几乎所有功能模块。使用该数据库的团队需全面升级。</li>
+                    <li><strong>Envoy Gateway 信息泄露</strong>：GatewayNamespaceMode下xDS认证绕过可导致TLS私钥泄露，K8s集群中的网关安全需重新评估。</li>
+                </ul>
+                <p><strong>📋 趋势观察：</strong></p>
+                <ul>
+                    <li>MCP协议生态安全集中爆发——AI Agent基础设施的安全审计刻不容缓</li>
+                    <li>命令注入/代码注入仍是高频漏洞类型，输入消毒实现质量参差不齐</li>
+                    <li>权限检查遗漏（IDOR/越权）在数据库类产品中普遍存在</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
