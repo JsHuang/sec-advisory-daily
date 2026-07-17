@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-17",
+      "title": "GitHub安全公告日报 - 2026-07-17",
+      "url": "reports/report-2026-07-17.html",
+      "stats": {
+        "total": 13,
+        "critical": 0,
+        "high": 13,
+        "star5k": 3,
+        "with_poc": 13
+      },
+      "summary": "今日发现13个High级别安全公告，重点关注MCP Python SDK系列漏洞（4个）和ArcadeDB数据库漏洞（6个），Nuclio RCE和Envoy Gateway认证绕过需紧急处理"
+    },
+    {
       "date": "2026-07-12",
       "title": "GitHub安全公告日报 - 2026-07-12",
       "url": "reports/report-2026-07-12.html",
