@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-18</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-18 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">40</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149">7</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#d29922">33</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149">22</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <!-- 1. vLLM RCE via Video Processing -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 vLLM: Remote Code Execution in Video Processing</div>
+                    <div class="advisory-id">GHSA-4r2x-xpjr-7cvv | CVE: CVE-2026-22778</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-poc">🔴 完整PoC利用链</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM存在一条完整的远程代码执行(RCE)利用链。攻击者通过向vLLM的视频模型API端点发送恶意视频URL，可实现任意命令执行。利用链包含两个阶段：(1) PIL错误消息泄露内存地址，绕过ASLR保护；(2) OpenCV/FFmpeg的JPEG2000解码器存在堆溢出，劫持代码执行流。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.8.3, &lt; 0.14.1</p>
+                <p><strong>攻击面：</strong>HTTP API端点（Completions/Invocations），面向视频模型。默认安装的vLLM（pip/docker）无认证机制。</p>
+                <p><strong>触发条件：</strong>向vLLM发送包含恶意视频URL的请求即可触发，无需认证。</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意系统命令。在容器化环境（如llm-d）中可能横向移动。</p>
+                <p><strong>可利用性：</strong>有完整PoC利用链，包含ASLR绕过+堆溢出两阶段攻击。利用门槛低，仅需HTTP请求。</p>
+                <p><strong>修复建议：</strong>立即升级至 vllm ≥ 0.14.1。确保vLLM实例部署在网络隔离环境中，启用API认证。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4r2x-xpjr-7cvv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. vLLM OpenAI Auth Bypass -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 vLLM: OpenAI API Authentication Bypass</div>
+                    <div class="advisory-id">GHSA-94f4-hr76-p5j6 | CVE: CVE-2026-48746</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>由x41sec安全审计发现的认证绕过漏洞。ASGI Web服务器和Starlette对URL重建的信任问题，导致vLLM的OpenAI API AuthenticationMiddleware可被绕过。攻击者无需提供配置的VLLM_API_KEY即可使用全部API功能。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.3.0, &lt; 0.22.0</p>
+                <p><strong>攻击面：</strong>所有启用API Key认证的vLLM OpenAI兼容端点。</p>
+                <p><strong>触发条件：</strong>利用HTTP请求路径与Starlette URL重建之间的差异，构造特殊请求即可绕过认证中间件。</p>
+                <p><strong>潜在危害：</strong>未授权使用AI模型推理、消耗计算资源、访问其他用户数据、在vLLM存在其他漏洞时可进一步RCE。</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和代码审计分析，利用门槛低。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.22.0。同时建议在vLLM前端部署反向代理进行额外认证层保护。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-94f4-hr76-p5j6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. vLLM RCE via PyNcclPipe -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 vLLM: RCE via PyNcclPipe Communication Service</div>
+                    <div class="advisory-id">GHSA-hjq4-87xh-g4fv | CVE: CVE-2025-47277</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM的PyNcclPipe类用于分布式节点间KV Cache传输。CPU侧控制消息通过send_obj/recv_obj使用pickle序列化，攻击者可通过中间人攻击发送恶意pickle数据，在目标节点上实现任意代码执行。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.6.5, &lt; 0.8.5</p>
+                <p><strong>攻击面：</strong>使用PyNcclPipe KV Cache传输集成+V0引擎的多节点分布式部署环境。</p>
+                <p><strong>触发条件：</strong>需要能访问vLLM节点间通信网络，发送恶意序列化数据。</p>
+                <p><strong>潜在危害：</strong>在分布式GPU集群上执行任意代码，完全控制推理集群。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，需要网络访问权限。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.8.5。确保分布式部署环境网络隔离，使用V1引擎（默认）。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hjq4-87xh-g4fv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 4. vLLM auto_map RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 vLLM: RCE via auto_map Dynamic Module Loading</div>
+                    <div class="advisory-id">GHSA-2pc9-4j83-qjmr | CVE: CVE-2026-22807</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (High级别公告)</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM在模型解析阶段加载HuggingFace auto_map动态模块时，未检查trust_remote_code设置。攻击者只需让vLLM加载一个包含恶意auto_map配置的模型仓库，即可在服务器启动时执行任意Python代码——甚至在请求处理之前就完成攻击。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.10.1, &lt; 0.14.0</p>
+                <p><strong>攻击面：</strong>模型加载阶段，无需API访问权限。</p>
+                <p><strong>触发条件：</strong>vLLM加载包含恶意auto_map条目的HuggingFace模型仓库或本地目录。</p>
+                <p><strong>潜在危害：</strong>在模型加载阶段即执行任意代码，完全控制服务器。</p>
+                <p><strong>可利用性：</strong>有详细原理和代码路径分析，利用门槛极低（仅需一个恶意模型仓库）。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.14.0。仅从可信来源加载模型。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2pc9-4j83-qjmr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. golang.org/x/crypto SSH vulnerabilities (combined) -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 golang.org/x/crypto: SSH 多个严重安全漏洞</div>
+                    <div class="advisory-id">GHSA-x527-x647-q7gg / GHSA-5cgq-3rg8-m6cv / GHSA-vgwf-h737-ff37 / GHSA-f5wc-c3c7-36mc | CVE: CVE-2026-46595, CVE-2026-42508, CVE-2026-39830, CVE-2026-39832</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical ×4</span>
+                <span class="badge badge-stars">⭐ 135,284</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>golang.org/x/crypto 包在 0.52.0 版本之前存在4个严重SSH安全漏洞：
+                </p>
+                <ul>
+                    <li><strong>CVE-2026-46595</strong>：SSH服务器使用VerifiedPublicKeyCallback时，源地址验证被跳过，导致授权绕过。</li>
+                    <li><strong>CVE-2026-42508</strong>：CA的SignatureKey未正确检查@revoked状态，被吊销的证书仍可通过验证。</li>
+                    <li><strong>CVE-2026-39830</strong>：恶意SSH对端可发送未预期的全局请求响应填满内部缓冲区，阻塞连接读循环，造成资源泄露（DoS）。</li>
+                    <li><strong>CVE-2026-39832</strong>：转发SSH密钥时，约束扩展（如restrict-destination）未被序列化，目标限制被静默移除。</li>
+                </ul>
+                <p><strong>影响产品：</strong>golang.org/x/crypto ⭐135,284 (Go语言标准扩展库)</p>
+                <p><strong>影响版本：</strong>&lt; 0.52.0</p>
+                <p><strong>攻击面：</strong>所有使用golang.org/x/crypto/ssh包的Go应用程序，包括SSH服务器、SSH代理、密钥转发场景。</p>
+                <p><strong>触发条件：</strong>因漏洞而异——认证配置不当、吊销证书验证缺失、恶意SSH协议行为等。</p>
+                <p><strong>潜在危害：</strong>认证绕过、权限提升、拒绝服务、密钥约束失效导致横向移动。</p>
+                <p><strong>可利用性：</strong>有详细技术描述和修复代码参考，RedHat已发布多个安全通告。</p>
+                <p><strong>修复建议：</strong>立即升级 golang.org/x/crypto 至 ≥ 0.52.0。检查所有使用SSH功能的Go项目。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-x527-x647-q7gg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. axios NO_PROXY bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 axios: IPv4-mapped IPv6 NO_PROXY Bypass (Incomplete Fix)</div>
+                    <div class="advisory-id">GHSA-pjwm-pj3p-43mv | CVE: CVE-2026-44492</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 109,118</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>axios的shouldBypassProxy函数（CVE-2025-62718的修复）未对IPv4-mapped IPv6地址进行标准化处理。当NO_PROXY列表包含127.0.0.1或169.254.169.254等IPv4地址时，使用::ffff:7f00:1等IPv4-mapped IPv6形式的URL仍会通过代理，导致请求被路由到内部服务。</p>
+                <p><strong>影响产品：</strong>axios ⭐109,118</p>
+                <p><strong>影响版本：</strong>≤ 0.31.1, ≥ 1.15.0 &lt; 1.16.0</p>
+                <p><strong>攻击面：</strong>所有使用axios并配置了NO_PROXY的Node.js应用，尤其是云环境中依赖元数据服务隔离的场景。</p>
+                <p><strong>触发条件：</strong>攻击者构造使用IPv4-mapped IPv6地址的URL，绕过NO_PROXY规则。</p>
+                <p><strong>潜在危害：</strong>SSRF攻击——绕过代理策略访问内部服务、云元数据端点(169.254.169.254)等敏感资源。</p>
+                <p><strong>可利用性：</strong>有完整代码分析和PoC，利用简单。</p>
+                <p><strong>修复建议：</strong>升级至 axios ≥ 1.16.0 或 ≥ 0.32.0。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pjwm-pj3p-43mv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 7. vLLM Assert-based RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: assert Statement Security Check Bypass → RCE</div>
+                    <div class="advisory-id">GHSA-q8gq-377p-jq3r | CVE: CVE-2026-41523</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM使用assert语句作为唯一的安全控制来限制从HuggingFace模型config.json加载的激活函数。当Python以优化模式运行(python -O或PYTHONOPTIMIZE=1)时，所有assert语句被跳过，攻击者可通过发布恶意HuggingFace模型实现任意代码执行。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>&lt; 0.22.0</p>
+                <p><strong>攻击面：</strong>所有以Python优化模式运行的vLLM实例。</p>
+                <p><strong>触发条件：</strong>vLLM加载包含恶意activation_fn配置的HuggingFace模型 + Python优化模式运行。</p>
+                <p><strong>潜在危害：</strong>通过恶意模型仓库实现服务器端任意代码执行。</p>
+                <p><strong>可利用性：</strong>有详细代码审计分析和huntr漏洞报告，攻击路径清晰。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.22.0。避免在生产环境使用python -O模式运行vLLM。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q8gq-377p-jq3r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. vLLM Hardcoded trust_remote_code -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: Hardcoded trust_remote_code Override → RCE</div>
+                    <div class="advisory-id">GHSA-7972-pg2x-xr59 | CVE: CVE-2026-27893</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM的nemotron_vl.py和kimi_k25.py模型文件中，硬编码了trust_remote_code=True来加载子组件，直接覆盖了用户通过--trust-remote-code=False设置的安全选项。即使用户明确禁用远程代码信任，恶意模型仓库仍可执行任意代码。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.10.1, &lt; 0.18.0</p>
+                <p><strong>攻击面：</strong>加载nemotron_vl或kimi_k25模型时的子组件加载流程。</p>
+                <p><strong>触发条件：</strong>使用受影响模型 + 恶意HuggingFace仓库。</p>
+                <p><strong>潜在危害：</strong>绕过用户安全设置，执行任意远程代码。</p>
+                <p><strong>可利用性：</strong>有详细源码分析和修复commit参考。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.18.0。审查模型加载代码中是否存在类似硬编码。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7972-pg2x-xr59" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. vLLM SSRF via MediaConnector -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: SSRF through MediaConnector</div>
+                    <div class="advisory-id">GHSA-qh4c-xf7m-gxfc | CVE: CVE-2026-24779</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM多模态功能中的MediaConnector类存在SSRF漏洞。load_from_url方法使用不同的Python解析库来限制目标主机，但这些库对反斜杠的解析不一致，导致主机名限制被绕过。攻击者可诱使vLLM向内部网络资源发送任意请求。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>&lt; 0.14.1</p>
+                <p><strong>攻击面：</strong>vLLM多模态API端点，接受URL参数的媒体加载功能。</p>
+                <p><strong>触发条件：</strong>向多模态API提交包含精心构造的URL（利用反斜杠解析差异）。</p>
+                <p><strong>潜在危害：</strong>在容器化环境（如llm-d）中扫描内网、与其他Pod交互、访问云元数据端点。</p>
+                <p><strong>可利用性：</strong>有详细原理分析，利用门槛低。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.14.1。在多模态端点前部署URL白名单过滤。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qh4c-xf7m-gxfc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 10. Gitea Composer Package Permission Leak -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Gitea: Composer Package Source Link Permission Bypass</div>
+                    <div class="advisory-id">GHSA-8qw8-rq86-9pc2 | CVE: CVE-2026-27771</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 56,878</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea ≤ 1.26.1版本中，Composer包的source链接权限检查不充分，可导致私有或内部包的源码信息泄露。</p>
+                <p><strong>影响产品：</strong>Gitea ⭐56,878</p>
+                <p><strong>影响版本：</strong>≤ 1.26.1</p>
+                <p><strong>攻击面：</strong>Gitea的Composer包注册表API。</p>
+                <p><strong>触发条件：</strong>有仓库读权限的用户请求Composer包的source链接信息。</p>
+                <p><strong>潜在危害：</strong>泄露私有包的源码仓库地址、提交历史等敏感信息。</p>
+                <p><strong>可利用性：</strong>有详细漏洞描述，利用门槛低（仅需普通用户权限）。</p>
+                <p><strong>修复建议：</strong>升级至 Gitea ≥ 1.26.2。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8qw8-rq86-9pc2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 11. Budibase Unauth S3 Upload -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Budibase: Unauthenticated S3 Signed Upload URL Generation</div>
+                    <div class="advisory-id">GHSA-jj36-r9w3-3pfh | CVE: CVE-2026-50136</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,127</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Budibase应用服务器暴露了一个未认证的S3 PutObject预签名URL生成端点。该路由仅受reCAPTCHA保护，不需要任何身份认证、表权限或数据源权限。知道workspace ID和S3数据源ID的攻击者可以生成任意bucket和key的签名上传URL。</p>
+                <p><strong>影响产品：</strong>Budibase ⭐28,127</p>
+                <p><strong>影响版本：</strong>&lt; 3.39.2</p>
+                <p><strong>攻击面：</strong>POST /api/attachments/:datasourceId/url 端点。</p>
+                <p><strong>触发条件：</strong>知道workspace ID和S3数据源ID + 通过reCAPTCHA。</p>
+                <p><strong>潜在危害：</strong>利用存储的数据源凭证向任意S3 bucket写入文件，可能导致数据投毒、覆盖关键文件或产生高额存储费用。</p>
+                <p><strong>可利用性：</strong>有完整代码审计和路由分析，利用门槛低。</p>
+                <p><strong>修复建议：</strong>升级至 Budibase ≥ 3.39.2。审查所有附件相关端点的认证配置。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jj36-r9w3-3pfh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 12. ws DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 ws: Denial of Service via Sec-WebSocket-Extensions</div>
+                    <div class="advisory-id">GHSA-5v72-xg48-5rpm | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 22,786</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ws库在处理包含Object.prototype属性名（如constructor）的Sec-WebSocket-Extensions头部时会崩溃。攻击者只需发送一个特制的HTTP升级请求即可触发DoS。</p>
+                <p><strong>影响产品：</strong>ws ⭐22,786</p>
+                <p><strong>影响版本：</strong>≥ 2.0.0 &lt; 3.3.1, ≥ 0.6.0 &lt; 1.1.5</p>
+                <p><strong>攻击面：</strong>所有使用ws库的WebSocket服务器。</p>
+                <p><strong>触发条件：</strong>发送包含特殊属性名的WebSocket升级请求。</p>
+                <p><strong>潜在危害：</strong>WebSocket服务器崩溃，拒绝服务。</p>
+                <p><strong>可利用性：</strong>有完整可用的PoC代码，利用极其简单。</p>
+                <p><strong>修复建议：</strong>升级至 ws ≥ 3.3.1 或 ≥ 1.1.5。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5v72-xg48-5rpm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 13. vLLM ReDoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: ReDoS via structured_outputs.regex</div>
+                    <div class="advisory-id">GHSA-rwxx-mrjm-wc2m | CVE: CVE-2026-55574</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM的structured_outputs.regex API参数将用户提供的正则字符串直接传给grammar编译器后端，无编译超时保护。像(a+)+b这类恶意模式可通过所有检查并挂起推理worker。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>&lt; 0.24.0</p>
+                <p><strong>攻击面：</strong>structured_outputs API的regex参数。</p>
+                <p><strong>触发条件：</strong>提交包含灾难性回溯正则表达式的API请求。</p>
+                <p><strong>潜在危害：</strong>推理worker永久挂起，拒绝服务。</p>
+                <p><strong>可利用性：</strong>有源码分析和修复commit，利用简单。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.24.0。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rwxx-mrjm-wc2m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 14. vLLM Remote DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: Remote DoS via Invalid Recovered Token Reinjection</div>
+                    <div class="advisory-id">GHSA-8wr5-jm2h-8r4f | CVE: CVE-2026-54234</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>通过构造特殊的多请求投机解码工作负载，可使vLLM产生越界recovered token（等于vocab_size），转换为-1后被注入下一次drafting输入，最终触发GPU device-side assert崩溃引擎。也可通过gRPC的Generate/Abort序列触发。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.17.1, &lt; 0.24.0</p>
+                <p><strong>攻击面：</strong>gRPC和HTTP生成请求端点。</p>
+                <p><strong>触发条件：</strong>发送特定的重叠Generate/Abort请求序列。</p>
+                <p><strong>潜在危害：</strong>崩溃共享推理引擎，中断所有并发请求。</p>
+                <p><strong>可利用性：</strong>有详细技术分析，远程可触发。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.24.0。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8wr5-jm2h-8r4f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 15. vLLM deserialization DoS/RCE -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: Deserialization Vulnerability → DoS/RCE</div>
+                    <div class="advisory-id">GHSA-mrw7-hf4f-83pf | CVE: CVE-2025-62164</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 86,527</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM的Completions API在处理用户提供的prompt embeddings时，使用torch.load()加载序列化张量且验证不足。PyTorch 2.8.0默认禁用了稀疏张量完整性检查，恶意构造的张量可绕过边界检查触发越界内存写入。</p>
+                <p><strong>影响产品：</strong>vllm ⭐86,527</p>
+                <p><strong>影响版本：</strong>≥ 0.10.2, &lt; 0.11.1</p>
+                <p><strong>攻击面：</strong>Completions API端点的prompt embeddings参数。</p>
+                <p><strong>触发条件：</strong>提交包含恶意序列化张量的API请求。</p>
+                <p><strong>潜在危害：</strong>内存损坏导致崩溃(DoS)或潜在RCE。</p>
+                <p><strong>可利用性：</strong>有详细技术分析。</p>
+                <p><strong>修复建议：</strong>升级至 vllm ≥ 0.11.1。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mrw7-hf4f-83pf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 16. golang.org/x/crypto RSA/DSA DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 golang.org/x/crypto: RSA/DSA Pathological Parameters DoS</div>
+                    <div class="advisory-id">GHSA-w879-237q-wc7r | CVE: CVE-2026-39829</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 135,284</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>RSA和DSA公钥解析器未强制限制密钥参数大小。攻击者可在公钥认证阶段提交超大模数的公钥，导致签名验证消耗数分钟CPU时间，造成DoS。</p>
+                <p><strong>影响产品：</strong>golang.org/x/crypto ⭐135,284</p>
+                <p><strong>影响版本：</strong>&lt; 0.52.0</p>
+                <p><strong>攻击面：</strong>SSH公钥认证阶段（无需认证即可触发）。</p>
+                <p><strong>触发条件：</strong>提交带有超大模数的RSA公钥或异常DSA参数。</p>
+                <p><strong>潜在危害：</strong>CPU资源耗尽，拒绝服务。</p>
+                <p><strong>可利用性：</strong>有详细技术分析，未认证即可利用。</p>
+                <p><strong>修复建议：</strong>升级至 golang.org/x/crypto ≥ 0.52.0。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-w879-237q-wc7r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 17. mcp-atlassian Arbitrary File Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 mcp-atlassian: Arbitrary File Read via confluence_upload_attachment</div>
+                    <div class="advisory-id">GHSA-g5r6-gv6m-f5jv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 5,580</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>mcp-atlassian的confluence_upload_attachment函数直接将file_path传给open()，未进行路径验证。同一文件中download_attachment()已有validate_safe_path()验证，但上传函数遗漏了此安全检查。攻击者可读取服务器进程可访问的任意文件并上传至Confluence。</p>
+                <p><strong>影响产品：</strong>mcp-atlassian ⭐5,580</p>
+                <p><strong>影响版本：</strong>&lt; 0.22.0</p>
+                <p><strong>攻击面：</strong>MCP协议的confluence_upload_attachment工具调用。</p>
+                <p><strong>触发条件：</strong>认证MCP客户端或通过提示注入操纵AI Agent调用该工具。</p>
+                <p><strong>潜在危害：</strong>读取服务器敏感文件（密钥、配置、源代码等）并外泄至Confluence。</p>
+                <p><strong>可利用性：</strong>有完整代码审计和一行修复方案，利用极其简单。</p>
+                <p><strong>修复建议：</strong>升级至 mcp-atlassian ≥ 0.22.0。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 18. AngularJS XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 AngularJS: SCE Bypass Leading to XSS</div>
+                    <div class="advisory-id">GHSA-7x27-g8rg-x87w | CVE: CVE-2026-11998</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ N/A (已弃用)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>AngularJS的严格上下文转义(SCE)逻辑存在缺陷，URL正则匹配器的部分匹配可绕过SCE策略，导致任意JavaScript在受害者浏览器会话上下文中执行。注意：AngularJS已弃用且无修复版本。</p>
+                <p><strong>影响产品：</strong>angular (AngularJS) — 已弃用</p>
+                <p><strong>影响版本：</strong>≥ 1.2.0-rc.3, ≤ 1.8.3（全部版本）</p>
+                <p><strong>攻击面：</strong>使用SCE策略保护资源URL的AngularJS应用。</p>
+                <p><strong>触发条件：</strong>构造能绕过正则匹配的恶意URL。</p>
+                <p><strong>潜在危害：</strong>XSS攻击——窃取会话、篡改页面、钓鱼。</p>
+                <p><strong>可利用性：</strong>有PoC（CodePen演示），但仅影响已弃用项目。</p>
+                <p><strong>修复建议：</strong>迁移至Angular 2+。如无法迁移，考虑使用HeroDevs的NES for AngularJS长期支持。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7x27-g8rg-x87w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-4r2x-xpjr-7cvv</code></td>
+                    <td>vllm (RCE视频处理)</td>
+                    <td>86.5k</td>
+                    <td>Critical</td>
+                    <td>完整PoC利用链</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4r2x-xpjr-7cvv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-94f4-hr76-p5j6</code></td>
+                    <td>vllm (Auth Bypass)</td>
+                    <td>86.5k</td>
+                    <td>Critical</td>
+                    <td>详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-94f4-hr76-p5j6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hjq4-87xh-g4fv</code></td>
+                    <td>vllm (PyNcclPipe RCE)</td>
+                    <td>86.5k</td>
+                    <td>Critical</td>
+                    <td>详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hjq4-87xh-g4fv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2pc9-4j83-qjmr</code></td>
+                    <td>vllm (auto_map RCE)</td>
+                    <td>86.5k</td>
+                    <td>Critical</td>
+                    <td>详细原理+PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2pc9-4j83-qjmr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-x527-x647-q7gg</code> 等</td>
+                    <td>golang.org/x/crypto (SSH ×4)</td>
+                    <td>135k</td>
+                    <td>Critical</td>
+                    <td>详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x527-x647-q7gg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pjwm-pj3p-43mv</code></td>
+                    <td>axios (NO_PROXY Bypass)</td>
+                    <td>109k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pjwm-pj3p-43mv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-q8gq-377p-jq3r</code></td>
+                    <td>vllm (assert RCE)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q8gq-377p-jq3r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7972-pg2x-xr59</code></td>
+                    <td>vllm (trust_remote_code)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7972-pg2x-xr59" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qh4c-xf7m-gxfc</code></td>
+                    <td>vllm (SSRF MediaConnector)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qh4c-xf7m-gxfc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rwxx-mrjm-wc2m</code></td>
+                    <td>vllm (ReDoS)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>PoC+源码分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rwxx-mrjm-wc2m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8wr5-jm2h-8r4f</code></td>
+                    <td>vllm (Token Reinject DoS)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8wr5-jm2h-8r4f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mrw7-hf4f-83pf</code></td>
+                    <td>vllm (反序列化RCE)</td>
+                    <td>86.5k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mrw7-hf4f-83pf" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-w879-237q-wc7r</code></td>
+                    <td>golang.org/x/crypto (RSA DoS)</td>
+                    <td>135k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w879-237q-wc7r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8qw8-rq86-9pc2</code></td>
+                    <td>Gitea (Composer泄露)</td>
+                    <td>56.9k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8qw8-rq86-9pc2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-jj36-r9w3-3pfh</code></td>
+                    <td>Budibase (S3上传)</td>
+                    <td>28.1k</td>
+                    <td>High</td>
+                    <td>PoC+详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jj36-r9w3-3pfh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-5v72-xg48-5rpm</code></td>
+                    <td>ws (DoS)</td>
+                    <td>22.8k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5v72-xg48-5rpm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-g5r6-gv6m-f5jv</code></td>
+                    <td>mcp-atlassian (文件读取)</td>
+                    <td>5.6k</td>
+                    <td>High</td>
+                    <td>PoC+详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-g5r6-gv6m-f5jv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-7x27-g8rg-x87w</code></td>
+                    <td>AngularJS (XSS)</td>
+                    <td>已弃用</td>
+                    <td>High</td>
+                    <td>PoC</td>
+                    <td>低(弃用)</td>
+                    <td><a href="https://github.com/advisories/GHSA-7x27-g8rg-x87w" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-8qqm-fp2q-v734</code></td>
+                    <td>zalando/skipper (OPA策略绕过)</td>
+                    <td>3.3k</td>
+                    <td>High</td>
+                    <td>不完整修复CVE-2026-50197，超大body绕过OPA deny-on-presence策略，有详细技术分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-xcpc-8h2w-3j85</code></td>
+                    <td>adm-zip (Zip Bomb DoS)</td>
+                    <td>2.2k</td>
+                    <td>High</td>
+                    <td>~120字节ZIP文件触发4GB内存分配，放大比3300万:1，有详细技术分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-c4gh-rv8h-q9vw</code></td>
+                    <td>microsoft/prompty (JS注入)</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>gray-matter解析JavaScript frontmatter执行任意代码，微软项目</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wxhm-2mq7-7697</code></td>
+                    <td>microsoft/prompty (路径遍历)</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>${file:...}引用展开无目录限制，可读取任意文件，影响PyPI/npm/crates.io/NuGet四个生态</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-2v2f-mvfg-ph56</code></td>
+                    <td>meta-ads-mcp (Auth Bypass)</td>
+                    <td>1.1k</td>
+                    <td>High</td>
+                    <td>X-Pipeboard-Token头认证绕过，未认证请求使用运营者Meta凭证执行操作</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-45gf-fjxp-cjpq</code></td>
+                    <td>meta-ads-mcp (SSRF)</td>
+                    <td>1.1k</td>
+                    <td>High</td>
+                    <td>upload_ad_image未验证URL，可访问169.254.169.254等内部资源</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-937x-gpqr-72gg</code></td>
+                    <td>Flask-Reuploaded (文件上传绕过)</td>
+                    <td>67</td>
+                    <td>High</td>
+                    <td>CVE-2026-27641不完整修复，大小写折叠不对称绕过扩展名黑名单</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r95q-fp26-h3hc</code></td>
+                    <td>CloudTAK (SSRF)</td>
+                    <td>119</td>
+                    <td>High</td>
+                    <td>ESRI路由完全无IP/主机名验证的SSRF，任意认证用户可触发</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>vLLM 多个RCE漏洞（GHSA-4r2x, GHSA-94f4, GHSA-hjq4, GHSA-2pc9）</strong>：vLLM是本次监控中受影响最严重的产品，共有15+个高危/严重漏洞被更新。视频处理RCE有完整利用链且默认无认证，OpenAI认证绕过影响所有0.3.0+版本。<strong>建议：立即升级至最新版本，部署网络隔离和反向代理认证。</strong></li>
+                    <li><strong>golang.org/x/crypto SSH 4个严重漏洞</strong>：影响所有使用该库的Go SSH服务器/客户端。<strong>建议：立即升级至 0.52.0，审查所有Go项目的依赖版本。</strong></li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>axios NO_PROXY绕过（GHSA-pjwm）</strong>：109k Star的HTTP库存在IPv4-mapped IPv6地址绕过，可导致SSRF。<strong>建议：升级至 ≥ 1.16.0。</strong></li>
+                    <li><strong>Gitea Composer包信息泄露（GHSA-8qw8）</strong>：56.9k Star的自托管Git平台。<strong>建议：升级至 1.26.2。</strong></li>
+                    <li><strong>Budibase未认证S3上传（GHSA-jj36）</strong>：28k Star的低代码平台。<strong>建议：升级至 3.39.2。</strong></li>
+                    <li><strong>ws WebSocket DoS（GHSA-5v72）</strong>：22.8k Star的WebSocket库，有完整PoC。<strong>建议：检查并升级。</strong></li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>mcp-atlassian 任意文件读取（GHSA-g5r6）</strong>：MCP工具生态安全问题，提示注入可触发。</li>
+                    <li><strong>AngularJS XSS（GHSA-7x27）</strong>：已弃用项目，建议尽快迁移至现代框架。</li>
+                    <li><strong>sh库权限降格不完整（GHSA-q38v）</strong>：7.2k Star的Python shell库，_uid未清理补充组。</li>
+                </ul>
+                <p style="margin-top: 16px;"><strong>📌 趋势观察：</strong>本次监控中vLLM占据了绝大多数安全公告（15+/40），反映出AI推理框架安全性是当前的重大风险领域。建议在生产环境部署vLLM时，务必实施网络隔离、API网关认证、模型来源审查等多层防御措施。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
