@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-18",
+      "title": "GitHub安全公告日报 - 2026-07-18",
+      "url": "reports/report-2026-07-18.html",
+      "stats": {
+        "total": 40,
+        "critical": 7,
+        "high": 33,
+        "star5k": 18,
+        "with_poc": 22
+      },
+      "summary": "今日发现40个高危/严重安全公告，vLLM占据15+个漏洞（含完整RCE利用链），golang.org/x/crypto存在4个SSH严重漏洞，axios存在NO_PROXY绕过。建议立即关注vLLM和Go crypto库升级。"
+    },
+    {
       "date": "2026-07-17",
       "title": "GitHub安全公告日报 - 2026-07-17",
       "url": "reports/report-2026-07-17.html",
