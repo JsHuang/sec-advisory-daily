@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-19",
+      "title": "GitHub安全公告日报 - 2026-07-19",
+      "url": "reports/report-2026-07-19.html",
+      "stats": {
+        "total": 6,
+        "critical": 3,
+        "high": 3,
+        "star5k": 2,
+        "with_poc": 6
+      },
+      "summary": "今日监控到6个高危及以上安全公告：NestJS Fastify中间件绕过（76k Star，URL尾部斜杠即可绕过认证）、LiteLLM Host头注入认证绕过（54k Star）、Jupyter Server存储型XSS致RCE、Avo管理面板授权绕过、Picklescan检测绕过、MCP文档服务器无认证暴露。"
+    },
+    {
       "date": "2026-07-18",
       "title": "GitHub安全公告日报 - 2026-07-18",
       "url": "reports/report-2026-07-18.html",
