@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-20</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-20 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. LiteLLM - 🔴 紧急 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 LiteLLM: Authentication Bypass via Host Header Injection</div>
+                    <div class="advisory-id">GHSA-4xpc-pv4p-pm3w | CVE: CVE-2026-49468</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical · CVSS 9.8</span>
+                <span class="badge badge-stars">⭐ 54,029</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>LiteLLM代理中存在Host头部解析缺陷，在特定条件下可允许未认证用户访问受保护的管理路由。认证层通过 <code>request.url.path</code> 派生有效路由，而Starlette从Host头重建该路径，导致攻击者可通过伪造Host头使认证门评估与实际FastAPI分发不同的路由，从而绕过认证检查。</p>
+                <p><strong>影响产品：</strong>BerriAI/litellm ⭐54,029</p>
+                <p><strong>影响版本：</strong>&lt; 1.84.0（已在 1.84.0 修复）</p>
+                <p><strong>攻击面：</strong>网络远程（无需认证），针对LiteLLM代理的管理接口</p>
+                <p><strong>触发条件：</strong>直接向LiteLLM代理发送带有伪造Host头的HTTP请求；上游无CDN/WAF/反向代理对Host头进行校验或规范化</p>
+                <p><strong>潜在危害：</strong>完全绕过认证，获取管理权限，可操纵LLM代理配置、密钥和路由，导致数据泄露和完整系统接管</p>
+                <p><strong>可利用性：</strong>有详细原理和代码级分析（auth_utils.py::get_request_route()源码触发点）</p>
+                <p><strong>修复建议：</strong>立即升级至 litellm ≥ 1.84.0；若无法立即升级，将代理置于Cloudflare CDN或配置了server_name白名单的反向代理之后</p>
+            </div>
+            
+            <a href="https://github.com/BerriAI/litellm/security/advisories/GHSA-4xpc-pv4p-pm3w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. NestJS - 🔴 紧急 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 NestJS: Middleware Bypass on Fastify via Trailing Slash</div>
+                    <div class="advisory-id">GHSA-6v32-fjc9-9qf6 | CVE: CVE-2026-54281</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 76,153</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>当使用NestJS的Fastify适配器时，通过 <code>MiddlewareConsumer.forRoutes()</code> API注册的中间件可被简单地在URL末尾追加尾斜杠（/）来绕过。该绕过在默认Fastify适配器配置下即可生效，无需特殊路由选项。使用标准CRUD路由格式（如 GET /resource 和 GET /resource/:id）并通过中间件保护的应用均受影响。</p>
+                <p><strong>影响产品：</strong>nestjs/nest (@nestjs/platform-fastify) ⭐76,153</p>
+                <p><strong>影响版本：</strong>≤ 11.1.23（已在 11.1.24 修复）</p>
+                <p><strong>攻击面：</strong>网络远程，针对使用Fastify适配器的NestJS应用的认证/授权中间件</p>
+                <p><strong>触发条件：</strong>在请求URL末尾追加尾斜杠即可绕过中间件；仅在Fastify适配器下生效，Express适配器不受影响</p>
+                <p><strong>潜在危害：</strong>认证中间件被完全绕过，未授权用户可直接访问受保护的路由和API端点，可能导致未授权数据访问和操作</p>
+                <p><strong>可利用性：</strong>有完整利用描述——仅需在URL末尾加 "/"，极其简单</p>
+                <p><strong>修复建议：</strong>立即升级 @nestjs/platform-fastify 至 ≥ 11.1.24；检查是否使用Fastify适配器，Express适配器不受影响</p>
+            </div>
+            
+            <a href="https://github.com/nestjs/nest/security/advisories/GHSA-6v32-fjc9-9qf6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. Jupyter Server - 🟠 高危 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Jupyter Server: Stored XSS in NbconvertFileHandler/NbconvertPostHandler</div>
+                    <div class="advisory-id">GHSA-fcw5-x6j4-ccmp | CVE: CVE-2026-44727</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical · CVSS 5.4</span>
+                <span class="badge badge-stars">⭐ 565</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Jupyter Server的nbconvert HTTP处理器在Jupyter源域名下渲染用户编写的notebook HTML时，缺少CSP中的sandbox指令。结合 <code>nbconvert.HTMLExporter</code> 默认的非净化行为，携带HTML payload的notebook会触发存储型XSS，攻击者可获取cookie访问权限、完整的 /api/* 权限以及内核远程代码执行（RCE）。</p>
+                <p><strong>影响产品：</strong>jupyter-server/jupyter_server ⭐565</p>
+                <p><strong>影响版本：</strong>≤ 2.19.0（已在 2.20.0 修复）</p>
+                <p><strong>攻击面：</strong>需要已认证的受害者访问包含恶意notebook的 /nbconvert/html/&lt;path&gt; 路径</p>
+                <p><strong>触发条件：</strong>攻击者在notebook的display_data输出中嵌入恶意HTML payload → 受害者通过nbconvert路径访问该notebook → XSS在Jupyter源域名下执行</p>
+                <p><strong>潜在危害：</strong>Cookie窃取、完整的Jupyter API权限（/api/*）、通过内核实现远程代码执行（RCE）</p>
+                <p><strong>可利用性：</strong>有详细原理和修复补丁链接，攻击链描述清晰</p>
+                <p><strong>修复建议：</strong>升级至 jupyter-server ≥ 2.20.0；若无法升级，在 jupyter_server_config.py 中添加CSP sandbox配置作为临时缓解</p>
+            </div>
+            
+            <a href="https://github.com/jupyter-server/jupyter_server/security/advisories/GHSA-fcw5-x6j4-ccmp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. Avo - 🟠 高危 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Avo: Missing Authorization in Association Attach Endpoint</div>
+                    <div class="advisory-id">GHSA-8fq9-273g-6mrg | CVE: CVE-2026-55518</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical · CVSS 9.6</span>
+                <span class="badge badge-stars">⭐ 1,789</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Avo的关联附加工作流中存在严重的授权缺失漏洞。虽然UI和 <code>GET /resources/:resource/:id/:related/new</code> 路径会检查 <code>attach_&lt;association&gt;?</code> 权限，但实际的写入端点 <code>POST /resources/:resource/:id/:related</code> 在执行关联变更前不进行相同的授权检查。低权限用户可直接附加关联记录，在关联代表团队、租户、角色、项目等授权关系的应用中可导致权限提升和跨租户数据泄露。</p>
+                <p><strong>影响产品：</strong>avo-hq/avo (Ruby) ⭐1,789</p>
+                <p><strong>影响版本：</strong>≤ 3.32.0 及 4.0.0.beta.1 ~ 4.0.0.beta.50（已在 3.32.1 和 4.0.0.beta.51 修复）</p>
+                <p><strong>攻击面：</strong>已认证的低权限Avo用户，通过直接构造POST请求</p>
+                <p><strong>触发条件：</strong>低权限用户直接向 POST /resources/:resource/:id/:related 发送请求，绕过UI层的权限检查</p>
+                <p><strong>潜在危害：</strong>权限提升（可关联任意资源）、跨租户数据访问、绕过基于角色的访问控制</p>
+                <p><strong>可利用性：</strong>有完整原理分析，包含Ruby路由代码和控制器代码的触发点说明，修复commit链接</p>
+                <p><strong>修复建议：</strong>升级至 avo ≥ 3.32.1 或 ≥ 4.0.0.beta.51；检查应用中关联关系是否涉及授权相关实体</p>
+            </div>
+            
+            <a href="https://github.com/avo-hq/avo/security/advisories/GHSA-8fq9-273g-6mrg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. Picklescan - 🟡 中危 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Picklescan: RCE Bypass via idlelib.autocomplete.AutoComplete.get_entity</div>
+                    <div class="advisory-id">GHSA-6w4w-5w54-rjvr | CVE: CVE-2025-71358</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High · CVSS 8.1</span>
+                <span class="badge badge-stars">⭐ 418</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Picklescan安全扫描库未能检测到通过Python内置库 <code>idlelib.autocomplete.AutoComplete.get_entity</code> 执行的恶意pickle payload。攻击者可在reduce方法中调用该内置函数来构造恶意pickle文件，Picklescan不会检测到任何危险函数，导致受害者加载该文件时触发远程代码执行。</p>
+                <p><strong>影响产品：</strong>mmaitre314/picklescan ⭐418</p>
+                <p><strong>影响版本：</strong>&lt; 0.0.29（已在 0.0.29 修复）</p>
+                <p><strong>攻击面：</strong>针对依赖Picklescan进行PyTorch模型安全检测的用户</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意pickle文件 → 受害者使用Picklescan扫描（通过）→ 受害者 pickle.load() 加载文件 → RCE</p>
+                <p><strong>潜在危害：</strong>远程代码执行，可在受害者机器上执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC代码（EvilIdlelibAutocompleteGetEntity类，约3行代码即可构造payload）</p>
+                <p><strong>修复建议：</strong>升级 picklescan 至 ≥ 0.0.29；注意：作为安全扫描工具的绕过漏洞，影响所有依赖该工具进行pickle文件安全检查的流程</p>
+            </div>
+            
+            <a href="https://github.com/mmaitre314/picklescan/security/advisories/GHSA-6w4w-5w54-rjvr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. MCP Documentation Server - 🟡 中危 -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 @andrea9293/mcp-documentation-server: Web UI 默认绑定所有网络接口且无认证</div>
+                    <div class="advisory-id">GHSA-6f5r-5672-72j7 | CVE: CVE-2026-54504</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High · CVSS 8.8</span>
+                <span class="badge badge-stars">⭐ 340</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><code>@andrea9293/mcp-documentation-server</code> v1.13.0 的Web UI/API默认绑定到所有网络接口（0.0.0.0:3080）而非仅localhost，且其文档管理API端点无需认证。同一LAN、VM网络或容器桥接网络上的任何可达客户端均可无凭据访问文档管理API，包括枚举文档、添加文档、读取内容、搜索和删除文档。</p>
+                <p><strong>影响产品：</strong>andrea9293/mcp-documentation-server ⭐340</p>
+                <p><strong>影响版本：</strong>= 1.13.0（已在 1.13.1 修复）</p>
+                <p><strong>攻击面：</strong>同网络内任何可达客户端（LAN、VM网络、容器桥接网络）</p>
+                <p><strong>触发条件：</strong>受害者启动MCP文档服务器 → 攻击者通过LAN IP直接访问3080端口的API → 无认证即可操作文档</p>
+                <p><strong>潜在危害：</strong>未授权访问文档内容（可能含敏感信息）、文档篡改和删除、信息泄露</p>
+                <p><strong>可利用性：</strong>有完整复现步骤描述，无需任何技术手段，仅需访问LAN IP:3080</p>
+                <p><strong>修复建议：</strong>升级至 ≥ 1.13.1；临时缓解：通过防火墙或网络策略限制3080端口仅允许localhost访问</p>
+            </div>
+            
+            <a href="https://github.com/andrea9293/mcp-documentation-server/security/advisories/GHSA-6f5r-5672-72j7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-4xpc-pv4p-pm3w</code></td>
+                    <td>litellm</td>
+                    <td>54k</td>
+                    <td>Critical (9.8)</td>
+                    <td>有详细原理+代码分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/BerriAI/litellm/security/advisories/GHSA-4xpc-pv4p-pm3w" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6v32-fjc9-9qf6</code></td>
+                    <td>@nestjs/platform-fastify</td>
+                    <td>76k</td>
+                    <td>High</td>
+                    <td>有完整利用描述（URL加"/"）</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/nestjs/nest/security/advisories/GHSA-6v32-fjc9-9qf6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-fcw5-x6j4-ccmp</code></td>
+                    <td>jupyter-server</td>
+                    <td>565</td>
+                    <td>Critical (5.4)</td>
+                    <td>有详细原理+修复补丁</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/jupyter-server/jupyter_server/security/advisories/GHSA-fcw5-x6j4-ccmp" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8fq9-273g-6mrg</code></td>
+                    <td>avo</td>
+                    <td>1,789</td>
+                    <td>Critical (9.6)</td>
+                    <td>有完整原理+路由代码分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/avo-hq/avo/security/advisories/GHSA-8fq9-273g-6mrg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-6w4w-5w54-rjvr</code></td>
+                    <td>picklescan</td>
+                    <td>418</td>
+                    <td>High (8.1)</td>
+                    <td>有完整PoC代码</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/mmaitre314/picklescan/security/advisories/GHSA-6w4w-5w54-rjvr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-6f5r-5672-72j7</code></td>
+                    <td>mcp-documentation-server</td>
+                    <td>340</td>
+                    <td>High (8.8)</td>
+                    <td>有完整复现步骤</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/andrea9293/mcp-documentation-server/security/advisories/GHSA-6f5r-5672-72j7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-6w4w-5w54-rjvr</code></td>
+                    <td>picklescan</td>
+                    <td>418</td>
+                    <td>High (8.1)</td>
+                    <td>安全扫描工具绕过，3行PoC代码即可构造恶意pickle → RCE，影响PyTorch模型安全检测流程</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8fq9-273g-6mrg</code></td>
+                    <td>avo</td>
+                    <td>1,789</td>
+                    <td>Critical (9.6)</td>
+                    <td>授权缺失导致权限提升，攻击者可直接附加任意关联记录，影响多租户应用的数据隔离</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-fcw5-x6j4-ccmp</code></td>
+                    <td>jupyter-server</td>
+                    <td>565</td>
+                    <td>Critical (5.4)</td>
+                    <td>存储型XSS → Jupyter内核RCE，攻击链从notebook HTML注入到完整API权限+代码执行</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-6f5r-5672-72j7</code></td>
+                    <td>mcp-documentation-server</td>
+                    <td>340</td>
+                    <td>High (8.8)</td>
+                    <td>MCP服务器默认0.0.0.0绑定且无认证，LAN内任何人可直接读写文档，MCP生态安全问题</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>LiteLLM (GHSA-4xpc-pv4p-pm3w)</strong> — CVSS 9.8 认证绕过，54k星标的LLM代理项目。Host头注入可完全绕过管理路由认证，直接影响AI基础设施安全。若部署了LiteLLM代理且无上游CDN/WAF保护，必须立即升级至 ≥ 1.84.0。</li>
+                    <li><strong>NestJS Fastify (GHSA-6v32-fjc9-9qf6)</strong> — 76k星标的Node.js框架，Fastify适配器下中间件可被尾斜杠一键绕过，利用极其简单。所有使用 @nestjs/platform-fastify ≤ 11.1.23 的项目必须立即升级。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Jupyter Server (GHSA-fcw5-x6j4-ccmp)</strong> — 存储型XSS可升级为Jupyter内核RCE，攻击链完整。虽然CVSS分数（5.4）不高，但影响链（XSS → Cookie窃取 → /api/* 权限 → 内核RCE）危害极大。</li>
+                    <li><strong>Avo (GHSA-8fq9-273g-6mrg)</strong> — CVSS 9.6 授权缺失，多租户Ruby应用可导致权限提升和跨租户数据泄露。使用Avo管理后台的应用需检查关联关系是否涉及授权。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Picklescan (GHSA-6w4w-5w54-rjvr)</strong> — 安全扫描工具自身被绕过，影响PyTorch模型供应链安全检测。虽项目Star不多（418），但对依赖该工具的安全流程影响重大。</li>
+                    <li><strong>MCP Documentation Server (GHSA-6f5r-5672-72j7)</strong> — MCP生态中的典型配置安全问题，默认绑定0.0.0.0无认证。反映MCP服务器安全基线不足的行业趋势。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
