@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-21",
+      "title": "GitHub安全公告日报 - 2026-07-21",
+      "url": "reports/report-2026-07-21.html",
+      "stats": {
+        "total": 41,
+        "critical": 3,
+        "high": 38,
+        "star5k": 25,
+        "with_poc": 40
+      },
+      "summary": "今日发现41个Critical/High漏洞，3个Critical（LightRAG认证绕过+CORS缺陷），重点影响Axios(109k⭐)、vLLM(86.7k⭐)、Astro(61.2k⭐)、LightRAG(37.9k⭐)、Pillow(13.7k⭐)等项目。多个漏洞含PoC/详细分析。"
+    },
+    {
       "date": "2026-07-19",
       "title": "GitHub安全公告日报 - 2026-07-19",
       "url": "reports/report-2026-07-19.html",
