@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-21</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-21 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">41</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">38</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">40</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 LightRAG is Vulnerable to Authentication Bypass: hardcoded DEFAULT_TOKEN_SECRET and public /auth-status defeat LIGHTRAG_API_KEY protection</div>
+                    <div class="advisory-id">GHSA-f4vv-55c2-5789 | CVE: CVE-2026-61740</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 37,908</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>When LightRAG is deployed with `LIGHTRAG_API_KEY` set but `AUTH_ACCOUNTS` unset (an officially documented "API-Key authentication" mode), the `X-API-Key` protection can be bypassed by any remote unauthenticated attacker. The bypass does not require network contact with the victim server — an attacker can mint a valid guest JWT offline using the hardcoded `DEFAULT_TOKEN_SECRET` committed in the repository and then call any endpoint guarded by `Depends(combined_auth)`, including destru...</p>
+                <p><strong>影响产品：</strong>pip/lightrag-hku ⭐37,908</p>
+                <p><strong>影响版本：</strong>< 1.5.4</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致未授权完全控制、数据泄露或破坏性操作</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 1.5.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-f4vv-55c2-5789" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 LightRAG: CORS Wildcard + Credentials Enables Any-Origin Credentialed Requests</div>
+                    <div class="advisory-id">GHSA-6x6h-qqr7-855w | CVE: CVE-2026-61736</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 37,908</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>The server defaults to CORS_ORIGINS=* combined with allow_credentials=True. Starlette's CORSMiddleware echoes the requesting origin in preflight responses when credentials are enabled, meaning every origin is effectively whitelisted for credentialed cross-origin requests. Any malicious website can perform authenticated API calls on behalf of a logged-in user.<br><br>### Details<br><br>```python<br># lightrag/api/config.py:639<br>args.cors_origins = get_env_value("CORS_ORIGINS", "*")  # default wildcar...</p>
+                <p><strong>影响产品：</strong>pip/lightrag-hku ⭐37,908</p>
+                <p><strong>影响版本：</strong><= 1.5.3</p>
+                <p><strong>攻击面：</strong>CORS 配置缺陷</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致未授权完全控制、数据泄露或破坏性操作</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 1.5.3</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6x6h-qqr7-855w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Axios Node HTTP adapter can use an inherited proxy after interceptor config cloning</div>
+                    <div class="advisory-id">GHSA-gcfj-64vw-6mp9 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 109,125</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>Axios’ Node.js HTTP adapter can route requests through an attacker-controlled proxy when `Object.prototype.proxy` is polluted and request configuration is materialized as a regular object before dispatch.<br><br>Recent axios releases harden merged request config by creating a null-prototype object. However, request interceptors run after that merge and may return a replacement config. A common immutable interceptor pattern such as `{...config}` or `Object.assign({}, config)` converts the h...</p>
+                <p><strong>影响产品：</strong>npm/axios, npm/axios ⭐109,125</p>
+                <p><strong>影响版本：</strong>>= 0.31.1, < 0.33.0>= 1.15.2, < 1.18.0</p>
+                <p><strong>攻击面：</strong>请求路由劫持</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 0.31.1, < 0.33.0>= 1.15.2, < 1.18.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gcfj-64vw-6mp9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Astro: Authorization Bypass via Decode Iteration Limit and Rewrite Path Canonicalization Mismatch</div>
+                    <div class="advisory-id">GHSA-vj59-8hwv-xxmv | CVE: CVE-2026-59731</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 61,177</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Astro 6.4.7 Authorization Bypass via Decode Iteration Limit and Rewrite Path Canonicalization Mismatch<br><br>## Summary<br><br>Astro 6.4.7 appears to reintroduce a middleware authorization bypass pattern when a request path is encoded more deeply than the newly introduced iterative URL decoder's maximum decoding depth.<br><br>The issue occurs because Astro performs authorization decisions on a partially decoded pathname after reaching a decoding iteration cap, while later route matching logic performs an addit...</p>
+                <p><strong>影响产品：</strong>npm/astro ⭐61,177</p>
+                <p><strong>影响版本：</strong>>= 6.4.7, < 6.4.8</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 6.4.7, < 6.4.8</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vj59-8hwv-xxmv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 vLLM denial of service via prompt embeds on M-RoPE models</div>
+                    <div class="advisory-id">GHSA-33cg-gxv8-3p8g | CVE: CVE-2026-55514</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 86,738</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>_Short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server._<br><br>Sending a pure prompt embeds payload in a `/v1/completions` request with a model using M-RoPE causes the EngineCore to fail an assertion and fatally crash, shutting down the entire server application.<br><br>Any remote user who is authorized to make a `/v1/completions` endpoint can t...</p>
+                <p><strong>影响产品：</strong>pip/vllm ⭐86,738</p>
+                <p><strong>影响版本：</strong>>= 0.12.0, < 0.24.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 0.12.0, < 0.24.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-33cg-gxv8-3p8g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow: Controlled heap out-of-bounds write in Pillow `ImageCmsTransform.apply()` via output mode mismatch</div>
+                    <div class="advisory-id">GHSA-9hw9-ch79-4vh6 | CVE: CVE-2026-59205</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Pillow's public `ImageCms.ImageCmsTransform.apply(im, imOut)` API can trigger<br>controlled native heap corruption when the caller supplies an output image whose<br>mode does not match the transform's declared output mode.<br><br>For example, a transform built as `RGBA -> RGBA` can be applied to an `L` output<br>image. Pillow checks dimensions only, then calls LittleCMS with the output row<br>pointer. LittleCMS writes RGBA-sized rows into a 1-byte-per-pixel `L` image row.<br><br>### Details<br><br>`src/PIL/Image...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>内存破坏 (堆越界写入)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可能导致内存破坏，潜在远程代码执行</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-9hw9-ch79-4vh6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pillow JPEG2000 tiled decode retains a growing scratch buffer and can be used for denial of service</div>
+                    <div class="advisory-id">GHSA-vjc4-5qp5-m44j | CVE: CVE-2026-59204</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>`src/libImaging/Jpeg2KDecode.c:853` accumulates `total_component_width` across every tile in a JPEG2000 image instead of recomputing it per tile. That accumulated value is then used in the `tile_bytes` calculation at `src/libImaging/Jpeg2KDecode.c:868`, which can make the decoder grow `state->buffer` via `realloc` at `src/libImaging/Jpeg2KDecode.c:876` up to roughly one full image's decompressed size even when each tile is small. A crafted tiled JPEG2000 file can therefore force subs...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>>= 8.2.0, < 12.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 8.2.0, < 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vjc4-5qp5-m44j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow: Decompression Bomb DoS via PdfParser.PdfStream.decode()</div>
+                    <div class="advisory-id">GHSA-jjj6-mw9f-p565 | CVE: CVE-2026-59200</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>`PdfParser.PdfStream.decode()` in Pillow's `PdfParser.py` calls `zlib.decompress()` with the `bufsize` parameter set to the value of the PDF stream's `Length` field, without any upper bound on the actual decompressed output size. Python's `zlib.decompress()` `bufsize` argument is an *initial output buffer hint*, not a maximum size limit — the function will expand memory until the full decompressed result is produced. A crafted PDF containing a FlateDecode-compressed stream decompress...</p>
+                <p><strong>影响产品：</strong>pip/Pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>>= 5.1.0, < 12.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 5.1.0, < 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jjj6-mw9f-p565" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pillow: Heap out-of-bounds write `Image.paste()` / `Image.crop()` via signed coordinate overflow</div>
+                    <div class="advisory-id">GHSA-6r8x-57c9-28j4 | CVE: CVE-2026-59199</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Pillow's public image coordinate APIs can trigger a native heap out-of-bounds<br>write when given coordinates near the signed 32-bit integer limits. In 4-byte<br>pixel modes such as `RGBA`, this becomes a controlled backward heap underwrite:<br>for a source image of width `W`, Pillow writes `4 * W` attacker-controlled bytes<br>starting `4 * W` bytes before the destination row pointer. With successful large<br>image allocation, the theoretical upper bound is ~2 GiB backwards from<br>the destination ro...</p>
+                <p><strong>影响产品：</strong>pip/Pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>内存破坏 (堆越界写入)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可能导致内存破坏，潜在远程代码执行</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6r8x-57c9-28j4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow: Heap out-of-bounds write in `ImageFilter.RankFilter` via integer overflow in `ImagingExpand`</div>
+                    <div class="advisory-id">GHSA-xj96-63gp-2gmr | CVE: CVE-2026-59197</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>Pillow's public rank-filter API can trigger a native heap out-of-bounds write<br>when given a very large odd filter size.<br><br>Minimal public API trigger:<br><br>```python<br>from PIL import Image, ImageFilter<br><br>im = Image.new("L", (3, 3), 128)<br>im.filter(ImageFilter.MedianFilter(4294967295))<br>```<br><br>`ImageFilter.RankFilter.filter()` calls `image.expand(size // 2, size // 2)`<br>before rank-filter size validation. With `size = 4294967295`, the<br>expansion margin is `2147483647` (`INT_MAX`). `ImagingExpand()`...</p>
+                <p><strong>影响产品：</strong>pip/Pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>内存破坏 (堆越界写入)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可能导致内存破坏，潜在远程代码执行</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xj96-63gp-2gmr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 File Browser: Colliding username normalization gives two users the same home directory</div>
+                    <div class="advisory-id">GHSA-7rc3-g7h6-22m7 | CVE: CVE-2026-62685</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35,612</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>FileBrowser confines each user to a *scope*: a home directory that acts as the boundary for everything they can read or write. When self-registration and automatic home-directory creation are both enabled (`Signup=true` and `CreateUserDir=true`), a new user's scope is built from their username after it passes through `cleanUsername()`. That function rewrites the name: it strips `..` and replaces every character outside `0-9A-Za-z@_\-.` with `-`.<br><br>The problem is that this rewrite is *...</p>
+                <p><strong>影响产品：</strong>go/github.com/filebrowser/filebrowser/v2 ⭐35,612</p>
+                <p><strong>影响版本：</strong><= 2.63.16</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 2.63.16</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7rc3-g7h6-22m7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 File Browser: Out-of-scope file deletion by a Create-only scoped user via symlink-following RemoveAll in upload failure-cleanup</div>
+                    <div class="advisory-id">GHSA-fmm7-x4gx-8jhr | CVE: CVE-2026-55667</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35,612</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>A scoped, non-admin File Browser user holding only the **Create** permission can delete arbitrary files outside their scope (other tenants' data, and the application's own database) via the upload failure-cleanup path. This is an incomplete fix of CVE-2026-54094: the v2.63.14 `ScopedFs` containment wrapper was applied to read/write/list/rename but NOT to the delete path. Confidentiality is preserved (reads stay blocked); integrity and availability are not.<br><br>`ScopedFs.RemoveAll` is th...</p>
+                <p><strong>影响产品：</strong>go/github.com/filebrowser/filebrowser/v2 ⭐35,612</p>
+                <p><strong>影响版本：</strong><= 2.63.15</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 2.63.15</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-fmm7-x4gx-8jhr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Cloudreve: OAuth access tokens bypass scope enforcement due to missing client_id claim</div>
+                    <div class="advisory-id">GHSA-vgj4-345g-jcf8 | CVE: CVE-2026-54560</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 28,374</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>  Cloudreve's OAuth access tokens can bypass OAuth scope enforcement.<br><br>  This does not appear to be the intended design. The documentation describes OAuth client permissions/scopes, the API<br>  has an insufficient-scope error code, and the code comments say `RequiredScopes(...)` should verify scopes when a<br>  token has scopes, while skipping checks only for non-scoped session-based authentication.<br><br>  However, OAuth access tokens are issued without the OAuth `client_id` claim. Later, the...</p>
+                <p><strong>影响产品：</strong>go/github.com/cloudreve/Cloudreve/v4 ⭐28,374</p>
+                <p><strong>影响版本：</strong>>= 4.0.0-20260114075425-bc6845bd742c, < 4.0.0-20260606015557-ed20843dc3df</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 4.0.0-20260114075425-bc6845bd742c, < 4.0.0-20260606015557-ed20843dc3df</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vgj4-345g-jcf8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow `GdImageFile._open()`: image dimensions accepted without `_decompression_bomb_check()`</div>
+                    <div class="advisory-id">GHSA-phj9-mv4w-65pm | CVE: CVE-2026-55380</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Description<br><br>`PIL/GdImageFile.py` `GdImageFile._open()` reads image dimensions from the GD 2.x header and stores them in `self._size` without calling `Image._decompression_bomb_check()`. Because `GdImageFile` is **not registered with `Image.register_open()`**, it never passes through the standard `Image.open()` code path that enforces Pillow's decompression bomb guard. The plugin exposes its own entry point — `PIL.GdImageFile.open(fp)` — which directly instantiates the class, fully bypassing ...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-phj9-mv4w-65pm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow `BdfFontFile`: `Image.new()` called without `_decompression_bomb_check()` — bomb protection bypass via font loading</div>
+                    <div class="advisory-id">GHSA-45hq-cxwh-f6vc | CVE: CVE-2026-55379</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>`PIL/BdfFontFile.py` `bdf_char()` (lines 84–88) reads the `BBX width height` field from a BDF font file and passes the dimensions directly to `Image.new()` without calling `Image._decompression_bomb_check()`. This completely bypasses Pillow's documented decompression bomb protection.<br><br>`Image.open()` enforces `MAX_IMAGE_PIXELS = 89,478,485` and raises `DecompressionBombError` for images exceeding `2 × MAX = 178,956,970` pixels. The BDF font loading path calls `Image.new()` directly, w...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-45hq-cxwh-f6vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow: `FontFile.compile()`: `Image.new()` called without `_decompression_bomb_check()`</div>
+                    <div class="advisory-id">GHSA-5x94-69rx-g8h2 | CVE: CVE-2026-54060</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Description<br><br>`PIL/FontFile.py` `FontFile.compile()` assembles per-glyph images into a single combined bitmap using `Image.new("1", (xsize, ysize))` without calling `Image._decompression_bomb_check()`. This is the base-class method shared by both `BdfFontFile` and `PcfFontFile`, and it is triggered whenever a loaded font is converted to an `ImageFont` or saved.<br><br>Neither `BdfFontFile.BdfFontFile(fp)` nor `PcfFontFile.PcfFontFile(fp)` is registered with `Image.register_open()`, so Pillow's stand...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5x94-69rx-g8h2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow `PcfFontFile._load_bitmaps()`: `Image.frombytes()` called without `_decompression_bomb_check()` — bomb protection bypass via PCF font loading</div>
+                    <div class="advisory-id">GHSA-8v84-f9pq-wr9x | CVE: CVE-2026-54059</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Description<br>`PIL/PcfFontFile.py` `_load_bitmaps()` (line 227) reads glyph dimensions from the PCF `METRICS` section and passes them directly to `Image.frombytes()` without calling `Image._decompression_bomb_check()`. Dimensions originate from unsigned 16-bit values:<br><br>```<br>xsize = right - left          (max: 65535 − 0 = 65535)<br>ysize = ascent + descent      (max: 65535 + 65535 = 131070)<br>```<br><br>Maximum exploitable pixel count: **65,535 × 131,070 = 8,589,734,450 pixels** — **48× the DecompressionBom...</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8v84-f9pq-wr9x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Pillow: Out-of-bounds read via attacker-controlled row stride on Pillow's mmap path (McIdas AREA files)</div>
+                    <div class="advisory-id">GHSA-62p4-gmf7-7g93 | CVE: CVE-2026-54058</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13,703</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>When Pillow loads an uncompressed image whose tile uses the `raw` codec and a mode in `Image._MAPMODES`, and the image was opened **from a filename**, it memory-maps the file and builds the image's row pointers directly into the mapping via `PyImaging_MapBuffer` (`src/map.c`). The per-row spacing (`stride`) is taken from the tile arguments. `map.c` validates `offset + ysize*stride <= buffer_len` but **never checks that `stride` is at least the natural row width `xsize * pixelsize`**....</p>
+                <p><strong>影响产品：</strong>pip/pillow ⭐13,703</p>
+                <p><strong>影响版本：</strong>< 12.3.0</p>
+                <p><strong>攻击面：</strong>内存破坏 (堆越界写入)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可能导致内存破坏，潜在远程代码执行</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-62p4-gmf7-7g93" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Composer: Arbitrary file write outside vendor via malicious transitive package name</div>
+                    <div class="advisory-id">GHSA-499r-g7pc-vmp9 | CVE: CVE-2026-59948</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29,486</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>A maliciously crafted package, published on an untrusted third party repository other than Packagist.org or Private Packagist, can cause Composer to write files outside the `vendor/` directory and outside your project, with attacker-controlled content, during a normal `install` or `update` through using an invalid package name, which was not correctly validated by Composer.<br><br>This is an arbitrary file write that can be used to execute code outside the Composer project's context in whi...</p>
+                <p><strong>影响产品：</strong>composer/composer/composer, composer/composer/composer ⭐29,486</p>
+                <p><strong>影响版本：</strong>>= 2.3.0, < 2.10.2>= 1.0.0, < 2.2.29</p>
+                <p><strong>攻击面：</strong>内存破坏 (堆越界写入)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 2.3.0, < 2.10.2>= 1.0.0, < 2.2.29</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-499r-g7pc-vmp9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 node-tar: Decompression/parse DoS via unlimited input</div>
+                    <div class="advisory-id">GHSA-23hp-3jrh-7fpw | CVE: CVE-2026-59873</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>A **Decompression/parse DoS via unlimited input** vulnerability in `node-tar` allows an attacker to exhaust server resources (disk space and CPU). Because the library does not enforce hard upper bounds on total decompressed data or entry counts, a small, maliciously crafted "Gzip Bomb" can be used to fill a server's storage and crash services.<br><br>### Details<br>The `node-tar` library does not enforce a hard upper bound on archive size or the volume of decompressed data processed during ex...</p>
+                <p><strong>影响产品：</strong>npm/tar ⭐919</p>
+                <p><strong>影响版本：</strong><= 7.5.18</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致未授权完全控制、数据泄露或破坏性操作</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 7.5.18</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-23hp-3jrh-7fpw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Directus: Authorization-dependent response served from unsegmented cache key</div>
+                    <div class="advisory-id">GHSA-c6w9-5g5j-jh2p | CVE: CVE-2026-61836</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 36,700</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>When response caching is enabled (`CACHE_ENABLED=true`), the cache-key derivation in `api/src/utils/get-cache-key.ts` includes only `version`, `path`, `query`, and `accountability.user` (plus a conditional `ip`). Authorization context beyond `user` (`share`, `role`, `roles`, `admin`, `app`, `policies`) is not part of the key.<br><br>For share tokens this is load-bearing. Directus's share-authentication flow (`api/src/services/shares.ts:100-105`) issues a JWT without an `id` claim, so `api/...</p>
+                <p><strong>影响产品：</strong>npm/directus ⭐36,700</p>
+                <p><strong>影响版本：</strong>< 12.0.0</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.0.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c6w9-5g5j-jh2p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Directus: SSRF Protection Bypass via 0.0.0.0 in File Import</div>
+                    <div class="advisory-id">GHSA-j5h6-vqc3-phqh | CVE: CVE-2026-61835</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 36,700</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>The SSRF protection on Directus's file-import-from-URL feature can be bypassed using the address `0.0.0.0`. While `127.0.0.1` and other internal addresses are denied, `0.0.0.0` is not added to the blocklist. On Linux and macOS, connecting to `0.0.0.0` reaches localhost, so an authenticated user with file-upload rights can make the server fetch internal services and retrieve the response as a downloadable file (full-read SSRF).<br><br>### Affected Versions<br><br>- **Affected:** Directus `<= 12....</p>
+                <p><strong>影响产品：</strong>npm/directus ⭐36,700</p>
+                <p><strong>影响版本：</strong>< 12.0.0</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 12.0.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j5h6-vqc3-phqh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 js-yaml: YAML merge-key chains can force quadratic CPU consumption</div>
+                    <div class="advisory-id">GHSA-52cp-r559-cp3m | CVE: CVE-2026-59869</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 6,610</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact<br><br>js-yaml can spend quadratic CPU time parsing a document whose size grows only linearly. The issue is triggered by a chain of mappings where each mapping merges the previous one:<br><br>```yaml<br>a0: &a0 { k0: 0 }<br>a1: &a1 { <<: *a0, k1: 1 }<br>a2: &a2 { <<: *a1, k2: 2 }<br>a3: &a3 { <<: *a2, k3: 3 }<br>...<br>b: *aN<br>```<br><br>For each new mapping, the loader has to enumerate the keys inherited from the previous mapping. With N chained mappings, this results in roughly 1 + 2 + ... + N merged-key visits, i.e., ...</p>
+                <p><strong>影响产品：</strong>npm/js-yaml, npm/js-yaml ⭐6,610</p>
+                <p><strong>影响版本：</strong>>= 3.0.0, < 3.15.0>= 4.0.0, < 4.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 3.0.0, < 3.15.0>= 4.0.0, < 4.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-52cp-r559-cp3m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 @better-auth/sso: SSO provider may allow registration for any org member without a checking their role</div>
+                    <div class="advisory-id">GHSA-gv74-j8m3-fg5f | CVE: CVE-2026-53515</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29,254</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Am I affected?<br><br>You are affected if all of the following are true:<br><br>- You depend on `@better-auth/sso` at any version in `>= 1.2.10, < 1.6.11`, or any current `next` pre-release.<br>- You enable both `sso()` and `organization()` plugins.<br>- `providersLimit` is at its default (`10`) or any non-zero value, so SSO provider registration is enabled for authenticated users.<br>- An organization has non-admin members, or your application can add users to organizations as regular members.<br><br>You are at the h...</p>
+                <p><strong>影响产品：</strong>npm/@better-auth/sso ⭐29,254</p>
+                <p><strong>影响版本：</strong>>= 1.2.10, < 1.6.11</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 1.2.10, < 1.6.11</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gv74-j8m3-fg5f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Tornado: Quadratic DoS via Crafted Multipart Parameters</div>
+                    <div class="advisory-id">GHSA-jhmp-mqwm-3gq8 | CVE: CVE-2025-67726</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 22,191</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The `_parseparam` function in Tornado's `httputil.py` is used to parse specific HTTP header values, such as those in `multipart/form-data`. This function uses an inefficient algorithm that repeatedly calls `string.count()` within a nested loop while processing quoted semicolons (e.g., `param=";"`).<br><br>As a result, if an attacker sends a request with a large number of maliciously crafted parameters in a `Content-Disposition` header, the server's CPU usage increases quadratically (O(n²))...</p>
+                <p><strong>影响产品：</strong>pip/tornado ⭐22,191</p>
+                <p><strong>影响版本：</strong>< 6.5.3</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 6.5.3</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jhmp-mqwm-3gq8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-50651 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-wp74-jgxh-gv4q | CVE: CVE-2026-50651</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET HTTP client (System.Net.Http). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in .NET 8, .NET 9, and .NET 10 where an attacker can exploit the HTTP/2 protocol to cause an out-of-memory condition.<br><br>## Announcement<br><br>Announcement for this issue can be found at http...</p>
+                <p><strong>影响产品：</strong>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64, nuget/Microsoft.NetCore.App.Runtime.linux-musl-arm ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-wp74-jgxh-gv4q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-50525 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-8q5v-6pqq-x66h | CVE: CVE-2026-50525</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET XML Encryption (System.Security.Cryptography.Xml). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in the XML encryption implementation (EncryptedXml) in .NET 8, .NET 9, and .NET 10. An attacker could exploit this vulnerability by supplying crafted encrypted XML ...</p>
+                <p><strong>影响产品：</strong>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8q5v-6pqq-x66h" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-50528 – .NET Security Feature Bypass Vulnerability</div>
+                    <div class="advisory-id">GHSA-qvw7-jm5c-6hqw | CVE: CVE-2026-50528</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET TLS/SSL (System.Net.Security). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A security feature bypass vulnerability exists in .NET 8, .NET 9, and .NET 10 when processing TLS/SSL connections. An attacker can exploit the SslStream implementation to bypass authorization checks during secure communicatio...</p>
+                <p><strong>影响产品：</strong>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64, nuget/Microsoft.NetCore.App.Runtime.linux-musl-arm ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qvw7-jm5c-6hqw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-50648 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-23rf-6693-g89p | CVE: CVE-2026-50648</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET XML Encryption (System.Security.Cryptography.Xml). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in the XML encryption implementation (EncryptedXml) in .NET 8, .NET 9, and .NET 10. An attacker could exploit this vulnerability by supplying crafted encrypted XML ...</p>
+                <p><strong>影响产品：</strong>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-23rf-6693-g89p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-47304 – .NET Security Feature Bypass Vulnerability</div>
+                    <div class="advisory-id">GHSA-g8r8-53c2-pm3f | CVE: CVE-2026-47304</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET XML Encryption (System.Security.Cryptography.Xml). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A security feature bypass vulnerability exists in the XML encryption implementation (EncryptedXml) in .NET 8, .NET 9, and .NET 10. An attacker could exploit this vulnerability to bypass encryption protecti...</p>
+                <p><strong>影响产品：</strong>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>认证/授权绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，访问受保护资源</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g8r8-53c2-pm3f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-47302 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-cvvh-rhrc-wg4q | CVE: CVE-2026-47302</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET XML processing (System.Security.Cryptography.Xml, System.Xml). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in .NET 8, .NET 9, and .NET 10 related to XML processing. An attacker can exploit XML encryption handling in XML parsing to cause excessive resource con...</p>
+                <p><strong>影响产品：</strong>nuget/System.Security.Cryptography.Xml, nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64 ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cvvh-rhrc-wg4q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 node-tar: Negative tar entry size causes infinite loop in archive replace</div>
+                    <div class="advisory-id">GHSA-8x88-c5mf-7j5w | CVE: CVE-2026-59874</div>
+                </div>
+                <span class="priority-score">优先级: 2/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br><br>A checksum-valid tar archive with a negative base-256 encoded entry size can make `tar.replace()` loop forever while scanning the existing archive. Applications that update attacker-controlled tar archives can have a worker process pinned indefinitely, causing denial of service.<br><br>### Details<br><br>The public `tar.replace()` API scans the existing archive before appending replacement entries. During this scan, it parses each tar header and advances the archive position by the parsed entry...</p>
+                <p><strong>影响产品：</strong>npm/tar ⭐919</p>
+                <p><strong>影响版本：</strong><= 7.5.17</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 7.5.17</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8x88-c5mf-7j5w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Socket.IO: Engine.IO Polling Transport Connection Exhaustion</div>
+                    <div class="advisory-id">GHSA-r635-g3xr-vw7x | CVE: CVE-2026-59725</div>
+                </div>
+                <span class="priority-score">优先级: 2/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact<br><br>An unauthenticated remote attacker can cause a denial of service in affected versions of **engine.io** by opening Engine.IO polling sessions and sending an invalid binary `POST` request with:<br><br>```<br>Content-Type: application/octet-stream<br>```<br><br><br>against an Engine.IO protocol v4 polling transport.<br><br>In the vulnerable code path, the server reports a transport error but does not properly close the HTTP response associated with the malformed request. As a result, the underlying HTTP connectio...</p>
+                <p><strong>影响产品：</strong>npm/engine.io ⭐4,580</p>
+                <p><strong>影响版本：</strong>>= 4.1.0, < 6.6.7</p>
+                <p><strong>攻击面：</strong>安全功能绕过</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 4.1.0, < 6.6.7</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-r635-g3xr-vw7x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 shell-quote: Quadratic-complexity Denial of Service in `parse()` (CWE-407)</div>
+                    <div class="advisory-id">GHSA-395f-4hp3-45gv | CVE: CVE-2026-13311</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>`shell-quote`'s `parse()` finalizes its token list with a `reduce` that uses<br>`Array.prototype.concat` as the accumulator. Each `prev.concat(arg)` copies the entire growing<br>array, so `parse()` runs in **O(n²)** in the number of tokens. An unauthenticated attacker who<br>can submit a string to any code path that calls `parse()` on it can block the single-threaded<br>Node.js event loop for tens of seconds with a small input — a denial of service. The trigger<br>needs **no shell metacharacters** ...</p>
+                <p><strong>影响产品：</strong>npm/shell-quote ⭐0</p>
+                <p><strong>影响版本：</strong><= 1.8.4</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：<= 1.8.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-395f-4hp3-45gv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Mistune plugins/formatting: quadratic-time parsing on long runs of `~~x~~`, `==x==`, and `^^x^^` markers (strikethrough / mark / insert)</div>
+                    <div class="advisory-id">GHSA-c8j7-8cv4-2xmq | CVE: CVE-2026-59922</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>**Type:** Algorithmic-complexity denial of service. A run of N closed pairs `~~x~~~~x~~...` (or the analogous `==x==` for `mark`, `^^x^^` for `insert`) causes O(N²) work in the formatting parser. With the `strikethrough`, `mark`, or `insert` plugin enabled, an 8 KB input pegs the CPU for ~4 seconds; 16 KB → ~17 seconds. <br>**File:** `src/mistune/plugins/formatting.py`, lines 13-15 (the `_STRIKE_END` / `_MARK_END` / `_INSERT_END` patterns and their per-position scan).<br>**Root cause:** fo...</p>
+                <p><strong>影响产品：</strong>pip/mistune ⭐3,057</p>
+                <p><strong>影响版本：</strong>< 3.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 3.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c8j7-8cv4-2xmq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Mistune inline_parser: quadratic-time parsing on long runs of `**x**` and `***x***` emphasis pairs</div>
+                    <div class="advisory-id">GHSA-4j32-57v6-6g45 | CVE: CVE-2026-59925</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>**Type:** Algorithmic-complexity DoS in core emphasis parsing. A long sequence of well-formed `**x**` (strong) or `***x***` (strong-emphasis combined) pairs causes O(N²) parser work. Distinct from the bracket-bomb DoS (`[` repetition) and from the formatting-plugin DoS (`~~`/`==`/`^^`); this one fires on default-config mistune with no plugins required.<br>**File:** `src/mistune/inline_parser.py` lines 41-48 (the `EMPHASIS_END_RE` family) and the surrounding emphasis dispatch.<br>**Root cau...</p>
+                <p><strong>影响产品：</strong>pip/mistune ⭐3,057</p>
+                <p><strong>影响版本：</strong>< 3.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 3.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4j32-57v6-6g45" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Mistune block_parser: quadratic-time parsing on long lists of repeated reference-link definitions</div>
+                    <div class="advisory-id">GHSA-ffq3-xpv3-j92q | CVE: CVE-2026-59928</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>**Type:** Algorithmic-complexity DoS in reference-link definition handling. A markdown document with N reference-link definitions of the same key (or many distinct keys) takes O(N²) parser time. 5000 repeated `[a]: u\n` definitions take ~1.1 second; 10000 → ~4.5 seconds.<br>**File:** `src/mistune/block_parser.py` (reference-link def parsing) and the surrounding `ref_links` env-dictionary handling.<br>**Root cause:** every reference definition is parsed by scanning forward from each candida...</p>
+                <p><strong>影响产品：</strong>pip/mistune ⭐3,057</p>
+                <p><strong>影响版本：</strong>< 3.3.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 3.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-ffq3-xpv3-j92q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups</div>
+                    <div class="advisory-id">GHSA-3jxr-9vmj-r5cp | CVE: CVE-2026-13149</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary<br>brace-expansion's expand() exhibits exponential-time - O(2ⁿ) - behavior in the number of consecutive non-expanding {} groups. A short, all-ASCII input (~90 bytes/30 groups) blocks the calling thread for minutes; a slightly longer input hangs it effectively indefinitely. Because the dominant consumers run on Node's single-threaded event loop, one small input can fully stall a worker/process.<br><br>In `expand_`, `post` is computed unconditionally at the top of the function, before the early...</p>
+                <p><strong>影响产品：</strong>npm/brace-expansion, npm/brace-expansion, npm/brace-expansion ⭐214</p>
+                <p><strong>影响版本：</strong>>= 3.0.0, < 5.0.7< 1.1.16>= 2.0.0, < 2.1.2</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>已有公开的触发代码/利用步骤</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>极高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 3.0.0, < 5.0.7< 1.1.16>= 2.0.0, < 2.1.2</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-3jxr-9vmj-r5cp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Tornado: Quadratic DoS via Repeated Header Coalescing</div>
+                    <div class="advisory-id">GHSA-c98p-7wgm-6p64 | CVE: CVE-2025-67725</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 22,191</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary<br><br>The `HTTPHeaders.add` method in Tornado accumulates values using string concatenation when the same header name is repeated. Due to Python string immutability, each concatenation copies the entire string, resulting in O(n²) time complexity.<br><br>Given Tornado's single event loop architecture, a single maliciously crafted HTTP request can block the server's event loop for an extended period, causing a Denial of Service (DoS).<br><br>**Severity:**  **High** if `max_header_size` has been increase...</p>
+                <p><strong>影响产品：</strong>pip/tornado ⭐22,191</p>
+                <p><strong>影响版本：</strong>< 6.5.3</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>仅有漏洞描述</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>中</p>
+                <p><strong>修复建议：</strong>升级到修复版本：< 6.5.3</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c98p-7wgm-6p64" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-50524 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-w7cw-xp7h-6j5j | CVE: CVE-2026-50524</div>
+                </div>
+                <span class="priority-score">优先级: 2/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in .NET TLS/SSL (System.Net.Security). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in .NET 8, .NET 9, and .NET 10 when processing TLS handshakes. An attacker can send a malformed request and cause application to crash or become unresponsive.<br><br>## Announcement<br><br>Announc...</p>
+                <p><strong>影响产品：</strong>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64, nuget/Microsoft.NetCore.App.Runtime.linux-musl-arm ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-w7cw-xp7h-6j5j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-57108 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-rp2p-6cmp-jxj9 | CVE: CVE-2026-57108</div>
+                </div>
+                <span class="priority-score">优先级: 2/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary<br><br>Microsoft is releasing this security advisory to provide information about a vulnerability in the .NET runtime cryptography layer (CryptoNative_GetX509NameInfo). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.<br><br>A denial of service vulnerability exists in the .NET 8, .NET 9, and .NET 10 runtime when parsing X.509 certificates. A specially crafted certificate could allow an attacker to cause a denial of...</p>
+                <p><strong>影响产品：</strong>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64, nuget/Microsoft.NetCore.App.Runtime.linux-musl-arm ⭐0</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>有详细的漏洞原理分析</p>
+                <p><strong>潜在危害：</strong>可导致服务中断或信息泄露</p>
+                <p><strong>可利用性：</strong>高</p>
+                <p><strong>修复建议：</strong>升级到修复版本：>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 10.0.0, <= 10.0.9>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 9.0.0, <= 9.0.17>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28>= 8.0.0, <= 8.0.28</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rp2p-6cmp-jxj9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>1</td>
+                <td>🔴 紧急</td>
+                <td><code>GHSA-f4vv-55c2-5789</code></td>
+                <td>pip/lightrag-hku</td>
+                <td>37,908</td>
+                <td>CRITICAL</td>
+                <td>极高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-f4vv-55c2-5789" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>🔴 紧急</td>
+                <td><code>GHSA-6x6h-qqr7-855w</code></td>
+                <td>pip/lightrag-hku</td>
+                <td>37,908</td>
+                <td>CRITICAL</td>
+                <td>极高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-6x6h-qqr7-855w" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>🔴 紧急</td>
+                <td><code>GHSA-gcfj-64vw-6mp9</code></td>
+                <td>npm/axios</td>
+                <td>109,125</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-gcfj-64vw-6mp9" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>🔴 紧急</td>
+                <td><code>GHSA-vj59-8hwv-xxmv</code></td>
+                <td>npm/astro</td>
+                <td>61,177</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-vj59-8hwv-xxmv" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>🔴 紧急</td>
+                <td><code>GHSA-33cg-gxv8-3p8g</code></td>
+                <td>pip/vllm</td>
+                <td>86,738</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-33cg-gxv8-3p8g" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-9hw9-ch79-4vh6</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-9hw9-ch79-4vh6" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>🟠 高危</td>
+                <td><code>GHSA-vjc4-5qp5-m44j</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-vjc4-5qp5-m44j" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-jjj6-mw9f-p565</code></td>
+                <td>pip/Pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-jjj6-mw9f-p565" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>🟠 高危</td>
+                <td><code>GHSA-6r8x-57c9-28j4</code></td>
+                <td>pip/Pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-6r8x-57c9-28j4" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-xj96-63gp-2gmr</code></td>
+                <td>pip/Pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-xj96-63gp-2gmr" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-7rc3-g7h6-22m7</code></td>
+                <td>go/github.com/filebrowser/filebrowser/v2</td>
+                <td>35,612</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-7rc3-g7h6-22m7" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-fmm7-x4gx-8jhr</code></td>
+                <td>go/github.com/filebrowser/filebrowser/v2</td>
+                <td>35,612</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-fmm7-x4gx-8jhr" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-vgj4-345g-jcf8</code></td>
+                <td>go/github.com/cloudreve/Cloudreve/v4</td>
+                <td>28,374</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-vgj4-345g-jcf8" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-phj9-mv4w-65pm</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-phj9-mv4w-65pm" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-45hq-cxwh-f6vc</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-45hq-cxwh-f6vc" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-5x94-69rx-g8h2</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-5x94-69rx-g8h2" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-8v84-f9pq-wr9x</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-8v84-f9pq-wr9x" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-62p4-gmf7-7g93</code></td>
+                <td>pip/pillow</td>
+                <td>13,703</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-62p4-gmf7-7g93" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-499r-g7pc-vmp9</code></td>
+                <td>composer/composer/composer</td>
+                <td>29,486</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-499r-g7pc-vmp9" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-23hp-3jrh-7fpw</code></td>
+                <td>npm/tar</td>
+                <td>919</td>
+                <td>CRITICAL</td>
+                <td>高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-23hp-3jrh-7fpw" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-c6w9-5g5j-jh2p</code></td>
+                <td>npm/directus</td>
+                <td>36,700</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-c6w9-5g5j-jh2p" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-j5h6-vqc3-phqh</code></td>
+                <td>npm/directus</td>
+                <td>36,700</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-j5h6-vqc3-phqh" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>🟠 高危</td>
+                <td><code>GHSA-52cp-r559-cp3m</code></td>
+                <td>npm/js-yaml</td>
+                <td>6,610</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>中</td>
+                <td><a href="https://github.com/advisories/GHSA-52cp-r559-cp3m" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-gv74-j8m3-fg5f</code></td>
+                <td>npm/@better-auth/sso</td>
+                <td>29,254</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-gv74-j8m3-fg5f" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-jhmp-mqwm-3gq8</code></td>
+                <td>pip/tornado</td>
+                <td>22,191</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-jhmp-mqwm-3gq8" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-wp74-jgxh-gv4q</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-wp74-jgxh-gv4q" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-8q5v-6pqq-x66h</code></td>
+                <td>nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-8q5v-6pqq-x66h" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-qvw7-jm5c-6hqw</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-qvw7-jm5c-6hqw" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-23rf-6693-g89p</code></td>
+                <td>nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-23rf-6693-g89p" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-g8r8-53c2-pm3f</code></td>
+                <td>nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-g8r8-53c2-pm3f" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-cvvh-rhrc-wg4q</code></td>
+                <td>nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-cvvh-rhrc-wg4q" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-8x88-c5mf-7j5w</code></td>
+                <td>npm/tar</td>
+                <td>919</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-8x88-c5mf-7j5w" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-r635-g3xr-vw7x</code></td>
+                <td>npm/engine.io</td>
+                <td>4,580</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-r635-g3xr-vw7x" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-395f-4hp3-45gv</code></td>
+                <td>npm/shell-quote</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-395f-4hp3-45gv" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-c8j7-8cv4-2xmq</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-c8j7-8cv4-2xmq" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-4j32-57v6-6g45</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-4j32-57v6-6g45" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>37</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-ffq3-xpv3-j92q</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-ffq3-xpv3-j92q" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>38</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-3jxr-9vmj-r5cp</code></td>
+                <td>npm/brace-expansion</td>
+                <td>214</td>
+                <td>HIGH</td>
+                <td>极高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-3jxr-9vmj-r5cp" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>39</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-c98p-7wgm-6p64</code></td>
+                <td>pip/tornado</td>
+                <td>22,191</td>
+                <td>HIGH</td>
+                <td>中</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-c98p-7wgm-6p64" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-w7cw-xp7h-6j5j</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-w7cw-xp7h-6j5j" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            <tr>
+                <td>41</td>
+                <td>🟡 中危</td>
+                <td><code>GHSA-rp2p-6cmp-jxj9</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>高</td>
+                <td>低</td>
+                <td><a href="https://github.com/advisories/GHSA-rp2p-6cmp-jxj9" style="color:#58a6ff;">查看</a></td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td><code>GHSA-23hp-3jrh-7fpw</code></td>
+                <td>npm/tar</td>
+                <td>919</td>
+                <td>CRITICAL</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-wp74-jgxh-gv4q</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-8q5v-6pqq-x66h</code></td>
+                <td>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-qvw7-jm5c-6hqw</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-23rf-6693-g89p</code></td>
+                <td>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-g8r8-53c2-pm3f</code></td>
+                <td>nuget/System.Security.Cryptography.Xml, nuget/System.Security.Cryptography.Xml</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-cvvh-rhrc-wg4q</code></td>
+                <td>nuget/System.Security.Cryptography.Xml, nuget/Microsoft.NetCore.App.Runtime.linux-arm</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-8x88-c5mf-7j5w</code></td>
+                <td>npm/tar</td>
+                <td>919</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-r635-g3xr-vw7x</code></td>
+                <td>npm/engine.io</td>
+                <td>4,580</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-395f-4hp3-45gv</code></td>
+                <td>npm/shell-quote</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-c8j7-8cv4-2xmq</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-4j32-57v6-6g45</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-ffq3-xpv3-j92q</code></td>
+                <td>pip/mistune</td>
+                <td>3,057</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-3jxr-9vmj-r5cp</code></td>
+                <td>npm/brace-expansion, npm/brace-expansion</td>
+                <td>214</td>
+                <td>HIGH</td>
+                <td>有PoC代码</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-w7cw-xp7h-6j5j</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有详细分析</td>
+            </tr>
+            <tr>
+                <td><code>GHSA-rp2p-6cmp-jxj9</code></td>
+                <td>nuget/Microsoft.NetCore.App.Runtime.linux-arm, nuget/Microsoft.NetCore.App.Runtime.linux-arm64</td>
+                <td>0</td>
+                <td>HIGH</td>
+                <td>有详细分析</td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>LightRAG (GHSA-f4vv/GHSA-6x6h)</strong> - 两个Critical漏洞：认证绕过+危险CORS配置。攻击者可离线伪造JWT绕过所有保护，任意恶意网站可发起认证请求。影响37.9k Star项目，建议立即升级到 v1.5.4+</li>
+                    <li><strong>Axios (GHSA-gcfj)</strong> - Node HTTP适配器代理劫持。原型污染可导致请求被路由到攻击者控制的代理。影响109k Star项目，建议检查并升级到修复版本</li>
+                    <li><strong>Astro (GHSA-vj59)</strong> - 授权绕过漏洞。URL解码深度限制与路由匹配不一致，可绕过中间件授权。影响61k Star项目，升级到 6.4.8+</li>
+                    <li><strong>vLLM (GHSA-33cg)</strong> - M-RoPE模型提示嵌入导致服务崩溃。任何有API权限的用户可触发整个服务关闭。影响86.7k Star项目</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Pillow (多个GHSA)</strong> - 11个高危漏洞：堆越界写入、解压炸弹、内存破坏等。多个漏洞有完整PoC，影响13.7k Star项目，升级到 12.3.0+</li>
+                    <li><strong>File Browser (GHSA-7rc3/GHSA-fmm7)</strong> - 用户名规范化碰撞+符号链接文件删除。可跨用户访问/删除文件，影响35.6k Star项目</li>
+                    <li><strong>Directus (GHSA-c6w9/GHSA-j5h6)</strong> - 缓存信息泄露+SSRF绕过。影响36.7k Star项目</li>
+                    <li><strong>Composer (GHSA-499r)</strong> - 任意文件写入。恶意第三方包可在vendor目录外写入文件，影响29.5k Star项目</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Tornado/js-yaml/mistune/shell-quote</strong> - 多个算法复杂度DoS漏洞，建议更新到修复版本</li>
+                    <li><strong>.NET 安全更新</strong> - 7个高危漏洞涵盖TLS/SSL、XML加密等，建议按Microsoft公告及时更新</li>
+                    <li><strong>Cloudreve/Better-Auth</strong> - OAuth/SSO相关安全绕过</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
