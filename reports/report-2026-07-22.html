@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-22</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-22 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">49</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">42</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">36</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">47</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Public-only repository tokens can update private PR head branches</div>
+                    <div class="advisory-id">GHSA-xxjv-752h-3vp2 | CVE: CVE-2026-58443</div>
+                </div>
+                <span class="priority-score">优先级: 9/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary Gitea allows a `public-only,write:repository` token to update a private pull request head branch through a public base repository route.  The vulnerable endpoint is:  ```text POST /api/v1/repos/{public-owner}/{public-repo}/pulls/{index}/update ```  Gitea checks the token's public-only restriction against the route repository, which is the public base repository. `UpdatePullRequest()` t...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xxjv-752h-3vp2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea Actions Artifacts V4 signed URL HMAC ambiguity allows cross-repository artifact read and cross-task upload-state write</div>
+                    <div class="advisory-id">GHSA-hg5r-vq93-9fv6 | CVE: CVE-2026-58426</div>
+                </div>
+                <span class="priority-score">优先级: 9/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  Gitea Actions Artifacts V4 signed upload/download URLs can be rewritten to access a different running task and repository context while preserving the original HMAC signature. An attacker with permission to run a Gitea Actions job can turn a signed URL for an attacker-controlled artifact into a URL that reads artifacts from another task context, or writes attacker-controlled data into...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: >= 1.22.0, < 1.26.2，修复版本: 1.26.2</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.2</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hg5r-vq93-9fv6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea Docker image: `REVERSE_PROXY_TRUSTED_PROXIES = *` default lets any source IP impersonate any user via `X-WEBAUTH-USER`</div>
+                    <div class="advisory-id">GHSA-f75j-4cw6-rmx4 | CVE: CVE-2026-20896</div>
+                </div>
+                <span class="priority-score">优先级: 9/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Summary  The Gitea Docker images ship an `app.ini` template that hard-codes:  ``` REVERSE_PROXY_TRUSTED_PROXIES = * ```  The documented default for this setting, in `custom/conf/app.example.ini`, is `127.0.0.0/8,::1/128`, i.e. only loopback is trusted.  When an admin enables `ENABLE_REVERSE_PROXY_AUTHENTICATION = true` to put Gitea behind an authenticating reverse proxy and leaves the trusted-pr...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要管理员权限或特定角色</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f75j-4cw6-rmx4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Incomplete SSRF Protection in Webhook and Migration Allow-list Default Filter</div>
+                    <div class="advisory-id">GHSA-2r5c-gw76-rh3w | CVE: CVE-2026-22874</div>
+                </div>
+                <span class="priority-score">优先级: 9/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  Gitea's default SSRF allow-list ([`MatchBuiltinExternal`](https://github.com/go-gitea/gitea/blob/4c37f4dacbac022f7beca75272439331f0368830/modules/hostmatcher/hostmatcher.go#L26-L27), used by both webhook delivery and repository migrations) relies on Go's standard library [`net.IP.IsPrivate()`](https://pkg.go.dev/net#IP.IsPrivate), which only covers RFC 1918 and RFC 4193. As a result, s...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>SSRF — 服务端请求伪造，可访问内部网络资源</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2r5c-gw76-rh3w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: TOTP TOCTOU race on web 2FA paths + missing replay check on Basic-Auth `X-Gitea-OTP` surface</div>
+                    <div class="advisory-id">GHSA-gx3v-q759-g323 | CVE: CVE-2026-20779</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  I'm reporting **two related TOTP one-time-use defects** in Gitea that survive the CVE-2021-45331 fix. The 2018 fix (PR #3878) introduced the `TwoFactor.LastUsedPasscode` field and added an in-memory inequality check on the web 2FA login path. That check works correctly in the single-request case, but it leaves two follow-up gaps:  1. **A TOCTOU race on the web surfaces (Defect 1).** T...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: >= 1.5.0, < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>竞态条件 — 攻击者可利用时序窗口绕过安全检查</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gx3v-q759-g323" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Improper authorization on OAuth sign-in callback silently re-enables administrator-disabled accounts</div>
+                    <div class="advisory-id">GHSA-g9g6-qhrc-p3qc | CVE: CVE-2026-58422</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  The OAuth2 sign-in callback in Gitea 1.26.1 unconditionally re-enables a locally-disabled account whenever the user authenticates through a linked external identity provider, silently undoing any administrator-initiated `Disable Account` action and issuing a fresh authenticated session in the same response. Once a user has linked any external IdP, the administrator's disable toggle be...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.4，修复版本: 1.26.4</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.4</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g9g6-qhrc-p3qc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Notification API leaks private issue metadata after access revocation</div>
+                    <div class="advisory-id">GHSA-44qc-pgvp-wx7v | CVE: CVE-2026-58419</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Summary  An information disclosure issue in the Gitea Notification API allows users who have lost access to a private repository to continue accessing private issue or pull request information through existing notification threads. Although repository information is hidden after access revocation, the `subject` field remains accessible and continues to expose private metadata.  # Details  CVE-20...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.4</li></ul>
+                <p><strong>攻击面：</strong>信息泄露 — 攻击者可获取敏感数据</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.4</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-44qc-pgvp-wx7v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Unauthorized Access to Labels of Private Organizations</div>
+                    <div class="advisory-id">GHSA-v73x-hx65-6pf4 | CVE: CVE-2026-25038</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  Gitea 1.26.2 does not properly enforce organization visibility restrictions on organization label read endpoints.  A user without access to a private organization can retrieve labels belonging to that organization through the Organization Labels API. As a result, label metadata intended to be restricted to organization members may be disclosed.  The issue is limited to unauthorized rea...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v73x-hx65-6pf4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Cached Per-Branch Permission Check in Pre-Receive Hook Allows Full Repository Write</div>
+                    <div class="advisory-id">GHSA-649p-mmhf-85c7 | CVE: CVE-2026-27775</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Vulnerability Header  | Field               | Value                                                                               | | ------------------- | ----------------------------------------------------------------------------------- | | Vulnerability Title | Cached Per-Branch Permission Check in Pre-Receive Hook Allows Full Repository Write | | Severity Rating     | High...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>权限提升/越权 — 攻击者可获取超出授权的权限</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-649p-mmhf-85c7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Two SSRF findings</div>
+                    <div class="advisory-id">GHSA-2fcr-jfvc-vgg2 | CVE: CVE-2026-58314</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>| --- | --- | | Versions tested | `gitea/gitea:1.26.2` (digest `sha256:7d13848af12645600a5f9d93ee2560daa9c6fa6b5b859b7bff3a5e1c0b661031`); `gitea/gitea:latest` resolves to the same digest at time of writing | | Source review | `git checkout v1.26.2` (commit `2c749ce`) | | Reproduction | `bash run_poc.sh` (single shot: brings up containers, runs three PoCs, prints captured evidence, tears down on e...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证，任何网络可达的攻击者均可触发</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2fcr-jfvc-vgg2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Repository Visibility Manipulation via Git Push Options</div>
+                    <div class="advisory-id">GHSA-8p9h-49rc-qgxj | CVE: CVE-2026-58437</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Repository Visibility Manipulation via Git Push Options  | Field | Value | |-------|-------| | **Affected File** | `routers/private/hook_post_receive.go` | | **Affected Function** | `HookPostReceive()` | | **Affected Lines** | 173–225 | | **Prerequisite** | Attacker must have owner-level or admin collaborator access to the target repository |  ---  #### Description  Gitea's post-receive git ho...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>需要管理员权限或特定角色</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8p9h-49rc-qgxj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: OAuth2 sign-in reactivates an administrator-deactivated account on auth sources without refresh tokens (incomplete fix of #38009)</div>
+                    <div class="advisory-id">GHSA-vrhc-jjfc-m3m3 | CVE: CVE-2026-55987</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Description  Gitea's OAuth2 sign-in callback reactivates a deactivated user account (`IsActive=false`) when the user signs in through an authentication source that does not issue refresh tokens (notably GitHub, and any OIDC/OAuth2 source configured without `offline_access`). PR #38009 added a gate intended to reactivate users only when the OAuth2 auto-sync cron had disabled them, using "the sto...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要管理员权限或特定角色</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vrhc-jjfc-m3m3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Internal API HTTP client hardcodes InsecureSkipVerify:true with no config override</div>
+                    <div class="advisory-id">GHSA-94v3-77j7-vm48 | CVE: CVE-2026-54481</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary  Gitea's internal API HTTP client (modules/private/internal.go) hardcodes TLSClientConfig.InsecureSkipVerify = true with no configuration override. It is the only outbound TLS client in the codebase that cannot be made to verify its peer's certificate — webhook, migrations, MinIO, LDAP, SMTP, Redis and incoming-mail all expose a secure-by-default SkipVerify toggle, this one does not.  When...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-94v3-77j7-vm48" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Permanent Fork PR Workflow Approval Gate Bypass</div>
+                    <div class="advisory-id">GHSA-777r-4v59-6486 | CVE: CVE-2026-58424</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>| Field | Value | |-------|-------| | **Identifier (researcher-assigned)** | GITEA-2026-004 | | **Product** | Gitea (self-hosted Git service) | | **Component** | Gitea Actions — fork pull request approval gate | | **Affected versions** | All Gitea releases **`v1.20.0` and later**, including the latest `main` (`1.27.0+dev-289-gb7e95cc48c`). The buggy logic was introduced in commit `edf98a2dc3` — *"...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-777r-4v59-6486" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Unauthenticated ReDoS via CODEOWNERS pattern matching allows denial of service</div>
+                    <div class="advisory-id">GHSA-v96j-25gv-g2w9 | CVE: CVE-2026-58421</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>This issue has been found by a security agent and review by myself.  Gitea's CODEOWNERS feature uses the regexp2 library to match file paths against ownership rules. User-supplied patterns are passed directly to regexp2.Compile with no sanitisation and no match timeout. This allows an attacker to write a pattern that causes the regex engine to backtrack exponentially when evaluated against a craft...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: <= 1.26.2，修复版本: 1.26.4</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>需要管理员权限或特定角色</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.4</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v96j-25gv-g2w9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Git LFS object reuse allows non-Code access to authorize private source objects</div>
+                    <div class="advisory-id">GHSA-2m9v-5q2g-58vq | CVE: CVE-2026-28740</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  A user with Code write access to one repository may be able to associate an existing Git LFS object from a private source repository with their target repository, even when they do not have Code access to the source repository that currently owns the LFS object.  The issue appears to be caused by the source-object authorization check using broad repository accessibility instead of requ...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>gitea.dev</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2m9v-5q2g-58vq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Privilege Escalation via Access Token Scope Escalation in API</div>
+                    <div class="advisory-id">GHSA-683j-3ff6-hh2x | CVE: CVE-2026-56654</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea's API endpoint for creating Personal Access Tokens (`POST /users/{username}/tokens`) is protected by a middleware (`reqBasicOrRevProxyAuth`) that is intended to require password-based authentication, preventing a compromised token from being used to mint new ones. However, when a token is passed in the `Authorization: Basic <token>:x-oauth-basic` format, the Basic auth handler validates it a...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>权限提升/越权 — 攻击者可获取超出授权的权限</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-683j-3ff6-hh2x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Denial of Service (CPU & Memory Exhaustion) via O(N^2) String Concatenation in Debian Package Upload</div>
+                    <div class="advisory-id">GHSA-6hm7-3pwj-22rm | CVE: CVE-2026-56755</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gitea's Debian package registry parser contains an unbounded decompression vulnerability in [ParseControlFile](https://github.com/go-gitea/gitea/blob/689ace1ce28fd74244b8aa335d9928cdbf6b22f9/modules/packages/debian/metadata.go#L140). When processing an uploaded `.deb` file, the parser decompresses `control.tar.gz` and copies the entire uncompressed stream into a `strings.Builder` via a `TeeReader`...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>拒绝服务(DoS) — 攻击者可导致服务不可用</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6hm7-3pwj-22rm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea Remember-Me Token Theft Not Invalidating Attacker Session</div>
+                    <div class="advisory-id">GHSA-rgv6-xp99-6mgj | CVE: CVE-2026-56750</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The vulnerability is in the Remember-Me (gitea_incredible) token validation logic, specifically when handling a compromised token (hash mismatch).  The vulnerable function is this one:  https://github.com/go-gitea/gitea/blob/689ace1ce28fd74244b8aa335d9928cdbf6b22f9/services/auth/auth_token.go#L33-L64  ### Affected Endpoint POST `/user/login` (and any endpoint triggering `autoSignIn` via the Rememb...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rgv6-xp99-6mgj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Branch Protection Bypass via PR Retargeting Preserves Stale `official` Approval Flag</div>
+                    <div class="advisory-id">GHSA-w5pg-649r-p6gg | CVE: CVE-2026-58439</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  Gitea does not re-evaluate the `official` flag on existing pull request reviews when a PR's target branch is changed. An attacker with write access to a repository can obtain an `official: true` approval on a PR targeting an unprotected branch, then retarget the PR to a protected branch (e.g., `master`). The approval, which would have been `official: false` if submitted against the pro...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w5pg-649r-p6gg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Gitea: Repository Migration Follows Git HTTP Redirects After URL Allow/Block Validation, Enabling Internal Git Repository Exfiltration</div>
+                    <div class="advisory-id">GHSA-82f7-87hm-852x | CVE: CVE-2026-57894</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Repository Migration Follows Git HTTP Redirects After URL Allow/Block Validation, Enabling Internal Git Repository Exfiltration  ## Summary  Gitea validates the user-supplied repository migration URL, but the actual clone and later mirror fetch operations are performed by the Git command-line client without disabling HTTP redirects. Git's default `http.followRedirects=initial` follows the first...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>SSRF — 服务端请求伪造，可访问内部网络资源</p>
+                <p><strong>触发条件：</strong>无需认证，任何网络可达的攻击者均可触发</p>
+                <p><strong>潜在危害：</strong>可访问内部服务、云元数据、窃取凭证，进一步横向移动</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-82f7-87hm-852x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 gRPC-Go: xDS RBAC and HTTP/2 Vulnerabilities</div>
+                    <div class="advisory-id">GHSA-hrxh-6v49-42gf | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23k grpc/grpc-go</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Multiple security vulnerabilities have been identified and addressed in grpc-go affecting the xDS RBAC authorization engine (internal/xds/rbac) and the HTTP/2 transport server implementation (internal/transport). These vulnerabilities could result in:  - Authorization Bypass (Fail-Open) when translating xDS RBAC policies containing `Metadata` or `RequestedServerName` fields. - Denial of Service (H...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>google.golang.org/grpc</code> (go) — 受影响版本: < 1.82.1，修复版本: 1.82.1</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.82.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hrxh-6v49-42gf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Gitea: ParseAcceptLanguage quadratic-time DoS via Locale middleware on unauthenticated requests</div>
+                    <div class="advisory-id">GHSA-fw57-jgch-pgf3 | CVE: CVE-2026-58436</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  The Locale middleware that runs in front of every unauthenticated request calls `golang.org/x/text/language.ParseAcceptLanguage` on the raw `Accept-Language` header without imposing a size or shape filter. The underlying parser has quadratic-time behaviour on long lists of malformed language tags. The CVE-2022-32149 guard that golang.org/x/text added in v0.3.8 caps the number of `-` c...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.27.0，修复版本: 1.27.0</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>无需认证，任何网络可达的攻击者均可触发</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.27.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fw57-jgch-pgf3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SVGO removeScripts plugin leaves some executable scripts intact</div>
+                    <div class="advisory-id">GHSA-2p49-hgcm-8545 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 23k svg/svgo</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  SVGO's removeScripts plugin (disabled by default) removes scripts from the SVG, however executable scripts were left intact in some cases. If a consumer relied on this plugin for sanitization and served them to users, these SVGs could open up doors to XSS.  ### Details  SVGO has a plugin for removing scripts from an SVG, which removes:  - `<script>` elements - JavaScript URIs (v4 and...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>svgo</code> (npm) — 受影响版本: >= 1.0.0, < 2.8.3，修复版本: 2.8.3</li><li><code>svgo</code> (npm) — 受影响版本: >= 3.0.0, < 3.3.4，修复版本: 3.3.4</li><li><code>svgo</code> (npm) — 受影响版本: >= 4.0.0, < 4.0.2，修复版本: 4.0.2</li></ul>
+                <p><strong>攻击面：</strong>跨站脚本(XSS) — 攻击者可注入恶意脚本</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 2.8.3（不同版本线: 2.8.3, 3.3.4, 4.0.2）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2p49-hgcm-8545" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 aws-cdk-lib: OS Command Injection in NodejsFunction Docker Bundling</div>
+                    <div class="advisory-id">GHSA-vcrf-j523-4mrf | CVE: CVE-2026-13760</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 13k aws/aws-cdk</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary AWS CDK (aws-cdk-lib) is an open-source framework for defining cloud infrastructure in code and provisioning it through AWS CloudFormation. OS command injection issue in the NodejsFunction Docker bundling pipeline in aws-cdk-lib before 2.260.0 that might allow an actor who controls dependency version strings in a project's package.json file to execute arbitrary commands on the host run...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>aws-cdk-lib</code> (npm) — 受影响版本: < 2.260.0，修复版本: 2.260.0</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 2.260.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vcrf-j523-4mrf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Immutabl: Hash-collision algorithmic complexity denial of service in Immutable.Map/Set</div>
+                    <div class="advisory-id">GHSA-xvcm-6775-5m9r | CVE: CVE-2026-59880</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 33k immutable-js/immutable-js</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  `Immutable.Map` and `Immutable.Set` keep keys that share the same 32-bit hash in a collision bucket that is scanned linearly. The string hash is public and deterministic, so an attacker who controls the **keys** inserted into a Map can craft many keys that all collide, degrading insertion and lookup from amortized O(1) to O(n) per operation — and O(n²) to build or read the whole set. A...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>immutable</code> (npm) — 受影响版本: < 4.3.9，修复版本: 4.3.9</li><li><code>immutable</code> (npm) — 受影响版本: >= 5.0.0-beta.1, < 5.1.8，修复版本: 5.1.8</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 4.3.9（不同版本线: 4.3.9, 5.1.8）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xvcm-6775-5m9r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Environment-variable exfiltration via os.path.expandvars() on Repo.clone_from() URL</div>
+                    <div class="advisory-id">GHSA-rwj8-pgh3-r573 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5k gitpython-developers/GitPython</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary `Repo.clone_from()` passes the caller-supplied remote URL through `Git.polish_url()`, which on every non-Cygwin platform calls `os.path.expandvars()` on the URL before handing it to `git clone`. An attacker who controls the URL argument — the documented use case for `clone_from()` in "import repository from URL" features of CI servers, git-hosting mirrors, and dependency scanners — can...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>gitpython</code> (pip) — 受影响版本: <= 3.1.51，修复版本: 3.1.52</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 3.1.52</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rwj8-pgh3-r573" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Gitea: Fork Synchronization Continues After Parent Repository Changes from Public to Private</div>
+                    <div class="advisory-id">GHSA-wrf9-r3h7-7x5v | CVE: CVE-2026-24451</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  The `POST /api/v1/repos/{owner}/{repo}/merge-upstream` endpoint continues to synchronize commits from a parent repository after the parent repository has been changed from public to private.  A fork created while the parent repository was public can still receive commits made after the parent repository becomes private. As a result, content added during the private period becomes avai...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wrf9-r3h7-7x5v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Gitea: LFS authentication bypass via malformed SSH sub-verb allows unauthorized read access to private repositories</div>
+                    <div class="advisory-id">GHSA-7wvc-rvp7-w99x | CVE: CVE-2026-58423</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 57k go-gitea/gitea</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary  A flaw in SSH LFS sub-verb handling allows any authenticated SSH user to obtain valid LFS credentials for any repository on the instance, including private repositories they have no access to. This enables unauthorized download of all LFS objects from any private repository.  ### Details  In `cmd/serv.go`, the `getAccessMode` function determines the required access level for SSH opera...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>code.gitea.io/gitea</code> (go) — 受影响版本: >= 1.23.0, < 1.26.3，修复版本: 1.26.3</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>需要有效的用户认证（已登录账户）</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 1.26.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7wvc-rvp7-w99x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: command injection via unguarded Git options in `Repo.archive()`, `git.ls_remote()`, and arbitrary file overwrite via `Repo.iter_commits()` / `Repo.blame()`</div>
+                    <div class="advisory-id">GHSA-956x-8gvw-wg5v | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5k gitpython-developers/GitPython</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  GitPython spawns the real `git` binary with an argument vector built from caller-supplied values. To prevent argument injection, GitPython maintains denylists of "unsafe" Git options (`--upload-pack`, `--receive-pack`, `--exec`, `-c`, `--config`, …) that can be abused to run arbitrary commands, and enforces them with `Git.check_unsafe_options()`.  That enforcement is only wired into th...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>GitPython</code> (pip) — 受影响版本: <= 3.1.50，修复版本: 3.1.51</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 3.1.51</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-956x-8gvw-wg5v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Command Injection via git long-option prefix abbreviation bypass of CVE-2026-42215 blocklist</div>
+                    <div class="advisory-id">GHSA-2f96-g7mh-g2hx | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5k gitpython-developers/GitPython</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Command injection via long-option prefix abbreviation bypassing `check_unsafe_options` (incomplete fix of CVE-2026-42215 / GHSA-rpm5-65cw-6hj4)  **Component:** gitpython-developers/GitPython (PyPI: GitPython) **Affected:** all versions carrying the 3.1.47 blocklist fix, through current `main` (verified at commit `20c5e275`, `3.1.50-42`) **CWE:** CWE-184 (Incomplete List of Disallowed Inputs) →...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>GitPython</code> (pip) — 受影响版本: <= 3.1.50，修复版本: 3.1.51</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 3.1.51</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2f96-g7mh-g2hx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 @vitest/browser: Browser Mode provider commands bypass the file-access permission gate</div>
+                    <div class="advisory-id">GHSA-p63j-vcc4-9vmv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 17k vitest-dev/vitest</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  Browser Mode exposes a set of built-in "commands" that run on the Node.js side of the test runner and can touch the local filesystem (taking screenshots, managing Playwright traces, uploading files for `<input type="file">`, comparing screenshots).  Several of these commands accept a file path from the browser and act on it without checking the `allowWrite` permission gate and without...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>@vitest/browser</code> (npm) — 受影响版本: >= 4.0.0, < 4.1.10，修复版本: 4.1.10</li><li><code>@vitest/browser</code> (npm) — 受影响版本: < 3.2.7，修复版本: 3.2.7</li><li><code>@vitest/browser</code> (npm) — 受影响版本: >= 5.0.0-beta.1, < 5.0.0-beta.6，修复版本: 5.0.0-beta.6</li></ul>
+                <p><strong>攻击面：</strong>竞态条件 — 攻击者可利用时序窗口绕过安全检查</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可导致系统完全被控制、大规模数据泄露或服务完全中断</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 4.1.10（不同版本线: 4.1.10, 3.2.7, 5.0.0-beta.6）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p63j-vcc4-9vmv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Immutable.js `List` 32-bit trie overflow → unrecoverable DoS</div>
+                    <div class="advisory-id">GHSA-v56q-mh7h-f735 | CVE: CVE-2026-59879</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 33k immutable-js/immutable-js</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  `List#set`, `List#setSize`, `List#setIn`, `List#updateIn` (and the functional `set` / `setIn` / `updateIn`) mishandle an index or size in the range `[2 ** 30, 2 ** 31)`:  - On an **empty** `List` the operation enters an **uncatchable infinite loop** (a tight CPU spin; a surrounding `try/catch` never regains control). Only killing the worker recovers it. - On a **populated** `List` (≥ 3...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>immutable</code> (npm) — 受影响版本: < 4.3.9，修复版本: 4.3.9</li><li><code>immutable</code> (npm) — 受影响版本: >= 5.0.0-beta.1, < 5.1.8，修复版本: 5.1.8</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证，任何网络可达的攻击者均可触发</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 4.3.9（不同版本线: 4.3.9, 5.1.8）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v56q-mh7h-f735" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Microsoft Security Advisory CVE-2026-56170 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-j8gr-8fp3-5q5h | CVE: CVE-2026-56170</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 38k dotnet/aspnetcore</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Microsoft Security Advisory CVE-2026-56170 – .NET Denial of Service Vulnerability  ## Executive summary  Microsoft is releasing this security advisory to provide information about a vulnerability in ASP.NET Core SignalR (Microsoft.AspNetCore.App.Runtime). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.  A denial of service...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>Microsoft.AspNetCore.App.Runtime.linux-arm</code> (nuget) — 受影响版本: >= 10.0.0, <= 10.0.5，修复版本: 10.0.6</li><li><code>Microsoft.AspNetCore.App.Runtime.linux-arm64</code> (nuget) — 受影响版本: >= 10.0.0, <= 10.0.5，修复版本: 10.0.6</li><li><code>Microsoft.AspNetCore.App.Runtime.linux-musl-arm</code> (nuget) — 受影响版本: >= 10.0.0, <= 10.0.5，修复版本: 10.0.6</li><li>...及其他 33 个包</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行 — 攻击者可在服务端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 10.0.6（不同版本线: 10.0.6, 10.0.6, 10.0.6）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j8gr-8fp3-5q5h" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-47300 – .NET Elevation of Privilege Vulnerability</div>
+                    <div class="advisory-id">GHSA-8prm-248r-h957 | CVE: CVE-2026-47300</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 38k dotnet/aspnetcore</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Executive summary  Microsoft is releasing this security advisory to provide information about a vulnerability in ASP.NET Core Negotiate Authentication (Microsoft.AspNetCore.Authentication.Negotiate). This advisory also provides guidance on what developers can do to update their applications to remove this vulnerability.  An elevation of privilege vulnerability exists in the ASP.NET Core Negotia...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>Microsoft.AspNetCore.Authentication.Negotiate</code> (nuget) — 受影响版本: >= 10.0.0, <= 10.0.9，修复版本: 10.0.10</li><li><code>Microsoft.AspNetCore.Authentication.Negotiate</code> (nuget) — 受影响版本: >= 9.0.0, <= 9.0.17，修复版本: 9.0.18</li><li><code>Microsoft.AspNetCore.Authentication.Negotiate</code> (nuget) — 受影响版本: >= 8.0.0, <= 8.0.28，修复版本: 8.0.29</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可绕过安全控制，获取未授权的数据和操作权限</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 10.0.10（不同版本线: 10.0.10, 9.0.18, 8.0.29）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8prm-248r-h957" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 GitPython unsafe clone option gate bypass through joined short options</div>
+                    <div class="advisory-id">GHSA-v396-v7q4-x2qj | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5k gitpython-developers/GitPython</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>`GitPython` version `3.1.50` blocks unsafe `git clone` options such as `--upload-pack`, `-u`, `--config`, and `-c` unless callers explicitly pass `allow_unsafe_options=True`. However, the default unsafe-option gate does not recognize joined short-option forms such as `-u/path/to/helper`.  Git itself accepts `-u<upload-pack>` as the short form of `--upload-pack=<upload-pack>`. As a result, `Repo.cl...</p>
+                <p><strong>影响产品：</strong></p>
+                <ul><li><code>GitPython</code> (pip) — 受影响版本: = 3.1.50，修复版本: 3.1.51</li></ul>
+                <p><strong>攻击面：</strong>详见漏洞公告描述</p>
+                <p><strong>触发条件：</strong>详见漏洞公告描述</p>
+                <p><strong>潜在危害：</strong>可能导致数据泄露、权限提升或服务降级</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 3.1.51</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v396-v7q4-x2qj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xxjv-752h-3vp2</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xxjv-752h-3vp2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hg5r-vq93-9fv6</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hg5r-vq93-9fv6" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-f75j-4cw6-rmx4</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-f75j-4cw6-rmx4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2r5c-gw76-rh3w</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2r5c-gw76-rh3w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-gx3v-q759-g323</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gx3v-q759-g323" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-g9g6-qhrc-p3qc</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g9g6-qhrc-p3qc" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-44qc-pgvp-wx7v</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-44qc-pgvp-wx7v" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-v73x-hx65-6pf4</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v73x-hx65-6pf4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-649p-mmhf-85c7</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-649p-mmhf-85c7" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2fcr-jfvc-vgg2</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2fcr-jfvc-vgg2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-8p9h-49rc-qgxj</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8p9h-49rc-qgxj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-vrhc-jjfc-m3m3</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vrhc-jjfc-m3m3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-94v3-77j7-vm48</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-94v3-77j7-vm48" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-777r-4v59-6486</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-777r-4v59-6486" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-v96j-25gv-g2w9</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v96j-25gv-g2w9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2m9v-5q2g-58vq</code></td>
+                    <td>gitea.dev</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2m9v-5q2g-58vq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-683j-3ff6-hh2x</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-683j-3ff6-hh2x" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6hm7-3pwj-22rm</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6hm7-3pwj-22rm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-rgv6-xp99-6mgj</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rgv6-xp99-6mgj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-w5pg-649r-p6gg</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w5pg-649r-p6gg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-82f7-87hm-852x</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-82f7-87hm-852x" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hrxh-6v49-42gf</code></td>
+                    <td>google.golang.org/grpc</td>
+                    <td>23k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hrxh-6v49-42gf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-fw57-jgch-pgf3</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fw57-jgch-pgf3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2p49-hgcm-8545</code></td>
+                    <td>svgo</td>
+                    <td>23k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2p49-hgcm-8545" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vcrf-j523-4mrf</code></td>
+                    <td>aws-cdk-lib</td>
+                    <td>13k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vcrf-j523-4mrf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xvcm-6775-5m9r</code></td>
+                    <td>immutable</td>
+                    <td>33k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xvcm-6775-5m9r" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rwj8-pgh3-r573</code></td>
+                    <td>gitpython</td>
+                    <td>5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-rwj8-pgh3-r573" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wrf9-r3h7-7x5v</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wrf9-r3h7-7x5v" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7wvc-rvp7-w99x</code></td>
+                    <td>code.gitea.io/gitea</td>
+                    <td>57k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7wvc-rvp7-w99x" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-956x-8gvw-wg5v</code></td>
+                    <td>GitPython</td>
+                    <td>5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-956x-8gvw-wg5v" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2f96-g7mh-g2hx</code></td>
+                    <td>GitPython</td>
+                    <td>5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-2f96-g7mh-g2hx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-p63j-vcc4-9vmv</code></td>
+                    <td>@vitest/browser</td>
+                    <td>17k</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p63j-vcc4-9vmv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>33</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v56q-mh7h-f735</code></td>
+                    <td>immutable</td>
+                    <td>33k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v56q-mh7h-f735" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-j8gr-8fp3-5q5h</code></td>
+                    <td>Microsoft.AspNetCore.App.Runtime.linux-arm</td>
+                    <td>38k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j8gr-8fp3-5q5h" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-8prm-248r-h957</code></td>
+                    <td>Microsoft.AspNetCore.Authentication.Negotiate</td>
+                    <td>38k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8prm-248r-h957" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-v396-v7q4-x2qj</code></td>
+                    <td>GitPython</td>
+                    <td>5k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-v396-v7q4-x2qj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>可利用性</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-v2hh-gcrm-f6hx</code></td>
+                    <td>fast-uri</td>
+                    <td>111</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td><a href="https://github.com/advisories/GHSA-v2hh-gcrm-f6hx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8r6m-32jq-jx6q</code></td>
+                    <td>fast-xml-parser</td>
+                    <td>3k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-8r6m-32jq-jx6q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r7wm-3cxj-wff9</code></td>
+                    <td>com.fasterxml.jackson.core:jackson-core</td>
+                    <td>2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-r7wm-3cxj-wff9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-pf56-329r-95rw</code></td>
+                    <td>@sigstore/oci</td>
+                    <td>179</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-pf56-329r-95rw" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-hm4w-wwcw-mr6r</code></td>
+                    <td>pyasn1</td>
+                    <td>52</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-hm4w-wwcw-mr6r" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8ppf-4f7h-5ppj</code></td>
+                    <td>pyasn1</td>
+                    <td>52</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td><a href="https://github.com/advisories/GHSA-8ppf-4f7h-5ppj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-m4p7-r5rc-7g4j</code></td>
+                    <td>pyssn1</td>
+                    <td>52</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-m4p7-r5rc-7g4j" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-45rx-2jwx-cxfr</code></td>
+                    <td>@opentelemetry/propagator-jaeger</td>
+                    <td>3k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-45rx-2jwx-cxfr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-v245-v573-v5vm</code></td>
+                    <td>linkify-it</td>
+                    <td>727</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-v245-v573-v5vm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4c8g-83qw-93j6</code></td>
+                    <td>fast-uri</td>
+                    <td>111</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td><a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-j92g-9f8w-j867</code></td>
+                    <td>org.postgresql:postgresql</td>
+                    <td>2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-j92g-9f8w-j867" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-55jh-fwmh-39m4</code></td>
+                    <td>Microsoft.NET.Build.Containers</td>
+                    <td>3k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td><a href="https://github.com/advisories/GHSA-55jh-fwmh-39m4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（21项）：</strong></p>
+                <ul><li><strong>GHSA-xxjv-752h-3vp2</strong> — Gitea: Public-only repository tokens can update private PR head branches：立即升级到修复版本</li><li><strong>GHSA-hg5r-vq93-9fv6</strong> — Gitea Actions Artifacts V4 signed URL HMAC ambiguity allows cross-repository art：立即升级到修复版本</li><li><strong>GHSA-f75j-4cw6-rmx4</strong> — Gitea Docker image: `REVERSE_PROXY_TRUSTED_PROXIES = *` default lets any source ：立即升级到修复版本</li><li><strong>GHSA-2r5c-gw76-rh3w</strong> — Gitea: Incomplete SSRF Protection in Webhook and Migration Allow-list Default Fi：立即升级到修复版本</li><li><strong>GHSA-gx3v-q759-g323</strong> — Gitea: TOTP TOCTOU race on web 2FA paths + missing replay check on Basic-Auth `X：立即升级到修复版本</li><li><strong>GHSA-g9g6-qhrc-p3qc</strong> — Gitea: Improper authorization on OAuth sign-in callback silently re-enables admi：立即升级到修复版本</li><li><strong>GHSA-44qc-pgvp-wx7v</strong> — Gitea: Notification API leaks private issue metadata after access revocation：立即升级到修复版本</li><li><strong>GHSA-v73x-hx65-6pf4</strong> — Gitea: Unauthorized Access to Labels of Private Organizations：立即升级到修复版本</li></ul>
+                <p><strong>🟠 重点关注（13项）：</strong></p>
+                <ul><li><strong>GHSA-hrxh-6v49-42gf</strong> — gRPC-Go: xDS RBAC and HTTP/2 Vulnerabilities：尽快评估影响并升级</li><li><strong>GHSA-fw57-jgch-pgf3</strong> — Gitea: ParseAcceptLanguage quadratic-time DoS via Locale middleware on unauthent：尽快评估影响并升级</li><li><strong>GHSA-2p49-hgcm-8545</strong> — SVGO removeScripts plugin leaves some executable scripts intact：尽快评估影响并升级</li><li><strong>GHSA-vcrf-j523-4mrf</strong> — aws-cdk-lib: OS Command Injection in NodejsFunction Docker Bundling：尽快评估影响并升级</li><li><strong>GHSA-xvcm-6775-5m9r</strong> — Immutabl: Hash-collision algorithmic complexity denial of service in Immutable.M：尽快评估影响并升级</li><li><strong>GHSA-rwj8-pgh3-r573</strong> — GitPython: Environment-variable exfiltration via os.path.expandvars() on Repo.cl：尽快评估影响并升级</li><li><strong>GHSA-wrf9-r3h7-7x5v</strong> — Gitea: Fork Synchronization Continues After Parent Repository Changes from Publi：尽快评估影响并升级</li><li><strong>GHSA-7wvc-rvp7-w99x</strong> — Gitea: LFS authentication bypass via malformed SSH sub-verb allows unauthorized ：尽快评估影响并升级</li></ul>
+                <p><strong>🟡 常规关注（2项）：</strong></p>
+                <ul><li><strong>GHSA-8prm-248r-h957</strong> — Microsoft Security Advisory CVE-2026-47300 – .NET Elevation of Privilege Vulnera：排入修复计划</li><li><strong>GHSA-v396-v7q4-x2qj</strong> — GitPython unsafe clone option gate bypass through joined short options：排入修复计划</li></ul>
+                <br/>
+                <p><strong>关键发现：</strong></p>
+                <ul>
+                    <li>今日 Gitea (⭐56.9k) 发布了大规模安全更新，修复了 <strong>22个</strong> 高危/严重漏洞，涵盖SSRF、权限提升、信息泄露、DoS等多种类型，使用Gitea的团队应立即升级到 1.26.3/1.27.0</li>
+                    <li>GitPython (⭐5.1k) 存在多个命令注入漏洞链，影响所有使用该库的CI/CD工具和依赖扫描器</li>
+                    <li>Immutable.js (⭐33k) 发现哈希碰撞DoS和整数溢出DoS，影响Node.js服务端应用</li>
+                    <li>.NET ASP.NET Core (⭐38.2k) 存在SignalR DoS和Negotiate认证提权漏洞</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a> · <a href="https://jshuang.github.io/sec-advisory-daily/">报告首页</a></p>
+    </footer>
+</body>
+</html>
