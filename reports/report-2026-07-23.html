@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-23</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-23 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">39</div><div class="stat-label">总公告数</div></div>
+            <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">Critical</div></div>
+            <div class="stat-card"><div class="stat-number">38</div><div class="stat-label">High</div></div>
+            <div class="stat-card"><div class="stat-number">39</div><div class="stat-label">Star≥5k 项目</div></div>
+            <div class="stat-card"><div class="stat-number">39</div><div class="stat-label">含PoC/详细分析</div></div>
+        </div>
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 vLLM: OpenAI auth bypass</div>
+                    <div class="advisory-id">GHSA-94f4-hr76-p5j6 | CVE: CVE-2026-48746 | CWE: CWE-444, CWE-501</div>
+                </div>
+                <span class="priority-score">优先级: 9/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 86.9k (vllm-project/vllm)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 认证绕过, 中间件/代理绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+
+A vulnerability in ASGI web servers and starlette's trust on those web servers enables an authentication bypass of the OpenAI API `AuthenticationMiddleware`, which was discovered during @x41sec's source code audit.
+It allows to use the API without providing the configured `VLLM_API_KEY` or `--api-key`.
+
+### Details
+
+In https://github.com/vllm-project/vllm/blob/v0.14.0/vllm/entrypoints/openai/api_server.py#L689-L692 the `url_path` is taken from the `URL`, which is reconstructed by _starlette_ based on the request `scope`.
+
+```py
+from starlette.datastructures import URL, Headers, Mu...</p>
+                <p><strong>影响产品：</strong>vllm ⭐86.9k (vllm-project/vllm)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• pip/vllm (影响版本: >= 0.3.0, < 0.22.0)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 认证绕过, 中间件/代理绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；未授权访问受保护的系统资源</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 vllm 官方安全公告并及时更新<br>• 建议立即修补，Critical级别漏洞可能在短期内被武器化利用<br>• 审查认证/授权逻辑，确保关键路径的权限校验完整</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-94f4-hr76-p5j6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Next.js: Server-Side Request Forgery in rewrites via attacker-controlled destination hostname</div>
+                    <div class="advisory-id">GHSA-p9j2-gv94-2wf4 | CVE: CVE-2026-64645 | CWE: CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 141.1k (vercel/next.js)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 服务端请求伪造(SSRF)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+A `rewrites()` or `redirects()` rule that builds its external destination hostname from request-controlled input can be pointed at an arbitrary hostname, regardless of the rule's hostname suffix. For a rewrite, Next.js proxies the request to that arbitrary host and serves the response from the application's origin, leading to Server-Side Request forgery. A `redirects()` rule configured this way is vulnerable to an Open Redirect.
+
+This affects any destination that puts a dynamic segment in the hostname, whether from the path:
+
+```javascript
+// next.config.js
+module.exports = {
+  asyn...</p>
+                <p><strong>影响产品：</strong>next ⭐141.1k (vercel/next.js)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/next (影响版本: >= 12.0.0, < 15.5.21)<br>• npm/next (影响版本: >= 16.0.0, < 16.2.11)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 服务端请求伪造(SSRF)</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 next 官方安全公告并及时更新<br>• 关注 next 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p9j2-gv94-2wf4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Next.js: Middleware / Proxy bypass in App Router applications using Turbopack and single locale</div>
+                    <div class="advisory-id">GHSA-6gpp-xcg3-4w24 | CVE: CVE-2026-64642 | CWE: CWE-285</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 141.1k (vercel/next.js)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 中间件/代理绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+Crafted requests targeting Next.js applications using App Router built with Turbopack and a **single** entry in `config.i18n.locales` can bypass middleware/proxy based authentication.
+
+## Workarounds
+
+If you cannot upgrade immediately, enforce authorization in the page's server-side data path instead of relying solely on middleware.</p>
+                <p><strong>影响产品：</strong>next ⭐141.1k (vercel/next.js)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/next (影响版本: >= 16.0.0, < 16.2.11)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 中间件/代理绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 next 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6gpp-xcg3-4w24" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Next.js: Denial of Service in App Router using Server Actions</div>
+                    <div class="advisory-id">GHSA-m99w-x7hq-7vfj | CVE: CVE-2026-64641 | CWE: CWE-834</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 141.1k (vercel/next.js)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">拒绝服务(DoS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+Crafted requests targeting Next.js applications using App Router with at least one Server Action can lead to excessive CPU usage blocking processing of further requests in the same process.
+
+## Workarounds
+
+No workaround exists besides upgrading. Applications using Pages Router or not using Server Actions are not vulnerable.</p>
+                <p><strong>影响产品：</strong>next ⭐141.1k (vercel/next.js)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/next (影响版本: >= 13.0.0, < 15.5.21)<br>• npm/next (影响版本: >= 16.0.0, < 16.2.11)</p>
+                <p><strong>攻击类型：</strong>拒绝服务(DoS)</p>
+                <p><strong>触发条件：</strong>攻击者发送特制请求导致服务不可用</p>
+                <p><strong>潜在危害：</strong>服务不可用，影响业务连续性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 next 官方安全公告并及时更新<br>• 关注 next 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m99w-x7hq-7vfj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 LiteLLM: MCP Authentication Bypass via OAuth2 Passthrough Fallback</div>
+                    <div class="advisory-id">GHSA-7488-6r32-c95q | CVE: CVE-2026-59822 | CWE: CWE-287</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 54.4k (BerriAI/litellm)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">认证绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact
+
+LiteLLM's MCP Streamable HTTP endpoint could allow an unauthenticated attacker to establish an authenticated MCP session using an arbitrary Bearer token.
+
+The MCP auth handler supported OAuth2 passthrough for upstream MCP servers, but the fallback path could replace failed LiteLLM key validation with an empty `UserAPIKeyAuth()` object. This allowed requests with a fabricated `Authorization` header to reach MCP tooling without a valid LiteLLM key.
+
+An attacker could use this to list and call configured MCP tools and access connected services exposed through MCP.
+
+### Patches
+
+The is...</p>
+                <p><strong>影响产品：</strong>litellm ⭐54.4k (BerriAI/litellm)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• pip/litellm (影响版本: < 1.84.0)</p>
+                <p><strong>攻击类型：</strong>认证绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>未授权访问受保护的系统资源</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 litellm 官方安全公告并及时更新<br>• 审查认证/授权逻辑，确保关键路径的权限校验完整</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7488-6r32-c95q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Prototype Pollution via Dot-Notation Field Names Leads To Instance-Wide Denial of Service</div>
+                    <div class="advisory-id">GHSA-xwx6-jjhv-84p8 | CVE: None | CWE: CWE-1321</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">原型链污染, 拒绝服务(DoS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+The Edit Fields (Set) node assigned output fields through a dot-notation path setter without restricting the field name, so an authenticated user could name a field after an inherited built-in method path and corrupt a shared global in the main Node.js process. Because that global was used on the request-authentication path, the instance then failed every authenticated request, causing a instance-wide denial of service for all users until the process was restarted.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.67, 2.31.5, and 2.32.1. Users should upgrade to one of thes...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>原型链污染, 拒绝服务(DoS)</p>
+                <p><strong>触发条件：</strong>攻击者通过污染JavaScript原型链影响应用逻辑</p>
+                <p><strong>潜在危害：</strong>服务不可用，影响业务连续性；影响应用逻辑，可能导致DoS或RCE</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xwx6-jjhv-84p8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Edit Image Node Format Injection Allows Arbitrary File Write</div>
+                    <div class="advisory-id">GHSA-xmc9-4f2h-jf9c | CVE: None | CWE: CWE-73</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">文件读写/路径遍历, 注入攻击</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+The n8n Edit Image node passed its output format to the underlying image library without validation, so a crafted value could write bytes to a location outside the node's working directory. An authenticated user able to run workflows could use this to write arbitrary files in the n8n instance.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.67, 2.31.5, and 2.32.1. Users should upgrade to one of these versions or later to remediate the vulnerability.
+
+## Workarounds
+
+If upgrading is not immediately possible, administrators should consider the following temporary mitigatio...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>文件读写/路径遍历, 注入攻击</p>
+                <p><strong>触发条件：</strong>攻击者可读写服务器上的任意文件</p>
+                <p><strong>潜在危害：</strong>敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xmc9-4f2h-jf9c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Shared-Workflow Editor Can Exfiltrate Credentials via Inline Sub-Workflow JSON</div>
+                    <div class="advisory-id">GHSA-cj9h-qx8g-pq2g | CVE: None | CWE: CWE-863</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+n8n's credential-access checks validated only a node's top-level credentials, not credentials referenced inside an Execute Sub-workflow node's inline workflow JSON. A member with editor access to a shared workflow could reference a credential they were not permitted to use inside that inline JSON; it passed both save-time and runtime validation and resolved in the parent workflow's project context, letting the member use or exfiltrate a credential they could not otherwise access.
+
+Exploitation requires workflow sharing to be enabled and the attacker to have been explicitly granted E...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>攻击者可窃取或滥用系统凭证信息</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；敏感凭证泄露，可能导致更大范围的攻击</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cj9h-qx8g-pq2g" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Credential Authorization Bypass via Expression in HTTP Request Node `genericAuthType`</div>
+                    <div class="advisory-id">GHSA-6qc9-mqvw-jg7x | CVE: None | CWE: CWE-863</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+An authenticated member with edit access to a shared workflow could reference another user's credential in an HTTP Request node while specifying the credential type through an expression. Because the pre-execution permission check compared the unresolved expression instead of the real credential type, the ownership check was skipped and the credential was loaded at execution time, letting the member use or exfiltrate a credential they were never granted. Exploitation required knowing the target credential's identifier.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.67, ...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>敏感凭证泄露，可能导致更大范围的攻击</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 审查认证/授权逻辑，确保关键路径的权限校验完整</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6qc9-mqvw-jg7x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Expression sandbox escape via arrow-function bodies enabling command execution</div>
+                    <div class="advisory-id">GHSA-gv7g-jm28-cr3m | CVE: None | CWE: CWE-94</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 沙箱逃逸</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+An authenticated user with permission to create or modify workflows could abuse crafted expressions using arrow functions to bypass the expression sandbox, triggering unintended system command execution on the host running n8n.
+
+## Patches
+
+The issue has been fixed in n8n versions 2.31.5 and 2.32.1. Users should upgrade to one of these versions or later to remediate the vulnerability.
+
+## Workarounds
+
+If upgrading is not immediately possible, administrators should consider the following temporary mitigations:
+- Restrict n8n instance access to fully trusted users only.
+- Restrict wor...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 沙箱逃逸</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；突破隔离限制，获取宿主机权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gv7g-jm28-cr3m" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Send Email Node Arbitrary File Read and SSRF via Nodemailer Content-Object Type Confusion</div>
+                    <div class="advisory-id">GHSA-2x35-3fw4-9jr4 | CVE: None | CWE: CWE-200, CWE-843, CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 服务端请求伪造(SSRF), 文件读写/路径遍历</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+The n8n Send Email node did not enforce that its message fields were strings, so a crafted untrusted non-string value from a workflow expression could be treated by the underlying mail library as a file path or URL. This could allow disclosure of local files on the n8n host.
+
+Exploitation requires a pre-existing active workflow with an unauthenticated webhook, valid SMTP credentials configured on the Send Email node, and untrusted input mapped directly into the text or HTML body field. This is not a default n8n configuration.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.1...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 服务端请求伪造(SSRF), 文件读写/路径遍历</p>
+                <p><strong>触发条件：</strong>攻击者通过构造恶意请求，使服务器发起内部网络请求</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；访问内部网络资源，可能导致数据泄露；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 加强出站网络请求的白名单校验</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2x35-3fw4-9jr4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Authenticated code execution in the n8n Git node</div>
+                    <div class="advisory-id">GHSA-rcv6-pvrj-4xcg | CVE: None | CWE: CWE-78</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+Authenticated n8n users with rights to create and execute workflows could achieve code execution on the n8n host. Using the Git node, under the default `git` security settings, by staging a crafted local repository, an attacker could cause `git` to run hooks, executing arbitrary commands as the n8n process user.
+
+Both self-hosted and cloud instances are affected where authenticated users can create and execute workflows using the Git node.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.67, 2.31.5, and 2.32.1. Users should upgrade to one of these versions or later to rem...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE)</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rcv6-pvrj-4xcg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Git Node fetch/pull/pushTags Operations Bypass Sandbox Path Restriction</div>
+                    <div class="advisory-id">GHSA-gf29-4f56-r2jf | CVE: None | CWE: CWE-22</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">安全漏洞</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+Authenticated n8n users with workflow create/execute rights could use the Git node's fetch, pull, or push-tags operations to bypass the repository-path containment checks that already protected clone and push. By pointing an allowlisted remote configuration value at a local path outside the intended sandbox, an attacker could pull an arbitrary local git repository into the workspace and subsequently read its files and history. 
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.67, 2.31.5, and 2.32.1. Users should upgrade to one of these versions or later to remediate the v...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.67)<br>• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>敏感文件泄露或系统文件被篡改；突破隔离限制，获取宿主机权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gf29-4f56-r2jf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Bypass &quot;Allowed HTTP Request Domains&quot; Credential Restriction in Multiple AI and LLM Nodes</div>
+                    <div class="advisory-id">GHSA-64xh-79j6-r5v8 | CVE: None | CWE: CWE-863</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 权限提升, 凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+The credential &quot;Allowed HTTP Request Domains&quot; allowlist was intended to restrict which hosts a credential's secret could be sent to, protecting shared credentials from users who could use but not view them. Several AI/LLM nodes did not enforce this allowlist when a user-supplied base or endpoint URL was set. A low-privileged workflow editor with use-only access to such a shared credential could point one of these nodes at an attacker-controlled host and cause the credential secret to be transmitted there, then reuse it against the underlying service.
+
+Only instances where a credenti...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 权限提升, 凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>低权限用户可提升权限或执行越权操作</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；权限提升，获取超出授权范围的操作能力</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-64xh-79j6-r5v8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Account Takeover via Unverified Email Claim in Token Exchange Embed Login</div>
+                    <div class="advisory-id">GHSA-8342-988q-86cr | CVE: None | CWE: CWE-345, CWE-863</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 权限提升, 账户接管</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+In an n8n instance, when a validly-signed incoming token was matched to a local account by its email claim, the service did not check that the trusted key's permitted role ceiling covered that account, nor that the email claim was verified. As a result, anyone able to obtain a token accepted by one of the configured trusted keys, for example a trusted issuer that emitted unverified email addresses, could authenticate as any existing user, gaining full account control.
+
+This issue only affects instances where the embed login feature is enabled and at least one trusted key source is c...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.32.0, < 2.32.1)<br>• npm/n8n (影响版本: < 2.31.5)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 权限提升, 账户接管</p>
+                <p><strong>触发条件：</strong>低权限用户可提升权限或执行越权操作</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；权限提升，获取超出授权范围的操作能力；完全接管受害者账户</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8342-988q-86cr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: SSO Instance-Role Provisioning Allows Privilege Escalation to Instance Owner</div>
+                    <div class="advisory-id">GHSA-35q8-9mj6-wjmf | CVE: CVE-2026-65016 | CWE: CWE-639</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">权限提升</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+n8n's Enterprise SSO instance-role provisioning maps a role claim asserted by the configured Identity Provider (IdP) to an n8n global role and applies it during authentication. The provisioning path did not prevent assignment of the `global:owner` role, unlike the token-exchange identity path, which explicitly rejects it. As a result, an SSO-authenticated user whose instance-role claim resolves to `global:owner` is provisioned as an instance owner, obtaining full administrative control over all workflows, credentials, users, and instance configuration.
+
+This is a privilege-escalation...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.64)<br>• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>权限提升</p>
+                <p><strong>触发条件：</strong>低权限用户可提升权限或执行越权操作</p>
+                <p><strong>潜在危害：</strong>权限提升，获取超出授权范围的操作能力</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-35q8-9mj6-wjmf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Legacy Expression Evaluator Sanitizer Bypass Leads to Authenticated Code Execution</div>
+                    <div class="advisory-id">GHSA-pm35-fqvh-cq5g | CVE: CVE-2026-65591 | CWE: CWE-917</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+The legacy expression evaluator's computed-member sanitizer can be bypassed by an authenticated user with workflow create or modify permissions. Successful exploitation grants the attacker host-level code execution as the n8n process.
+
+The legacy expression engine is the default engine in affected versions.
+
+## Patches
+The issue has been fixed in n8n versions 1.123.64, 2.29.8, and 2.30.1. Users should upgrade to one of these versions or later to remediate the vulnerability.
+
+## Workarounds
+If upgrading is not immediately possible, administrators should consider the following temporar...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.64)<br>• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE)</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 审查认证/授权逻辑，确保关键路径的权限校验完整</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pm35-fqvh-cq5g" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Privilege Escalation and Code Execution via Full Public API Key Scope Assignment to Token Exchange JWTs</div>
+                    <div class="advisory-id">GHSA-777w-rpr6-c52h | CVE: CVE-2026-65595 | CWE: CWE-269</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 权限提升</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+JWTs issued through the Token Exchange module were assigned all Public API key scopes, regardless of the acting user's actual role. A low-privileged user who could obtain a valid external JWT trusted by a configured issuer could therefore use the resulting access token to invoke administrator-only Public API operations, such as role escalation, user creation, and user deletion.
+
+The issue only affects instances where the Token Exchange feature and the Public API are enabled (N8N_TOKEN_EXCHANGE_ENABLED=true, N8N_ENV_FEAT_TOKEN_EXCHANGE=true) and the attacker can obtain an external JW...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 权限提升</p>
+                <p><strong>触发条件：</strong>低权限用户可提升权限或执行越权操作</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；权限提升，获取超出授权范围的操作能力</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-777w-rpr6-c52h" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: &quot;Allowed HTTP Request Domains&quot; Restriction Bypass via AI Agents MCP Connector</div>
+                    <div class="advisory-id">GHSA-h44j-f5r5-ph73 | CVE: CVE-2026-59207 | CWE: CWE-693</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+The AI Agents feature did not enforce the &quot;Allowed HTTP Request Domains&quot; restriction configured on credentials. As a result, a member-level user who had been granted use-only access to a shared credential could cause its secret to be sent to an external server they control, by pointing an MCP tool at an arbitrary URL and running the agent.
+
+This issue only affects instances where the AI Agents module is enabled via `N8N_ENABLED_MODULES=agents` and at least one credential with domain restrictions has been shared with a member-level user.
+
+## Patches
+The issue has been fixed in n8n ver...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.28.0, < 2.28.1)<br>• npm/n8n (影响版本: < 2.27.4)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>攻击者可窃取或滥用系统凭证信息</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-h44j-f5r5-ph73" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Prototype Pollution via Workflow Credentials Leads to Unauthenticated User and Project Enumeration</div>
+                    <div class="advisory-id">GHSA-75qm-gp28-rcq9 | CVE: CVE-2026-59206 | CWE: CWE-1321</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">原型链污染, 权限提升, 凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+An authenticated user with the default `workflow:create` permission could pollute `Object.prototype` through a crafted workflow saved, updated, or imported via the workflow API. This can be leveraged to bypass authentication, allowing unauthenticated requests to be treated as a privileged user and exposing endpoints such as the user and project listings. As a result, every account's personal data (email, role, MFA status) and all projects on the instance may be disclosed to unauthenticated callers. The pollution can also corrupt global state, making parts of the instance unresponsive...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.61)<br>• npm/n8n (影响版本: >= 2.28.0, < 2.28.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.27.4)</p>
+                <p><strong>攻击类型：</strong>原型链污染, 权限提升, 凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>权限提升，获取超出授权范围的操作能力；影响应用逻辑，可能导致DoS或RCE</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-75qm-gp28-rcq9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Shared Credential Header Leak via HTTP Request Pagination Expression</div>
+                    <div class="advisory-id">GHSA-q3j5-8vrg-4p9q | CVE: CVE-2026-59209 | CWE: CWE-200</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">凭证泄露/绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+An authenticated member with use-only editor access to a shared workflow could read credential-populated headers exposed via the `$request` object inside an HTTP Request node's pagination expression. When an HTTP Header Auth credential is applied to a paginated request, the secret is present in `$request.headers` when pagination expressions are evaluated. A user-controlled expression could read that secret, copy it into item data, and exfiltrate it through a later HTTP Request node, bypassing credential domain restrictions, since the secret leaves via item data rather than the creden...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.61)<br>• npm/n8n (影响版本: >= 2.28.0, < 2.28.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.27.4)</p>
+                <p><strong>攻击类型：</strong>凭证泄露/绕过</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>敏感凭证泄露，可能导致更大范围的攻击</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q3j5-8vrg-4p9q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Stored DOM XSS via Resource Locator `cachedResultUrl`</div>
+                    <div class="advisory-id">GHSA-9wcp-9r3j-383q | CVE: CVE-2026-65592 | CWE: CWE-79</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 跨站脚本(XSS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+The Resource Locator passes the workflow-persisted `cachedResultUrl` to `window.open()` without scheme validation. When a victim opens the crafted workflow and interact with external links, the JavaScript payload runs in the victim's browser. 
+
+## Patches
+The issue has been fixed in n8n versions 1.123.64, 2.29.8, and 2.30.1. Users should upgrade to one of these versions or later to remediate the vulnerability.
+
+## Workarounds
+If upgrading is not immediately possible, administrators should consider the following temporary mitigations:
+- Restrict workflow creation and editing permissio...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.64)<br>• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 跨站脚本(XSS)</p>
+                <p><strong>触发条件：</strong>攻击者注入恶意脚本代码，在受害者浏览器中执行</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；窃取用户会话、凭证或执行恶意操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-9wcp-9r3j-383q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: DOM-Based XSS via Unsandboxed iframe srcdoc in HTML Preview</div>
+                    <div class="advisory-id">GHSA-p3rg-hrf9-w9gj | CVE: CVE-2026-65597 | CWE: CWE-79</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">跨站脚本(XSS), 权限提升</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+The HTML preview renders execution output into an `iframe srcdoc` without `sandbox`, so a sanitizer bypass lets injected script run same-origin as the editor. When a victim opens the preview, it can call authenticated APIs with their session. An account with `global:member` privileges can exploit it.
+
+## Patches
+
+The issue has been fixed in n8n versions 1.123.64, 2.29.8, and 2.30.1. Users should upgrade to one of these versions or later to remediate the vulnerability.
+
+## Workarounds
+
+If upgrading is not immediately possible, administrators should consider the following temporary mi...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.64)<br>• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>跨站脚本(XSS), 权限提升</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>权限提升，获取超出授权范围的操作能力；窃取用户会话、凭证或执行恶意操作；突破隔离限制，获取宿主机权限</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p3rg-hrf9-w9gj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: Race Condition in Git Clone Node Allows Authenticated Users to Achieve Remote Code Execution</div>
+                    <div class="advisory-id">GHSA-g3r5-9h93-4j2c | CVE: CVE-2026-65598 | CWE: CWE-367</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 竞争条件</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+A TOCTOU race condition in the Git node's `clone` operation lets an authenticated user bypass its path restrictions by swapping a directory for a symlink after the path is validated but before the clone runs. This plants a crafted repository in the community node directory, which n8n loads as a custom node on the next restart, and since nodes execute JavaScript, this yields arbitrary code execution on the server.
+
+Both self-hosted and cloud instances are affected, where authenticated users can create and run workflows using the Git node.
+
+## Patches
+Users should upgrade to the patche...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: < 1.123.64)<br>• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: >= 2.0.0-rc.0, < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 竞争条件</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g3r5-9h93-4j2c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 n8n: AI Agents Project Viewer Privilege Escalation via run_node_tool</div>
+                    <div class="advisory-id">GHSA-x5vx-c2c8-m3w9 | CVE: CVE-2026-65015 | CWE: CWE-863</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 权限提升</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+In n8n's AI Agents feature, a user with the read-only Project Viewer role could escalate their privileges by chatting with an agent that has node tools enabled. The agent's node-execution tool was authorized only by the `agent:execute` scope and ran nodes using the project's credentials, without verifying that the requesting user was permitted to execute nodes or to access those credentials.
+
+As a result, a Project Viewer could execute arbitrary tool nodes on the server and use credential secrets they were not authorized to read, gaining execution capabilities their role is intended ...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.30.0, < 2.30.1)<br>• npm/n8n (影响版本: < 2.29.8)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 权限提升</p>
+                <p><strong>触发条件：</strong>攻击者可读写服务器上的任意文件</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；权限提升，获取超出授权范围的操作能力；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-x5vx-c2c8-m3w9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 JupyterLab: Cross-site scripting (XSS) via crafted settings file (`overrides.json`)</div>
+                    <div class="advisory-id">GHSA-pppj-hq3g-57pj | CVE: None | CWE: CWE-79, CWE-116</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 15.2k (jupyterlab/jupyterlab)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">跨站脚本(XSS), 权限提升</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>JupyterLab 4.5+ allows notebook settings to be shared and applied through an `overrides.json` file using the `Import` button in the Settings Editor.
+
+Certain notebook display settings were not properly validated before being applied. As a result, a crafted settings file could contain hidden instructions that run as code inside JupyterLab when imported, instead of only changing a display preference.
+
+Because importing a settings file appears harmless, a user could import a file shared by another party without realizing it could do more. On multi-tenant file systems without proper permission con...</p>
+                <p><strong>影响产品：</strong>jupyterlab ⭐15.2k (jupyterlab/jupyterlab)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• pip/jupyterlab (影响版本: >= 4.6.0, <= 4.6.1)<br>• pip/jupyterlab (影响版本: >= 3.3.0, <= 4.5.9)</p>
+                <p><strong>攻击类型：</strong>跨站脚本(XSS), 权限提升</p>
+                <p><strong>触发条件：</strong>攻击者注入恶意脚本代码，在受害者浏览器中执行</p>
+                <p><strong>潜在危害：</strong>权限提升，获取超出授权范围的操作能力；窃取用户会话、凭证或执行恶意操作；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 jupyterlab 官方安全公告并及时更新<br>• 关注 jupyterlab 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pppj-hq3g-57pj" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 JupyterLab: Image viewer allows XSS when opening malicious image in new browser tab</div>
+                    <div class="advisory-id">GHSA-gx64-gj6p-pc4c | CVE: None | CWE: CWE-79</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 15.2k (jupyterlab/jupyterlab)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 跨站脚本(XSS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>JupyterLab's image viewer allows for cross-site scripting (XSS) when a specially-crafted image file is opened through the image viewer and then opened in a new tab. This XSS issue can be used to cause remote code execution (RCE) on the JupyterLab server.
+
+### Impact
+
+This vulnerability allows for arbitrary code execution.
+
+### Patches
+
+JupyterLab [`v4.6.2`](https://github.com/jupyterlab/jupyterlab/releases/tag/v4.6.2) and [`v4.5.10`](https://github.com/jupyterlab/jupyterlab/releases/tag/v4.5.10) contain the patch.
+
+### Workarounds
+
+Disable the image viewer plugin:
+
+```
+jupyter labextension dis...</p>
+                <p><strong>影响产品：</strong>jupyterlab ⭐15.2k (jupyterlab/jupyterlab)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• pip/jupyterlab (影响版本: >= 4.6.0, <= 4.6.1)<br>• pip/jupyterlab (影响版本: <= 4.5.9)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 跨站脚本(XSS)</p>
+                <p><strong>触发条件：</strong>攻击者注入恶意脚本代码，在受害者浏览器中执行</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；窃取用户会话、凭证或执行恶意操作；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 jupyterlab 官方安全公告并及时更新<br>• 关注 jupyterlab 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gx64-gj6p-pc4c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: [Bzip2Decoder] Infinite Loop in RLE State Machine Leads to Event-Loop Thread Hang</div>
+                    <div class="advisory-id">GHSA-558v-64gr-wgg4 | CVE: CVE-2026-59901 | CWE: CWE-835</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">安全漏洞</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `Bzip2Decoder` handler in Netty's compression codec pipeline is vulnerable to a denial-of-service attack through a malformed bzip2 stream that permanently captures the event-loop thread in an infinite loop. The vulnerability exists in the run-length encoding (RLE) state machine within [`Bzip2BlockDecompressor.read()`]</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-compression ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-compression (影响版本: >= 4.2.0.Final, < 4.2.16.Final)<br>• maven/io.netty:netty-codec (影响版本: < 4.1.136.Final)</p>
+                <p><strong>攻击类型：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>服务不可用，影响业务连续性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-compression 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-558v-64gr-wgg4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: TOCTOU in OcspServerCertificateValidator</div>
+                    <div class="advisory-id">GHSA-wc96-39fc-566f | CVE: CVE-2026-56822 | CWE: CWE-367</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty's OcspServerCertificateValidator forwards the SslHandshakeCompletionEvent before the asynchronous OCSP validation completes. This allows the client's downstream handlers to send sensitive application data (e.g., HTTP requests) to a revoked server before the channel is closed by the OCSP check.
+
+### Details
+In `io.netty.handler.ssl.ocsp.OcspServerCertificateValidator#userEventTriggered`, when an `SslHandshakeCompletionEvent` is received, the validator immediately calls `ctx.fireUserEventTriggered(evt)`. It then initiates an asynchronous OCSP query using `OcspClient.query`.
+
+Be...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-handler-ssl-ocsp ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-handler-ssl-ocsp (影响版本: >= 4.2.0.Final, < 4.2.16.Final)<br>• maven/io.netty:netty-handler-ssl-ocsp (影响版本: < 4.1.136.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE)</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新<br>• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-wc96-39fc-566f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: Out-of-date OCSP Responses Accepted by OcspServerCertificateValidator</div>
+                    <div class="advisory-id">GHSA-g7hg-vrcf-mvmr | CVE: CVE-2026-56821 | CWE: CWE-299</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+`OcspServerCertificateValidator` flags an out-of-date OCSP response but does not stop processing it, so an expired GOOD response is still reported as `VALID`, letting an on-path attacker replay a stale GOOD response to bypass revocation of a since-revoked certificate.
+
+### Details
+In `io.netty.handler.ssl.ocsp.OcspServerCertificateValidator#userEventTriggered` the freshness check has no `return`, so execution falls through and a `VALID` `OcspValidationEvent` is still fired:
+
+```java
+                        if (!(current.after(response.getThisUpdate()) &amp;&amp;
+                           ...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-handler-ssl-ocsp ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-handler-ssl-ocsp (影响版本: >= 4.2.0.Final, < 4.2.16.Final)<br>• maven/io.netty:netty-handler-ssl-ocsp (影响版本: < 4.1.136.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE)</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新<br>• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g7hg-vrcf-mvmr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: Missing CertificateID Validation in OCSP Response Allows Replay Attacks</div>
+                    <div class="advisory-id">GHSA-272m-gcwp-mpwg | CVE: CVE-2026-56820 | CWE: CWE-295</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty's OcspClient does not validate that the CertificateID in an OCSP response matches the requested CertificateID. A bad actor can replay a `GOOD` status response issued for an unrelated certificate (by the same CA) to bypass revocation checks for any certificate.
+
+### Details
+`io.netty.handler.ssl.ocsp.OcspClient#validateResponse` fails to assert that the CertificateID within the returned `BasicOCSPResp` matches the original certificate being validated.
+
+When `OcspClient.query(...)` executes, it builds an OCSP request using the victim certificate's serial number and issuer hash....</p>
+                <p><strong>影响产品：</strong>io.netty:netty-handler-ssl-ocsp ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-handler-ssl-ocsp (影响版本: >= 4.2.0.Final, < 4.2.16.Final)<br>• maven/io.netty:netty-handler-ssl-ocsp (影响版本: < 4.1.136.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE)</p>
+                <p><strong>触发条件：</strong>攻击者可绕过认证/授权机制访问受保护资源</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新<br>• 关注 io.netty:netty-handler-ssl-ocsp 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-272m-gcwp-mpwg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty XML: Injection / Risky Sink — unconfigured XML factory with active DTD and entity handling</div>
+                    <div class="advisory-id">GHSA-4qhr-g3c6-fcfx | CVE: CVE-2026-56817 | CWE: CWE-611</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">注入攻击</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Any caller that can deliver bytes to a Netty channel pipeline containing `XmlDecoder` can send XML with a DOCTYPE declaration to a parser instantiated with no security configuration — but whether external entities are actually resolved depends on Aalto XML's async parser behavior, making this a confirmed misconfiguration with conditional exploitability.</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-xml ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-xml (影响版本: >= 4.2.0.Final, <= 4.2.15.Final)<br>• maven/io.netty:netty-codec-xml (影响版本: >= 4.1.0.Final, <= 4.1.135.Final)</p>
+                <p><strong>攻击类型：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>可能导致安全风险，需根据具体场景评估</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-xml 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec-xml 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4qhr-g3c6-fcfx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: Memory Exhaustion via HTTP/3 Reserved Frame Types</div>
+                    <div class="advisory-id">GHSA-hpcc-26xq-25fv | CVE: CVE-2026-56816 | CWE: CWE-400</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 拒绝服务(DoS), 内存耗尽</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty's Http3FrameCodec buffers incoming data for HTTP/3 reserved frame types up to the specified payload length without any limits. The payload length is read directly from the wire and trusted without validation. A bad actor can send a reserved frame with a payload length of up to Integer.MAX_VALUE, causing the server to buffer the data in memory. This leads to an OOM and a gradual Denial of Service due to memory exhaustion as multiple streams are opened.
+
+### Details
+`io.netty.handler.codec.http3.Http3FrameCodec#decodeFrame` handles reserved frame types as follows:
+
+```java
+    ...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-http3 ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-http3 (影响版本: < 4.2.16.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 拒绝服务(DoS), 内存耗尽</p>
+                <p><strong>触发条件：</strong>攻击者发送特制请求导致服务不可用</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；服务不可用，影响业务连续性；服务崩溃或性能严重下降</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-http3 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hpcc-26xq-25fv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: [SpdyHttpDecoder] ByteBuf Reference Leak on RST_STREAM Leads to Native Memory Exhaustion</div>
+                    <div class="advisory-id">GHSA-jppx-w49h-x2qq | CVE: CVE-2026-56745 | CWE: CWE-400</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">内存耗尽</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `SpdyHttpDecoder` handler in Netty's SPDY-to-HTTP codec allocates a pooled `ByteBuf` when processing a client-initiated `SYN_STREAM` frame with `FLAG_FIN=0`, storing the partially-constructed `FullHttpRequest` in an internal map (`messageMap`) to accumulate subsequent `DATA` frames. When the remote peer sends an `RST_STREAM` for that stream, or when the accumulated content exceeds `maxContentLength`, the decoder removes the entry from the map but **never releases the pooled ByteBuf**, permanently leaking the allocated memory.</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-http ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-http (影响版本: >= 4.2.0.Final, <= 4.2.15.Final)<br>• maven/io.netty:netty-codec-http (影响版本: >= 4.1.0.Final, <= 4.1.135.Final)</p>
+                <p><strong>攻击类型：</strong>内存耗尽</p>
+                <p><strong>触发条件：</strong>发送特制数据包导致内存资源耗尽</p>
+                <p><strong>潜在危害：</strong>服务崩溃或性能严重下降</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-http 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec-http 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jppx-w49h-x2qq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: [codec-haproxy] Signed-Byte Sentinel Collision in HAProxyMessageDecoder Leads to Unbounded Memory Exhaustion</div>
+                    <div class="advisory-id">GHSA-q6cq-mhr2-jmr5 | CVE: CVE-2026-55851 | CWE: CWE-400</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 内存耗尽</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `HAProxyMessageDecoder` in netty's `codec-haproxy` module performs protocol version detection by reading the 13th byte of the inbound stream as a signed Java `byte` and widening it to `int` without masking. When an attacker sends a PROXY protocol v2 binary prefix (`0D 0A 0D 0A 00 0D 0A 51 55 49 54 0A`) followed by version byte `0xFF`, the sign extension produces `-1`, which collides with the decoder's &quot;need more data&quot; sentinel value. This collision traps the decoder in a version-detection loop where it perpetually requests more data without consuming any bytes, never instantiates the `Head...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-haproxy ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-haproxy (影响版本: >= 4.2.0.Final, <= 4.2.15.Final)<br>• maven/io.netty:netty-codec-haproxy (影响版本: >= 4.1.0.Final, <= 4.1.135.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 内存耗尽</p>
+                <p><strong>触发条件：</strong>发送特制数据包导致内存资源耗尽</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；服务崩溃或性能严重下降</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-haproxy 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec-haproxy 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q6cq-mhr2-jmr5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty SPDY zlib header block continues decoded expansion after maxHeaderSize truncation</div>
+                    <div class="advisory-id">GHSA-mvh2-crg5-v77c | CVE: CVE-2026-55833 | CWE: CWE-400</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">拒绝服务(DoS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty SPDY header decoding continues inflating zlib-compressed header blocks after the raw header parser has already exceeded maxHeaderSize and marked the frame truncated. At commit b2d2137c4404af425bf9d5d601a62576f5c06925, a 12,253-byte compressed SPDY header block can declare and inflate a 12 MiB header-name field with maxHeaderSize=16, forcing compression-amplified decode and skip work in a reachable SpdyFrameCodec pipeline.
+
+### PoC
+[poc.zip](https://github.com/user-attachments/files/28445780/poc.zip)
+
+run with:
+```bash
+bash ./poc/run.sh
+```
+expected output:
+```text
+NETTY_SPDY_...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-http ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-http (影响版本: >= 4.2.0.Final, <= 4.2.15.Final)<br>• maven/io.netty:netty-codec-http (影响版本: >= 4.1.0.Final, <= 4.1.135.Final)</p>
+                <p><strong>攻击类型：</strong>拒绝服务(DoS)</p>
+                <p><strong>触发条件：</strong>攻击者发送特制请求导致服务不可用</p>
+                <p><strong>潜在危害：</strong>服务不可用，影响业务连续性；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-http 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec-http 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mvh2-crg5-v77c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty SPDY SETTINGS frame count materializes unbounded settings map</div>
+                    <div class="advisory-id">GHSA-6jqx-86gh-f27w | CVE: CVE-2026-55831 | CWE: CWE-400</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k (netty/netty)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">远程代码执行(RCE), 拒绝服务(DoS)</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Summary
+Netty's SPDY SETTINGS decoder accepts a peer-declared SETTINGS entry count up to the 24-bit frame-length limit and materializes every unique setting ID in `DefaultSpdySettingsFrame` without an implementation-level count cap. A remote SPDY/3.1 peer can send one syntactically valid roughly 2 MiB SETTINGS frame that creates 262144 map entries, amplifying network input into heap growth and ordered-map insertion work.
+
+### Details
+Inbound SPDY bytes enter `SpdyFrameCodec.decode()` and are passed directly to the frame decoder. The decoder reads the peer-controlled flags and 24-bit frame ...</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-http ⭐35.0k (netty/netty)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• maven/io.netty:netty-codec-http (影响版本: >= 4.2.0.Final, <= 4.2.15.Final)<br>• maven/io.netty:netty-codec-http (影响版本: >= 4.1.0.Final, <= 4.1.135.Final)</p>
+                <p><strong>攻击类型：</strong>远程代码执行(RCE), 拒绝服务(DoS)</p>
+                <p><strong>触发条件：</strong>攻击者发送特制请求导致服务不可用</p>
+                <p><strong>潜在危害：</strong>完全控制服务器，执行任意命令；服务不可用，影响业务连续性；敏感文件泄露或系统文件被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 io.netty:netty-codec-http 官方安全公告并及时更新<br>• 关注 io.netty:netty-codec-http 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6jqx-86gh-f27w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Next.js: Server-Side Request Forgery in Server Actions on custom servers</div>
+                    <div class="advisory-id">GHSA-89xv-2m56-2m9x | CVE: CVE-2026-64649 | CWE: CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 141.1k (vercel/next.js)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">服务端请求伪造(SSRF), 中间件/代理绕过</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+
+When a Server Action forwards or redirects a request, an attacker can cause the server to send that outbound request to a malicious host (Server-Side Request Forgery). This requires the attacker's request to control Host-associated headers. In some configurations, it's also possible to obtain internal values that weaken middleware/proxy authorization.
+
+Applications that use Server Actions are affected when the incoming host header is not fixed to a trusted value. This typically occurs on custom servers, or on deployments not behind a proxy that pins the host. Managed hosting pins th...</p>
+                <p><strong>影响产品：</strong>next ⭐141.1k (vercel/next.js)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/next (影响版本: >= 14.1.1, < 15.5.21)<br>• npm/next (影响版本: >= 16.0.0, < 16.2.11)</p>
+                <p><strong>攻击类型：</strong>服务端请求伪造(SSRF), 中间件/代理绕过</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>可能导致安全风险，需根据具体场景评估</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 next 官方安全公告并及时更新<br>• 关注 next 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-89xv-2m56-2m9x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 n8n: Cross-Issuer Token Exchange Account Binding via Subject-Only Identity Resolution</div>
+                    <div class="advisory-id">GHSA-mq3m-f8x3-579w | CVE: CVE-2026-59208 | CWE: CWE-287, CWE-346</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 197.5k (n8n-io/n8n)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge" style="background:#388bfd22;color:#58a6ff;border:1px solid #388bfd44;">安全漏洞</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Impact
+When an n8n instance is configured with more than one trusted token-exchange issuer, external identities are resolved to local accounts using only the JWT `sub` claim, ignoring the issuer (`iss`). As a result, two different issuers that emit the same subject value map to the same local account.
+
+An attacker who can obtain a valid token from one trusted issuer with a `sub` matching a victim registered under a different issuer can authenticate as that victim and access their account.
+
+This issue only affects instances where the token exchange feature is enabled and more than one truste...</p>
+                <p><strong>影响产品：</strong>n8n ⭐197.5k (n8n-io/n8n)</p>
+                <p><strong>影响版本：</strong></p>
+                <p style="margin-left:12px;">• npm/n8n (影响版本: >= 2.28.0, < 2.28.1)<br>• npm/n8n (影响版本: < 2.27.4)</p>
+                <p><strong>攻击类型：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>需满足特定利用条件</p>
+                <p><strong>潜在危害：</strong>可能导致安全风险，需根据具体场景评估</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong></p>
+                <p style="margin-left:12px;">• 关注 n8n 官方安全公告并及时更新<br>• 关注 n8n 官方安全公告并及时更新</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mq3m-f8x3-579w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead><tr>
+                <th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th>
+                <th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th>
+            </tr></thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-94f4-hr76-p5j6</code></td>
+                    <td>vllm</td>
+                    <td>⭐86.9k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-94f4-hr76-p5j6" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p9j2-gv94-2wf4</code></td>
+                    <td>next</td>
+                    <td>⭐141.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p9j2-gv94-2wf4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6gpp-xcg3-4w24</code></td>
+                    <td>next</td>
+                    <td>⭐141.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6gpp-xcg3-4w24" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-m99w-x7hq-7vfj</code></td>
+                    <td>next</td>
+                    <td>⭐141.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m99w-x7hq-7vfj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-7488-6r32-c95q</code></td>
+                    <td>litellm</td>
+                    <td>⭐54.4k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7488-6r32-c95q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xwx6-jjhv-84p8</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xwx6-jjhv-84p8" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xmc9-4f2h-jf9c</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xmc9-4f2h-jf9c" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-cj9h-qx8g-pq2g</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cj9h-qx8g-pq2g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6qc9-mqvw-jg7x</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6qc9-mqvw-jg7x" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-gv7g-jm28-cr3m</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv7g-jm28-cr3m" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2x35-3fw4-9jr4</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2x35-3fw4-9jr4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-rcv6-pvrj-4xcg</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rcv6-pvrj-4xcg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-gf29-4f56-r2jf</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gf29-4f56-r2jf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-64xh-79j6-r5v8</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-64xh-79j6-r5v8" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-8342-988q-86cr</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8342-988q-86cr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-35q8-9mj6-wjmf</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-35q8-9mj6-wjmf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-pm35-fqvh-cq5g</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pm35-fqvh-cq5g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-777w-rpr6-c52h</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-777w-rpr6-c52h" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-h44j-f5r5-ph73</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h44j-f5r5-ph73" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-75qm-gp28-rcq9</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-75qm-gp28-rcq9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-q3j5-8vrg-4p9q</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q3j5-8vrg-4p9q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-9wcp-9r3j-383q</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9wcp-9r3j-383q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p3rg-hrf9-w9gj</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p3rg-hrf9-w9gj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-g3r5-9h93-4j2c</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g3r5-9h93-4j2c" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-x5vx-c2c8-m3w9</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x5vx-c2c8-m3w9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pppj-hq3g-57pj</code></td>
+                    <td>jupyterlab</td>
+                    <td>⭐15.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pppj-hq3g-57pj" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gx64-gj6p-pc4c</code></td>
+                    <td>jupyterlab</td>
+                    <td>⭐15.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gx64-gj6p-pc4c" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-558v-64gr-wgg4</code></td>
+                    <td>io.netty:netty-codec-compression</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-558v-64gr-wgg4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wc96-39fc-566f</code></td>
+                    <td>io.netty:netty-handler-ssl-ocsp</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wc96-39fc-566f" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-g7hg-vrcf-mvmr</code></td>
+                    <td>io.netty:netty-handler-ssl-ocsp</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g7hg-vrcf-mvmr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-272m-gcwp-mpwg</code></td>
+                    <td>io.netty:netty-handler-ssl-ocsp</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-272m-gcwp-mpwg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-4qhr-g3c6-fcfx</code></td>
+                    <td>io.netty:netty-codec-xml</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4qhr-g3c6-fcfx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>33</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hpcc-26xq-25fv</code></td>
+                    <td>io.netty:netty-codec-http3</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hpcc-26xq-25fv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-jppx-w49h-x2qq</code></td>
+                    <td>io.netty:netty-codec-http</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jppx-w49h-x2qq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-q6cq-mhr2-jmr5</code></td>
+                    <td>io.netty:netty-codec-haproxy</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q6cq-mhr2-jmr5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mvh2-crg5-v77c</code></td>
+                    <td>io.netty:netty-codec-http</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mvh2-crg5-v77c" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>37</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6jqx-86gh-f27w</code></td>
+                    <td>io.netty:netty-codec-http</td>
+                    <td>⭐35.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6jqx-86gh-f27w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-89xv-2m56-2m9x</code></td>
+                    <td>next</td>
+                    <td>⭐141.1k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-89xv-2m56-2m9x" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>39</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mq3m-f8x3-579w</code></td>
+                    <td>n8n</td>
+                    <td>⭐197.5k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mq3m-f8x3-579w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr></tbody>
+        </table>
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead><tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-fcw5-x6j4-ccmp</code></td>
+                    <td>jupyter-server</td>
+                    <td>⭐564</td>
+                    <td>CRITICAL</td>
+                    <td><a href="https://github.com/advisories/GHSA-fcw5-x6j4-ccmp" target="_blank" style="color:#58a6ff;">Jupyter Server: Stored XSS in `NbconvertFileHandler` / `Nbco</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-9299-c6m4-mjhc</code></td>
+                    <td>org.eclipse.jetty:jetty-server, org.eclipse.jetty:jetty-server</td>
+                    <td>⭐4.1k</td>
+                    <td>HIGH</td>
+                    <td><a href="https://github.com/advisories/GHSA-9299-c6m4-mjhc" target="_blank" style="color:#58a6ff;">Eclipse Jetty: DoS attack triggering OutOfMemory with 100-Co</a></td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-2fvj-hgj9-j2gr</code></td>
+                    <td>org.eclipse.jetty:jetty-security, org.eclipse.jetty:jetty-security</td>
+                    <td>⭐4.1k</td>
+                    <td>HIGH</td>
+                    <td><a href="https://github.com/advisories/GHSA-2fvj-hgj9-j2gr" target="_blank" style="color:#58a6ff;">Eclipse Jetty Digest Authentication: ISO-8859-1 lossy encodi</a></td>
+                </tr></tbody>
+        </table>
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（25个）：</strong></p>
+                <ul><li><strong>vLLM: OpenAI auth bypass</strong> (vllm) - 建议立即升级或打补丁</li><li><strong>Next.js: Server-Side Request Forgery in rewrites via attacke</strong> (next) - 建议立即升级或打补丁</li><li><strong>Next.js: Middleware / Proxy bypass in App Router application</strong> (next) - 建议立即升级或打补丁</li><li><strong>Next.js: Denial of Service in App Router using Server Action</strong> (next) - 建议立即升级或打补丁</li><li><strong>LiteLLM: MCP Authentication Bypass via OAuth2 Passthrough Fa</strong> (litellm) - 建议立即升级或打补丁</li><li>... 以及其他 20 个紧急漏洞</li></ul>
+                <p><strong>🟠 重点关注（14个）：</strong></p>
+                <ul><li><strong>jupyterlab</strong> - 发现 2 个高危漏洞，建议关注并更新</li><li><strong>io.netty:netty-codec-compression</strong> - 发现 1 个高危漏洞，建议关注并更新</li><li><strong>io.netty:netty-handler-ssl-ocsp</strong> - 发现 3 个高危漏洞，建议关注并更新</li><li><strong>io.netty:netty-codec-xml</strong> - 发现 1 个高危漏洞，建议关注并更新</li><li><strong>io.netty:netty-codec-http3</strong> - 发现 1 个高危漏洞，建议关注并更新</li></ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul><li>其余漏洞建议纳入常规安全维护流程，定期更新依赖</li></ul>
+                <p style="margin-top:16px;"><strong>通用建议：</strong></p>
+                <ul>
+                    <li>及时更新所有依赖到最新安全版本</li>
+                    <li>对Critical级别漏洞优先安排补丁窗口</li>
+                    <li>关注受影响产品的官方安全公告和Changelog</li>
+                    <li>定期进行依赖安全审计（如 npm audit、pip-audit）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories" target="_blank">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily" target="_blank">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
