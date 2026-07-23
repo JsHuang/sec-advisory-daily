@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-23",
+      "title": "GitHub安全公告日报 - 2026-07-23",
+      "url": "reports/report-2026-07-23.html",
+      "stats": {
+        "total": 39,
+        "critical": 1,
+        "high": 38,
+        "star5k": 39,
+        "with_poc": 39
+      },
+      "summary": "今日监控到 39 个高危漏洞公告（1个Critical + 38个High），涉及 n8n(197k⭐)、Next.js(141k⭐)、vLLM(87k⭐)、LiteLLM(54k⭐)、JupyterLab(15k⭐) 等热门项目，其中 25 个紧急级别需重点关注"
+    },
+    {
       "date": "2026-07-22",
       "title": "GitHub安全公告日报 - 2026-07-22",
       "url": "reports/report-2026-07-22.html",
