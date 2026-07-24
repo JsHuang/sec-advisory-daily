@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-24</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-24 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments</div>
+                    <div class="advisory-id">GHSA-6g55-p6wh-862q | CVE: CVE-2026-45623</div>
+                </div>
+                <span class="priority-score">优先级: 9/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,972</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PostCSS的PreviousMap模块解析CSS中的sourceMappingURL注释时，直接将PATH路径与本地文件系统拼接，无任何协议白名单或路径遍历检查。攻击者可通过构造恶意CSS，读取Node进程可读的任意文件，并通过JSON.parse错误信息泄露前~10字节内容。</p>
+                <p><strong>影响产品：</strong>postcss/postcss ⭐28,972</p>
+                <p><strong>影响版本：</strong>npm:postcss (<= 8.5.11)</p>
+                <p><strong>攻击面：</strong>任何将不可信CSS传入PostCSS的管道（CMS主题、用户上传样式、浏览器扩展、第三方包构建管道等）</p>
+                <p><strong>触发条件：</strong>默认配置即可触发，无需from、map或插件选项</p>
+                <p><strong>潜在危害：</strong>任意文件读取和信息泄露；文件存在性探测；大文件DoS</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级至 postcss >= 8.5.12</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6g55-p6wh-862q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 PHPSpreadsheet: XLS/OLE sector-chain self-loop causes memory exhaustion</div>
+                    <div class="advisory-id">GHSA-xh5m-36r6-47m3 | CVE: CVE-2026-59933</div>
+                </div>
+                <span class="priority-score">优先级: 9/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 13,953</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PhpSpreadsheet的OLE读取器解析XLS/OLE元数据时，跟踪扇区链时未检测循环或强制执行最大链长度。恶意构造的.xls文件可使small-block depot扇区链指向自身，导致无限循环直到内存耗尽。</p>
+                <p><strong>影响产品：</strong>PHPOffice/PhpSpreadsheet ⭐13,953</p>
+                <p><strong>影响版本：</strong>composer:phpoffice/phpspreadsheet (>= 4.0.0, <= 5.8.0)；composer:phpoffice/phpspreadsheet (>= 3.3.0, <= 3.10.6)；composer:phpoffice/phpspreadsheet (>= 2.2.0, <= 2.4.6)；composer:phpoffice/phpspreadsheet (>= 2.0.0, <= 2.1.17)；composer:phpoffice/phpspreadsheet (<= 1.30.5)</p>
+                <p><strong>攻击面：</strong>接受用户上传电子表格的Web应用，在自动类型检测阶段（canRead()）即可触发</p>
+                <p><strong>触发条件：</strong>上传一个极小的恶意.xls文件，其OLE分配表中扇区0指向扇区0</p>
+                <p><strong>潜在危害：</strong>拒绝服务 - PHP进程内存耗尽崩溃</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级至 phpoffice/phpspreadsheet >= 5.8.1；phpoffice/phpspreadsheet >= 3.10.7；phpoffice/phpspreadsheet >= 2.4.7；phpoffice/phpspreadsheet >= 2.1.18；phpoffice/phpspreadsheet >= 1.30.6</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xh5m-36r6-47m3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 PHPSpreadsheet: Gnumeric reader unbounded gzip expansion causes memory exhaustion</div>
+                    <div class="advisory-id">GHSA-2mrg-gjxq-2gvr | CVE: CVE-2026-59932</div>
+                </div>
+                <span class="priority-score">优先级: 9/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 13,953</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PhpSpreadsheet的Gnumeric读取器在检测文件类型时，如果文件以gzip魔数开头则调用gzdecode()解压全部内容，未限制解压大小。极小的压缩文件可展开到超过PHP内存限制的大小。</p>
+                <p><strong>影响产品：</strong>PHPOffice/PhpSpreadsheet ⭐13,953</p>
+                <p><strong>影响版本：</strong>composer:phpoffice/phpspreadsheet (>= 4.0.0, <= 5.8.0)；composer:phpoffice/phpspreadsheet (>= 3.3.0, <= 3.10.6)；composer:phpoffice/phpspreadsheet (>= 2.2.0, <= 2.4.6)；composer:phpoffice/phpspreadsheet (>= 2.0.0, <= 2.1.17)；composer:phpoffice/phpspreadsheet (<= 1.30.5)</p>
+                <p><strong>攻击面：</strong>接受用户上传电子表格的Web应用，在文件类型检测阶段（canRead()）即可触发</p>
+                <p><strong>触发条件：</strong>上传一个精心构造的小型gzip压缩.gnumeric文件（zip bomb风格）</p>
+                <p><strong>潜在危害：</strong>拒绝服务 - PHP进程内存耗尽崩溃</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级至 phpoffice/phpspreadsheet >= 5.8.1；phpoffice/phpspreadsheet >= 3.10.7；phpoffice/phpspreadsheet >= 2.4.7；phpoffice/phpspreadsheet >= 2.1.18；phpoffice/phpspreadsheet >= 1.30.6</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2mrg-gjxq-2gvr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 PHPSpreadsheet: SSRF bypass via HTTP redirect in WEBSERVICE() domain whitelist</div>
+                    <div class="advisory-id">GHSA-6hq5-7373-42rg | CVE: CVE-2026-59931</div>
+                </div>
+                <span class="priority-score">优先级: 9/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 13,953</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PhpSpreadsheet 5.4.0引入的WEBSERVICE()域名白名单可通过HTTP重定向绕过。白名单仅验证初始URL的主机名，但file_get_contents()默认跟随302/301重定向，不重新验证目标。攻击者可通过白名单域名的重定向访问内部服务。</p>
+                <p><strong>影响产品：</strong>PHPOffice/PhpSpreadsheet ⭐13,953</p>
+                <p><strong>影响版本：</strong>composer:phpoffice/phpspreadsheet (>= 4.0.0, <= 5.8.0)；composer:phpoffice/phpspreadsheet (>= 3.3.0, <= 3.10.6)；composer:phpoffice/phpspreadsheet (>= 2.2.0, <= 2.4.6)；composer:phpoffice/phpspreadsheet (>= 2.0.0, <= 2.1.17)；composer:phpoffice/phpspreadsheet (<= 1.30.5)</p>
+                <p><strong>攻击面：</strong>使用setDomainWhiteList()并调用getCalculatedValue()处理用户上传XLSX的应用</p>
+                <p><strong>触发条件：</strong>构造包含WEBSERVICE公式的XLSX，URL指向白名单域名的重定向端点，重定向到内部目标（如169.254.169.254）</p>
+                <p><strong>潜在危害：</strong>SSRF绕过白名单；云元数据泄露（AWS/GCP/Azure凭证）；内部服务访问；端口扫描</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级至 phpoffice/phpspreadsheet >= 5.8.1；phpoffice/phpspreadsheet >= 3.10.7；phpoffice/phpspreadsheet >= 2.4.7；phpoffice/phpspreadsheet >= 2.1.18；phpoffice/phpspreadsheet >= 1.30.6</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6hq5-7373-42rg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Auth.js: Configuration errors can cause existence-based auth checks to fail open (auth object populated with an error)</div>
+                    <div class="advisory-id">GHSA-8fpg-xm3f-6cx3 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 8/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 28,305</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Auth.js (next-auth) v5中，当配置产生服务端错误时，auth()包装器暴露的auth对象被填充为错误对象而非null。由于该对象为truthy值，所有基于存在性检查的授权判断（如!!auth、if(req.auth)）都会对每个请求返回true，包括未认证的请求。应用"失败开放"：认证层损坏时不是拒绝访问，而是授予所有人访问权限。</p>
+                <p><strong>影响产品：</strong>nextauthjs/next-auth ⭐28,305</p>
+                <p><strong>影响版本：</strong>npm:next-auth (>= 5.0.0-beta.0, <= 5.0.0-beta.31)</p>
+                <p><strong>攻击面：</strong>使用next-auth v5并通过!!auth或if(req.auth)进行授权检查的中间件/路由处理器</p>
+                <p><strong>触发条件：</strong>部署配置变更导致Auth.js配置错误（如环境变量被修改或删除）</p>
+                <p><strong>潜在危害：</strong>认证绕过 - 所有访客被视为已认证，可访问受保护资源</p>
+                <p><strong>可利用性：</strong>有代码示例</p>
+                <p><strong>修复建议：</strong>升级至 next-auth >= 5.0.0-beta.32</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8fpg-xm3f-6cx3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Auth.js: getToken() throws an uncaught exception on malformed Bearer authorization headers</div>
+                    <div class="advisory-id">GHSA-xmf8-cvqr-rfgj | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,305</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>next-auth的getToken()辅助函数在读取格式错误的Authorization: Bearer头时会抛出未捕获异常。当没有session cookie时，getToken()对Bearer值进行URL解码，畸形的百分号编码导致解码步骤抛出异常而非被视为无效token。</p>
+                <p><strong>影响产品：</strong>nextauthjs/next-auth ⭐28,305</p>
+                <p><strong>影响版本：</strong>npm:@auth/core (>= 0.1.0, < 0.41.3)；npm:next-auth (>= 5.0.0-beta.0, <= 5.0.0-beta.31)；npm:next-auth (>= 4.0.6, <= 4.24.14)</p>
+                <p><strong>攻击面：</strong>在API路由、中间件或请求处理器中直接调用getToken()且未包装try/catch的应用</p>
+                <p><strong>触发条件：</strong>发送带有畸形Bearer头（如畸形百分号编码）的未认证请求</p>
+                <p><strong>潜在危害：</strong>拒绝服务 - 未处理的异常导致请求处理器崩溃</p>
+                <p><strong>可利用性：</strong>有代码示例</p>
+                <p><strong>修复建议：</strong>升级至 @auth/core >= 0.41.3；next-auth >= 5.0.0-beta.32；next-auth >= 4.24.15</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xmf8-cvqr-rfgj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Auth.js: Email normalizer validates the address before Unicode normalization, allowing a homoglyph @ bypass</div>
+                    <div class="advisory-id">GHSA-7rqj-j65f-68wh | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 28,305</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Auth.js的邮件/魔术链接登录流程中，默认邮箱地址规范化器在Unicode规范化之前验证地址。攻击者可使用包含Unicode字符（非ASCII @但在NFKC规范化后变为@）的地址绕过单@检查，导致魔术链接被发送到攻击者控制的邮箱。</p>
+                <p><strong>影响产品：</strong>nextauthjs/next-auth ⭐28,305</p>
+                <p><strong>影响版本：</strong>npm:@auth/core (>= 0.1.0, < 0.41.3)；npm:next-auth (>= 4.10.3, < 4.24.15)；npm:next-auth (>= 5.0.0-beta.1, <= 5.0.0-beta.31)</p>
+                <p><strong>攻击面：</strong>使用next-auth邮件/魔术链接（无密码）登录提供者的应用</p>
+                <p><strong>触发条件：</strong>攻击者知道受害者邮箱地址，使用包含Unicode同形字符的邮箱请求魔术链接</p>
+                <p><strong>潜在危害：</strong>账户接管 - 魔术链接被错误路由到攻击者邮箱，无需受害者交互</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 @auth/core >= 0.41.3；next-auth >= 4.24.15；next-auth >= 5.0.0-beta.32</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7rqj-j65f-68wh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 pypdf: Possible infinite loop for not terminated inline images (ASCII85 and ASCIIHex filter)</div>
+                    <div class="advisory-id">GHSA-g867-7843-wf8q | CVE: CVE-2026-59935</div>
+                </div>
+                <span class="priority-score">优先级: 6/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10,127</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>pypdf解析PDF内容流中未终止的内联图像时（ASCII85和ASCIIHex过滤器），会导致无限循环。攻击者可构造恶意PDF，在文本提取等操作中触发无限循环。</p>
+                <p><strong>影响产品：</strong>py-pdf/pypdf ⭐10,127</p>
+                <p><strong>影响版本：</strong>pip:pypdf (< 6.14.2)</p>
+                <p><strong>攻击面：</strong>使用pypdf解析不可信PDF内容流的应用（如文本提取服务）</p>
+                <p><strong>触发条件：</strong>解析包含未终止ASCII85/ASCIIHex内联图像的恶意PDF</p>
+                <p><strong>潜在危害：</strong>拒绝服务 - 进程无限循环挂起</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 pypdf >= 6.14.2</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g867-7843-wf8q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 pypdf: Possible infinite loop for not terminated inline images</div>
+                    <div class="advisory-id">GHSA-5xf7-4p34-54qr | CVE: CVE-2026-59936</div>
+                </div>
+                <span class="priority-score">优先级: 6/11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10,127</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>pypdf解析PDF内容流中未终止的内联图像时会导致无限循环。攻击者可构造恶意PDF触发此漏洞。</p>
+                <p><strong>影响产品：</strong>py-pdf/pypdf ⭐10,127</p>
+                <p><strong>影响版本：</strong>pip:pypdf (< 6.14.1)</p>
+                <p><strong>攻击面：</strong>使用pypdf解析不可信PDF的应用</p>
+                <p><strong>触发条件：</strong>解析包含未终止内联图像的恶意PDF</p>
+                <p><strong>潜在危害：</strong>拒绝服务 - 进程无限循环挂起</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 pypdf >= 6.14.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5xf7-4p34-54qr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6g55-p6wh-862q</code></td>
+                    <td>postcss/postcss</td>
+                    <td>⭐28,972</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6g55-p6wh-862q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xh5m-36r6-47m3</code></td>
+                    <td>PHPOffice/PhpSpreadsheet</td>
+                    <td>⭐13,953</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xh5m-36r6-47m3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2mrg-gjxq-2gvr</code></td>
+                    <td>PHPOffice/PhpSpreadsheet</td>
+                    <td>⭐13,953</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2mrg-gjxq-2gvr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6hq5-7373-42rg</code></td>
+                    <td>PHPOffice/PhpSpreadsheet</td>
+                    <td>⭐13,953</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6hq5-7373-42rg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8fpg-xm3f-6cx3</code></td>
+                    <td>nextauthjs/next-auth</td>
+                    <td>⭐28,305</td>
+                    <td>Critical</td>
+                    <td>有代码示例</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8fpg-xm3f-6cx3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xmf8-cvqr-rfgj</code></td>
+                    <td>nextauthjs/next-auth</td>
+                    <td>⭐28,305</td>
+                    <td>High</td>
+                    <td>有代码示例</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xmf8-cvqr-rfgj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-7rqj-j65f-68wh</code></td>
+                    <td>nextauthjs/next-auth</td>
+                    <td>⭐28,305</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7rqj-j65f-68wh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-g867-7843-wf8q</code></td>
+                    <td>py-pdf/pypdf</td>
+                    <td>⭐10,127</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g867-7843-wf8q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-5xf7-4p34-54qr</code></td>
+                    <td>py-pdf/pypdf</td>
+                    <td>⭐10,127</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5xf7-4p34-54qr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+<li><strong>PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments</strong> (GHSA-6g55-p6wh-862q) — 立即升级postcss/postcss至最新安全版本</li>
+<li><strong>PHPSpreadsheet: XLS/OLE sector-chain self-loop causes memory exhaustion</strong> (GHSA-xh5m-36r6-47m3) — 立即升级PHPOffice/PhpSpreadsheet至最新安全版本</li>
+<li><strong>PHPSpreadsheet: Gnumeric reader unbounded gzip expansion causes memory exhaustion</strong> (GHSA-2mrg-gjxq-2gvr) — 立即升级PHPOffice/PhpSpreadsheet至最新安全版本</li>
+<li><strong>PHPSpreadsheet: SSRF bypass via HTTP redirect in WEBSERVICE() domain whitelist</strong> (GHSA-6hq5-7373-42rg) — 立即升级PHPOffice/PhpSpreadsheet至最新安全版本</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+<li><strong>Auth.js: Configuration errors can cause existence-based auth checks to fail open (auth object populated with an error)</strong> (GHSA-8fpg-xm3f-6cx3) — 尽快升级nextauthjs/next-auth至最新安全版本</li>
+<li><strong>Auth.js: getToken() throws an uncaught exception on malformed Bearer authorization headers</strong> (GHSA-xmf8-cvqr-rfgj) — 尽快升级nextauthjs/next-auth至最新安全版本</li>
+<li><strong>Auth.js: Email normalizer validates the address before Unicode normalization, allowing a homoglyph @ bypass</strong> (GHSA-7rqj-j65f-68wh) — 尽快升级nextauthjs/next-auth至最新安全版本</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+<li><strong>pypdf: Possible infinite loop for not terminated inline images (ASCII85 and ASCIIHex filter)</strong> (GHSA-g867-7843-wf8q) — 计划升级py-pdf/pypdf</li>
+<li><strong>pypdf: Possible infinite loop for not terminated inline images</strong> (GHSA-5xf7-4p34-54qr) — 计划升级py-pdf/pypdf</li>
+<li><strong>find-my-way: DDoS with HTTP2</strong> (GHSA-c96f-x56v-gq3h) — 计划升级delvedor/find-my-way</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
