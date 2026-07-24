@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-24",
+      "title": "GitHub安全公告日报 - 2026-07-24",
+      "url": "reports/report-2026-07-24.html",
+      "stats": {
+        "total": 10,
+        "critical": 2,
+        "high": 8,
+        "star5k": 9,
+        "with_poc": 10
+      },
+      "summary": "今日发现10个Critical/High漏洞：PostCSS任意文件读取(🔴)、PHPSpreadsheet多个DoS和SSRF(🔴)、Auth.js认证绕过和DoS(🟠)、pypdf无限循环DoS(🟡)。重点关注PostCSS和PHPSpreadsheet的SSRF绕过漏洞。"
+    },
+    {
       "date": "2026-07-23",
       "title": "GitHub安全公告日报 - 2026-07-23",
       "url": "reports/report-2026-07-23.html",
