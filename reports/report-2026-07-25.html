@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-25</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-25 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">91</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">71</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">16</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">69</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 open-webui terminal proxy path traversal guard bypass via 9x encoded traversal</div>
+                    <div class="advisory-id">GHSA-frvj-c5qp-xj4w | CVE: CVE-2026-59221</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>open-webui terminal proxy path traversal guard bypass via 9x encoded traversal</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&gt;= 0.9.6, &lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、路径遍历/文件读取、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-frvj-c5qp-xj4w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity to the upstream (X-User-Id header and ws_terminal session_id query injection)</div>
+                    <div class="advisory-id">GHSA-j657-m4c4-24jq | CVE: CVE-2026-59224</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity to the upstream (X-User-Id header and ws_terminal session_id query injection)</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>跨站脚本 (XSS)</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）；需要已认证用户</p>
+                <p><strong>潜在危害：</strong>根据漏洞类型评估</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j657-m4c4-24jq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socket.IO event-caller session_id</div>
+                    <div class="advisory-id">GHSA-74h3-cxq7-vc5q | CVE: CVE-2026-59216</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socket.IO event-caller session_id</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、权限提升</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；用户交互（点击/访问）；需要已认证用户；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制、敏感数据泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-74h3-cxq7-vc5q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Cross-channel message overwrite via chat completion API (single-model and multimodel message_ids)</div>
+                    <div class="advisory-id">GHSA-x2ff-v5v8-m75m | CVE: CVE-2026-59714</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Cross-channel message overwrite via chat completion API (single-model and multimodel message_ids)</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&gt;= 0.9.5, &lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>根据漏洞描述分析</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）；需要已认证用户</p>
+                <p><strong>潜在危害：</strong>数据被篡改、账户接管</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x2ff-v5v8-m75m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchannel logout</div>
+                    <div class="advisory-id">GHSA-855v-hq7w-jmjw | CVE: CVE-2026-59219</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchannel logout</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&gt;= 0.9.0, &lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、配置注入</p>
+                <p><strong>触发条件：</strong>通过特定URL/端点触发；用户交互（点击/访问）；需要已认证用户</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-855v-hq7w-jmjw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write-link output</div>
+                    <div class="advisory-id">GHSA-6v4j-43gg-vj32 | CVE: CVE-2026-55404</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 179.9k · yt-dlp/yt-dlp</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write-link output</p>
+                <p><strong>影响产品：</strong>pip: yt-dlp ⭐179.9k</p>
+                <p><strong>影响版本：</strong>&lt; 2026.7.4</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、跨站脚本 (XSS)、命令注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本：yt-dlp >= 2026.7.4；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6v4j-43gg-vj32" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Open WebUI: Stored web worker XSS via Pyodide</div>
+                    <div class="advisory-id">GHSA-4r2p-27mh-5m22 | CVE: CVE-2026-59214</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 146.6k · open-webui/open-webui</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Stored web worker XSS via Pyodide</p>
+                <p><strong>影响产品：</strong>pip: open-webui ⭐146.6k</p>
+                <p><strong>影响版本：</strong>&lt; 0.10.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、跨站脚本 (XSS)、权限提升、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；用户交互（点击/访问）；需要已认证用户；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制、用户会话劫持</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本：open-webui >= 0.10.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4r2p-27mh-5m22" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure</div>
+                    <div class="advisory-id">GHSA-r28c-9q8g-f849 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 · 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 22.3k · postcss/autoprefixer</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure</p>
+                <p><strong>影响产品：</strong>npm: postcss ⭐22.3k</p>
+                <p><strong>影响版本：</strong>&lt;= 8.5.17</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、路径遍历/文件读取</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制、敏感数据泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：postcss >= 8.5.18；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r28c-9q8g-f849" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Ray: Arbitrary code execution via ray.data.read_webdataset default decoder: pickle.loads(value) and torch.load(weights_only=False)</div>
+                    <div class="advisory-id">GHSA-hhrp-gw25-jr43 | CVE: CVE-2026-57516</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 43.3k · ray-project/ray</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Ray: Arbitrary code execution via ray.data.read_webdataset default decoder: pickle.loads(value) and torch.load(weights_only=False)</p>
+                <p><strong>影响产品：</strong>pip: ray ⭐43.3k</p>
+                <p><strong>影响版本：</strong>&lt; 2.56.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、反序列化</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本：ray >= 2.56.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hhrp-gw25-jr43" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.add() URL (incomplete fix of GHSA-rwj8-pgh3-r573)</div>
+                    <div class="advisory-id">GHSA-94p4-4cq8-9g67 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5.2k · gitpython-developers/GitPython</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.add() URL (incomplete fix of GHSA-rwj8-pgh3-r573)</p>
+                <p><strong>影响产品：</strong>pip: GitPython ⭐5.2k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.53</p>
+                <p><strong>攻击面：</strong>信息泄露、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；网络可达</p>
+                <p><strong>潜在危害：</strong>敏感数据泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：GitPython >= 3.1.55；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-94p4-4cq8-9g67" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython: Unsafe git option guard bypass via single-character kwarg value token smuggling enables arbitrary command execution</div>
+                    <div class="advisory-id">GHSA-r9mr-m37c-5fr3 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5.2k · gitpython-developers/GitPython</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Unsafe git option guard bypass via single-character kwarg value token smuggling enables arbitrary command execution</p>
+                <p><strong>影响产品：</strong>pip: GitPython ⭐5.2k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.53</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：GitPython >= 3.1.54；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r9mr-m37c-5fr3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython: Incomplete unsafe_git_clone_options denylist omits --template enabling arbitrary command execution via clone hooks</div>
+                    <div class="advisory-id">GHSA-6p8h-3wgx-97gf | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5.2k · gitpython-developers/GitPython</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Incomplete unsafe_git_clone_options denylist omits --template enabling arbitrary command execution via clone hooks</p>
+                <p><strong>影响产品：</strong>pip: GitPython ⭐5.2k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.53</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：GitPython >= 3.1.54；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6p8h-3wgx-97gf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython: Arbitrary file overwrite via git diff --output argument injection in Diffable.diff (key- and value-controlled)</div>
+                    <div class="advisory-id">GHSA-fjr4-x663-mwxc | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5.2k · gitpython-developers/GitPython</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Arbitrary file overwrite via git diff --output argument injection in Diffable.diff (key- and value-controlled)</p>
+                <p><strong>影响产品：</strong>pip: GitPython ⭐5.2k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.53</p>
+                <p><strong>攻击面：</strong>跨站脚本 (XSS)、权限提升、任意文件覆盖、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；用户交互（点击/访问）</p>
+                <p><strong>潜在危害：</strong>数据被篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC+详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：GitPython >= 3.1.54；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fjr4-x663-mwxc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython: git-config section-name injection enables arbitrary config directives (core.sshCommand RCE)</div>
+                    <div class="advisory-id">GHSA-3rp5-jjmw-4wv2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 8/12 · 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 5.2k · gitpython-developers/GitPython</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: git-config section-name injection enables arbitrary config directives (core.sshCommand RCE)</p>
+                <p><strong>影响产品：</strong>pip: gitpython ⭐5.2k</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.52</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)、跨站脚本 (XSS)、配置注入</p>
+                <p><strong>触发条件：</strong>攻击者构造恶意输入；通过特定URL/端点触发；用户交互（点击/访问）；网络可达</p>
+                <p><strong>潜在危害：</strong>服务器被完全控制</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本：gitpython >= 3.1.53；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3rp5-jjmw-4wv2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</div>
+                    <div class="advisory-id">GHSA-qwww-vcr4-c8h2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 7/12 · 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 8.9k · aksonov/react-native-router-flux</span>
+                
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</p>
+                <p><strong>影响产品：</strong>npm: react-router ⭐8.9k</p>
+                <p><strong>影响版本：</strong>&gt;= 7.12.0, &lt; 8.3.0</p>
+                <p><strong>攻击面：</strong>CSRF</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>根据漏洞类型评估</p>
+                <p><strong>可利用性：</strong>有详细分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本：react-router >= 8.3.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 React Router: Unauthenticated Denial of Service via Inefficient Route Matching</div>
+                    <div class="advisory-id">GHSA-chx6-hx7r-mcp5 | CVE: CVE-2026-55685</div>
+                </div>
+                <span class="priority-score">优先级: 6/12 · 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 8.9k · aksonov/react-native-router-flux</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>React Router: Unauthenticated Denial of Service via Inefficient Route Matching</p>
+                <p><strong>影响产品：</strong>npm: react-router ⭐8.9k</p>
+                <p><strong>影响版本：</strong>&gt;= 7.0.0, &lt; 7.18.0</p>
+                <p><strong>攻击面：</strong>拒绝服务 (DoS)</p>
+                <p><strong>触发条件：</strong>通过特定URL/端点触发；需要已认证用户</p>
+                <p><strong>潜在危害：</strong>服务不可用</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本：react-router >= 7.18.0；关注官方安全公告获取最新补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-chx6-hx7r-mcp5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-frvj-c5qp-xj4w</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-frvj-c5qp-xj4w" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-j657-m4c4-24jq</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j657-m4c4-24jq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-74h3-cxq7-vc5q</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-74h3-cxq7-vc5q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-x2ff-v5v8-m75m</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x2ff-v5v8-m75m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-855v-hq7w-jmjw</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-855v-hq7w-jmjw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-6v4j-43gg-vj32</code></td>
+                    <td>yt-dlp/yt-dlp</td>
+                    <td>179.9k</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6v4j-43gg-vj32" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-4r2p-27mh-5m22</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146.6k</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4r2p-27mh-5m22" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-r28c-9q8g-f849</code></td>
+                    <td>postcss/autoprefixer</td>
+                    <td>22.3k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-r28c-9q8g-f849" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-hhrp-gw25-jr43</code></td>
+                    <td>ray-project/ray</td>
+                    <td>43.3k</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hhrp-gw25-jr43" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-94p4-4cq8-9g67</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-94p4-4cq8-9g67" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-r9mr-m37c-5fr3</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-r9mr-m37c-5fr3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-6p8h-3wgx-97gf</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-6p8h-3wgx-97gf" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-fjr4-x663-mwxc</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC+详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-fjr4-x663-mwxc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3rp5-jjmw-4wv2</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-3rp5-jjmw-4wv2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-qwww-vcr4-c8h2</code></td>
+                    <td>aksonov/react-native-router-flux</td>
+                    <td>8.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-chx6-hx7r-mcp5</code></td>
+                    <td>aksonov/react-native-router-flux</td>
+                    <td>8.9k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-chx6-hx7r-mcp5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-vh45-f885-3848</code></td>
+                    <td>JuneAndGreen/sm-crypto</td>
+                    <td>1.2k</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-f25v-x6vr-962g</code></td>
+                    <td>pheditor/pheditor</td>
+                    <td>183</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-cmwh-g2h8-c222</code></td>
+                    <td>poweradmin/poweradmin</td>
+                    <td>892</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-h4hf-v6w5-897x</code></td>
+                    <td>poweradmin/poweradmin</td>
+                    <td>892</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-j5g9-f88f-gfj3</code></td>
+                    <td>httplib2/httplib2</td>
+                    <td>509</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-pm4m-ph32-ghv5</code></td>
+                    <td>tj/js-yaml</td>
+                    <td>274</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-g3hq-hphg-8fhh</code></td>
+                    <td>pheditor/pheditor</td>
+                    <td>183</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-w4hw-qcx7-56pr</code></td>
+                    <td>ericcornelissen/shescape</td>
+                    <td>9</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rm67-g9ch-vxff</code></td>
+                    <td>poweradmin/poweradmin</td>
+                    <td>892</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-hmj8-5xmh-5573</code></td>
+                    <td>libp2p/py-libp2p</td>
+                    <td>620</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>open-webui terminal proxy path traversal guard bypass via 9x encoded traversal</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socke</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>Open WebUI: Cross-channel message overwrite via chat completion API (single-mode</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchann</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write</strong> — yt-dlp/yt-dlp ⭐179.9k，修复版本: 2026.7.4</li><li><strong>Open WebUI: Stored web worker XSS via Pyodide</strong> — open-webui/open-webui ⭐146.6k，修复版本: 0.10.0</li><li><strong>PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) l</strong> — postcss/autoprefixer ⭐22.3k，修复版本: 8.5.18</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Ray: Arbitrary code execution via ray.data.read_webdataset default decoder: pick</strong> — ray-project/ray ⭐43.3k，修复版本: 2.56.0</li><li><strong>GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.a</strong> — gitpython-developers/GitPython ⭐5.2k，修复版本: 3.1.55</li><li><strong>GitPython: Unsafe git option guard bypass via single-character kwarg value token</strong> — gitpython-developers/GitPython ⭐5.2k，修复版本: 3.1.54</li><li><strong>GitPython: Incomplete unsafe_git_clone_options denylist omits --template enablin</strong> — gitpython-developers/GitPython ⭐5.2k，修复版本: 3.1.54</li><li><strong>GitPython: Arbitrary file overwrite via git diff --output argument injection in </strong> — gitpython-developers/GitPython ⭐5.2k，修复版本: 3.1.54</li><li><strong>GitPython: git-config section-name injection enables arbitrary config directives</strong> — gitpython-developers/GitPython ⭐5.2k，修复版本: 3.1.53</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</strong> — aksonov/react-native-router-flux ⭐8.9k，修复版本: 8.3.0</li><li><strong>React Router: Unauthenticated Denial of Service via Inefficient Route Matching</strong> — aksonov/react-native-router-flux ⭐8.9k，修复版本: 7.18.0</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
