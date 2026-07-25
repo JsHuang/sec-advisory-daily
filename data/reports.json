@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-25",
+      "title": "GitHub安全公告日报 - 2026-07-25",
+      "url": "reports/report-2026-07-25.html",
+      "stats": {
+        "total": 91,
+        "critical": 20,
+        "high": 71,
+        "star5k": 16,
+        "with_poc": 69
+      },
+      "summary": "今日监控到91条高危安全公告（20条Critical、71条High），其中16个Star≥5k项目受影响。 重点关注: open-webui/open-webui(⭐146.6k) open-webui terminal proxy path traversal guard byp； 重点关注: open-webui/open-webui(⭐146.6k) Open WebUI: Terminal proxy forwards a spoofable, i； 重点关注: open-webui/open-webui(⭐146.6k) Open WebUI: Cross-user code-interpreter and tool e；"
+    },
+    {
       "date": "2026-07-24",
       "title": "GitHub安全公告日报 - 2026-07-24",
       "url": "reports/report-2026-07-24.html",
