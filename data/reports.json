@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-26",
+      "title": "GitHub安全公告日报 - 2026-07-26",
+      "url": "reports/report-2026-07-26.html",
+      "stats": {
+        "total": 12,
+        "critical": 3,
+        "high": 9,
+        "star5k": 3,
+        "with_poc": 3
+      },
+      "summary": "今日监控到12条Critical/High级别公告。Redis RESTORE RCE（含完整PoC仓库）、SiYuan MCP授权绕过（Critical）、NLTK eval注入为最高优先级漏洞。Redis PoC仓库berabuddies/redis-poc已公开，影响75k+ star项目。"
+    },
+    {
       "date": "2026-07-25",
       "title": "GitHub安全公告日报 - 2026-07-25",
       "url": "reports/report-2026-07-25.html",
@@ -376,19 +389,6 @@
         "with_poc": 22
       },
       "summary": "今日发现23个高危漏洞（1个Critical，22个High），16个影响Star≥5k项目，22个包含PoC。重点关注：esbuild, File Browser, Appsmith, Budibase。"
-    },
-    {
-      "date": "2026-06-13",
-      "title": "GitHub安全公告日报 - 2026-06-13",
-      "url": "reports/report-2026-06-13.html",
-      "stats": {
-        "total": 59,
-        "critical": 0,
-        "high": 59,
-        "star5k": 17,
-        "with_poc": 12
-      },
-      "summary": "今日发现59个High级别漏洞（无Critical），其中17个影响Star≥5k项目，12个包含PoC或详细分析。重点关注：esbuild供应链RCE、Netty DNS缓存投毒（2个）、Apache ECharts XSS、Netty SNI DoS、Chisel ACL绕过、mise信任绕过、Appsmith竞争条件、Flowise Mass Assignment、File Browser系列漏洞。"
     }
   ]
 }
