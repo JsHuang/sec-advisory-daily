@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-26</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-26 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Redis before 8.8.0, in the unusual case where an authenticated attacker can execute RESTORE,...</div>
+                    <div class="advisory-id">GHSA-c964-568j-vxx7 | CVE: CVE-2026-66373</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 75,695</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Redis before 8.8.0, in the unusual case where an authenticated attacker can execute RESTORE, allows remote code execution via a RESTORE payload where the same NACK (pending entry) is referenced by more than one consumer, because deleting both consumers via XGROUP DELCONSUMER leads to a double free. NOTE: this issue exists because of an incomplete fix for CVE-2026-25243.</p>
+                <p><strong>影响产品：</strong>redis/redis ⭐75,695, berabuddies/redis-poc ⭐415</p>
+                <p><strong>攻击面：</strong>需要认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC代码，可快速验证和利用</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c964-568j-vxx7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SiYuan before v3.7.2 contains a missing authorization vulnerability in the POST /mcp kernel...</div>
+                    <div class="advisory-id">GHSA-hp8g-g2qj-wgpj | CVE: CVE-2026-66012</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 45,416</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan before v3.7.2 contains a missing authorization vulnerability in the POST /mcp kernel endpoint, which is gated only by a general auth check (model.CheckAuth) with no admin-role or read-only enforcement. This exposes 31 MCP tools, including a file tool with list/read/write/delete/rename/copy actions across the entire workspace. When the Publish server is enabled in anonymous mode (Conf.Publish.Enable=true and Conf.Publish.Auth.Enable=false), the Publish reverse proxy attaches an anonymous RoleReader JWT to proxied requests, allowing a remote unauthenticated attacker to reach /mcp. The attacker can read conf/conf.json to extract accessAuthCode, api.token, and cookieKey in plaintext, write arbitrary files in the workspace, and plant a plugin into data/plugins/ that executes with nodeIntegration:true and no contextIsolation on the next desktop launch, leading to administrator takeover.</p>
+                <p><strong>影响产品：</strong>siyuan-note/siyuan ⭐45,416</p>
+                <p><strong>攻击面：</strong>需要认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全后果，包括数据泄露、权限提升或远程代码执行</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和修复提交，可理解攻击向量</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hp8g-g2qj-wgpj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 NLTK (Natural Language Toolkit) before version 3.9.3 contains an eval injection vulnerability in...</div>
+                    <div class="advisory-id">GHSA-848c-c2cx-j7qx | CVE: CVE-2025-71408</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 14,683</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK (Natural Language Toolkit) before version 3.9.3 contains an eval injection vulnerability in the nltk.collocations module that allows an attacker who controls command-line arguments to execute arbitrary Python code. When collocations.py is invoked directly, the __main__ block passes command-line arguments directly to eval() as suffixes of BigramAssocMeasures without allowlist validation or sanitization, enabling an attacker to supply a Python expression that escapes the intended attribute lookup and executes arbitrary code including OS commands via the os module.</p>
+                <p><strong>影响产品：</strong>nltk/nltk ⭐14,683</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和修复提交，可理解攻击向量</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-848c-c2cx-j7qx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 OpenRemote before 1.26.2 contains an authentication bypass vulnerability in the console...</div>
+                    <div class="advisory-id">GHSA-jg8p-j9v5-g5x5 | CVE: CVE-2026-66013</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 1,806</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenRemote before 1.26.2 contains an authentication bypass vulnerability in the console registration API that allows unauthenticated attackers to update existing console assets by supplying a known asset identifier. Attackers can overwrite push notification tokens and console metadata without authentication or ownership validation, redirecting notifications or denying delivery to legitimate consoles.</p>
+                <p><strong>影响产品：</strong>openremote/openremote ⭐1,806</p>
+                <p><strong>攻击面：</strong>需要认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全后果，包括数据泄露、权限提升或远程代码执行</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jg8p-j9v5-g5x5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 The web management interface of Tycon Systems TPDIN-Monitor-WEB2
+
+ does not perform server-side...</div>
+                    <div class="advisory-id">GHSA-jmfc-m78f-w5vj | CVE: CVE-2026-61884</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 114</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The web management interface of Tycon Systems TPDIN-Monitor-WEB2
+
+ does not perform server-side validation of credentials during the login process. By submitting empty values for both credential fields, an unauthenticated remote attacker can bypass the authentication check and establish a valid administrative session. This grants full access to device controls including power relay management, device reboot, remote access service configuration, and network settings, which could allow an attacker to disrupt connected infrastructure or cause physical damage to equipment.</p>
+                <p><strong>影响产品：</strong>cisagov/CSAF ⭐114</p>
+                <p><strong>攻击面：</strong>需要认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全后果，包括数据泄露、权限提升或远程代码执行</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jmfc-m78f-w5vj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 The WPForms Pro plugin for WordPress is vulnerable to Arbitrary File Upload in all versions up to...</div>
+                    <div class="advisory-id">GHSA-g685-9q2w-88f4 | CVE: CVE-2026-10818</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The WPForms Pro plugin for WordPress is vulnerable to Arbitrary File Upload in all versions up to, and including, 1.10.1.1 via the ajax_chunk_upload_finalize function. This is due to the file type validation occurring after chunk metadata and file contents have already been written to disk, and the assembled file not being deleted upon validation failure. This makes it possible for unauthenticated attackers to upload files that may be executable, which makes remote code execution possible.</p>
+                <p><strong>影响产品：</strong>参考官方公告</p>
+                <p><strong>攻击面：</strong>需要认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g685-9q2w-88f4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Knot Resolver before 6.4.1 allows remote code execution via a heap-based buffer overflow in the...</div>
+                    <div class="advisory-id">GHSA-pw7g-jh5j-6w4m | CVE: CVE-2026-66374</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Knot Resolver before 6.4.1 allows remote code execution via a heap-based buffer overflow in the DoQ (DNS-over-QUIC) receive path.</p>
+                <p><strong>影响产品：</strong>venglin/knot-doq ⭐0</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pw7g-jh5j-6w4m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 An attacker can modify data that should be restricted to read‑only access.</div>
+                    <div class="advisory-id">GHSA-8r5g-w376-c3rg | CVE: CVE-2026-60135</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 114</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>An attacker can modify data that should be restricted to read‑only access.</p>
+                <p><strong>影响产品：</strong>cisagov/CSAF ⭐114</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8r5g-w376-c3rg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Weintek cMT3092X HMI allows a non-privileged user to modify cookies to gain elevated privileges.</div>
+                    <div class="advisory-id">GHSA-fgcj-2p5v-hv7f | CVE: CVE-2026-60134</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 114</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Weintek cMT3092X HMI allows a non-privileged user to modify cookies to gain elevated privileges.</p>
+                <p><strong>影响产品：</strong>cisagov/CSAF ⭐114</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fgcj-2p5v-hv7f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Weintek cMT3092X HMI allows a non-privileged user to modify tokens to escalate privileges.</div>
+                    <div class="advisory-id">GHSA-f56p-33jj-44h8 | CVE: CVE-2026-61892</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 114</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Weintek cMT3092X HMI allows a non-privileged user to modify tokens to escalate privileges.</p>
+                <p><strong>影响产品：</strong>cisagov/CSAF ⭐114</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f56p-33jj-44h8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Weintek cMT3092X HMI stores user account passwords in plaintext.</div>
+                    <div class="advisory-id">GHSA-hgch-6f8j-3xgx | CVE: CVE-2026-61886</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 114</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Weintek cMT3092X HMI stores user account passwords in plaintext.</p>
+                <p><strong>影响产品：</strong>cisagov/CSAF ⭐114</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hgch-6f8j-3xgx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 In OpenStack Ironic Python Agent through 11.6.0, a project-scoped user with the manager role can...</div>
+                    <div class="advisory-id">GHSA-wj9f-vqw7-855c | CVE: CVE-2026-66138</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 133</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>In OpenStack Ironic Python Agent through 11.6.0, a project-scoped user with the manager role can achieve arbitrary code execution on a running Ironic-Python-Agent via a maliciously constructed configuration, because the value of ntp_server is passed to a shell.</p>
+                <p><strong>影响产品：</strong>openstack/ironic-python-agent ⭐133</p>
+                <p><strong>攻击面：</strong>可能无需认证</p>
+                <p><strong>潜在危害：</strong>可能导致严重安全问题，影响系统机密性、完整性或可用性</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，需进一步分析</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考官方公告中的补丁信息</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wj9f-vqw7-855c" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-c964-568j-vxx7</code></td>
+                    <td>redis</td>
+                    <td>75,695</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-c964-568j-vxx7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hp8g-g2qj-wgpj</code></td>
+                    <td>siyuan</td>
+                    <td>45,416</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hp8g-g2qj-wgpj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-848c-c2cx-j7qx</code></td>
+                    <td>nltk</td>
+                    <td>14,683</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-848c-c2cx-j7qx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-jg8p-j9v5-g5x5</code></td>
+                    <td>openremote</td>
+                    <td>1,806</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-jg8p-j9v5-g5x5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-jmfc-m78f-w5vj</code></td>
+                    <td>CSAF</td>
+                    <td>114</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-jmfc-m78f-w5vj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-g685-9q2w-88f4</code></td>
+                    <td>Unknown</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g685-9q2w-88f4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-pw7g-jh5j-6w4m</code></td>
+                    <td>knot-doq</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-pw7g-jh5j-6w4m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-8r5g-w376-c3rg</code></td>
+                    <td>CSAF</td>
+                    <td>114</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8r5g-w376-c3rg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-fgcj-2p5v-hv7f</code></td>
+                    <td>CSAF</td>
+                    <td>114</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-fgcj-2p5v-hv7f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-f56p-33jj-44h8</code></td>
+                    <td>CSAF</td>
+                    <td>114</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f56p-33jj-44h8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-hgch-6f8j-3xgx</code></td>
+                    <td>CSAF</td>
+                    <td>114</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-hgch-6f8j-3xgx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-wj9f-vqw7-855c</code></td>
+                    <td>ironic-python-agent</td>
+                    <td>133</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-wj9f-vqw7-855c" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li>Redis before 8.8.0, in the unusual case where an authenticated attacker can execute RESTORE,... - 建议立即升级修复</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li>SiYuan before v3.7.2 contains a missing authorization vulnerability in the POST /mcp kernel... - 建议尽快评估并安排修复</li>
+                    <li>NLTK (Natural Language Toolkit) before version 3.9.3 contains an eval injection vulnerability in... - 建议尽快评估并安排修复</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>OpenRemote before 1.26.2 contains an authentication bypass vulnerability in the console... - 可在下次更新时修复</li>
+                    <li>The web management interface of Tycon Systems TPDIN-Monitor-WEB2
+
+ does not perform server-side... - 可在下次更新时修复</li>
+                    <li>The WPForms Pro plugin for WordPress is vulnerable to Arbitrary File Upload in all versions up to... - 可在下次更新时修复</li>
+                    <li>Knot Resolver before 6.4.1 allows remote code execution via a heap-based buffer overflow in the... - 可在下次更新时修复</li>
+                    <li>An attacker can modify data that should be restricted to read‑only access. - 可在下次更新时修复</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
