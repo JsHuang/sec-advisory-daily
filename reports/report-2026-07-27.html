@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-27</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-27 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">65</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">48</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">35</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">58</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急  Budibase: Unauthenticated REST Datasource Credential Theft via Cross-Origin Auth Leak </div>
+                    <div class="advisory-id">GHSA-mqhr-6j6h-74p5 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 90</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Unauthenticated REST Datasource Credential Theft via Cross-Origin Auth Leak </p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>无需认证, 远程代码执行</p>
+                <p><strong>触发条件：</strong>攻击者无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器; 敏感信息泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-200</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mqhr-6j6h-74p5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急  Budibase: OIDC SSO account takeover: incoming identity linked by email without checking email_verified</div>
+                    <div class="advisory-id">GHSA-hp6v-6jw7-gv2f | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 90</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: OIDC SSO account takeover: incoming identity linked by email without checking email_verified</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>账户接管</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>账户接管，用户数据被窃取</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-287</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hp6v-6jw7-gv2f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急  Budibase: SQL Injection via `multipleStatements: true`</div>
+                    <div class="advisory-id">GHSA-q6x4-v3qx-85qw | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 90</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: SQL Injection via `multipleStatements: true`</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>数据库数据泄露和篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-89</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q6x4-v3qx-85qw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 etcd: `tlsListener.acceptLoop` spawns unbounded handshake goroutines with no deadline</div>
+                    <div class="advisory-id">GHSA-6vch-q96h-7gc3 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 52,029 (etcd-io/etcd)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>etcd: `tlsListener.acceptLoop` spawns unbounded handshake goroutines with no deadline</p>
+                <p><strong>影响产品：</strong>etcd-io/etcd ⭐52,029</p>
+                <p><strong>影响版本：</strong>go/go.etcd.io/etcd/v3: 受影响版本 &gt;= 3.7.0-alpha.0, &lt; 3.7.1, 修复版本 3.7.1<br>go/go.etcd.io/etcd/v3: 受影响版本 &gt;= 3.6.0, &lt; 3.6.14, 修复版本 3.6.14<br>go/go.etcd.io/etcd/v3: 受影响版本 &lt; 3.5.33, 修复版本 3.5.33</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>服务拒绝，影响可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-770</p>
+                <p><strong>修复建议：</strong>升级到: go/go.etcd.io/etcd/v3 → 3.7.1; go/go.etcd.io/etcd/v3 → 3.6.14; go/go.etcd.io/etcd/v3 → 3.5.33</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6vch-q96h-7gc3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 etcd: Watch API authorization bypass via open-ended range requests</div>
+                    <div class="advisory-id">GHSA-xg4h-6gfc-h4m8 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 52,029 (etcd-io/etcd)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>etcd: Watch API authorization bypass via open-ended range requests</p>
+                <p><strong>影响产品：</strong>etcd-io/etcd ⭐52,029</p>
+                <p><strong>影响版本：</strong>go/go.etcd.io/etcd/v3: 受影响版本 &gt;= 3.7.0-alpha.0, &lt; 3.7.1, 修复版本 3.7.1<br>go/go.etcd.io/etcd/v3: 受影响版本 &gt;= 3.6.0, &lt; 3.6.14, 修复版本 3.6.14<br>go/go.etcd.io/etcd/v3: 受影响版本 &lt; 3.5.33, 修复版本 3.5.33</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-863</p>
+                <p><strong>修复建议：</strong>升级到: go/go.etcd.io/etcd/v3 → 3.7.1; go/go.etcd.io/etcd/v3 → 3.6.14; go/go.etcd.io/etcd/v3 → 3.5.33</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xg4h-6gfc-h4m8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 frp: Unauthenticated Remote Denial of Service in the frp SSH Tunnel Gateway via Integer Overflow</div>
+                    <div class="advisory-id">GHSA-26gq-p25f-99cp | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 108,361 (fatedier/frp)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>frp: Unauthenticated Remote Denial of Service in the frp SSH Tunnel Gateway via Integer Overflow</p>
+                <p><strong>影响产品：</strong>fatedier/frp ⭐108,361</p>
+                <p><strong>影响版本：</strong>go/github.com/fatedier/frp: 受影响版本 &gt;= 0.53.0, &lt;= 0.70.0, 修复版本 0.70.1</p>
+                <p><strong>攻击面：</strong>无需认证, DoS</p>
+                <p><strong>触发条件：</strong>攻击者无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>服务拒绝，影响可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-129, CWE-190</p>
+                <p><strong>修复建议：</strong>升级到: go/github.com/fatedier/frp → 0.70.1</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-26gq-p25f-99cp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 react-server-dom: Denial of Service in Server Functions</div>
+                    <div class="advisory-id">GHSA-wx67-qw84-cm4g | CVE: CVE-2026-44907</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 246,732 (facebook/react)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>react-server-dom: Denial of Service in Server Functions</p>
+                <p><strong>影响产品：</strong>facebook/react ⭐246,732</p>
+                <p><strong>影响版本：</strong>npm/react-server-dom-webpack: 受影响版本 &gt;= 19.0.0, &lt; 19.0.8, 修复版本 19.0.8<br>npm/react-server-dom-turbopack: 受影响版本 &gt;= 19.0.0, &lt; 19.0.8, 修复版本 19.0.8<br>npm/react-server-dom-turbopack: 受影响版本 &gt;= 19.1.0, &lt; 19.1.9, 修复版本 19.1.9</p>
+                <p><strong>攻击面：</strong>DoS</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>服务拒绝，影响可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-400, CWE-770</p>
+                <p><strong>修复建议：</strong>升级到: npm/react-server-dom-webpack → 19.0.8; npm/react-server-dom-turbopack → 19.0.8; npm/react-server-dom-turbopack → 19.1.9</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-wx67-qw84-cm4g" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 open-webui terminal proxy path traversal guard bypass via 9x encoded traversal</div>
+                    <div class="advisory-id">GHSA-frvj-c5qp-xj4w | CVE: CVE-2026-59221</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>open-webui terminal proxy path traversal guard bypass via 9x encoded traversal</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &gt;= 0.9.6, &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>路径穿越</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>内网探测和数据泄露; 任意文件读写</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-22, CWE-918</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-frvj-c5qp-xj4w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity to the upstream (X-User-Id header and w</div>
+                    <div class="advisory-id">GHSA-j657-m4c4-24jq | CVE: CVE-2026-59224</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity to the upstream (X-User-Id header and ws_terminal session_id query injection)</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>账户接管，用户数据被窃取</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-287, CWE-290</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j657-m4c4-24jq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write-link output</div>
+                    <div class="advisory-id">GHSA-6v4j-43gg-vj32 | CVE: CVE-2026-55404</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 180,243 (yt-dlp/yt-dlp)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write-link output</p>
+                <p><strong>影响产品：</strong>yt-dlp/yt-dlp ⭐180,243</p>
+                <p><strong>影响版本：</strong>pip/yt-dlp: 受影响版本 &lt; 2026.7.4, 修复版本 2026.7.4</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>安全边界被突破</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-74</p>
+                <p><strong>修复建议：</strong>升级到: pip/yt-dlp → 2026.7.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6v4j-43gg-vj32" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socket.IO event-caller session_id</div>
+                    <div class="advisory-id">GHSA-74h3-cxq7-vc5q | CVE: CVE-2026-59216</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socket.IO event-caller session_id</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器; 账户接管，用户数据被窃取; 敏感信息泄露; 权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-94, CWE-200, CWE-639, CWE-862</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-74h3-cxq7-vc5q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Cross-channel message overwrite via chat completion API (single-model and multimodel message_ids)</div>
+                    <div class="advisory-id">GHSA-x2ff-v5v8-m75m | CVE: CVE-2026-59714</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Cross-channel message overwrite via chat completion API (single-model and multimodel message_ids)</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &gt;= 0.9.5, &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-862</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-x2ff-v5v8-m75m" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchannel logout</div>
+                    <div class="advisory-id">GHSA-855v-hq7w-jmjw | CVE: CVE-2026-59219</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchannel logout</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &gt;= 0.9.0, &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>安全边界被突破</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-613</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-855v-hq7w-jmjw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Stored web worker XSS via Pyodide</div>
+                    <div class="advisory-id">GHSA-4r2p-27mh-5m22 | CVE: CVE-2026-59214</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 146,825 (open-webui/open-webui)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI: Stored web worker XSS via Pyodide</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐146,825</p>
+                <p><strong>影响版本：</strong>pip/open-webui: 受影响版本 &lt; 0.10.0, 修复版本 0.10.0</p>
+                <p><strong>攻击面：</strong>XSS</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>用户会话劫持</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-79</p>
+                <p><strong>修复建议：</strong>升级到: pip/open-webui → 0.10.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4r2p-27mh-5m22" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Claude Code: Sandbox Escape via Git Worktree Path Confusion Allows Unsandboxed Code Execution</div>
+                    <div class="advisory-id">GHSA-7835-87q9-rgvv | CVE: CVE-2026-55607</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 139,193 (anthropics/claude-code)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Claude Code: Sandbox Escape via Git Worktree Path Confusion Allows Unsandboxed Code Execution</p>
+                <p><strong>影响产品：</strong>anthropics/claude-code ⭐139,193</p>
+                <p><strong>影响版本：</strong>npm/@anthropic-ai/claude-code: 受影响版本 &gt;= 2.1.38, &lt; 2.1.163, 修复版本 2.1.163</p>
+                <p><strong>攻击面：</strong>沙箱逃逸</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器; 任意文件读写</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-22, CWE-59, CWE-78</p>
+                <p><strong>修复建议：</strong>升级到: npm/@anthropic-ai/claude-code → 2.1.163</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7835-87q9-rgvv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Oh My Posh: Arbitrary command execution via template injection in the path segment</div>
+                    <div class="advisory-id">GHSA-6xj8-qv9j-xcjq | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 23,165 (JanDeDobbeleer/oh-my-posh)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Oh My Posh: Arbitrary command execution via template injection in the path segment</p>
+                <p><strong>影响产品：</strong>JanDeDobbeleer/oh-my-posh ⭐23,165</p>
+                <p><strong>影响版本：</strong>go/github.com/jandedobbeleer/oh-my-posh: 受影响版本 &lt;= 29.35.0, 修复版本 29.35.1</p>
+                <p><strong>攻击面：</strong>远程代码执行, 注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-94, CWE-1336</p>
+                <p><strong>修复建议：</strong>升级到: go/github.com/jandedobbeleer/oh-my-posh → 29.35.1</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6xj8-qv9j-xcjq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenList: Authenticated users can rename files outside their base path via batch rename `src_name` traversal</div>
+                    <div class="advisory-id">GHSA-95cv-r8x4-vh75 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 23,711 (OpenListTeam/OpenList)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenList: Authenticated users can rename files outside their base path via batch rename `src_name` traversal</p>
+                <p><strong>影响产品：</strong>OpenListTeam/OpenList ⭐23,711</p>
+                <p><strong>影响版本：</strong>go/github.com/OpenListTeam/OpenList/v4: 受影响版本 &lt;= 4.2.3, 修复版本 4.2.4</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要已认证用户权限</p>
+                <p><strong>潜在危害：</strong>任意文件读写</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-22</p>
+                <p><strong>修复建议：</strong>升级到: go/github.com/OpenListTeam/OpenList/v4 → 4.2.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-95cv-r8x4-vh75" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Budibase: SSRF via DNS rebinding in the REST datasource integration</div>
+                    <div class="advisory-id">GHSA-v42f-v8xc-j435 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Budibase: SSRF via DNS rebinding in the REST datasource integration</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>SSRF, 远程代码执行</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器; 内网探测和数据泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-367, CWE-918</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v42f-v8xc-j435" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: NoSQL injection in MongoDB integration: collection dump, $where JS exec, cross-collection pivot, arbitrary up</div>
+                    <div class="advisory-id">GHSA-pmpg-2mxq-6xwr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: NoSQL injection in MongoDB integration: collection dump, $where JS exec, cross-collection pivot, arbitrary update/delete</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>数据库数据泄露和篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-89</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pmpg-2mxq-6xwr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: Chat-Link Handoff Identity Confusion (Same-Tenant Account-Link CSRF)</div>
+                    <div class="advisory-id">GHSA-pvcr-8mvp-w8qr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Chat-Link Handoff Identity Confusion (Same-Tenant Account-Link CSRF)</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>安全边界被突破</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-285, CWE-345, CWE-352</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pvcr-8mvp-w8qr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Budibase: MySQL DESCRIBE Backtick Injection via multipleStatements in Database Connector</div>
+                    <div class="advisory-id">GHSA-2xgg-r2wc-c5r2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Budibase: MySQL DESCRIBE Backtick Injection via multipleStatements in Database Connector</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>数据库数据泄露和篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-89</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2xgg-r2wc-c5r2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: NoSQL Injection via JSON Parameter Interpolation in MongoDB Query Execution</div>
+                    <div class="advisory-id">GHSA-qw6m-8fw2-2v64 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: NoSQL Injection via JSON Parameter Interpolation in MongoDB Query Execution</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>注入攻击</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器; 数据库数据泄露和篡改</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-943</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qw6m-8fw2-2v64" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: Unauthenticated user information disclosure via public tenant user lookup endpoint</div>
+                    <div class="advisory-id">GHSA-hr66-5mqr-8mpx | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Unauthenticated user information disclosure via public tenant user lookup endpoint</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>无需认证</p>
+                <p><strong>触发条件：</strong>攻击者无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>敏感信息泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-200</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hr66-5mqr-8mpx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: DNS rebinding SSRF bypasses remain in OpenAPI import and REST query execution</div>
+                    <div class="advisory-id">GHSA-xg5g-26x8-cvf4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: DNS rebinding SSRF bypasses remain in OpenAPI import and REST query execution</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>SSRF</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>内网探测和数据泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-918</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xg5g-26x8-cvf4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: S3 presigned URL endpoint authorization regression in v3.39.4 allows BASIC users to obtain S3 PutObject presi</div>
+                    <div class="advisory-id">GHSA-xcx6-4f2g-hhgx | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: S3 presigned URL endpoint authorization regression in v3.39.4 allows BASIC users to obtain S3 PutObject presigned URLs</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-863</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xcx6-4f2g-hhgx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: Server Filesystem Existence/Read Oracle via Builder-Controlled MongoDB tlsCertificateKeyFile</div>
+                    <div class="advisory-id">GHSA-ppr4-5f46-j9c6 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Server Filesystem Existence/Read Oracle via Builder-Controlled MongoDB tlsCertificateKeyFile</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要管理员或构建者权限</p>
+                <p><strong>潜在危害：</strong>安全边界被突破</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-209</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-ppr4-5f46-j9c6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: Email Change IDOR via POST /api/v2/email allows full Account Takeover (accountId not validated against sessio</div>
+                    <div class="advisory-id">GHSA-c8vc-7pv3-g98p | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Email Change IDOR via POST /api/v2/email allows full Account Takeover (accountId not validated against session)</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>账户接管</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>账户接管，用户数据被窃取</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-639</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c8vc-7pv3-g98p" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Budibase: Privilege escalation via public role assignment API missing app-level authorization</div>
+                    <div class="advisory-id">GHSA-j9fc-w3mr-x6mv | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,162 (Budibase/budibase)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Budibase: Privilege escalation via public role assignment API missing app-level authorization</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,162</p>
+                <p><strong>影响版本：</strong>npm/@budibase/server: 受影响版本 &lt;= 3.38.1, 修复版本 None</p>
+                <p><strong>攻击面：</strong>权限提升</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-269, CWE-862, CWE-863</p>
+                <p><strong>修复建议：</strong>暂无官方补丁，关注上游更新或采用临时缓解措施</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j9fc-w3mr-x6mv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Cloudreve OAuth Admin.Read scope can update OneDrive storage policy credentials</div>
+                    <div class="advisory-id">GHSA-hq88-5x99-x3gf | CVE: CVE-2026-55502</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,421 (cloudreve/Cloudreve)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Cloudreve OAuth Admin.Read scope can update OneDrive storage policy credentials</p>
+                <p><strong>影响产品：</strong>cloudreve/Cloudreve ⭐28,421</p>
+                <p><strong>影响版本：</strong>go/github.com/cloudreve/Cloudreve/v4: 受影响版本 &lt; 4.0.0-20260613030954-9e9fb43e7288, 修复版本 4.17.0<br>go/github.com/cloudreve/Cloudreve/v3: 受影响版本 &lt;= 3.0.0-20250225100611-da4e44b77af4, 修复版本 None</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要管理员或构建者权限</p>
+                <p><strong>潜在危害：</strong>权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-863</p>
+                <p><strong>修复建议：</strong>升级到: go/github.com/cloudreve/Cloudreve/v4 → 4.17.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hq88-5x99-x3gf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: Denial of Service in XmlFrameDecoder via CPU Exhaustion</div>
+                    <div class="advisory-id">GHSA-v74w-7mr3-4qg3 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35,013 (netty/netty)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty: Denial of Service in XmlFrameDecoder via CPU Exhaustion</p>
+                <p><strong>影响产品：</strong>netty/netty ⭐35,013</p>
+                <p><strong>影响版本：</strong>maven/io.netty:netty-codec-xml: 受影响版本 &gt;= 4.2.0.Final, &lt;= 4.2.15.Final, 修复版本 4.2.16.Final<br>maven/io.netty:netty-codec-xml: 受影响版本 &lt;= 4.1.135.Final, 修复版本 4.1.136.Final</p>
+                <p><strong>攻击面：</strong>DoS</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>服务拒绝，影响可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-400</p>
+                <p><strong>修复建议：</strong>升级到: maven/io.netty:netty-codec-xml → 4.2.16.Final; maven/io.netty:netty-codec-xml → 4.1.136.Final</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v74w-7mr3-4qg3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 @better-auth/scim: account takeover and stale access via SCIM provider-id collision</div>
+                    <div class="advisory-id">GHSA-rjg6-39jm-rgg4 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 73</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 29,335 (better-auth/better-auth)</span>
+                
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>@better-auth/scim: account takeover and stale access via SCIM provider-id collision</p>
+                <p><strong>影响产品：</strong>better-auth/better-auth ⭐29,335</p>
+                <p><strong>影响版本：</strong>npm/@better-auth/scim: 受影响版本 &gt;= 1.4.0-beta.27, &lt;= 1.6.21, 修复版本 1.6.22<br>npm/@better-auth/scim: 受影响版本 &gt;= 1.7.0-beta.0, &lt;= 1.7.0-beta.9, 修复版本 1.7.0-beta.10</p>
+                <p><strong>攻击面：</strong>账户接管</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>账户接管，用户数据被窃取; 权限提升，越权操作</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-20, CWE-639, CWE-862</p>
+                <p><strong>修复建议：</strong>升级到: npm/@better-auth/scim → 1.6.22; npm/@better-auth/scim → 1.7.0-beta.10</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rjg6-39jm-rgg4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</div>
+                    <div class="advisory-id">GHSA-qwww-vcr4-c8h2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 68</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 56,524 (remix-run/react-router)</span>
+                
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</p>
+                <p><strong>影响产品：</strong>remix-run/react-router ⭐56,524</p>
+                <p><strong>影响版本：</strong>npm/react-router: 受影响版本 &gt;= 7.12.0, &lt; 8.3.0, 修复版本 8.3.0</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>安全边界被突破</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-352</p>
+                <p><strong>修复建议：</strong>升级到: npm/react-router → 8.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.add() URL (incomplete fix of GHSA-rwj8-pg</div>
+                    <div class="advisory-id">GHSA-94p4-4cq8-9g67 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 65</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 5,152 (gitpython-developers/GitPython)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.add() URL (incomplete fix of GHSA-rwj8-pgh3-r573)</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5,152</p>
+                <p><strong>影响版本：</strong>pip/GitPython: 受影响版本 &lt;= 3.1.53, 修复版本 3.1.55</p>
+                <p><strong>攻击面：</strong>网络可达</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>敏感信息泄露</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-200, CWE-214</p>
+                <p><strong>修复建议：</strong>升级到: pip/GitPython → 3.1.55</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-94p4-4cq8-9g67" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 js-yaml: Exponential parsing time in flow collections leads to denial of service</div>
+                    <div class="advisory-id">GHSA-pm4m-ph32-ghv5 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 65</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6,614 (nodeca/js-yaml)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>js-yaml: Exponential parsing time in flow collections leads to denial of service</p>
+                <p><strong>影响产品：</strong>nodeca/js-yaml ⭐6,614</p>
+                <p><strong>影响版本：</strong>npm/js-yaml: 受影响版本 &gt;= 5.0.0, &lt;= 5.2.1, 修复版本 5.2.2</p>
+                <p><strong>攻击面：</strong>DoS</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>服务拒绝，影响可用性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-407</p>
+                <p><strong>修复建议：</strong>升级到: npm/js-yaml → 5.2.2</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pm4m-ph32-ghv5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Unsafe git option guard bypass via single-character kwarg value token smuggling enables arbitrary command exe</div>
+                    <div class="advisory-id">GHSA-r9mr-m37c-5fr3 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 65</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 5,152 (gitpython-developers/GitPython)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython: Unsafe git option guard bypass via single-character kwarg value token smuggling enables arbitrary command execution</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5,152</p>
+                <p><strong>影响版本：</strong>pip/GitPython: 受影响版本 &lt;= 3.1.53, 修复版本 3.1.54</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>需要特定条件触发</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-78, CWE-88</p>
+                <p><strong>修复建议：</strong>升级到: pip/GitPython → 3.1.54</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-r9mr-m37c-5fr3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-mqhr-6j6h-74p5</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mqhr-6j6h-74p5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hp6v-6jw7-gv2f</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hp6v-6jw7-gv2f" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-q6x4-v3qx-85qw</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q6x4-v3qx-85qw" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6vch-q96h-7gc3</code></td>
+                    <td>etcd-io/etcd</td>
+                    <td>52,029</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6vch-q96h-7gc3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xg4h-6gfc-h4m8</code></td>
+                    <td>etcd-io/etcd</td>
+                    <td>52,029</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xg4h-6gfc-h4m8" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-26gq-p25f-99cp</code></td>
+                    <td>fatedier/frp</td>
+                    <td>108,361</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-26gq-p25f-99cp" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-wx67-qw84-cm4g</code></td>
+                    <td>facebook/react</td>
+                    <td>246,732</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wx67-qw84-cm4g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-frvj-c5qp-xj4w</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-frvj-c5qp-xj4w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-j657-m4c4-24jq</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j657-m4c4-24jq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6v4j-43gg-vj32</code></td>
+                    <td>yt-dlp/yt-dlp</td>
+                    <td>180,243</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6v4j-43gg-vj32" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-74h3-cxq7-vc5q</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-74h3-cxq7-vc5q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-x2ff-v5v8-m75m</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x2ff-v5v8-m75m" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-855v-hq7w-jmjw</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-855v-hq7w-jmjw" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-4r2p-27mh-5m22</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>146,825</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4r2p-27mh-5m22" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-7835-87q9-rgvv</code></td>
+                    <td>anthropics/claude-code</td>
+                    <td>139,193</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7835-87q9-rgvv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6xj8-qv9j-xcjq</code></td>
+                    <td>JanDeDobbeleer/oh-my-posh</td>
+                    <td>23,165</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6xj8-qv9j-xcjq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-95cv-r8x4-vh75</code></td>
+                    <td>OpenListTeam/OpenList</td>
+                    <td>23,711</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-95cv-r8x4-vh75" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v42f-v8xc-j435</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v42f-v8xc-j435" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pmpg-2mxq-6xwr</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pmpg-2mxq-6xwr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pvcr-8mvp-w8qr</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pvcr-8mvp-w8qr" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2xgg-r2wc-c5r2</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2xgg-r2wc-c5r2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qw6m-8fw2-2v64</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qw6m-8fw2-2v64" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hr66-5mqr-8mpx</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hr66-5mqr-8mpx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xg5g-26x8-cvf4</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xg5g-26x8-cvf4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xcx6-4f2g-hhgx</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xcx6-4f2g-hhgx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-ppr4-5f46-j9c6</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-ppr4-5f46-j9c6" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-c8vc-7pv3-g98p</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-c8vc-7pv3-g98p" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-j9fc-w3mr-x6mv</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>28,162</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-j9fc-w3mr-x6mv" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hq88-5x99-x3gf</code></td>
+                    <td>cloudreve/Cloudreve</td>
+                    <td>28,421</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hq88-5x99-x3gf" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v74w-7mr3-4qg3</code></td>
+                    <td>netty/netty</td>
+                    <td>35,013</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v74w-7mr3-4qg3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rjg6-39jm-rgg4</code></td>
+                    <td>better-auth/better-auth</td>
+                    <td>29,335</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rjg6-39jm-rgg4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qwww-vcr4-c8h2</code></td>
+                    <td>remix-run/react-router</td>
+                    <td>56,524</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>33</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-94p4-4cq8-9g67</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5,152</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-94p4-4cq8-9g67" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pm4m-ph32-ghv5</code></td>
+                    <td>nodeca/js-yaml</td>
+                    <td>6,614</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-pm4m-ph32-ghv5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-r9mr-m37c-5fr3</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5,152</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-r9mr-m37c-5fr3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-w4hw-qcx7-56pr</code></td>
+                    <td>Shescape: Shell injection via unescaped parentheses on Windows with CMD</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>有PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-f25v-x6vr-962g</code></td>
+                    <td>Pheditor: Authentication Bypass in Forced Password-Change Flow via Unverified Cu</td>
+                    <td>183</td>
+                    <td>Critical</td>
+                    <td>有PoC, 有详细分析, RCE</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-vh45-f885-3848</code></td>
+                    <td>sm-crypto: Predictable SM2 key generation in Node.js: default RNG uses Math.rand</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r277-6w6q-xmqw</code></td>
+                    <td>kin-openapi: ValidationHandler.Load() Fail-Open Authentication Bypass via NoopAu</td>
+                    <td>3,266</td>
+                    <td>Critical</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-7gfh-x38p-prh3</code></td>
+                    <td>Velocity.js: Remote Code Execution via property-read to Function constructor (by</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>有PoC, 有详细分析, RCE</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-mv8w-475r-vwqw</code></td>
+                    <td>seroval: `seroval.fromJSON()` Promise resolver type confusion invokes attacker-c</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>有PoC, 有详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-hq9q-27g5-qwpj</code></td>
+                    <td>Microsoft Kiota: Command injection via x-ms-kiota-info dependencyInstallCommand </td>
+                    <td>3,788</td>
+                    <td>Critical</td>
+                    <td>有PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-p279-2cqp-84jg</code></td>
+                    <td>OpenDJ SASL PLAIN authzid bypassing the proxy ACI scope check</td>
+                    <td>435</td>
+                    <td>Critical</td>
+                    <td>有详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wg5r-wc3x-39vc</code></td>
+                    <td>OpenAM: Unauthenticated Remote Code Execution via Class.forName in AuthXMLUtils.</td>
+                    <td>879</td>
+                    <td>Critical</td>
+                    <td>有详细分析, RCE, 无需认证</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-68r5-9hpg-7qw9</code></td>
+                    <td>OpenDJ unauthenticated SSRF, local file read and unbounded-read DoS in the DSMLv</td>
+                    <td>435</td>
+                    <td>Critical</td>
+                    <td>无需认证</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-gf8h-gq53-288j</code></td>
+                    <td>OpenAM: WebAuthn Java deserialization RCE via ObjectInputFilter depth&gt;1 bypass</td>
+                    <td>879</td>
+                    <td>Critical</td>
+                    <td>RCE</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-w28w-gp39-m4p6</code></td>
+                    <td>Prompty: Server-Side Template Injection to Remote Code Execution in the @prompty</td>
+                    <td>1,236</td>
+                    <td>Critical</td>
+                    <td>RCE</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4jwf-m4wg-8p66</code></td>
+                    <td>Microsoft Kiota: Path/URL injection into generated Copilot plugin manifest via x</td>
+                    <td>3,788</td>
+                    <td>Critical</td>
+                    <td>高危漏洞类型</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-mqhr-6j6h-74p5</strong> -  Budibase: Unauthenticated REST Datasource Credential Theft via Cross-Origin Aut (⭐28,162) — 立即评估并修复</li><li><strong>GHSA-hp6v-6jw7-gv2f</strong> -  Budibase: OIDC SSO account takeover: incoming identity linked by email without  (⭐28,162) — 立即评估并修复</li><li><strong>GHSA-q6x4-v3qx-85qw</strong> -  Budibase: SQL Injection via `multipleStatements: true` (⭐28,162) — 立即评估并修复</li><li><strong>GHSA-6vch-q96h-7gc3</strong> - etcd: `tlsListener.acceptLoop` spawns unbounded handshake goroutines with no dea (⭐52,029) — 立即评估并修复</li><li><strong>GHSA-xg4h-6gfc-h4m8</strong> - etcd: Watch API authorization bypass via open-ended range requests (⭐52,029) — 立即评估并修复</li><li><strong>GHSA-26gq-p25f-99cp</strong> - frp: Unauthenticated Remote Denial of Service in the frp SSH Tunnel Gateway via  (⭐108,361) — 立即评估并修复</li><li><strong>GHSA-wx67-qw84-cm4g</strong> - react-server-dom: Denial of Service in Server Functions (⭐246,732) — 立即评估并修复</li><li><strong>GHSA-frvj-c5qp-xj4w</strong> - open-webui terminal proxy path traversal guard bypass via 9x encoded traversal (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-j657-m4c4-24jq</strong> - Open WebUI: Terminal proxy forwards a spoofable, integrity-unbound user identity (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-6v4j-43gg-vj32</strong> - yt-dlp: Downstream command injection via improper sanitization of yt-dlp --write (⭐180,243) — 立即评估并修复</li><li><strong>GHSA-74h3-cxq7-vc5q</strong> - Open WebUI: Cross-user code-interpreter and tool execution via unvalidated Socke (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-x2ff-v5v8-m75m</strong> - Open WebUI: Cross-channel message overwrite via chat completion API (single-mode (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-855v-hq7w-jmjw</strong> - Open WebUI: Realtime endpoints accept Redis-revoked JWTs after signout/backchann (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-4r2p-27mh-5m22</strong> - Open WebUI: Stored web worker XSS via Pyodide (⭐146,825) — 立即评估并修复</li><li><strong>GHSA-7835-87q9-rgvv</strong> - Claude Code: Sandbox Escape via Git Worktree Path Confusion Allows Unsandboxed C (⭐139,193) — 立即评估并修复</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-6xj8-qv9j-xcjq</strong> - Oh My Posh: Arbitrary command execution via template injection in the path segme (⭐23,165) — 关注并计划修复</li><li><strong>GHSA-95cv-r8x4-vh75</strong> - OpenList: Authenticated users can rename files outside their base path via batch (⭐23,711) — 关注并计划修复</li><li><strong>GHSA-v42f-v8xc-j435</strong> - Budibase: SSRF via DNS rebinding in the REST datasource integration (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-pmpg-2mxq-6xwr</strong> -  Budibase: NoSQL injection in MongoDB integration: collection dump, $where JS ex (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-pvcr-8mvp-w8qr</strong> -  Budibase: Chat-Link Handoff Identity Confusion (Same-Tenant Account-Link CSRF) (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-2xgg-r2wc-c5r2</strong> - Budibase: MySQL DESCRIBE Backtick Injection via multipleStatements in Database C (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-qw6m-8fw2-2v64</strong> -  Budibase: NoSQL Injection via JSON Parameter Interpolation in MongoDB Query Exe (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-hr66-5mqr-8mpx</strong> -  Budibase: Unauthenticated user information disclosure via public tenant user lo (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-xg5g-26x8-cvf4</strong> -  Budibase: DNS rebinding SSRF bypasses remain in OpenAPI import and REST query e (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-xcx6-4f2g-hhgx</strong> -  Budibase: S3 presigned URL endpoint authorization regression in v3.39.4 allows  (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-ppr4-5f46-j9c6</strong> -  Budibase: Server Filesystem Existence/Read Oracle via Builder-Controlled MongoD (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-c8vc-7pv3-g98p</strong> -  Budibase: Email Change IDOR via POST /api/v2/email allows full Account Takeover (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-j9fc-w3mr-x6mv</strong> -  Budibase: Privilege escalation via public role assignment API missing app-level (⭐28,162) — 关注并计划修复</li><li><strong>GHSA-hq88-5x99-x3gf</strong> - Cloudreve OAuth Admin.Read scope can update OneDrive storage policy credentials (⭐28,421) — 关注并计划修复</li><li><strong>GHSA-v74w-7mr3-4qg3</strong> - Netty: Denial of Service in XmlFrameDecoder via CPU Exhaustion (⭐35,013) — 关注并计划修复</li><li><strong>GHSA-rjg6-39jm-rgg4</strong> - @better-auth/scim: account takeover and stale access via SCIM provider-id collis (⭐29,335) — 关注并计划修复</li><li><strong>GHSA-qwww-vcr4-c8h2</strong> - React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response (⭐56,524) — 关注并计划修复</li><li><strong>GHSA-94p4-4cq8-9g67</strong> - GitPython: Environment-variable exfiltration via Repo.create_remote() / Remote.a (⭐5,152) — 关注并计划修复</li><li><strong>GHSA-pm4m-ph32-ghv5</strong> - js-yaml: Exponential parsing time in flow collections leads to denial of service (⭐6,614) — 关注并计划修复</li><li><strong>GHSA-r9mr-m37c-5fr3</strong> - GitPython: Unsafe git option guard bypass via single-character kwarg value token (⭐5,152) — 关注并计划修复</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
