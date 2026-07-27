@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-27",
+      "title": "GitHub安全公告日报 - 2026-07-27",
+      "url": "reports/report-2026-07-27.html",
+      "stats": {
+        "total": 65,
+        "critical": 17,
+        "high": 48,
+        "star5k": 35,
+        "with_poc": 58
+      },
+      "summary": "发现65个Critical/High级别漏洞，其中Budibase存在大量高危漏洞（SQL注入、SSRF、账户接管等），React Server Components DoS、Claude Code沙箱逃逸、Open WebUI多个漏洞值得关注。"
+    },
+    {
       "date": "2026-07-26",
       "title": "GitHub安全公告日报 - 2026-07-26",
       "url": "reports/report-2026-07-26.html",
@@ -376,19 +389,6 @@
         "with_poc": 19
       },
       "summary": "今日发现22个高危漏洞，其中3个Critical级别。Langflow未授权文件上传、Open WebUI多个XSS/SSRF漏洞、Gitea Fork API权限绕过、OpenClaw MCP Header泄露等需要紧急关注。"
-    },
-    {
-      "date": "2026-06-14",
-      "title": "GitHub安全公告日报 - 2026-06-14",
-      "url": "reports/report-2026-06-14.html",
-      "stats": {
-        "total": 23,
-        "critical": 1,
-        "high": 22,
-        "star5k": 16,
-        "with_poc": 22
-      },
-      "summary": "今日发现23个高危漏洞（1个Critical，22个High），16个影响Star≥5k项目，22个包含PoC。重点关注：esbuild, File Browser, Appsmith, Budibase。"
     }
   ]
 }
