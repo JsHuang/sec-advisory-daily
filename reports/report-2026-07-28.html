@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-28</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-28 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">2</div><div class="stat-label">总公告数</div></div>
+            <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">Critical</div></div>
+            <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">High</div></div>
+            <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">Star≥5k 项目</div></div>
+            <div class="stat-card"><div class="stat-number">2</div><div class="stat-label">含PoC/详细分析</div></div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <!-- n8n sandbox escape -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 n8n Expression 沙箱逃逸：箭头函数体绕过实现命令执行</div>
+                    <div class="advisory-id">GHSA-gv7g-jm28-cr3m</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 198,265 stars</span>
+                <span class="badge badge-poc">🔴 有利用原理（fix commit 含完整触发路径）</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>n8n 表达式求值器存在沙箱逃逸漏洞。经过身份验证的用户（拥有创建或修改 workflow 权限）可以通过构造使用箭头函数（arrow function）的表达式，绕过表达式沙箱，在运行 n8n 的主机上触发非预期的系统命令执行。</p>
+                <p><strong>影响产品：</strong>n8n-io/n8n ⭐ 198,265 stars</p>
+                <p><strong>影响版本：</strong>n8n &lt; 2.31.5 和 n8n &gt;= 2.32.0 &lt; 2.32.1</p>
+                <p><strong>攻击面：</strong>任何有权访问 n8n 实例并能创建/编辑 workflow 的用户均可触发；多租户/嵌入式场景下风险尤为突出。</p>
+                <p><strong>触发条件：</strong>在 workflow 表达式中使用形如 <code>() =&gt; process</code> 的简洁箭头函数体（concise arrow body），该标识符会直接从数据上下文中解析，从而泄漏宿主全局对象引用，进一步链式调用即可执行任意命令。</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）——攻击者可在 n8n 服务器进程权限下执行任意系统命令，可能导致数据泄露、权限提升、横向移动。</p>
+                <p><strong>可利用性：</strong>高。修复 commit（f69dfc6）清晰展示了漏洞触发路径：在 <code>VariablePolyfill.ts</code> 中新增了 <code>ArrowFunctionExpression</code> 类型的处理分支，阻止简洁箭头函数体作为裸标识符直接解析；同时在 <code>isolated-vm-bridge.ts</code> 中加固了数组索引访问，防止通过非索引键（如 <code>constructor</code>、<code>__lookupGetter__</code>）泄漏宿主函数引用。结合这两处变更，攻击者可以逆向构造出完整的利用链。</p>
+                <p><strong>修复建议：</strong>立即升级至 n8n 2.31.5 或 2.32.1+；临时缓解：将 n8n 实例访问权限限制为仅可信用户，限制 workflow 创建和编辑权限。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gv7g-jm28-cr3m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- pay-uz RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 goodoneuz/pay-uz：未认证 PHP 文件覆写导致远程代码执行</div>
+                    <div class="advisory-id">GHSA-m5wg-cjgh-223j | CVE: CVE-2026-31843</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 86 stars</span>
+                <span class="badge badge-poc">🔴 有完整利用路径</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>goodoneuz/pay-uz Laravel 支付包（&le; 2.2.24）的 <code>/payment/api/editable/update</code> 端点存在严重漏洞。该端点通过 <code>Route::any()</code> 注册，未配置身份验证中间件，允许未认证的远程攻击者直接访问。用户可控输入通过 <code>file_put_contents()</code> 直接写入可执行 PHP 文件，这些文件在正常支付处理流程中通过 <code>require()</code> 被执行，最终实现远程代码执行。</p>
+                <p><strong>影响产品：</strong>goodoneuz/pay-uz ⭐ 86 stars（Composer 包）</p>
+                <p><strong>影响版本：</strong>&le; 2.2.24（修复版本：3.0.0）</p>
+                <p><strong>攻击面：</strong>任何能访问目标服务器的网络攻击者均可利用，无需任何认证。适用于使用乌兹别克斯坦支付集成的 Laravel 应用。</p>
+                <p><strong>触发条件：</strong>直接向 <code>/payment/api/editable/update</code> 发送请求，携带恶意 PHP 代码作为参数，即可覆写现有支付钩子文件。</p>
+                <p><strong>潜在危害：</strong>完全的远程代码执行（CVSS 9.8），攻击者可接管应用服务器、窃取支付数据、植入后门。</p>
+                <p><strong>可利用性：</strong>极高。公告明确指出：端点无认证、<code>file_put_contents()</code> 直接写入、<code>require()</code> 触发执行，三步完整利用链清晰可见；攻击成本极低。</p>
+                <p><strong>修复建议：</strong>升级至 pay-uz 3.0.0+；若无法立即升级，应通过 Nginx/WAF 规则拦截该端点的未授权访问请求。</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m5wg-cjgh-223j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th><th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-gv7g-jm28-cr3m</code></td>
+                    <td>n8n</td>
+                    <td>198k</td>
+                    <td>High</td>
+                    <td>有详细原理（fix commit）</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv7g-jm28-cr3m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-m5wg-cjgh-223j</code></td>
+                    <td>pay-uz</td>
+                    <td>86</td>
+                    <td>Critical</td>
+                    <td>有完整利用路径</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-m5wg-cjgh-223j" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-m5wg-cjgh-223j</code></td>
+                    <td>goodoneuz/pay-uz</td>
+                    <td>86</td>
+                    <td>Critical (CVSS 9.8)</td>
+                    <td>无认证 PHP 文件覆写 → RCE，利用链完整且成本极低</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>n8n 沙箱逃逸（GHSA-gv7g-jm28-cr3m）</strong>：影响 198k+ star 的超级项目，攻击者只需有 workflow 编辑权限即可 RCE。fix commit 已清晰展示漏洞触发路径，利用原理明确。建议立即升级至 2.31.5 或 2.32.1+，多租户环境尤需优先处理。</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>pay-uz 未认证 RCE（GHSA-m5wg-cjgh-223j）</strong>：CVSS 9.8，利用条件极低（无需认证，直接 HTTP 请求即可触发）。虽项目 star 较低，但涉及支付系统集成，若目标环境使用该包，危害极大。建议立即升级至 3.0.0。</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>今日监控范围内未发现其他符合条件的 Critical/High 公告。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
