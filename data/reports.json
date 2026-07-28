@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-28",
+      "title": "GitHub安全公告日报 - 2026-07-28",
+      "url": "reports/report-2026-07-28.html",
+      "stats": {
+        "total": 2,
+        "critical": 1,
+        "high": 1,
+        "star5k": 1,
+        "with_poc": 2
+      },
+      "summary": "今日发现2个高危漏洞：n8n表达式沙箱逃逸（198k star，可通过箭头函数体RCE）和pay-uz未认证PHP文件覆写RCE（CVSS 9.8）。"
+    },
+    {
       "date": "2026-07-27",
       "title": "GitHub安全公告日报 - 2026-07-27",
       "url": "reports/report-2026-07-27.html",
@@ -376,19 +389,6 @@
         "with_poc": 70
       },
       "summary": "今日发现87个高危/严重漏洞，其中Critical 22个、High 65个。重点关注Crawl4AI（RCE）、PraisonAI（多个RCE和认证绕过）、OpenClaw（多个安全问题）等项目。55个项目Star数≥5k，70个漏洞含PoC或详细分析。"
-    },
-    {
-      "date": "2026-06-18",
-      "title": "GitHub安全公告日报 - 2026-06-18",
-      "url": "reports/report-2026-06-18.html",
-      "stats": {
-        "total": 22,
-        "critical": 3,
-        "high": 19,
-        "star5k": 17,
-        "with_poc": 19
-      },
-      "summary": "今日发现22个高危漏洞，其中3个Critical级别。Langflow未授权文件上传、Open WebUI多个XSS/SSRF漏洞、Gitea Fork API权限绕过、OpenClaw MCP Header泄露等需要紧急关注。"
     }
   ]
 }
