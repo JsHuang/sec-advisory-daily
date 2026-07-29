@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-29</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-29 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">36</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149">5</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#d29922">31</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">27</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 GitHub MCP Server has Nil Pointer Dereference DoS in completion/complete Handler</div>
+                    <div class="advisory-id">GHSA-w4q6-qw23-4rg7 | CVE: CVE-2026-47427</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 31.8k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitHub MCP Server has Nil Pointer Dereference DoS in completion/complete Handler
+Any unauthenticated client that can send JSON-RPC messages to the server can crash it immediately. This is a complete denial of service - the panic is unrecoverable and kills the process.
+
+Automated fuzzing with mcpsec found 108 crashes out of 925 test cases (11.7% crash rate).</p>
+                <p><strong>影响产品：</strong>github/github-mcp-server ⭐31.8k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>go/github.com/github/github-mcp-server (< 1.1.0)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>未认证远程攻击</p>
+                <p><strong>触发条件：</strong>发送恶意构造的数据包/Payload</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 1.1.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w4q6-qw23-4rg7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Microsoft Security Advisory CVE-2026-32203 – .NET and Visual Studio Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-6588-8gv4-xfgh | CVE: CVE-2026-32203</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 18.1k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Microsoft Security Advisory CVE-2026-32203 – .NET and Visual Studio Denial of Service Vulnerability</p>
+                <p><strong>影响产品：</strong>dotnet/runtime ⭐18.1k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>nuget/System.Security.Cryptography.Xml (>= 10.0.0, <= 10.0.5)</code></li>
+                    <li><code>nuget/System.Security.Cryptography.Xml (>= 9.0.0, <= 9.0.14)</code></li>
+                    <li><code>nuget/System.Security.Cryptography.Xml (>= 8.0.0, <= 8.0.2)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>参见公告详情</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 10.0.6</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6588-8gv4-xfgh" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pterodactyl's improper JWT scoping allows subuser to upload files when not explicitly granted `file.create` permissions</div>
+                    <div class="advisory-id">GHSA-8r6w-3qq5-4p4r | CVE: CVE-2026-54593</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 9.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pterodactyl's improper JWT scoping allows subuser to upload files when not explicitly granted `file.create` permissions
+Any subuser with permission to connect to a server's console, download files, or download backups could reuse those tokens to upload arbitrary files to the _same server_. A user that does not have access to a server as a subuser is not able to arbitrarily upload files.</p>
+                <p><strong>影响产品：</strong>pterodactyl/panel ⭐9.1k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>composer/pterodactyl/panel (< 1.12.3)</code></li>
+                    <li><code>go/github.com/pterodactyl/wings (< 1.12.2)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>参见公告详情</p>
+                <p><strong>潜在危害：</strong>权限提升，可能获取未授权的系统访问</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 1.12.3</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8r6w-3qq5-4p4r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pterodactyl's shared global rate-limit key on login and 2FA checkpoint enables unauthenticated panel-wide authentication lockout (DoS)</div>
+                    <div class="advisory-id">GHSA-xvc3-826v-xf47 | CVE: CVE-2026-61609</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 9.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pterodactyl's shared global rate-limit key on login and 2FA checkpoint enables unauthenticated panel-wide authentication lockout (DoS)
+This is an unauthenticated availability attack against authentication. Any internet-facing Pterodactyl panel can be made unusable for all users (login and 2FA verification both blocked) by a single low-bandwidth attacker, with no credentials, no privileges, and no user interaction. Administrators are locked out alongside regular users, hampering incident response</p>
+                <p><strong>影响产品：</strong>pterodactyl/panel ⭐9.1k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>composer/pterodactyl/panel (>= 1.7.0, <= 1.12.4)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>未认证远程攻击</p>
+                <p><strong>触发条件：</strong>发送特制HTTP请求</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 1.13.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xvc3-826v-xf47" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Pocket ID: OIDC refresh token flow bypasses authorization revocation, account disabling, and group restrictions</div>
+                    <div class="advisory-id">GHSA-w6p7-2fxx-4f44 | CVE: CVE-2026-43983</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 8.6k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Pocket ID: OIDC refresh token flow bypasses authorization revocation, account disabling, and group restrictions
+**: The admin kill switch for terminating employee access is completely bypassed. A fired employee's pre-existing OIDC refresh tokens continue to grant access to all downstream services.</p>
+                <p><strong>影响产品：</strong>pocket-id/pocket-id ⭐8.6k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>go/github.com/pocket-id/pocket-id/backend (< 0.0.0-20260419162744-978ac87deffe)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>本地攻击</p>
+                <p><strong>触发条件：</strong>发送特制HTTP请求</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 0.0.0-20260419162744-978ac87deffe</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w6p7-2fxx-4f44" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  Fission: Zip Slip in pkg/utils/zip.go:Unarchive allows fetcher to write outside the destination directory</div>
+                    <div class="advisory-id">GHSA-q6vm-xqc9-v3ff | CVE: CVE-2026-50567</div>
+                </div>
+                <span class="priority-score">优先级: 7/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 8.9k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Fission: Zip Slip in pkg/utils/zip.go:Unarchive allows fetcher to write outside the destination directory</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>go/github.com/fission/fission (<= 1.24.0)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>发送恶意构造的数据包/Payload</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有部分信息</p>
+                <p><strong>修复建议：</strong>升级到 1.25.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q6vm-xqc9-v3ff" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Fission: Incomplete capability denylist in Environment/Function PodSpec validation allows tenant-added CAP_SYS_TIME and cross-tenant node wall-clock corruption</div>
+                    <div class="advisory-id">GHSA-qf5v-m7p4-95rp | CVE: CVE-2026-50570</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 8.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fission: Incomplete capability denylist in Environment/Function PodSpec validation allows tenant-added CAP_SYS_TIME and cross-tenant node wall-clock corruption</p>
+                <p><strong>影响产品：</strong>fission/fission ⭐8.9k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul>
+                    <li><code>go/github.com/fission/fission (<= 1.24.0)</code></li>
+                </ul>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>参见公告详情</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE），可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 1.25.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qf5v-m7p4-95rp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-w4q6-qw23-4rg7</code></td>
+                    <td>github/github-mcp-server</td>
+                    <td>31.8k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w4q6-qw23-4rg7" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hq33-8jgp-8qq3</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-hq33-8jgp-8qq3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rjrw-mjq6-hpmm</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rjrw-mjq6-hpmm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-3735-5339-xfwx</code></td>
+                    <td>poweradmin/poweradmin</td>
+                    <td>895</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3735-5339-xfwx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-4pj9-g833-qx53</code></td>
+                    <td>lettre/lettre</td>
+                    <td>2.2k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4pj9-g833-qx53" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6588-8gv4-xfgh</code></td>
+                    <td>dotnet/runtime</td>
+                    <td>18.1k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6588-8gv4-xfgh" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8r6w-3qq5-4p4r</code></td>
+                    <td>pterodactyl/panel</td>
+                    <td>9.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-8r6w-3qq5-4p4r" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xvc3-826v-xf47</code></td>
+                    <td>pterodactyl/panel</td>
+                    <td>9.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-xvc3-826v-xf47" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-w6p7-2fxx-4f44</code></td>
+                    <td>pocket-id/pocket-id</td>
+                    <td>8.6k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-w6p7-2fxx-4f44" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vj5c-m527-mpff</code></td>
+                    <td>style-dictionary/style-dictionary</td>
+                    <td>4.8k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vj5c-m527-mpff" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rmxw-pq4x-3fvh</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rmxw-pq4x-3fvh" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wjv6-jcfj-mf9r</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-wjv6-jcfj-mf9r" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8359-h9fx-j6v9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8359-h9fx-j6v9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-386q-5hp3-95m9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-386q-5hp3-95m9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vx7x-vcc2-c44g</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vx7x-vcc2-c44g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-8m8r-38jm-f355</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8m8r-38jm-f355" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-954p-556p-r752</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-954p-556p-r752" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-5578-w22f-pfx9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5578-w22f-pfx9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-m34r-v34r-rf9q</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-m34r-v34r-rf9q" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rfr2-mq9m-x2qx</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rfr2-mq9m-x2qx" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-442q-2j6p-642g</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-442q-2j6p-642g" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-3fcr-jvgp-7f58</code></td>
+                    <td>sifkaren63332/pytonapi</td>
+                    <td>1</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3fcr-jvgp-7f58" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pp92-crg2-gfv9</code></td>
+                    <td>oauth-xx/oauth2</td>
+                    <td>2.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-pp92-crg2-gfv9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-prq8-7wvh-44qh</code></td>
+                    <td>ruby-oauth/oauth</td>
+                    <td>673</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-prq8-7wvh-44qh" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-28f5-38xr-jh2w</code></td>
+                    <td>appium/java-client</td>
+                    <td>1.3k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-28f5-38xr-jh2w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-fh2f-xfxc-q9cc</code></td>
+                    <td>bablilayoub/openhole</td>
+                    <td>10</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-fh2f-xfxc-q9cc" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-whmm-qj9r-wvr2</code></td>
+                    <td>gotd/td</td>
+                    <td>2.3k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-whmm-qj9r-wvr2" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-q6vm-xqc9-v3ff</code></td>
+                    <td>fission/fission</td>
+                    <td>8.9k</td>
+                    <td>HIGH</td>
+                    <td>有部分信息</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-q6vm-xqc9-v3ff" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-28gm-jrmw-xx93</code></td>
+                    <td>sipsorcery-org/sipsorcery</td>
+                    <td>1.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-28gm-jrmw-xx93" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-6wcc-39rp-hh9p</code></td>
+                    <td>hypequery/hypequery</td>
+                    <td>90</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-6wcc-39rp-hh9p" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-qf5v-m7p4-95rp</code></td>
+                    <td>fission/fission</td>
+                    <td>8.9k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-qf5v-m7p4-95rp" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-j884-q54q-mmx3</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-j884-q54q-mmx3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>33</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-85rg-p3fr-xc2f</code></td>
+                    <td>N/A</td>
+                    <td>0</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-85rg-p3fr-xc2f" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>34</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-4r9r-4425-74p7</code></td>
+                    <td>cedar-policy/cedar-java</td>
+                    <td>74</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4r9r-4425-74p7" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-7wpj-vvmv-pgm8</code></td>
+                    <td>pionxzh/wakaru</td>
+                    <td>939</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-7wpj-vvmv-pgm8" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>36</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-3pwp-g2mj-5p3v</code></td>
+                    <td>WordPress/WordPress-Coding-Standards</td>
+                    <td>2.8k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3pwp-g2mj-5p3v" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-hq33-8jgp-8qq3</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rjrw-mjq6-hpmm</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-3735-5339-xfwx</code></td>
+                    <td>poweradmin/poweradmin</td>
+                    <td>895</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4pj9-g833-qx53</code></td>
+                    <td>lettre/lettre</td>
+                    <td>2.2k</td>
+                    <td>CRITICAL</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-vj5c-m527-mpff</code></td>
+                    <td>style-dictionary/style-dictionary</td>
+                    <td>4.8k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rmxw-pq4x-3fvh</code></td>
+                    <td>goshs-labs/goshs</td>
+                    <td>935</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wjv6-jcfj-mf9r</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8359-h9fx-j6v9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-386q-5hp3-95m9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-vx7x-vcc2-c44g</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8m8r-38jm-f355</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-954p-556p-r752</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-5578-w22f-pfx9</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-m34r-v34r-rf9q</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rfr2-mq9m-x2qx</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-442q-2j6p-642g</code></td>
+                    <td>koxudaxi/datamodel-code-generator</td>
+                    <td>4.0k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-3fcr-jvgp-7f58</code></td>
+                    <td>sifkaren63332/pytonapi</td>
+                    <td>1</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-pp92-crg2-gfv9</code></td>
+                    <td>oauth-xx/oauth2</td>
+                    <td>2.2k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-prq8-7wvh-44qh</code></td>
+                    <td>ruby-oauth/oauth</td>
+                    <td>673</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-28f5-38xr-jh2w</code></td>
+                    <td>appium/java-client</td>
+                    <td>1.3k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC 📖 分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-whmm-qj9r-wvr2</code></td>
+                    <td>gotd/td</td>
+                    <td>2.3k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-28gm-jrmw-xx93</code></td>
+                    <td>sipsorcery-org/sipsorcery</td>
+                    <td>1.9k</td>
+                    <td>HIGH</td>
+                    <td>🔴 PoC</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-w4q6-qw23-4rg7</strong> - GitHub MCP Server has Nil Pointer Dereference DoS in completion/complete Handler（github/github-mcp-server ⭐31.8k）：有完整PoC，建议立即检查并升级</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-hq33-8jgp-8qq3</strong> - goshs --no-delete WebDAV MOVE bypass allows file deletion/overwrite（goshs-labs/goshs ⭐935）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-rjrw-mjq6-hpmm</strong> - goshs SFTP authentication bypass via empty password (incomplete fix of CVE-2026-（goshs-labs/goshs ⭐935）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-3735-5339-xfwx</strong> - Poweradmin has Host Header Injection in OIDC redirect_uri, SAML ACS/SLO URL, and（poweradmin/poweradmin ⭐895）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-4pj9-g833-qx53</strong> - lettre has TLS hostname verification disabled when using Boring TLS backend（lettre/lettre ⭐2.2k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-6588-8gv4-xfgh</strong> - Microsoft Security Advisory CVE-2026-32203 – .NET and Visual Studio Denial of Se（dotnet/runtime ⭐18.1k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-8r6w-3qq5-4p4r</strong> - Pterodactyl's improper JWT scoping allows subuser to upload files when not expli（pterodactyl/panel ⭐9.1k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-xvc3-826v-xf47</strong> - Pterodactyl's shared global rate-limit key on login and 2FA checkpoint enables u（pterodactyl/panel ⭐9.1k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-w6p7-2fxx-4f44</strong> - Pocket ID: OIDC refresh token flow bypasses authorization revocation, account di（pocket-id/pocket-id ⭐8.6k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-vj5c-m527-mpff</strong> - Style Dictionary - Prototype Pollution in convertTokenData utility function（style-dictionary/style-dictionary ⭐4.8k）：建议评估影响范围并计划升级</li>
+                    <li><strong>GHSA-rmxw-pq4x-3fvh</strong> - goshs: File-based .goshs ACL authorization bypass via the ?bulk zip-download rou（goshs-labs/goshs ⭐935）：建议评估影响范围并计划升级</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-6wcc-39rp-hh9p</strong> - @hypequery/clickhouse has SQL Injection in parameter escaping that allows arbitr（hypequery/hypequery）：低优先级，按需处理</li>
+                    <li><strong>GHSA-qf5v-m7p4-95rp</strong> - Fission: Incomplete capability denylist in Environment/Function PodSpec validati（fission/fission）：低优先级，按需处理</li>
+                    <li><strong>GHSA-j884-q54q-mmx3</strong> - `datamodel-code-generator` vulnerable to code injection via unescaped carriage r（koxudaxi/datamodel-code-generator）：低优先级，按需处理</li>
+                    <li><strong>GHSA-85rg-p3fr-xc2f</strong> - QTINeon has unauthenticated relay-to-host amplification via unbounded RECONNECT_（N/A）：低优先级，按需处理</li>
+                    <li><strong>GHSA-4r9r-4425-74p7</strong> - Cedar-Java has policy injection, type confusion, and incorrect equality comparis（cedar-policy/cedar-java）：低优先级，按需处理</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily" target="_blank">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
