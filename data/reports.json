@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-07-29",
+      "title": "GitHub安全公告日报 - 2026-07-29",
+      "url": "reports/report-2026-07-29.html",
+      "stats": {
+        "total": 36,
+        "critical": 5,
+        "high": 31,
+        "star5k": 7,
+        "with_poc": 27
+      },
+      "summary": "今日发现36个高危漏洞（5 Critical + 31 High），其中7个影响Star≥5k项目，27个含PoC/详细分析。重点关注：GitHub MCP Server DoS、.NET DoS、Pterodactyl权限提升、Fission Zip Slip、Pocket ID OIDC绕过等。"
+    },
+    {
       "date": "2026-07-28",
       "title": "GitHub安全公告日报 - 2026-07-28",
       "url": "reports/report-2026-07-28.html",
@@ -376,19 +389,6 @@
         "with_poc": 25
       },
       "summary": "今日发现100条高危安全公告（16 Critical + 84 High），9个项目Star≥5k。重点关注：Langflow任意文件读取+RCE（149k stars）、Hugo SSRF绕过（88k）、Tilt无认证HUD服务器（9.8k）、Remotion RCE（50k）、containerd多个容器安全问题（20k）。"
-    },
-    {
-      "date": "2026-06-19",
-      "title": "GitHub安全公告日报 - 2026-06-19",
-      "url": "reports/report-2026-06-19.html",
-      "stats": {
-        "total": 87,
-        "critical": 22,
-        "high": 65,
-        "star5k": 55,
-        "with_poc": 70
-      },
-      "summary": "今日发现87个高危/严重漏洞，其中Critical 22个、High 65个。重点关注Crawl4AI（RCE）、PraisonAI（多个RCE和认证绕过）、OpenClaw（多个安全问题）等项目。55个项目Star数≥5k，70个漏洞含PoC或详细分析。"
     }
   ]
 }
