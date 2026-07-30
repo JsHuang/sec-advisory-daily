@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-30</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content p { margin-bottom: 10px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-30 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Quarkus: Authentication/Authorization Bypass via Advanced Path Normalization Vulnerabilities</div>
+                    <div class="advisory-id">GHSA-qcxp-gm7m-4j5v | CVE: CVE-2026-50559</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15,794</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Quarkus HTTP path-based authorization policies can be bypassed using encoded semicolons (%3B) to smuggle matrix<br>  parameters past the security layer, and using encoded slashes (%2F) or backslashes (%5C) to access protected static<br>  resources. This is a distinct issue from CVE-2026-39852, which addressed only literal semicolon stripping.<br><br>  Technical Details<br><br>  The security layer (AbstractPathMatchingHttpSecurityPolicy) normalizes request paths using Vert.x's normalizedPath(),<br>  which only decodes unreserved RFC 3986 characters (letters, digits, -, ., _, ~). It then strips matrix parameters</p>
+                <p><strong>影响产品：</strong>quarkusio/quarkus ⭐15,794</p>
+                <p><strong>影响版本：</strong>io.quarkus:quarkus-vertx-http: 受影响版本 < 3.20.6.2，修复版本 N/A<br>io.quarkus:quarkus-vertx-http: 受影响版本 >= 3.21.0.CR1, < 3.27.4.1，修复版本 N/A<br>io.quarkus:quarkus-vertx-http: 受影响版本 >= 3.28.0.CR1, < 3.33.2.1，修复版本 N/A<br>io.quarkus:quarkus-vertx-http: 受影响版本 >= 3.34.0.CR1, < 3.36.3，修复版本 N/A<br>io.quarkus:quarkus-vertx-http: 受影响版本 >= 3.37.0.CR1, < 3.37.0，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/quarkusio/quarkus/commit/919b80017d85564143a845b38e9cca54aff5b3cc" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qcxp-gm7m-4j5v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Logging operator has Fluentd configuration injection that allows remote code execution</div>
+                    <div class="advisory-id">GHSA-mjqf-28ph-426h | CVE: CVE-2026-54680</div>
+                </div>
+                <span class="priority-score">优先级: 9/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 1,702</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>The Fluentd configuration renderer in Logging operator writes strings from CRDs such as `Flow` directly into `fluent.conf` without escaping them. As a result, a user who can create `Flow` resources can inject Fluentd configuration by providing values that contain newlines.<br><br>In the confirmed path, a value in `record_transformer.records` can close the current `&lt;record&gt;` / `&lt;filter&gt;` block and add a new `&lt;match **&gt;` block. By specifying Fluentd's core `@type exec` plugin in that injected block, an attacker can execute arbitrary commands inside the Fluentd aggregator.<br><br>Details<br><br>Th</p>
+                <p><strong>影响产品：</strong>kube-logging/logging-operator ⭐1,702</p>
+                <p><strong>影响版本：</strong>github.com/kube-logging/logging-operator: 受影响版本 < 0.0.0-20260608145523-cf437d7f1e05，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），攻击者可完全控制目标系统</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>系统完全被控制，可能导致数据泄露、服务中断或横向移动</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/kube-logging/logging-operator/commit/cf437d7f1e056c78740bf5716ac8bdebcf002425" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mjqf-28ph-426h" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 prebid-server's request forgery vulnerability allows for possible host environment data extraction</div>
+                    <div class="advisory-id">GHSA-4p3g-4hcj-wpvx | CVE: CVE-2026-54735</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 565</span>
+                
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Impact<br>Certain bidder adapters accept user-supplied parameters that are interpolated into outbound request URLs. Without proper input validation, a malicious actor could craft bid request parameters that cause the server to send HTTP requests to unintended destinations, potentially exposing internal network services or sensitive server endpoints to unauthorized access.<br><br>Patches<br>Patched in v4.4.0<br><br>Workarounds<br>If one is unable to update, please make sure that the affected bidder adapters are disabled.</p>
+                <p><strong>影响产品：</strong>prebid/prebid-server ⭐565</p>
+                <p><strong>影响版本：</strong>github.com/prebid/prebid-server/v4: 受影响版本 < 4.4.0，修复版本 N/A<br>github.com/prebid/prebid-server/v3: 受影响版本 <= 3.30.0，修复版本 N/A<br>github.com/prebid/prebid-server/v2: 受影响版本 <= 2.32.0，修复版本 N/A<br>github.com/prebid/prebid-server: 受影响版本 <= 0.275.0，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>严重安全漏洞，可能导致系统被完全控制</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>系统完全被控制，可能导致数据泄露、服务中断或横向移动</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/prebid/prebid-server/commit/494ac271cd4b5024df9123ef25ca3cff96390be3" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4p3g-4hcj-wpvx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 ZITADEL Users Can Self-Verify Email/Phone via API</div>
+                    <div class="advisory-id">GHSA-jq8w-8q2f-ffm9 | CVE: CVE-2026-54693</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14,579</span>
+                
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>A vulnerability in Zitadel's self-management capability allowed users to mark their email and phone as verified without going through an actual verification process.<br><br>While `GHSA-282g-fhmx-xf54` (CVE-2026-27946, "Users Can Self-Verify Email/Phone via UpdateHumanUser API") closed the path that let any authenticated user mark an arbitrary email or phone as verified on their own account by calling `UpdateHumanUser` with `email.is_verified: true`, additional paths were discovered.<br><br>Impact <br><br>Zitadel provi</p>
+                <p><strong>影响产品：</strong>zitadel/zitadel ⭐14,579</p>
+                <p><strong>影响版本：</strong>github.com/zitadel/zitadel: 受影响版本 >= 4.0.0, < 4.15.1，修复版本 N/A<br>github.com/zitadel/zitadel: 受影响版本 >= 2.43.0, < 3.4.11，修复版本 N/A<br>github.com/zitadel/zitadel: 受影响版本 < 1.80.0-v2.20.0.20260608144108-ed09b3df7f43，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/zitadel/zitadel/commit/90f310212d3a5075084a603bf61fed549c92956d" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jq8w-8q2f-ffm9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 proot-distro has a Container Isolation Bypass via Crafted Restore Archive</div>
+                    <div class="advisory-id">GHSA-7h3g-4w2f-fj2f | CVE: CVE-2026-54727</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 3,320</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Affected Component<br><br>- <strong>Package:</strong> proot-distro<br>- <strong>Affected command:</strong> `restore`<br>- <strong>Attack surface:</strong> Host-side Termux CLI processing a user-supplied backup archive<br>- <strong>Vulnerability type:</strong> Container Isolation Bypass / Cross-Container Read and Write<br><br><br><br>Affected Versions<br><br> Version <br> 5.1.5 (confirmed affected)  Test distro <br> aarch64  Device <br> https://packages-cf.termux.dev/apt/termux-main stable/main aarch64 |<br><br><br><br>Summary<br><br>When restoring a crafted backup archive,</p>
+                <p><strong>影响产品：</strong>termux/proot-distro ⭐3,320</p>
+                <p><strong>影响版本：</strong>proot-distro: 受影响版本 <= 5.1.5，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/termux/proot-distro/commit/98aff324b7d8500ff75a8ca9ac087ee636be4716" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7h3g-4w2f-fj2f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 `proot-distro install` has a Symlink Escape (Arbitrary Host File Write) via Malicious Tar Archive</div>
+                    <div class="advisory-id">GHSA-9xq3-3fqg-4vg7 | CVE: CVE-2026-54574</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 3,320</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><strong>Repository:</strong> `termux/proot-distro`  <br><strong>Component:</strong> `proot_distro/commands/install.py` → `_extract_plain_tar()`; also `helpers/docker.py` → `_apply_layer()`    <br><br><br><br>Affected Versions<br><br> Version                      <br> 5.0.2 (confirmed vulnerable)  Termux app    <br> Samsung Galaxy A23 / aarch64  Python (host) <br><br><br><br>Vulnerability Description<br><br>`proot-distro install` extracts a plain tarball rootfs by calling `_extract_pl</p>
+                <p><strong>影响产品：</strong>termux/proot-distro ⭐3,320</p>
+                <p><strong>影响版本：</strong>proot-distro: 受影响版本 <= 5.1.4，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>需要攻击者提供恶意输入</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/termux/proot-distro/commit/a96d7a9667f38e45d812614852ee3915d1c0ae45" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9xq3-3fqg-4vg7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Easy!Appointments Vulnerable to Appointments Takeover via Excessive Data Exposure</div>
+                    <div class="advisory-id">GHSA-4vmm-5qvc-w5p7 | CVE: CVE-2026-55651</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,284</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br>An Excessive Data Exposure vulnerability in the customers search endpoint allows an authenticated user to obtain appointment hashes belonging to other users.<br>Using these hashes, an attacker can modify or delete appointments of other providers, resulting in an Appointments Takeover.<br><br>Details<br>The customers search endpoint exposes excessive information, including appointment hashes, to any authenticated user without proper authorization checks.<br>These hashes uniquely identify appointments that do not belong to the searching user.<br><br>By reusing the obtained hashes, an attacker can int</p>
+                <p><strong>影响产品：</strong>alextselegidis/easyappointments ⭐4,284</p>
+                <p><strong>影响版本：</strong>alextselegidis/easyappointments: 受影响版本 = 1.5.2，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/alextselegidis/easyappointments/commit/ebbe41130dafa58b0716426c56c8cfd4c22dbceb" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4vmm-5qvc-w5p7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Req vulnerable to unbounded archive/compression extraction triggered by response content-type</div>
+                    <div class="advisory-id">GHSA-655f-mp8p-96gv | CVE: CVE-2026-49755</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1,322</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>Req's default response pipeline auto-decodes archive and compressed bodies based on the server-supplied `content-type` (or URL extension) and materialises the full decompressed contents in memory with no size cap. An attacker who controls (or can redirect a victim into) an HTTP endpoint reached by `Req.get!/1` can return a tiny "decompression bomb" that expands to many gigabytes on the client and exhausts the BEAM's memory.<br><br>Details<br><br><strong>1. Archive auto-decoding.</strong> `Req.Steps.decode_body/1` in `lib/req/steps.ex` dispatches on the response `content-type` (or URL extension) and ca</p>
+                <p><strong>影响产品：</strong>wojtekmach/req ⭐1,322</p>
+                <p><strong>影响版本：</strong>req: 受影响版本 >= 0.1.0, < 0.6.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>安全漏洞，需关注并及时修复</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/wojtekmach/req/commit/84977e5b1a83f26e749d55ad06e3625464af4e8d" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-655f-mp8p-96gv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 veraPDF Validation XXE via Rich Text</div>
+                    <div class="advisory-id">GHSA-3jh7-wm29-q568 | CVE: CVE-2026-54078</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ N/A</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary  <br>  <br><strong>Description</strong><br>An XML External Entity Injection (CWE-611) vulnerability in veraPDF allows a remote attacker to read arbitrary files on the server file system and perform Server-Side Request Forgery by submitting a crafted PDF containing a malicious rich-text (/RC or /RV) entry. This affects all current versions of veraPDF-validation.  <br>  <br>Details  <br>The vulnerability resides in veraPDF-validation `validation-model/src/main/java/org/verapdf/gf/model/tools/DictionaryKeysHelper.java` within the `getRichTextStringOrStreamEntryStringRepresentation()` method. This helper extracts </p>
+                <p><strong>影响产品：</strong>N/A ⭐N/A</p>
+                <p><strong>影响版本：</strong>org.verapdf:validation-model: 受影响版本 >= 1.25.73, <= 1.30.1，修复版本 N/A<br>org.verapdf:validation-model: 受影响版本 >= 1.31.1, <= 1.31.70，修复版本 N/A<br>org.verapdf:validation-model-jakarta: 受影响版本 >= 1.25.73, <= 1.30.1，修复版本 N/A<br>org.verapdf:validation-model-jakarta: 受影响版本 >= 1.31.1, <= 1.31.70，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参见公告中的修复建议</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3jh7-wm29-q568" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 veraPDF Validation XXE via XFA</div>
+                    <div class="advisory-id">GHSA-36mm-w85j-3q2j | CVE: CVE-2026-54079</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 74</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary  <br>  <br><strong>Description</strong><br>An XML External Entity Injection (CWE-611) vulnerability in veraPDF allows a remote attacker to read arbitrary files on the server file system and perform Server-Side Request Forgery by submitting a crafted PDF containing a malicious XFA stream. This affects all current versions of veraPDF-validation.  <br>  <br>Details  <br>The vulnerability resides in veraPDF-validation `validation-model/src/main/java/org/verapdf/gf/model/impl/pd/GFPDAcroForm.java` within the `getdynamicRender()` method. This method retrieves the /XFA entry from the PDF's /AcroForm dictionary, decod</p>
+                <p><strong>影响产品：</strong>veraPDF/veraPDF-validation ⭐74</p>
+                <p><strong>影响版本：</strong>org.verapdf:validation-model: 受影响版本 >= 1.17.35, <= 1.30.1，修复版本 N/A<br>org.verapdf:validation-model: 受影响版本 >= 1.31.1, <= 1.31.70，修复版本 N/A<br>org.verapdf:validation-model-jakarta: 受影响版本 >= 1.17.35, <= 1.30.1，修复版本 N/A<br>org.verapdf:validation-model-jakarta: 受影响版本 >= 1.31.1, <= 1.31.70，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/veraPDF/veraPDF-validation/commit/94caa46c1a594512247fbd46c808edae39469542" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-36mm-w85j-3q2j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 swagger-typescript-api vulnerable to code injection via unescaped OpenAPI path strings in generated method bodies</div>
+                    <div class="advisory-id">GHSA-w284-33mx-6g9v | CVE: CVE-2026-54666</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,108</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>`swagger-typescript-api` interpolates OpenAPI path strings (the keys of the `paths` object, e.g. `/users/{id}`) directly into a JavaScript template literal inside the body of every generated API method, without escaping. A spec path containing `${ … }` survives `parseRouteName`'s `{x}` / `:x` rewriter verbatim and lands as live JS-template-literal interpolation inside the generated `path: \`...\`` line. Any consumer who calls the affected generated method evaluates the attacker's expression with full importer privileges — file read/write, exfiltration, etc. The attacker controls t</p>
+                <p><strong>影响产品：</strong>acacode/swagger-typescript-api ⭐4,108</p>
+                <p><strong>影响版本：</strong>swagger-typescript-api: 受影响版本 <= 13.12.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w284-33mx-6g9v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 swagger-typescript-api vulnerable to code injection via unescaped enum string values</div>
+                    <div class="advisory-id">GHSA-5f94-x226-ccpm | CVE: CVE-2026-54664</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,108</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>`swagger-typescript-api` interpolates `components.schemas.*.enum[i]` string values into the body of generated TypeScript `enum` declarations without escaping. A malicious enum value can close the enclosing string literal, terminate the enum body, and inject a bare-block IIFE that executes at <strong>module load</strong> the first time the generated client is imported. The trigger requires no instantiation and no method call — only an `import` of the generated module. The attacker controls the OpenAPI spec (remote `--url`, third-party / public spec, multi-tenant platform); the victim is whoever</p>
+                <p><strong>影响产品：</strong>acacode/swagger-typescript-api ⭐4,108</p>
+                <p><strong>影响版本：</strong>swagger-typescript-api: 受影响版本 <= 13.12.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5f94-x226-ccpm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 swagger-typescript-api vulnerable to code injection via unescaped `servers[0].url` in axios http-client template</div>
+                    <div class="advisory-id">GHSA-38c3-wv3c-v3xj | CVE: CVE-2026-54661</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,108</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>`swagger-typescript-api` interpolates `servers[0].url` directly into a TypeScript string literal inside the `HttpClient` constructor body of the generated <strong>axios</strong> client (`templates/base/http-clients/axios-http-client.ejs:71`), without any escaping. A malicious URL containing a `"` closes the string literal and exposes the surrounding *object-literal argument* of `axios.create({...})` to injection. A computed property key whose value is an IIFE executes arbitrary code every time `new HttpClient()` (or `new Api()`, which extends `HttpClient`) is constructed. The attacker controls</p>
+                <p><strong>影响产品：</strong>acacode/swagger-typescript-api ⭐4,108</p>
+                <p><strong>影响版本：</strong>swagger-typescript-api: 受影响版本 <= 13.12.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-38c3-wv3c-v3xj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 swagger-typescript-api vulnerable to code injection via unescaped `servers[0].url` in fetch http-client template</div>
+                    <div class="advisory-id">GHSA-hqj5-cw9f-rx67 | CVE: CVE-2026-54662</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,108</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>`swagger-typescript-api` interpolates `servers[0].url` directly into a TypeScript class-body field initializer of the generated <strong>fetch</strong> `HttpClient` (`templates/base/http-clients/fetch-http-client.ejs:75`), without any escaping. A malicious URL containing a `"` closes the string literal that initializes `public baseUrl` and exposes the surrounding *class body* to injection. The most direct exploit declares a new `static` field whose initializer is an async IIFE — TypeScript evaluates static field initializers at <strong>class definition time</strong>, which is at module load. A consumer who </p>
+                <p><strong>影响产品：</strong>acacode/swagger-typescript-api ⭐4,108</p>
+                <p><strong>影响版本：</strong>swagger-typescript-api: 受影响版本 <= 13.12.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>代码注入，攻击者可通过恶意输入执行任意代码</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hqj5-cw9f-rx67" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 swagger-typescript-api vulnerable to authorization-token exfiltration via spec `$ref`</div>
+                    <div class="advisory-id">GHSA-h754-fxp7-88wx | CVE: CVE-2026-54660</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 4,108</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br><br>When the developer supplies an `--authorizationToken` (commonly required to fetch a private spec behind authentication), `swagger-typescript-api` attaches that token to the `Authorization` header of <strong>every</strong> subsequent HTTP request it makes while resolving external `$ref` URLs in the spec — with <strong>no same-origin check, no host allowlist, and no scope-down</strong> for cross-origin requests. A malicious OpenAPI spec containing a `$ref` to an attacker-controlled URL therefore causes the developer's bearer token to be sent verbatim to that URL during code generation.<br><br>The threat model is i</p>
+                <p><strong>影响产品：</strong>acacode/swagger-typescript-api ⭐4,108</p>
+                <p><strong>影响版本：</strong>swagger-typescript-api: 受影响版本 <= 13.12.1，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>认证/授权绕过，攻击者可绕过安全策略访问受限资源</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h754-fxp7-88wx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 AgentCore CLI Bedrock Agent Import Vulnerable to Code Injection via Improper Triple-Quote Escaping</div>
+                    <div class="advisory-id">GHSA-m4x6-gwgp-4pm7 | CVE: CVE-2026-11393</div>
+                </div>
+                <span class="priority-score">优先级: 7/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 231</span>
+                
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br>The AgentCore CLI (@aws/agentcore) is a developer tool for managing agent infrastructure lifecycle on Amazon Bedrock AgentCore. An issue exists where, under certain circumstances, a crafted collaborationInstruction value stored in Bedrock Agent collaborator metadata can break out of a Python triple-quoted string in code generated by the `agentcore add agent --type import` command, resulting in arbitrary code execution when the generated file is loaded or deployed.<br><br>Impact<br>When a user runs `agentcore add agent --type import` to import a Bedrock supervisor agent that has multi-ag</p>
+                <p><strong>影响产品：</strong>aws/agentcore-cli ⭐231</p>
+                <p><strong>影响版本：</strong>@aws/agentcore: 受影响版本 >= 0.4.0, < 0.14.2，修复版本 N/A<br>@aws/agentcore: 受影响版本 >= 0.3.0-preview.7.0, <= 0.3.0-preview.9.0，修复版本 N/A<br>@aws/agentcore: 受影响版本 >= 1.0.0-preview.1, < 1.0.0-preview.9，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>容器/沙箱逃逸，攻击者可突破隔离边界访问宿主机</p>
+                <p><strong>触发条件：</strong>远程触发，无需本地访问权限</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/aws/agentcore-cli/commit/ae1b932ec91bacdbb7a3521f9f1fc24479a3d504" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m4x6-gwgp-4pm7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 netfoil: Incorrect block responses could lead to localhost traffic</div>
+                    <div class="advisory-id">GHSA-xvg2-cgv6-6h7v | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 11</span>
+                
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Summary<br>`0.0.0.0` was used instead of NXDOMAIN for block responses. On Linux, which is the target platform for netfoil, the `0.0.0.0` is sent to localhost rather than just dropped.<br><br>Impact<br>Unintended traffic could be sent to localhost. Impact depends on running services and firewall rules.</p>
+                <p><strong>影响产品：</strong>tinfoil-factory/netfoil ⭐11</p>
+                <p><strong>影响版本：</strong>github.com/tinfoil-factory/netfoil: 受影响版本 < 0.4.0，修复版本 N/A</p>
+                <p><strong>攻击面：</strong>安全漏洞，需关注并及时修复</p>
+                <p><strong>触发条件：</strong>参见公告详情中的触发条件说明</p>
+                <p><strong>潜在危害：</strong>可能导致敏感数据泄露、权限提升或服务可用性受损</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本，参考 <a href="https://github.com/tinfoil-factory/netfoil/commit/891d3513c77999a9deef9f23506807d9653ee448" style="color:#58a6ff;">补丁/发布说明</a></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xvg2-cgv6-6h7v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><code>GHSA-qcxp-gm7m-4j5v</code></td>
+        <td>quarkusio/quarkus</td>
+        <td>15,794</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-qcxp-gm7m-4j5v" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>2</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-mjqf-28ph-426h</code></td>
+        <td>kube-logging/logging-operator</td>
+        <td>1,702</td>
+        <td>Critical</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-mjqf-28ph-426h" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>3</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-4p3g-4hcj-wpvx</code></td>
+        <td>prebid/prebid-server</td>
+        <td>565</td>
+        <td>Critical</td>
+        <td>有详细原理</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4p3g-4hcj-wpvx" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>4</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-jq8w-8q2f-ffm9</code></td>
+        <td>zitadel/zitadel</td>
+        <td>14,579</td>
+        <td>High</td>
+        <td>仅描述</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-jq8w-8q2f-ffm9" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>5</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-7h3g-4w2f-fj2f</code></td>
+        <td>termux/proot-distro</td>
+        <td>3,320</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-7h3g-4w2f-fj2f" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>6</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-9xq3-3fqg-4vg7</code></td>
+        <td>termux/proot-distro</td>
+        <td>3,320</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-9xq3-3fqg-4vg7" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>7</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-4vmm-5qvc-w5p7</code></td>
+        <td>alextselegidis/easyappointments</td>
+        <td>4,284</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4vmm-5qvc-w5p7" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>8</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-655f-mp8p-96gv</code></td>
+        <td>wojtekmach/req</td>
+        <td>1,322</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-655f-mp8p-96gv" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>9</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-3jh7-wm29-q568</code></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-3jh7-wm29-q568" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>10</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-36mm-w85j-3q2j</code></td>
+        <td>veraPDF/veraPDF-validation</td>
+        <td>74</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-36mm-w85j-3q2j" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>11</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-w284-33mx-6g9v</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-w284-33mx-6g9v" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>12</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-5f94-x226-ccpm</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-5f94-x226-ccpm" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-38c3-wv3c-v3xj</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-38c3-wv3c-v3xj" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-hqj5-cw9f-rx67</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-hqj5-cw9f-rx67" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-h754-fxp7-88wx</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-h754-fxp7-88wx" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><code>GHSA-m4x6-gwgp-4pm7</code></td>
+        <td>aws/agentcore-cli</td>
+        <td>231</td>
+        <td>High</td>
+        <td>有详细原理</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-m4x6-gwgp-4pm7" style="color:#58a6ff;">查看</a></td>
+    </tr><tr>
+        <td>17</td>
+        <td>🟡 中危</td>
+        <td><code>GHSA-xvg2-cgv6-6h7v</code></td>
+        <td>tinfoil-factory/netfoil</td>
+        <td>11</td>
+        <td>High</td>
+        <td>仅描述</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-xvg2-cgv6-6h7v" style="color:#58a6ff;">查看</a></td>
+    </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td><code>GHSA-mjqf-28ph-426h</code></td>
+        <td>kube-logging/logging-operator</td>
+        <td>1,702</td>
+        <td>Critical</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-7h3g-4w2f-fj2f</code></td>
+        <td>termux/proot-distro</td>
+        <td>3,320</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-9xq3-3fqg-4vg7</code></td>
+        <td>termux/proot-distro</td>
+        <td>3,320</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-4vmm-5qvc-w5p7</code></td>
+        <td>alextselegidis/easyappointments</td>
+        <td>4,284</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-655f-mp8p-96gv</code></td>
+        <td>wojtekmach/req</td>
+        <td>1,322</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-3jh7-wm29-q568</code></td>
+        <td>N/A</td>
+        <td>0</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-36mm-w85j-3q2j</code></td>
+        <td>veraPDF/veraPDF-validation</td>
+        <td>74</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-w284-33mx-6g9v</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-5f94-x226-ccpm</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-38c3-wv3c-v3xj</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-hqj5-cw9f-rx67</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr><tr>
+        <td><code>GHSA-h754-fxp7-88wx</code></td>
+        <td>acacode/swagger-typescript-api</td>
+        <td>4,108</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul><li><strong>Quarkus: Authentication/Authorization Bypass via Advanced Path Normalization Vulnerabilities</strong> (GHSA-qcxp-gm7m-4j5v) - 立即升级到修复版本</li></ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul><li><strong>Logging operator has Fluentd configuration injection that allows remote code execution</strong> (GHSA-mjqf-28ph-426h) - 尽快安排升级</li><li><strong>prebid-server's request forgery vulnerability allows for possible host environment data extraction</strong> (GHSA-4p3g-4hcj-wpvx) - 尽快安排升级</li><li><strong>ZITADEL Users Can Self-Verify Email/Phone via API</strong> (GHSA-jq8w-8q2f-ffm9) - 尽快安排升级</li><li><strong>proot-distro has a Container Isolation Bypass via Crafted Restore Archive</strong> (GHSA-7h3g-4w2f-fj2f) - 尽快安排升级</li><li><strong>`proot-distro install` has a Symlink Escape (Arbitrary Host File Write) via Malicious Tar Archive</strong> (GHSA-9xq3-3fqg-4vg7) - 尽快安排升级</li><li><strong>swagger-typescript-api 系列代码注入漏洞 (5个)</strong> - 统一升级到 v13.12.2+</li></ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul><li><strong>netfoil: Incorrect block responses could lead to localhost traffic</strong> (GHSA-xvg2-cgv6-6h7v) - 纳入修复计划</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
