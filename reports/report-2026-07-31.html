@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-07-31</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #79c0ff; }
+        .advisory-content pre { background: #21262d; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; font-size: 0.85em; color: #c9d1d9; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        a { color: #58a6ff; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-07-31 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">含完整PoC</div>
+            </div>
+        </div>
+
+        <p style="color:#8b949e;margin-bottom:20px;font-size:0.9em;">
+            📌 注：今日API返回的22条公告中，8条为最近24小时新发布，14条为近期发布但今日更新。无 Critical 级别公告，全部为 High 级别。以下按「新发布含PoC → Star≥5k项目 → 其他新发布」优先级排列。
+        </p>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <!-- 1. MCP Ruby SDK Session Poisoning - 有完整PoC -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 MCP Ruby SDK: SSE Session Poisoning（会话劫持）</div>
+                    <div class="advisory-id">GHSA-5p9g-j988-pcwv | CVE: CVE-2026-67431</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 871 (modelcontextprotocol)</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Ruby SDK 的 StreamableHTTP 和 SSE HTTP 传输实现中缺少 Session 所有权验证。任何攻击者只要获取到受害者的 Session ID，就可以通过向 <code>/messages/{session_id}</code> 发送请求来劫持受害者的会话，执行工具调用并注入响应。这是一种静默攻击——受害者难以察觉会话已被劫持。</p>
+                <p><strong>影响产品：</strong>MCP Ruby SDK (rubygems/mcp) ⭐ 871</p>
+                <p><strong>影响版本：</strong>&lt;= 0.22.0</p>
+                <p><strong>攻击面：</strong>网络可达的 MCP Server（HTTP/SSE 传输层）</p>
+                <p><strong>触发条件：</strong>攻击者获取到目标 Session ID（通过网络嗅探、日志泄露等途径），然后向 <code>/messages/{session_id}</code> 发送恶意 tool call 请求</p>
+                <p><strong>潜在危害：</strong>会话劫持，攻击者可以：(1) 在受害者会话中执行任意工具调用；(2) 注入恶意响应到受害者的 SSE 流；(3) 操纵受害者会话状态。完整性影响高，可用性影响低。</p>
+                <p><strong>可利用性：</strong><span style="color:#f85149;font-weight:bold;">有完整PoC</span> — 公告提供了 <code>attacker_client.py</code> 和 <code>legitimate_client.py</code> 两个完整的演示脚本，包含运行步骤和预期结果</p>
+                <p><strong>漏洞原理：</strong>服务端在处理 POST <code>/messages/{session_id}</code> 请求时，仅验证 session_id 是否存在于活跃会话表中，但不验证请求者是否为该 session 的合法所有者。与其他 SDK 实现（C#、Go）不同，Ruby SDK 缺少 user binding 机制。</p>
+                <p><strong>修复建议：</strong>升级至 MCP Ruby SDK &gt;= 0.23.0。该版本增加了 session ownership 验证，将 session ID 绑定到特定用户/连接。</p>
+            </div>
+            
+            <a href="https://github.com/modelcontextprotocol/ruby-sdk/security/advisories/GHSA-5p9g-j988-pcwv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. MCP Ruby SDK DoS - 有完整PoC -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 MCP Ruby SDK: 无界JSON-RPC请求体导致内存耗尽DoS</div>
+                    <div class="advisory-id">GHSA-h669-8m4g-r2hc | CVE: CVE-2026-67432</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 871 (modelcontextprotocol)</span>
+                <span class="badge badge-poc">🔴 完整PoC</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MCP Ruby SDK 的 <code>StreamableHTTPTransport</code> 在处理 POST 请求时，会将整个 HTTP body 读入内存并使用 <code>JSON.parse(body, symbolize_names: true)</code> 解析，没有任何大小限制、Content-Length 预检查或流式解析器。未认证的远程攻击者可以通过发送单个超大 JSON-RPC POST 请求，强制服务端分配数GB内存，导致 DoS。</p>
+                <p><strong>影响产品：</strong>MCP Ruby SDK (rubygems/mcp) ⭐ 871</p>
+                <p><strong>影响版本：</strong>&lt;= 0.22.0</p>
+                <p><strong>攻击面：</strong>任何使用 StreamableHTTPTransport 的 MCP Server，包括 <code>stateless: true</code> 模式</p>
+                <p><strong>触发条件：</strong>攻击者向 MCP Server 发送一个超大 HTTP POST 请求体（如 512MB+ 的 JSON 字符串），无需认证或 Session ID</p>
+                <p><strong>潜在危害：</strong>服务端 worker 进程内存耗尽，导致 DoS。由于 <code>symbolize_names: true</code>，每个 JSON key 还会分配 Ruby symbol（不可GC），进一步加剧内存压力。漏洞路径在 session 验证之前执行，攻击门槛极低。</p>
+                <p><strong>可利用性：</strong><span style="color:#f85149;font-weight:bold;">有完整PoC</span> — 公告提供了 <code>oom_poc_server.rb</code> 和 <code>oom_poc_client.py</code> 两个自包含脚本，可直接运行演示</p>
+                <p><strong>漏洞原理：</strong>
+                    1. <code>handle_post</code> 方法第341行：<code>body_string = request.body.read</code> 无上限读取<br>
+                    2. 第531-535行：<code>JSON.parse(body_string, symbolize_names: true)</code> 完全物化解析对象<br>
+                    3. 同样的问题存在于 <code>stdio_transport.rb:23</code>（<code>$stdin.gets</code> 无 <code>limit:</code> 参数）
+                </p>
+                <p><strong>修复建议：</strong>升级至 MCP Ruby SDK &gt;= 0.23.0。该版本增加了请求体大小限制和流式解析。</p>
+            </div>
+            
+            <a href="https://github.com/modelcontextprotocol/ruby-sdk/security/advisories/GHSA-h669-8m4g-r2hc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. Spring Framework - 多个漏洞 (Star 60k) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Spring Framework 多个高危漏洞（SpEL DoS / XSS / 资源DoS）</div>
+                    <div class="advisory-id">GHSA-r5w3-xv2f-j59q / GHSA-775g-4xr8-78h8 / GHSA-3chg-m5w7-qfv5 / GHSA-x23c-287f-qqv5</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High ×4</span>
+                <span class="badge badge-stars">⭐ 60,147 (spring-projects)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spring Framework 同时披露了4个高危漏洞，今日均更新了公告信息：</p>
+                <ul>
+                    <li><strong>CVE-2026-41850 (SpEL 算法DoS)：</strong>攻击者通过精心构造的 SpEL 表达式触发过大的资源消耗，导致应用降级或不可用。影响 5.3.x ~ 7.0.x 全系列。</li>
+                    <li><strong>CVE-2026-41849 (SpEL 整数溢出DoS)：</strong>SpEL 求值逻辑中的整数溢出可触发过度资源消耗。影响 5.3.x 系列。</li>
+                    <li><strong>CVE-2026-41845 (XSS via JavaScriptUtils)：</strong><code>JavaScriptUtils.javaScriptEscape()</code> 转义不正确，可能导致浏览器端 JavaScript 代码注入。影响全系列。</li>
+                    <li><strong>CVE-2026-41842 (版本化资源DoS)：</strong>Spring MVC/WebFlux 解析静态资源时存在 DoS 漏洞。影响全系列。</li>
+                </ul>
+                <p><strong>影响产品：</strong>Spring Framework ⭐ 60,147 — Java 生态最核心的框架之一</p>
+                <p><strong>影响版本：</strong>
+                    <ul>
+                        <li>7.0.0 ~ 7.0.7</li>
+                        <li>6.2.0 ~ 6.2.18</li>
+                        <li>6.1.0 ~ 6.1.21</li>
+                        <li>&lt;= 5.3.39</li>
+                    </ul>
+                </p>
+                <p><strong>攻击面：</strong>任何接受用户输入 SpEL 表达式的应用、使用 JavaScriptUtils 的 Web 应用、提供静态资源的 MVC/WebFlux 应用</p>
+                <p><strong>潜在危害：</strong>DoS 导致服务不可用；XSS 漏洞可导致用户会话劫持、数据窃取</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级至各分支修复版本：7.0.8+, 6.2.19+, 6.1.22+, 5.3.40+。尤其注意 XSS 漏洞影响面广，建议所有使用 JavaScriptUtils 的应用立即排查。</p>
+            </div>
+            
+            <a href="https://spring.io/security/advisories" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看 Spring 安全公告 →</a>
+        </div>
+
+        <!-- 4. Quarkus Auth Bypass (15.8k stars) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Quarkus: 路径规范化绕过认证/授权策略</div>
+                    <div class="advisory-id">GHSA-qcxp-gm7m-4j5v | CVE: CVE-2026-50559</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15,796 (quarkusio)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Quarkus 的 HTTP 路径授权策略可被绕过。攻击者使用编码分号（<code>%3B</code>）走私 matrix parameters 绕过安全层，以及使用编码斜杠（<code>%2F</code>）或反斜杠（<code>%5C</code>）访问受保护的静态资源。这是与 CVE-2026-39852 不同的独立问题。</p>
+                <p><strong>影响产品：</strong>Quarkus (io.quarkus:quarkus-vertx-http) ⭐ 15,796</p>
+                <p><strong>影响版本：</strong>&lt; 3.20.6.2, 3.21.0.CR1 ~ 3.27.4.1, 3.28.0.CR1 ~ 3.33.2.1, 3.34.0.CR1 ~ 3.36.3, 3.37.0.CR1 ~ 3.37.0</p>
+                <p><strong>攻击面：</strong>所有使用路径匹配授权策略的 Quarkus HTTP 端点</p>
+                <p><strong>触发条件：</strong>
+                    1. <strong>编码分号绕过：</strong><code>%3B</code> 未被 <code>normalizedPath()</code> 解码，导致 matrix parameter 剥离逻辑无法识别，安全策略匹配失败<br>
+                    2. <strong>静态资源路径绕过：</strong><code>%2F</code> 和 <code>%5C</code> 在安全层存活但在静态资源处理器的 <code>URIDecoder.decodeURIComponent()</code> 中被完全解码，导致路径遍历
+                </p>
+                <p><strong>潜在危害：</strong>未授权访问受保护端点，可能获取敏感数据或执行越权操作</p>
+                <p><strong>可利用性：</strong>有详细技术分析和利用向量说明，无需复杂工具即可构造请求</p>
+                <p><strong>修复建议：</strong>升级至 Quarkus 3.20.6.2, 3.27.4.1, 3.33.2.1, 3.36.3 或 3.37.0 的修复版本。注意 RESTEasy Reactive 端点不受 <code>%2F/%5C</code> 向量影响，但 <code>%3B</code> 绕过影响所有路径策略保护的端点。</p>
+            </div>
+            
+            <a href="https://github.com/quarkusio/quarkus/security/advisories/GHSA-qcxp-gm7m-4j5v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. GitHub CLI Auth Header Leak (45.5k stars) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitHub CLI: TUF 仓库镜像请求中错误 Authorization Header</div>
+                    <div class="advisory-id">GHSA-8xvp-7hj6-mcj9 | CVE: CVE-2026-48501</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 45,515 (cli/cli)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitHub CLI (<code>gh</code>) 在执行 <code>gh attestation</code>、<code>gh release verify</code> 和 <code>gh release verify-asset</code> 命令时，向 TUF 仓库镜像发送的 API 请求中包含错误的 Authorization header，可能将用户的 GitHub token 泄露给第三方镜像服务器。</p>
+                <p><strong>影响产品：</strong>GitHub CLI ⭐ 45,515</p>
+                <p><strong>影响版本：</strong>&lt;= 2.92.0</p>
+                <p><strong>攻击面：</strong>使用上述命令验证 release/attestation 时，token 被发送到非预期的第三方服务器</p>
+                <p><strong>触发条件：</strong>用户执行 <code>gh attestation</code>、<code>gh release verify</code> 或 <code>gh release verify-asset</code> 命令，且 TUF 镜像配置指向非官方服务器</p>
+                <p><strong>潜在危害：</strong>GitHub 访问令牌泄露，攻击者可利用泄露的 token 访问用户的仓库、执行 API 操作</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级至 GitHub CLI &gt;= 2.93.0。</p>
+            </div>
+            
+            <a href="https://github.com/cli/cli/security/advisories/GHSA-8xvp-7hj6-mcj9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. Netty 多个漏洞 (35k stars) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty 多个高危漏洞（DNS缓存投毒 / HAProxy内存泄漏 / DNS NS记录验证不足）</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc / GHSA-h2qv-fj59-j46j / GHSA-5pvg-856g-cp85</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High ×3</span>
+                <span class="badge badge-stars">⭐ 35,016 (netty)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 今日更新了3个高危漏洞的公告信息：</p>
+                <ul>
+                    <li><strong>CVE-2026-45674 (DNS CNAME 缓存投毒)：</strong>DNS 解析器对 CNAME 记录缺少 bailiwick 检查，攻击者可通过伪造 DNS 响应投毒缓存，将流量重定向到恶意服务器。</li>
+                    <li><strong>CVE-2026-48059 (HAProxy PROXY 协议内存耗尽)：</strong>HAProxy PROXY 协议 v2 编解码器在处理嵌套 <code>PP2_TYPE_SSL</code> TLV（深度≥2）时，存在引用计数不平衡，导致每个连接的 native/heap 内存永久泄漏。即使应用正常释放 <code>HAProxyMessage</code>，底层 cumulation buffer 仍被固定。</li>
+                    <li><strong>CVE-2026-47691 (DNS NS 记录验证不足)：</strong>DNS 解析器对 NS 记录的 bailiwick 验证不充分，可能导致 DNS 劫持。</li>
+                </ul>
+                <p><strong>影响产品：</strong>Netty ⭐ 35,016 — Java 网络框架基石</p>
+                <p><strong>影响版本：</strong>
+                    <ul>
+                        <li>4.2.0.Final ~ 4.2.14.Final</li>
+                        <li>&lt;= 4.1.134.Final</li>
+                    </ul>
+                </p>
+                <p><strong>潜在危害：</strong>DNS 缓存投毒可导致流量劫持、中间人攻击；HAProxy 内存泄漏可导致服务 OOM</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC。但 DNS 缓存投毒和 HAProxy 内存泄漏原理较为清晰。</p>
+                <p><strong>修复建议：</strong>升级至 Netty 4.1.135.Final 或 4.2.15.Final。已有 Red Hat 安全补丁发布。</p>
+            </div>
+            
+            <a href="https://github.com/netty/netty/security/advisories" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看 Netty 安全公告 →</a>
+        </div>
+
+        <!-- 7. degit Command Injection (7.9k stars) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 degit: 命令注入漏洞</div>
+                    <div class="advisory-id">GHSA-77c7-pq4r-6mcq | CVE: CVE-2026-11572</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7,906 (Rich-Harris)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>degit 在 <code>_cloneWithGit()</code> 和 <code>fetchRefs()</code> 函数中，通过 <code>exec()</code> 方法直接调用 git shell 命令，且对用户输入未做充分清理。攻击者可通过精心构造的 git 仓库名称注入任意操作系统命令。</p>
+                <p><strong>影响产品：</strong>degit ⭐ 7,906 — Svelte 作者 Rich Harris 维护的项目脚手架工具</p>
+                <p><strong>影响版本：</strong>&lt; 2.8.6, 3.0.0 ~ 3.3.1</p>
+                <p><strong>攻击面：</strong>CI/CD 流水线中使用 degit 拉取不可信仓库名；开发者从不可信源复制项目模板</p>
+                <p><strong>触发条件：</strong>调用 degit 时传入包含 shell 特殊字符的仓库名（如 <code>user/repo; rm -rf /</code>）</p>
+                <p><strong>潜在危害：</strong>以进程用户权限执行任意命令，在 CI/CD 环境中可能导致供应链攻击</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，但利用方式明确（通过 <code>exec()</code> 注入），构造简单</p>
+                <p><strong>修复建议：</strong>升级至 degit &gt;= 2.8.6 或 &gt;= 3.3.1。</p>
+            </div>
+            
+            <a href="https://github.com/Rich-Harris/degit/security/advisories/GHSA-77c7-pq4r-6mcq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. OliveTin DoS (3.7k stars, 新发布) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 OliveTin: OAuth2 State 内存耗尽导致未认证 DoS</div>
+                    <div class="advisory-id">GHSA-xpxj-f2fm-rqch | CVE: CVE-2026-67437</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 3,707 (OliveTin)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OliveTin 的 OAuth2 登录处理器将每次 <code>/oauth/login</code> 请求的 state 存储在内存 map（<code>registeredStates</code>）中，该 map 无限增长——state 只添加不删除也不过期。未认证攻击者可通过发送大量 <code>/oauth/login</code> 请求填满 map，耗尽服务器内存导致 DoS。</p>
+                <p><strong>影响产品：</strong>OliveTin ⭐ 3,707 — 自托管的命令执行 Web 界面</p>
+                <p><strong>影响版本：</strong>2025-10-24 ~ 2026-07-08 之间的版本</p>
+                <p><strong>攻击面：</strong>启用了 OAuth2 登录的 OliveTin 实例，<code>/oauth/login</code> 端点无需认证</p>
+                <p><strong>触发条件：</strong>攻击者持续向 <code>/oauth/login</code> 发送请求（无需完成 OAuth 流程），每次请求生成一个 state 条目永久驻留内存</p>
+                <p><strong>潜在危害：</strong>服务器内存耗尽导致 DoS。与 CVE-2026-28789（并发 map 写入导致 panic）不同，此漏洞是纯内存泄漏。</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理分析，利用极其简单（只需 curl 循环请求）</p>
+                <p><strong>修复建议：</strong>升级至 OliveTin &gt;= 3000.17.0。</p>
+            </div>
+            
+            <a href="https://github.com/OliveTin/OliveTin/security/advisories/GHSA-xpxj-f2fm-rqch" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. Flyto2 Core 多个漏洞 (477 stars) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Flyto2 Core: 多个 SSRF / 密钥泄露 / 环境变量读取漏洞</div>
+                    <div class="advisory-id">GHSA-c9hr-64h3-gxpc / GHSA-pgwh-4jj4-qm8v / GHSA-qq9q-xgm3-xv9g / GHSA-hr7p-wg7r-hg9m</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High ×4</span>
+                <span class="badge badge-stars">⭐ 477 (flytohub)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>flyto-core（AI agent 工作流执行引擎）被同一研究者连续报告4个高危漏洞：</p>
+                <ul>
+                    <li><strong>CVE-2026-67424 (SSRF 重定向绕过)：</strong>带 SSRF 保护的 HTTP 模块仅验证初始 URL，但 aiohttp 默认 <code>allow_redirects=True</code>，攻击者通过 302 重定向到内部地址绕过检查。</li>
+                    <li><strong>CVE-2026-67428 (多模块 SSRF)：</strong>多个 HTTP 模块（api、graphql、slack、agent/llm 等）接受用户控制的 URL 但未调用项目自身的 SSRF 保护函数。</li>
+                    <li><strong>CVE-2026-67425 (LLM API Key 泄露)：</strong><code>llm.chat</code> 将操作者的 API Key（<code>OPENAI_API_KEY</code>、<code>ANTHROPIC_API_KEY</code>）通过 <code>Authorization: Bearer</code> 发送到用户控制的 <code>base_url</code>。</li>
+                    <li><strong>CVE-2026-67427 (环境变量秘密读取)：</strong>虽然 <code>env.get</code> 被 denylist 阻止，但工作流引擎的变量解析器会展开 <code>${env.VAR}</code> 读取任意环境变量，无任何白名单或策略检查。</li>
+                </ul>
+                <p><strong>影响产品：</strong>flyto-core ⭐ 477</p>
+                <p><strong>影响版本：</strong>&lt;= 2.26.6 / &lt; 2.26.7</p>
+                <p><strong>潜在危害：</strong>SSRF 访问内网/元数据服务（如 AWS 169.254.169.254）；API Key 和环境变量中的敏感信息泄露</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理、代码位置和利用步骤</p>
+                <p><strong>修复建议：</strong>升级至 flyto-core &gt;= 2.26.7。</p>
+            </div>
+            
+            <a href="https://github.com/flytohub/flyto-core/security/advisories" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看 Flyto 安全公告 →</a>
+        </div>
+
+        <!-- 10. dssrf SSRF bypass (7 stars, 新发布) -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 dssrf: SSRF 绕过（remove_at_symbol_in_string）</div>
+                    <div class="advisory-id">GHSA-cg4g-m8jx-vjv2 | CVE: CVE-2026-54722</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7 (HackingRepo)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>dssrf（SSRF 防御库）的 <code>is_url_safe</code> 函数在 URL 解析前调用 <code>remove_at_symbol_in_string</code> 移除所有 <code>@</code> 字符，导致 hostname 被破坏，内部 IP 检查被绕过。例如 <code>http://evil.com@169.254.169.254/</code> 在移除 <code>@</code> 后变为 <code>http://evil.com169.254.169.254/</code>，<code>new URL()</code> 会将 <code>evil.com169.254.169.254</code> 作为 hostname，但这不是内部 IP，安全检查通过。</p>
+                <p><strong>影响产品：</strong>dssrf (npm) ⭐ 7</p>
+                <p><strong>影响版本：</strong>&lt;= 1.0.3</p>
+                <p><strong>可利用性：</strong>有详细代码分析和利用说明</p>
+                <p><strong>修复建议：</strong>关注项目修复更新。</p>
+            </div>
+            
+            <a href="https://github.com/HackingRepo/dssrf-js/security/advisories/GHSA-cg4g-m8jx-vjv2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>评级</th>
+                    <th>GHSA</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>可利用性</th>
+                    <th>影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-5p9g-j988-pcwv</code></td>
+                    <td>MCP Ruby SDK</td>
+                    <td>871</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/modelcontextprotocol/ruby-sdk/security/advisories/GHSA-5p9g-j988-pcwv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-h669-8m4g-r2hc</code></td>
+                    <td>MCP Ruby SDK</td>
+                    <td>871</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/modelcontextprotocol/ruby-sdk/security/advisories/GHSA-h669-8m4g-r2hc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-r5w3-xv2f-j59q 等×4</code></td>
+                    <td>Spring Framework</td>
+                    <td>60,147</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://spring.io/security/advisories" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-8xvp-7hj6-mcj9</code></td>
+                    <td>GitHub CLI</td>
+                    <td>45,515</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/cli/cli/security/advisories/GHSA-8xvp-7hj6-mcj9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-676x/5pvg/h2qv ×3</code></td>
+                    <td>Netty</td>
+                    <td>35,016</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/netty/netty/security/advisories" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-qcxp-gm7m-4j5v</code></td>
+                    <td>Quarkus</td>
+                    <td>15,796</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/quarkusio/quarkus/security/advisories/GHSA-qcxp-gm7m-4j5v" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-77c7-pq4r-6mcq</code></td>
+                    <td>degit</td>
+                    <td>7,906</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/Rich-Harris/degit/security/advisories/GHSA-77c7-pq4r-6mcq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-xpxj-f2fm-rqch</code></td>
+                    <td>OliveTin</td>
+                    <td>3,707</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/OliveTin/OliveTin/security/advisories/GHSA-xpxj-f2fm-rqch" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-c9hr/c9hr/qq9q/hr7p ×4</code></td>
+                    <td>Flyto2 Core</td>
+                    <td>477</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/flytohub/flyto-core/security/advisories" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-cg4g-m8jx-vjv2</code></td>
+                    <td>dssrf</td>
+                    <td>7</td>
+                    <td>High</td>
+                    <td>详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/HackingRepo/dssrf-js/security/advisories/GHSA-cg4g-m8jx-vjv2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- 补充：Star < 5k 但含完整 PoC -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-5p9g-j988-pcwv</code></td>
+                    <td>MCP Ruby SDK</td>
+                    <td>871</td>
+                    <td>High</td>
+                    <td>完整 attacker/client PoC 脚本，会话劫持攻击，影响 MCP 生态</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-h669-8m4g-r2hc</code></td>
+                    <td>MCP Ruby SDK</td>
+                    <td>871</td>
+                    <td>High</td>
+                    <td>完整 server/client PoC 脚本，无需认证即可 DoS，512MB payload 即可崩溃进程</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>MCP Ruby SDK 会话劫持 + DoS（CVE-2026-67431 / CVE-2026-67432）</strong>— 两个漏洞均有完整可用的 PoC，攻击门槛极低。会话劫持可让攻击者在受害者不知情的情况下执行任意工具调用。所有使用 MCP Ruby SDK 的服务应立即升级至 v0.23.0+。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Spring Framework 4个高危漏洞</strong>— 影响 60k+ star 的 Java 核心框架，SpEL DoS 和 XSS 漏洞影响面极广。建议所有 Spring 应用尽快升级至修复版本。</li>
+                    <li><strong>GitHub CLI Token 泄露</strong>— 45k+ star，使用 <code>gh attestation/verify</code> 命令的用户应升级至 v2.93.0+。</li>
+                    <li><strong>Netty 3个漏洞</strong>— DNS 缓存投毒和 HAProxy 内存泄漏影响 35k+ star 的网络基础设施。已有 Red Hat 补丁，建议升级。</li>
+                    <li><strong>Quarkus 认证绕过</strong>— 路径规范化绕过授权策略，使用路径匹配授权的 Quarkus 应用风险高。建议升级。</li>
+                    <li><strong>degit 命令注入</strong>— CI/CD 中使用 degit 拉取不可信仓库的场景风险高。建议升级。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>OliveTin OAuth2 DoS</strong>— 自托管实例如启用 OAuth2 登录应升级。</li>
+                    <li><strong>Flyto2 Core 4个漏洞</strong>— SSRF、密钥泄露、环境变量读取，使用该平台的用户应升级至 v2.26.7+。</li>
+                    <li><strong>dssrf SSRF 绕过</strong>— 使用该 SSRF 防御库的项目应关注修复。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
