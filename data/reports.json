@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-01",
+      "title": "GitHub安全公告日报 - 2026-08-01",
+      "url": "reports/report-2026-08-01.html",
+      "stats": {
+        "total": 27,
+        "critical": 4,
+        "high": 23,
+        "star5k": 16,
+        "with_poc": 20
+      },
+      "summary": "今日监控到27条高危/严重安全公告，其中4条Critical级别。Thumbor 7.8.0修复了7个漏洞（含路径遍历、HMAC绕过等），NLTK存在多个路径遍历和SSRF绕过漏洞，Netty HTTP/2内存泄漏可导致DoS，NocoBase SQL注入可升级为RCE。"
+    },
+    {
       "date": "2026-07-31",
       "title": "GitHub安全公告日报 - 2026-07-31",
       "url": "reports/report-2026-07-31.html",
@@ -376,19 +389,6 @@
         "with_poc": 19
       },
       "summary": "今日重点关注：Budibase任意文件读取(CVE-2026-54352)有完整PoC、Mise任意代码执行供应链攻击(CVE-2026-33646)、Gogs 5个High漏洞、Glances 3个High漏洞"
-    },
-    {
-      "date": "2026-06-22",
-      "title": "GitHub安全公告日报 - 2026-06-22",
-      "url": "reports/report-2026-06-22.html",
-      "stats": {
-        "total": 20,
-        "critical": 10,
-        "high": 10,
-        "star5k": 14,
-        "with_poc": 20
-      },
-      "summary": "今日发现10个Critical和10个High级别漏洞，其中Langflow存在多个严重漏洞（任意文件读取+RCE、IDOR、DoS），Tilt HUD缺少认证，Crossplane签名验证TOCTOU，CoreWCF SAML认证绕过。Star≥5k项目14个，含PoC/详细分析20个。"
     }
   ]
 }
