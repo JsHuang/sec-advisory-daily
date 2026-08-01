@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-01</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-01 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">27</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">16</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 NocoBase: SQL injection in /api/myInAppChannels:list filter to PG-superuser RCE</div>
+                    <div class="advisory-id">GHSA-p849-8hwh-84j9 | CVE: CVE-2026-52887</div>
+                </div>
+                <span class="priority-score">优先级: 95</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 23.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NocoBase 的站内消息插件在处理 /api/myInAppChannels:list 接口的 filter 参数时存在 SQL 注入漏洞。攻击者可利用该注入获取 PostgreSQL 超级用户权限，进而实现远程代码执行（RCE）。这是一个极其严重的漏洞，因为 NocoBase 是一个流行的低代码平台，默认配置即可触发。</p>
+                <p><strong>影响产品：</strong>NocoBase ⭐23.5k</p>
+                <p><strong>影响版本：</strong>< 1.8.22</p>
+                <p><strong>攻击面：</strong>未认证的 HTTP API 接口（/api/myInAppChannels:list）</p>
+                <p><strong>触发条件：</strong>向 /api/myInAppChannels:list 接口发送包含恶意 filter 参数的请求</p>
+                <p><strong>潜在危害：</strong>数据库完全被控制，可升级为操作系统级别 RCE，所有数据可被窃取或篡改</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和触发路径说明</p>
+                <p><strong>修复建议：</strong>升级至 NocoBase >= 1.8.22；对 filter 参数进行严格的参数化查询</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p849-8hwh-84j9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Thumbor: Path traversal via post-validation URL decoding bypass in file_loader</div>
+                    <div class="advisory-id">GHSA-cj54-hpcc-gj6h | CVE: CVE-2026-53502</div>
+                </div>
+                <span class="priority-score">优先级: 92</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 的 file_loader 在安全检查（abspath + startswith）之后才执行 unquote() 解码，攻击者可利用双重编码的路径遍历序列（%252e%252e）绕过安全检查，读取服务器上的任意文件。通过 watermark/frame 过滤器可直接触发该漏洞。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片处理接口（watermark/frame 过滤器）</p>
+                <p><strong>触发条件：</strong>构造双重编码路径遍历的 URL 请求，如 filters:watermark(%252e%252e/%252e%252e/etc/passwd,...)</p>
+                <p><strong>潜在危害：</strong>服务器任意文件读取（配置文件、密钥、数据库凭据等）</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码和详细攻击流程</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cj54-hpcc-gj6h" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Apostrophe: Server-Side Prototype Pollution in apos.util.set via patch operators leading to authorization bypass and RCE</div>
+                    <div class="advisory-id">GHSA-6h5j-32cf-4253 | CVE: CVE-2026-53609</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 4.6k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ApostropheCMS 核心工具函数 apos.util.set 在处理 MongoDB $set 补丁操作时存在服务端原型链污染漏洞。攻击者可通过构造特殊的 patch 操作污染 Object.prototype，进而绕过全站权限检查，实现未授权访问和远程代码执行。该漏洞影响所有使用 ApostropheCMS 的网站。</p>
+                <p><strong>影响产品：</strong>ApostropheCMS ⭐4.6k</p>
+                <p><strong>影响版本：</strong>< 4.28.0</p>
+                <p><strong>攻击面：</strong>CMS 内容管理 API（需要编辑者权限）</p>
+                <p><strong>触发条件：</strong>通过 CMS API 发送包含 __proto__ 污染键的 patch 请求</p>
+                <p><strong>潜在危害：</strong>权限绕过、管理员接管、远程代码执行</p>
+                <p><strong>可利用性：</strong>有详细源码分析和漏洞原理说明</p>
+                <p><strong>修复建议：</strong>升级至 ApostropheCMS >= 4.28.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6h5j-32cf-4253" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: HTTP/2 decompression leaks ByteBuf reference count causing Direct memory OOM DoS</div>
+                    <div class="advisory-id">GHSA-93wv-jw9v-4972 | CVE: CVE-2026-56819</div>
+                </div>
+                <span class="priority-score">优先级: 82</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 35.0k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 的 HTTP/2 解压缩处理器 DelegatingDecompressorFrameListener 存在直接内存泄漏漏洞。当解压缩器通道已关闭时，后续收到的 DATA 帧的 ByteBuf 引用计数被 retain() 但从未 release()，导致每个 DATA 帧泄漏一个直接内存缓冲区。攻击者可通过发送大量 HTTP/2 DATA 帧耗尽 JVM 堆外内存，触发 OutOfMemoryError 导致服务崩溃。</p>
+                <p><strong>影响产品：</strong>Netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong>< 4.1.136.Final, < 4.2.16.Final</p>
+                <p><strong>攻击面：</strong>HTTP/2 网络接口，无需认证</p>
+                <p><strong>触发条件：</strong>在 HTTP/2 流已关闭后继续发送 DATA 帧</p>
+                <p><strong>潜在危害：</strong>JVM 堆外内存耗尽，服务 OOM 崩溃（远程 DoS）</p>
+                <p><strong>可利用性：</strong>有详细源码分析和修复建议</p>
+                <p><strong>修复建议：</strong>升级至 Netty >= 4.1.136.Final 或 >= 4.2.16.Final</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-93wv-jw9v-4972" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Thumbor: HMAC validation bypass via multiple .replace() calls when removing URL signature</div>
+                    <div class="advisory-id">GHSA-mw3h-qjxj-6xg9 | CVE: CVE-2026-53501</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 在验证 HMAC 签名时使用 Python 的 .replace() 方法移除 URL 中的签名，由于 .replace() 会替换所有匹配项，攻击者可在 URL 中注入多个签名副本，使得验证时使用的 URL 与实际请求的 URL 不同，从而绕过 HMAC 验证。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片处理接口（签名 URL 验证）</p>
+                <p><strong>触发条件：</strong>在 URL 路径中注入额外的签名副本，使 .replace() 移除后验证的 URL 与实际请求不同</p>
+                <p><strong>潜在危害：</strong>绕过 HMAC 签名验证，加载任意域名的图片，将 Thumbor 变为开放代理</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码和详细攻击示例</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mw3h-qjxj-6xg9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Thumbor: ALLOWED_SOURCES string patterns treated as unescaped regex, allowing hostname bypass</div>
+                    <div class="advisory-id">GHSA-6x26-6r6f-m537 | CVE: CVE-2026-53500</div>
+                </div>
+                <span class="priority-score">优先级: 78</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 的 ALLOWED_SOURCES 配置用于限制可加载图片的域名，但纯字符串配置项直接传给 re.match() 而未进行转义。域名中的 . 作为正则通配符匹配任意字符，导致 s.glbimg.com 可匹配 sXglbimgYcom 等任意变体，完全绕过域名白名单保护。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片加载接口（URL 验证）</p>
+                <p><strong>触发条件：</strong>构造域名中 . 位置替换为任意字符的 URL，如 sXglbimgYcom</p>
+                <p><strong>潜在危害：</strong>绕过域名白名单，从任意主机加载图片，SSRF 风险</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6x26-6r6f-m537" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 NLTK: DNS-rebinding SSRF filter bypass in nltk.pathsec.urlopen defeats ENFORCE mode</div>
+                    <div class="advisory-id">GHSA-qvv7-cg9c-w4x3 | CVE: CVE-2026-12075</div>
+                </div>
+                <span class="priority-score">优先级: 78</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.7k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK 的 pathsec SSRF 过滤器存在 DNS 重绑定绕过漏洞。validate_network_url() 先解析域名检查 IP，但实际 HTTP 连接时 urllib 会独立重新解析域名。攻击者通过 TTL-0 DNS 记录在验证时返回公网 IP，连接时返回内网/回环地址，即使在 ENFORCE=True 严格模式下也能绕过 SSRF 防护。</p>
+                <p><strong>影响产品：</strong>NLTK ⭐14.7k</p>
+                <p><strong>影响版本：</strong><= 3.9.4</p>
+                <p><strong>攻击面：</strong>nltk.download / nltk.data.load 等网络请求接口</p>
+                <p><strong>触发条件：</strong>控制 DNS 服务器返回 TTL-0 记录，验证时返回公网 IP，连接时返回内网 IP</p>
+                <p><strong>潜在危害：</strong>绕过 SSRF 防护，访问内网服务、云元数据端点（169.254.169.254）</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码（含 DNS 服务器模拟）</p>
+                <p><strong>修复建议：</strong>等待官方修复；使用 IP 地址而非域名进行连接，或实施连接级别的 IP 检查</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qvv7-cg9c-w4x3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 FileBrowser Quantum: Path traversal in subtitle handler allows arbitrary file read</div>
+                    <div class="advisory-id">GHSA-vvp7-h4fj-m28w | CVE: CVE-2026-54910</div>
+                </div>
+                <span class="priority-score">优先级: 78</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7.6k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>FileBrowser Quantum 的 subtitlesHandler 端点（GET /api/media/subtitles）接受 path 和 name 两个用户可控查询参数，均未进行路径净化处理。path 参数直接传入 GetRealPath() 而未调用 SanitizeUserPath()，name 参数在 filepath.Join 中未剥离目录组件。任何已认证用户可利用这两个独立的路径遍历向量读取服务器上的任意文件。</p>
+                <p><strong>影响产品：</strong>FileBrowser Quantum ⭐7.6k</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260608182036-f3f4bbe80cb5 (v1.4.3-beta)</p>
+                <p><strong>攻击面：</strong>HTTP API /api/media/subtitles（需认证，无需特殊权限）</p>
+                <p><strong>触发条件：</strong>发送 path=../../etc/passwd 的 GET 请求</p>
+                <p><strong>潜在危害：</strong>服务器任意文件读取（SSH 密钥、数据库凭据、JWT 签名密钥等）</p>
+                <p><strong>可利用性：</strong>有完整源码分析和漏洞原理说明</p>
+                <p><strong>修复建议：</strong>升级至 FileBrowser Quantum >= v1.4.3-beta</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vvp7-h4fj-m28w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Thumbor: Proportion filter allows unbounded post-transform resize leading to remote DoS</div>
+                    <div class="advisory-id">GHSA-phj3-59pf-cp83 | CVE: CVE-2026-53505</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 的 filters:proportion 过滤器未对参数值设置上限，且在 POST_TRANSFORM 阶段执行，可绕过请求级别的尺寸限制。攻击者可提交极大比例值（如 10000），触发超大尺寸图片缩放，耗尽 CPU/内存导致拒绝服务。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片处理接口（proportion 过滤器）</p>
+                <p><strong>触发条件：</strong>请求 filters:proportion(10000) 等极大比例值</p>
+                <p><strong>潜在危害：</strong>CPU/内存耗尽，远程拒绝服务</p>
+                <p><strong>可利用性：</strong>有完整 PoC 请求示例</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-phj3-59pf-cp83" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 NLTK: Path Traversal in NKJPCorpusReader leads to Arbitrary File Read bypassing pathsec sandbox</div>
+                    <div class="advisory-id">GHSA-6hm5-jgcp-p838 | CVE: CVE-2026-12072</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.7k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK 的 NKJPCorpusReader 使用字符串拼接构建文件路径，无任何路径包含检查，且使用内置 open() 而非受保护的 PathPointer.open()，完全绕过 nltk.pathsec 沙箱（包括 ENFORCE=True 模式）。攻击者可读取服务器上的任意文件。</p>
+                <p><strong>影响产品：</strong>NLTK ⭐14.7k</p>
+                <p><strong>影响版本：</strong><= 3.9.4</p>
+                <p><strong>攻击面：</strong>NKJPCorpusReader 的公开读取方法（header, raw, words, sents, tagged_words）</p>
+                <p><strong>触发条件：</strong>向 fileids 参数传入包含 ../ 的路径</p>
+                <p><strong>潜在危害：</strong>任意文件读取，绕过安全沙箱</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码</p>
+                <p><strong>修复建议：</strong>等待官方修复；确保 fileids 参数不受用户控制</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6hm5-jgcp-p838" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Sylius Mollie Plugin: Payment status forgery via the payment webhook</div>
+                    <div class="advisory-id">GHSA-rc52-c4hv-w89p | CVE: CVE-2026-68500</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8.5k</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Sylius Mollie Plugin 的支付 webhook 端点接受攻击者控制的 Mollie payment ID 和 orderId 两个参数，但未验证两者之间的关联关系。攻击者可使用自己 EUR 1 订单的有效 Mollie 支付 ID，配合任意受害订单 ID，将受害订单的支付状态伪造为已完成，而无需实际支付。</p>
+                <p><strong>影响产品：</strong>Sylius (Mollie Plugin) ⭐8.5k</p>
+                <p><strong>影响版本：</strong>< 2.2.8, < 3.2.4, < 3.3.1</p>
+                <p><strong>攻击面：</strong>HTTP POST /{_locale}/update-payment 端点（无需认证）</p>
+                <p><strong>触发条件：</strong>发送包含有效 Mollie 支付 ID 和受害订单 ID 的 webhook 请求</p>
+                <p><strong>潜在危害：</strong>订单支付状态伪造，未付款订单被标记为已完成，造成直接经济损失</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理和修复方案说明</p>
+                <p><strong>修复建议：</strong>升级至 Mollie Plugin >= 2.2.8 / 3.2.4 / 3.3.1</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rc52-c4hv-w89p" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 NLTK: Path traversal in FramenetCorpusReader.frame() allows arbitrary XML file read</div>
+                    <div class="advisory-id">GHSA-xh95-f55m-82fw | CVE: CVE-2026-12074</div>
+                </div>
+                <span class="priority-score">优先级: 73</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.7k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK 的 FramenetCorpusReader.frame() 将用户提供的 frame 名称直接插入 XML 文件路径中，使用内置 open() 读取，绕过 CorpusReader.open() 和 nltk.pathsec 沙箱保护。攻击者可通过 ../ 序列读取语料库根目录之外的任意 XML 文件。</p>
+                <p><strong>影响产品：</strong>NLTK ⭐14.7k</p>
+                <p><strong>影响版本：</strong><= 3.9.4</p>
+                <p><strong>攻击面：</strong>FramenetCorpusReader.frame(name) 方法</p>
+                <p><strong>触发条件：</strong>向 frame() 方法传入包含 ../ 的 frame 名称</p>
+                <p><strong>潜在危害：</strong>任意 XML 文件读取，绕过安全沙箱</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码</p>
+                <p><strong>修复建议：</strong>等待官方修复；确保 frame 名称参数不受用户控制</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xh95-f55m-82fw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Thumbor: Convolution filter divide-by-zero in C extension leading to remote DoS</div>
+                    <div class="advisory-id">GHSA-cqjp-jf4r-h5q9 | CVE: CVE-2026-53503</div>
+                </div>
+                <span class="priority-score">优先级: 72</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 的 convolution 过滤器 C 扩展在处理 columns=0 参数时执行除零操作，触发 SIGFPE 信号导致进程崩溃。攻击者可通过构造恶意 URL 远程崩溃 Thumbor 进程。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片处理接口（convolution 过滤器）</p>
+                <p><strong>触发条件：</strong>发送 filters:convolution(1;2;1;2;4;2;1;2;1,0,true) 请求</p>
+                <p><strong>潜在危害：</strong>进程崩溃（SIGFPE），远程拒绝服务</p>
+                <p><strong>可利用性：</strong>有完整 PoC 请求示例</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cqjp-jf4r-h5q9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Thumbor: Regex Denial of Service (ReDoS) in convolution filter</div>
+                    <div class="advisory-id">GHSA-5vjc-7cxw-4w6j | CVE: CVE-2026-53504</div>
+                </div>
+                <span class="priority-score">优先级: 60</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 10.5k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Thumbor 的 convolution 过滤器使用的正则表达式存在指数级回溯问题，攻击者可构造包含大量重复值的过滤器参数触发 ReDoS，导致请求处理阻塞。</p>
+                <p><strong>影响产品：</strong>Thumbor ⭐10.5k</p>
+                <p><strong>影响版本：</strong>< 7.8.0</p>
+                <p><strong>攻击面：</strong>HTTP 图片处理接口（convolution 过滤器）</p>
+                <p><strong>触发条件：</strong>发送包含大量重复数值的 convolution 过滤器参数</p>
+                <p><strong>潜在危害：</strong>请求处理阻塞，拒绝服务</p>
+                <p><strong>可利用性：</strong>有完整 PoC URL 示例</p>
+                <p><strong>修复建议：</strong>升级至 Thumbor >= 7.8.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5vjc-7cxw-4w6j" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 NLTK: ReDoS in ReviewsCorpusReader FEATURES regex</div>
+                    <div class="advisory-id">GHSA-fg7f-2386-8897 | CVE: CVE-2026-12061</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.7k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK 的 ReviewsCorpusReader 使用存在二次回溯的正则表达式解析特征标注，攻击者可通过构造不含括号标注的长行文本触发 O(n²) 回溯，导致 reviews()、features() 和 sents() 方法挂起。</p>
+                <p><strong>影响产品：</strong>NLTK ⭐14.7k</p>
+                <p><strong>影响版本：</strong><= 3.9.4</p>
+                <p><strong>攻击面：</strong>ReviewsCorpusReader 的文本解析接口</p>
+                <p><strong>触发条件：</strong>向 reviews corpus 注入包含大量单词但无括号标注的长行</p>
+                <p><strong>潜在危害：</strong>CPU 耗尽，拒绝服务（单行 ~100k 词可挂起数十秒至数分钟）</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码和性能基准测试</p>
+                <p><strong>修复建议：</strong>等待官方修复（PR #3583 已提出限制标签词数上限）</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-fg7f-2386-8897" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Spring Data: Unbounded property-path cache keyed by externally-supplied path string</div>
+                    <div class="advisory-id">GHSA-88fw-v6x4-3f58 | CVE: CVE-2026-41695</div>
+                </div>
+                <span class="priority-score">优先级: 50</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 832</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spring Data 的 PersistentPropertyPathFactory 使用 ConcurrentHashMap 缓存用户提供的属性路径字符串，且无驱逐策略。攻击者可向 Spring Data REST 端点发送大量包含随机 sort 参数的请求，无限增长缓存直到 JVM OOM 崩溃。</p>
+                <p><strong>影响产品：</strong>Spring Data Commons ⭐832</p>
+                <p><strong>影响版本：</strong>3.2.x < 3.2.12, 3.3.x < 3.3.7, 3.4.x < 3.4.0-M5</p>
+                <p><strong>攻击面：</strong>Spring Data REST 端点的 sort/filter 参数</p>
+                <p><strong>触发条件：</strong>循环发送 GET /things?sort=<random-string> 请求</p>
+                <p><strong>潜在危害：</strong>JVM 堆内存耗尽，服务 OOM 崩溃</p>
+                <p><strong>可利用性：</strong>有详细源码分析和攻击场景描述</p>
+                <p><strong>修复建议：</strong>升级至 Spring Data Commons >= 3.2.12 / 3.3.7 / 3.4.0-M5</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-88fw-v6x4-3f58" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p849-8hwh-84j9</code></td>
+                    <td>NocoBase</td>
+                    <td>23.5k</td>
+                    <td>Critical</td>
+                    <td>有详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p849-8hwh-84j9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-cj54-hpcc-gj6h</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cj54-hpcc-gj6h" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6h5j-32cf-4253</code></td>
+                    <td>ApostropheCMS</td>
+                    <td>4.6k</td>
+                    <td>Critical</td>
+                    <td>有详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-6h5j-32cf-4253" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-93wv-jw9v-4972</code></td>
+                    <td>Netty</td>
+                    <td>35.0k</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-93wv-jw9v-4972" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mw3h-qjxj-6xg9</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mw3h-qjxj-6xg9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6x26-6r6f-m537</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6x26-6r6f-m537" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qvv7-cg9c-w4x3</code></td>
+                    <td>NLTK</td>
+                    <td>14.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qvv7-cg9c-w4x3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vvp7-h4fj-m28w</code></td>
+                    <td>FileBrowser Quantum</td>
+                    <td>7.6k</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vvp7-h4fj-m28w" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-phj3-59pf-cp83</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-phj3-59pf-cp83" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6hm5-jgcp-p838</code></td>
+                    <td>NLTK</td>
+                    <td>14.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6hm5-jgcp-p838" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rc52-c4hv-w89p</code></td>
+                    <td>Sylius (Mollie Plugin)</td>
+                    <td>8.5k</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rc52-c4hv-w89p" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-xh95-f55m-82fw</code></td>
+                    <td>NLTK</td>
+                    <td>14.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xh95-f55m-82fw" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-cqjp-jf4r-h5q9</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cqjp-jf4r-h5q9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-5vjc-7cxw-4w6j</code></td>
+                    <td>Thumbor</td>
+                    <td>10.5k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5vjc-7cxw-4w6j" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-fg7f-2386-8897</code></td>
+                    <td>NLTK</td>
+                    <td>14.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fg7f-2386-8897" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-wf43-fpp3-cf65</code></td>
+                    <td>ApostropheCMS SEO</td>
+                    <td>4.6k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-wf43-fpp3-cf65" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-88fw-v6x4-3f58</code></td>
+                    <td>Spring Data Commons</td>
+                    <td>832</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-88fw-v6x4-3f58" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-rxcw-mc6f-6hr3</code></td>
+                    <td>Jodit Editor</td>
+                    <td>1.9k</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rxcw-mc6f-6hr3" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-98pp-vccm-qm25</code></td>
+                    <td>Redaxo CMS</td>
+                    <td>351</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-98pp-vccm-qm25" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-pfvc-3p5h-x7h6</code></td>
+                    <td>Pterodactyl Wings</td>
+                    <td>1.0k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-pfvc-3p5h-x7h6" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-mx5j-mp4f-g8jg</code></td>
+                    <td>Savon (Ruby SOAP)</td>
+                    <td>2.1k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-mx5j-mp4f-g8jg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-r2v3-8gwf-7ghm</code></td>
+                    <td>vault-secrets-webhook</td>
+                    <td>83</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-r2v3-8gwf-7ghm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-5846-7qm3-r52j</code></td>
+                    <td>dssrf</td>
+                    <td>8</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5846-7qm3-r52j" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-ghrq-5wpp-hxx5</code></td>
+                    <td>Pterodactyl Wings</td>
+                    <td>1.0k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-ghrq-5wpp-hxx5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-mj3g-7xcc-x4vh</code></td>
+                    <td>@phun-ky/defaults-deep</td>
+                    <td>0</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-mj3g-7xcc-x4vh" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-g956-2f74-rmv7</code></td>
+                    <td>hashi-vault-js</td>
+                    <td>43</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g956-2f74-rmv7" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-p7w7-4929-vpj5</code></td>
+                    <td>Dynatrace MCP Server</td>
+                    <td>0</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-p7w7-4929-vpj5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-wf43-fpp3-cf65</code></td>
+                    <td>ApostropheCMS SEO</td>
+                    <td>4.6k</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rxcw-mc6f-6hr3</code></td>
+                    <td>Jodit Editor</td>
+                    <td>1.9k</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-98pp-vccm-qm25</code></td>
+                    <td>Redaxo CMS</td>
+                    <td>351</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-5846-7qm3-r52j</code></td>
+                    <td>dssrf</td>
+                    <td>8</td>
+                    <td>High</td>
+                    <td>完整PoC</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>NocoBase</strong>（GHSA-p849-8hwh-84j9）— NocoBase 的站内消息插件在处理 /api/myInAppChannels:list 接口的 filter 参数时存在 SQL 注入漏洞。攻击者可利用该注… 建议立即升级。</li>
+                    <li><strong>Thumbor</strong>（GHSA-cj54-hpcc-gj6h）— Thumbor 的 file_loader 在安全检查（abspath + startswith）之后才执行 unquote() 解码，攻击者可利用双重编码的路… 建议立即升级。</li>
+                    <li><strong>ApostropheCMS</strong>（GHSA-6h5j-32cf-4253）— ApostropheCMS 核心工具函数 apos.util.set 在处理 MongoDB $set 补丁操作时存在服务端原型链污染漏洞。攻击者可通过构造特殊… 建议立即升级。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Netty</strong>（GHSA-93wv-jw9v-4972）— Netty 的 HTTP/2 解压缩处理器 DelegatingDecompressorFrameListener 存在直接内存泄漏漏洞。当解压缩器通道已关闭时… 建议尽快升级。</li>
+                    <li><strong>Thumbor</strong>（GHSA-mw3h-qjxj-6xg9）— Thumbor 在验证 HMAC 签名时使用 Python 的 .replace() 方法移除 URL 中的签名，由于 .replace() 会替换所有匹配项，… 建议尽快升级。</li>
+                    <li><strong>Thumbor</strong>（GHSA-6x26-6r6f-m537）— Thumbor 的 ALLOWED_SOURCES 配置用于限制可加载图片的域名，但纯字符串配置项直接传给 re.match() 而未进行转义。域名中的 . 作… 建议尽快升级。</li>
+                    <li><strong>NLTK</strong>（GHSA-qvv7-cg9c-w4x3）— NLTK 的 pathsec SSRF 过滤器存在 DNS 重绑定绕过漏洞。validate_network_url() 先解析域名检查 IP，但实际 HTTP… 建议尽快升级。</li>
+                    <li><strong>FileBrowser Quantum</strong>（GHSA-vvp7-h4fj-m28w）— FileBrowser Quantum 的 subtitlesHandler 端点（GET /api/media/subtitles）接受 path 和 nam… 建议尽快升级。</li>
+                    <li><strong>Thumbor</strong>（GHSA-phj3-59pf-cp83）— Thumbor 的 filters:proportion 过滤器未对参数值设置上限，且在 POST_TRANSFORM 阶段执行，可绕过请求级别的尺寸限制。攻击… 建议尽快升级。</li>
+                    <li><strong>NLTK</strong>（GHSA-6hm5-jgcp-p838）— NLTK 的 NKJPCorpusReader 使用字符串拼接构建文件路径，无任何路径包含检查，且使用内置 open() 而非受保护的 PathPointer.… 建议尽快升级。</li>
+                    <li><strong>Sylius (Mollie Plugin)</strong>（GHSA-rc52-c4hv-w89p）— Sylius Mollie Plugin 的支付 webhook 端点接受攻击者控制的 Mollie payment ID 和 orderId 两个参数，但未验… 建议尽快升级。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Thumbor</strong>（GHSA-5vjc-7cxw-4w6j）— Thumbor 的 convolution 过滤器使用的正则表达式存在指数级回溯问题，攻击者可构造包含大量重复值的过滤器参数触发 ReDoS，导致请求处理阻塞。…</li>
+                    <li><strong>NLTK</strong>（GHSA-fg7f-2386-8897）— NLTK 的 ReviewsCorpusReader 使用存在二次回溯的正则表达式解析特征标注，攻击者可通过构造不含括号标注的长行文本触发 O(n²) 回溯，导…</li>
+                    <li><strong>ApostropheCMS SEO</strong>（GHSA-wf43-fpp3-cf65）— @apostrophecms/seo 将 Google Analytics Tracking ID 和 GTM ID 直接注入 <script> 标签，无任何净…</li>
+                    <li><strong>Spring Data Commons</strong>（GHSA-88fw-v6x4-3f58）— Spring Data 的 PersistentPropertyPathFactory 使用 ConcurrentHashMap 缓存用户提供的属性路径字符串，…</li>
+                    <li><strong>Jodit Editor</strong>（GHSA-rxcw-mc6f-6hr3）— Jodit 编辑器的 clean-html 净化器可被 MathML/<style> 载体绕过，隐藏危险元素使其不被净化器遍历到。攻击者注入的 <img onl…</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
