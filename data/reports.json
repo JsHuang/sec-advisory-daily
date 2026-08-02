@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-02",
+      "title": "GitHub安全公告日报 - 2026-08-02",
+      "url": "reports/report-2026-08-02.html",
+      "stats": {
+        "total": 39,
+        "critical": 8,
+        "high": 31,
+        "star5k": 14,
+        "with_poc": 13
+      },
+      "summary": "今日发现39个Critical/High级别漏洞公告，14个影响Star≥5k项目。重点关注：NocoBase SQL注入RCE（🔴紧急）、Rails Active Storage任意文件读取（🟠高危）、Netty HTTP/2内存泄漏DoS（🔴紧急）、Thumbor系列7个高危漏洞（含HMAC绕过+路径穿越+DoS）、NLTK系列4个高危漏洞（SSRF绕过+路径穿越）。"
+    },
+    {
       "date": "2026-08-01",
       "title": "GitHub安全公告日报 - 2026-08-01",
       "url": "reports/report-2026-08-01.html",
@@ -376,19 +389,6 @@
         "with_poc": 19
       },
       "summary": "今日发现41个高危/严重漏洞，其中20个来自Star≥5k项目。Gogs存在多个严重漏洞（RCE/路径遍历/CSRF），Langflow存在IDOR漏洞，Budibase存在NoSQL注入漏洞，LiteLLM存在权限提升漏洞。建议立即关注Gogs和Budibase的严重级别漏洞。"
-    },
-    {
-      "date": "2026-06-23",
-      "title": "GitHub安全公告日报 - 2026-06-23",
-      "url": "reports/report-2026-06-23.html",
-      "stats": {
-        "total": 22,
-        "critical": 5,
-        "high": 17,
-        "star5k": 19,
-        "with_poc": 19
-      },
-      "summary": "今日重点关注：Budibase任意文件读取(CVE-2026-54352)有完整PoC、Mise任意代码执行供应链攻击(CVE-2026-33646)、Gogs 5个High漏洞、Glances 3个High漏洞"
     }
   ]
 }
