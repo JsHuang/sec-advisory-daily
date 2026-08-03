@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-03</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-03 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">含详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Docling: Unsafe URI and Path Handling in HTML Backend</div>
+                    <div class="advisory-id">GHSA-q29v-xc37-wh5m | CVE: CVE-2026-47214</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 64,129</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Docling 是一个用于将各种文档格式（PDF、DOCX、PPTX、XLSX、HTML等）转换为AI就绪格式的流行开源库。其 HTML 后端在处理资源时未进行充分验证，存在多个安全问题，可能导致本地文件系统访问、路径遍历攻击、SSRF（服务器端请求伪造）以及资源耗尽攻击。</p>
+                
+                <p><strong>影响产品：</strong>docling ⭐ 64,129</p>
+                
+                <p><strong>影响版本：</strong>&lt; 2.94.0（2.91.0 版本进行了初步修复，2.94.0 版本进行了额外改进）</p>
+                
+                <p><strong>攻击面：</strong></p>
+                <ul>
+                    <li><strong>本地文件系统访问：</strong>接受 file:// URI，当 enable_local_fetch=True 时可访问本地文件系统</li>
+                    <li><strong>路径遍历：</strong>通过 ../ 序列和绝对路径可遍历到预期目录之外</li>
+                    <li><strong>SSRF：</strong>在 enable_remote_fetch=True 时未阻止内部网络资源访问</li>
+                    <li><strong>HTTP 重定向攻击：</strong>未验证 HTTP 重定向，可能重定向到非预期协议</li>
+                    <li><strong>资源耗尽：</strong>对远程图片下载和 data: URI 无资源大小限制</li>
+                </ul>
+                
+                <p><strong>触发条件：</strong>应用程序使用 Docling 处理不受信任的 HTML 文档，且启用了 enable_local_fetch 或 enable_remote_fetch 选项。</p>
+                
+                <p><strong>潜在危害：</strong></p>
+                <ul>
+                    <li>敏感文件泄露（如 /etc/passwd、配置文件、密钥文件）</li>
+                    <li>内部网络探测和数据窃取</li>
+                    <li>拒绝服务攻击（通过大文件下载或无限重定向）</li>
+                    <li>可能的远程代码执行（结合其他漏洞）</li>
+                </ul>
+                
+                <p><strong>可利用性：</strong>有详细漏洞原理说明，包含具体的攻击向量和触发机制。攻击者只需构造恶意 HTML 文档即可触发漏洞。</p>
+                
+                <p><strong>修复建议：</strong></p>
+                <ul>
+                    <li>立即升级到 docling &gt;= 2.94.0</li>
+                    <li>如无法立即升级，保持 enable_local_fetch=False 和 enable_remote_fetch=False（默认值）</li>
+                    <li>审查所有使用 Docling 处理外部 HTML 的代码路径</li>
+                    <li>实施输入验证，确保只处理受信任来源的文档</li>
+                </ul>
+                
+                <p><strong>CVSS 评分：</strong>7.1 (High) - CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:L</p>
+                
+                <p><strong>CWE 类型：</strong></p>
+                <ul>
+                    <li>CWE-73: 外部控制文件名或路径</li>
+                    <li>CWE-400: 不受控制的资源消耗</li>
+                </ul>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q29v-xc37-wh5m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-q29v-xc37-wh5m</code></td>
+                    <td>docling</td>
+                    <td>64,129</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q29v-xc37-wh5m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5" style="text-align:center;color:#8b949e;">今日暂无此类漏洞</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li>今日无 Critical 级别漏洞</li>
+                </ul>
+                
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-q29v-xc37-wh5m (Docling)</strong> - 这是一个影响 6.4 万+ Star 项目的高危漏洞。Docling 是一个广泛使用的文档转换库，其 HTML 后端存在多个安全问题。如果您的项目使用 Docling 处理 HTML 文档，请立即升级到 2.94.0 或更高版本。特别注意检查是否启用了 enable_local_fetch 或 enable_remote_fetch 选项。</li>
+                </ul>
+                
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>定期检查依赖库的安全更新</li>
+                    <li>审查文档处理相关的输入验证</li>
+                    <li>实施最小权限原则，限制文件系统访问</li>
+                    <li>监控 GitHub Advisory Database 获取最新安全公告</li>
+                </ul>
+                
+                <p style="margin-top:20px;"><strong>监控说明：</strong>本报告监控最近 24 小时内 GitHub Advisory Database 中更新的 Critical 和 High 级别安全公告。筛选条件包括：发布时间或更新时间在 2026-08-02 之后，严重级别为 Critical 或 High，受影响项目 Star 数 ≥ 5000。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
