@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-03",
+      "title": "GitHub安全公告日报 - 2026-08-03",
+      "url": "reports/report-2026-08-03.html",
+      "stats": {
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "star5k": 1,
+        "with_poc": 1
+      },
+      "summary": "今日发现1个High级别漏洞：Docling HTML后端存在不安全URI和路径处理漏洞（GHSA-q29v-xc37-wh5m），影响64k+ Star项目，可导致本地文件访问、路径遍历和SSRF攻击。"
+    },
+    {
       "date": "2026-08-02",
       "title": "GitHub安全公告日报 - 2026-08-02",
       "url": "reports/report-2026-08-02.html",
@@ -376,19 +389,6 @@
         "with_poc": 22
       },
       "summary": "发现27个Critical/High级别漏洞，其中12个紧急、12个高危。重点关注：Gogs多个RCE漏洞（47.6k Star）、Crawl4AI Docker API漏洞（69.5k Star）、Budibase NoSQL注入（28k Star）、Glances命令执行（33k Star）、Mise任意命令执行（30k Star）。"
-    },
-    {
-      "date": "2026-06-24",
-      "title": "GitHub安全公告日报 - 2026-06-24",
-      "url": "reports/report-2026-06-24.html",
-      "stats": {
-        "total": 41,
-        "critical": 11,
-        "high": 30,
-        "star5k": 20,
-        "with_poc": 19
-      },
-      "summary": "今日发现41个高危/严重漏洞，其中20个来自Star≥5k项目。Gogs存在多个严重漏洞（RCE/路径遍历/CSRF），Langflow存在IDOR漏洞，Budibase存在NoSQL注入漏洞，LiteLLM存在权限提升漏洞。建议立即关注Gogs和Budibase的严重级别漏洞。"
     }
   ]
 }
