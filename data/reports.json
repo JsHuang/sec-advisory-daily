@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-04",
+      "title": "GitHub安全公告日报 - 2026-08-04",
+      "url": "reports/report-2026-08-04.html",
+      "stats": {
+        "total": 23,
+        "critical": 4,
+        "high": 19,
+        "star5k": 13,
+        "with_poc": 18
+      },
+      "summary": "今日发现23个高危/严重漏洞，其中Rancher命令注入(CVE-2026-44939)、Sequelize SQL注入(CVE-2026-69240)、OpenAM预认证RCE(CVE-2026-62379)为Critical级别需紧急关注；Open WebUI授权绕过、Angular多个XSS漏洞影响Star数极高。"
+    },
+    {
       "date": "2026-08-03",
       "title": "GitHub安全公告日报 - 2026-08-03",
       "url": "reports/report-2026-08-03.html",
@@ -376,19 +389,6 @@
         "with_poc": 1
       },
       "summary": "今日发现1个High级别漏洞：pnpm路径遍历漏洞(GHSA-fr4h-3cph-29xv)，影响35.6k star项目，含详细利用分析，建议立即升级至10.34.4或11.7.0。"
-    },
-    {
-      "date": "2026-06-25",
-      "title": "GitHub安全公告日报 - 2026-06-25",
-      "url": "reports/report-2026-06-25.html",
-      "stats": {
-        "total": 27,
-        "critical": 9,
-        "high": 18,
-        "star5k": 15,
-        "with_poc": 22
-      },
-      "summary": "发现27个Critical/High级别漏洞，其中12个紧急、12个高危。重点关注：Gogs多个RCE漏洞（47.6k Star）、Crawl4AI Docker API漏洞（69.5k Star）、Budibase NoSQL注入（28k Star）、Glances命令执行（33k Star）、Mise任意命令执行（30k Star）。"
     }
   ]
 }
