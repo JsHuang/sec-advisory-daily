@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-04</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-04 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149;">4</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#d29922;">19</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. Rancher Command Injection -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Rancher Manager 命令注入漏洞</div>
+                    <div class="advisory-id">GHSA-mhc6-2gfq-xx62 | CVE: CVE-2026-44939</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 25,817</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Rancher Manager 集群导入端点 <code>/v3/import/{token}_{clusterId}.yaml</code> 存在严重命令注入漏洞。该端点接受 <code>authImage</code> 查询参数，该参数未经清理直接渲染到 Kubernetes manifest 模板中。攻击者可通过在参数值中包含 URL 编码的换行符，突破 <code>image:</code> 字段注入任意 YAML 键和恶意配置。</p>
+                <p><strong>影响产品：</strong>rancher/rancher ⭐25,817</p>
+                <p><strong>影响版本：</strong>2.10.0 - 2.10.11, 2.11.0 - 2.11.13, 2.12.0 - 2.12.9, 2.13.0 - 2.13.5, 2.14.0 - 2.14.1</p>
+                <p><strong>攻击面：</strong>网络可达的 Rancher 集群导入端点，无需认证即可触发</p>
+                <p><strong>触发条件：</strong>攻击者能够访问集群导入 YAML 端点，并发送包含恶意 authImage 参数的请求</p>
+                <p><strong>潜在危害：</strong>远程代码执行、Kubernetes 集群完全接管、容器逃逸</p>
+                <p><strong>可利用性：</strong>有完整利用步骤，通过构造恶意 YAML 注入实现命令执行</p>
+                <p><strong>修复建议：</strong>立即升级到 2.10.12、2.11.14、2.12.10、2.13.6 或 2.14.2 及以上版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mhc6-2gfq-xx62" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. Sequelize SQL Injection -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Sequelize SQL 注入漏洞（Oracle DB）</div>
+                    <div class="advisory-id">GHSA-v8fg-2rw7-q452 | CVE: CVE-2026-69240</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 30,379</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>当 Sequelize 的 dialect 设置为 <code>oracle</code> 时，存在 SQL 注入漏洞。<code>sql-string.js</code> 中的 <code>escape</code> 函数在值以 <code>TO_TIMESTAMP</code> 或 <code>TO_DATE</code> 开头时不会转义引号，攻击者可利用此特性注入恶意 SQL 语句。</p>
+                <p><strong>影响产品：</strong>sequelize/sequelize ⭐30,379</p>
+                <p><strong>影响版本：</strong>&lt; 6.37.4</p>
+                <p><strong>攻击面：</strong>使用 Oracle 数据库的 Sequelize 应用，攻击者可通过构造包含 TO_TIMESTAMP/TO_DATE 前缀的输入触发注入</p>
+                <p><strong>触发条件：</strong>应用使用 Oracle dialect，且用户输入未经充分验证直接传入查询</p>
+                <p><strong>潜在危害：</strong>数据库完全泄露、数据篡改、权限提升</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码，展示了源码中的触发点</p>
+                <p><strong>修复建议：</strong>升级到 Sequelize 6.37.4 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v8fg-2rw7-q452" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. OpenAM RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 OpenAM 未认证远程代码执行漏洞</div>
+                    <div class="advisory-id">GHSA-wg5r-wc3x-39vc | CVE: CVE-2026-62379</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 881</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenAM 存在预认证远程代码执行漏洞。远程认证端点（<code>/authservice</code>，PLL）接受一个 XML 元素，该元素可指定任意 Java 类名，服务器在未经任何验证的情况下加载并实例化该类。在默认配置下，此漏洞可在<strong>无需认证</strong>的情况下被利用，允许攻击者在服务器上执行任意代码。</p>
+                <p><strong>影响产品：</strong>OpenIdentityPlatform/OpenAM ⭐881</p>
+                <p><strong>影响版本：</strong>&lt;= 16.1.1</p>
+                <p><strong>攻击面：</strong>网络可达的认证端点，无需任何认证凭据</p>
+                <p><strong>触发条件：</strong>发送特制的 XML 请求到 /authservice 端点，指定恶意类名</p>
+                <p><strong>潜在危害：</strong>服务器完全控制、数据泄露、横向移动</p>
+                <p><strong>可利用性：</strong>有完整利用步骤，通过 Class.forName 加载任意类实现 RCE</p>
+                <p><strong>修复建议：</strong>升级到 OpenAM 16.1.2 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-wg5r-wc3x-39vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 4. ArcadeDB Auth Bypass -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 ArcadeDB 跨数据库授权绕过漏洞</div>
+                    <div class="advisory-id">GHSA-fxc7-fm93-6q77 | CVE: CVE-2026-44221</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 1,059</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>ArcadeDB 存在跨数据库授权绕过漏洞。经过认证的用户和 API 令牌（仅限于特定数据库作用域）可以读取、写入和修改同一服务器上任何其他数据库的 schema。两个独立缺陷导致了此问题：(1) ServerSecurityUser.getDatabaseUser() 返回的数据库用户 fileAccessMap 未初始化，requestAccessOnFile 将其视为全部允许；(2) ArcadeDBServer.createDatabase() 省略了 factory.setSecurity(...) 调用，导致通过 API 创建的数据库完全没有安全控制。</p>
+                <p><strong>影响产品：</strong>ArcadeData/arcadedb ⭐1,059</p>
+                <p><strong>影响版本：</strong>21.10.1 - 26.4.1</p>
+                <p><strong>攻击面：</strong>任何具有数据库访问权限的用户或 API 令牌</p>
+                <p><strong>触发条件：</strong>使用受限凭据访问非授权数据库</p>
+                <p><strong>潜在危害：</strong>跨数据库数据泄露、未授权数据修改、完全数据库控制</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理说明，包含源码级别的分析</p>
+                <p><strong>修复建议：</strong>升级到 ArcadeDB 26.4.2 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-fxc7-fm93-6q77" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. Angular i18n XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Angular i18n 跨站脚本漏洞（XSS）</div>
+                    <div class="advisory-id">GHSA-jj27-h5hq-8x99 | CVE: CVE-2026-69151</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 100,703</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Angular 编译器的国际化（i18n）管道中存在 XSS 漏洞。虽然 Angular 通过标准属性验证禁止绑定到事件处理属性（如 onclick、onerror），但 i18n 元数据收集路径允许使用 <code>i18n-on*</code> 属性标记这些属性名进行翻译。当被利用时，低信任度的翻译文件可以将良性静态处理程序替换为任意可执行 JavaScript。</p>
+                <p><strong>影响产品：</strong>angular/angular ⭐100,703</p>
+                <p><strong>影响版本：</strong>@angular/compiler 和 @angular/core 各版本至 19.2.25、20.x 至 20.3.26、21.x 至 21.2.18、22.x 至 22.0.0</p>
+                <p><strong>攻击面：</strong>使用 i18n 功能的 Angular 应用，特别是接受第三方翻译文件的应用</p>
+                <p><strong>触发条件：</strong>应用使用 i18n-on* 属性标记事件处理器，且翻译文件可被攻击者控制</p>
+                <p><strong>潜在危害：</strong>任意 JavaScript 执行、用户会话劫持、数据窃取</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码示例</p>
+                <p><strong>修复建议：</strong>升级到 20.3.27、21.2.19、22.0.1 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jj27-h5hq-8x99" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. Angular SSR XSS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Angular SSR 序列化 XSS 漏洞</div>
+                    <div class="advisory-id">GHSA-vpx6-8pjr-4g3v | CVE: CVE-2026-69149</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 100,703</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><code>@angular/platform-server</code> 的 DOM 模拟依赖（domino）在序列化 fallback raw-content 元素（<code>&lt;iframe&gt;</code>、<code>&lt;noembed&gt;</code>、<code>&lt;noframes&gt;</code>、<code>&lt;noscript&gt;</code>）的内容时存在 XSS 漏洞。在服务器端渲染（SSR）下，domino 配置为启用脚本，这些元素被视为原始文本元素。但 domino 的序列化器未在 DOM 序列化期间转义这些元素内的文本节点，导致闭合标签可被注入。</p>
+                <p><strong>影响产品：</strong>angular/angular ⭐100,703</p>
+                <p><strong>影响版本：</strong>@angular/platform-server 各版本至 19.2.25、20.x 至 20.3.26、21.x 至 21.2.18、22.x 至 22.0.6</p>
+                <p><strong>攻击面：</strong>使用 SSR 且在 iframe/noscript 等元素内渲染动态内容的 Angular 应用</p>
+                <p><strong>触发条件：</strong>动态文本内容包含闭合标签，通过模板绑定渲染到特定元素中</p>
+                <p><strong>潜在危害：</strong>服务端渲染的 HTML 中注入恶意脚本</p>
+                <p><strong>可利用性：</strong>有详细原理说明</p>
+                <p><strong>修复建议：</strong>升级到 20.3.27、21.2.19、22.0.7 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vpx6-8pjr-4g3v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 7. Angular HttpTransferCache -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Angular HttpTransferCache 缓存键歧义导致状态投毒</div>
+                    <div class="advisory-id">GHSA-jhpw-976m-542j | CVE: CVE-2026-68945</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 100,703</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Angular 的 HttpTransferCache 在 SSR 期间缓存 HTTP 请求，以便在客户端水合期间重用。当存在重复值时，缓存键生成存在歧义：<code>new HttpParams().set('role', 'user,admin')</code> 和 <code>new HttpParams().append('role', 'user').append('role', 'admin')</code> 会生成相同的序列化 <code>role=user,admin</code>，导致不同的 HttpClient 请求产生相同的传输缓存键。</p>
+                <p><strong>影响产品：</strong>angular/angular ⭐100,703</p>
+                <p><strong>影响版本：</strong>@angular/common 各版本至 19.2.25、20.x 至 20.3.26、21.x 至 21.2.18、22.x 至 22.0.1</p>
+                <p><strong>攻击面：</strong>使用 SSR 且存在安全敏感 HTTP 请求的 Angular 应用</p>
+                <p><strong>触发条件：</strong>不同的请求参数序列化为相同的缓存键</p>
+                <p><strong>潜在危害：</strong>跨请求响应重用、权限提升、状态投毒</p>
+                <p><strong>可利用性：</strong>有详细原理和代码示例</p>
+                <p><strong>修复建议：</strong>升级到 20.3.27、21.2.19、22.0.2 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jhpw-976m-542j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. Open WebUI Memories Auth Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI Memories API 授权绕过漏洞</div>
+                    <div class="advisory-id">GHSA-hmjq-crxp-7rjw | CVE: CVE-2026-44570</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 147,742</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 的 memories API 存在不一致的授权控制，标准用户可以删除、恢复和查看其他用户的记忆内容。通过 <code>POST /api/v1/memories/query</code> 端点，新创建的非管理员用户可以看到其他用户创建的记忆，即使 <code>GET /api/v1/memories/</code> 正确返回空列表。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147,742</p>
+                <p><strong>影响版本：</strong>&lt; 0.6.19</p>
+                <p><strong>攻击面：</strong>任何已认证的普通用户</p>
+                <p><strong>触发条件：</strong>调用 memories/query 端点即可查看其他用户记忆</p>
+                <p><strong>潜在危害：</strong>用户隐私数据泄露、记忆内容被篡改或删除</p>
+                <p><strong>可利用性：</strong>有完整 PoC 步骤</p>
+                <p><strong>修复建议：</strong>升级到 Open WebUI 0.6.19 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hmjq-crxp-7rjw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. Open WebUI Message IDOR -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Open WebUI 消息 IDOR 授权绕过漏洞</div>
+                    <div class="advisory-id">GHSA-jxwr-g6r6-j3fx | CVE: CVE-2026-44569</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 147,742</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 的消息管理系统中存在不安全的直接对象引用（IDOR），允许已认证用户修改或删除其有读取权限的频道内的任何消息。漏洞存在于消息更新和删除端点，这些端点实现了频道级别的授权检查，但完全缺少消息所有权验证。前端正确实现了所有权检查，但后端 API 绕过了这些保护。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147,742</p>
+                <p><strong>影响版本：</strong>&lt;= 0.6.18</p>
+                <p><strong>攻击面：</strong>任何已认证的频道成员</p>
+                <p><strong>触发条件：</strong>直接调用消息更新/删除 API，无需验证消息所有权</p>
+                <p><strong>潜在危害：</strong>其他用户消息被篡改或删除、信息完整性受损</p>
+                <p><strong>可利用性：</strong>有完整 PoC</p>
+                <p><strong>修复建议：</strong>升级到 Open WebUI 0.6.19 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jxwr-g6r6-j3fx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 10. Black Arbitrary File Writes -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Black Python 格式化工具任意文件写入漏洞</div>
+                    <div class="advisory-id">GHSA-3936-cmfr-pm3m | CVE: CVE-2026-32274</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 41,777</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Black 在写入缓存文件时，<code>--python-cell-magics</code> 选项的值未经清理直接放置在文件名中，允许控制该参数值的攻击者将缓存文件写入任意文件系统位置。</p>
+                <p><strong>影响产品：</strong>psf/black ⭐41,777</p>
+                <p><strong>影响版本：</strong>24.3.0 - 26.3.0</p>
+                <p><strong>攻击面：</strong>接受不受信任用户输入作为 --python-cell-magics 参数的环境</p>
+                <p><strong>触发条件：</strong>攻击者能控制 --python-cell-magics 选项的值</p>
+                <p><strong>潜在危害：</strong>任意文件覆盖、代码执行（如覆盖 .bashrc、crontab 等）</p>
+                <p><strong>可利用性：</strong>有详细原理说明</p>
+                <p><strong>修复建议：</strong>升级到 Black 26.3.1 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-3936-cmfr-pm3m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 11. Guzzle Host Bypass -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Guzzle HTTP 客户端主机检查绕过漏洞</div>
+                    <div class="advisory-id">GHSA-v5mv-p594-2x33 | CVE: CVE-2026-69246</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 23,459</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Guzzle 将请求 URI 作为文本提供给传输层，并单独提供 Host 头。libcurl 自行解析 URI，执行百分号解码并应用 IDNA 映射。攻击者可构造非规范主机名（如 <code>http://127.0.0.%31/</code>）绕过基于主机的检查，URI 被 filter_var() 拒绝为 IP 字面量，但 libcurl 解码为 127.0.0.1 并到达回环地址。</p>
+                <p><strong>影响产品：</strong>guzzle/guzzle ⭐23,459</p>
+                <p><strong>影响版本：</strong>&lt; 7.15.2, 8.0.0</p>
+                <p><strong>攻击面：</strong>使用 Guzzle 进行 SSRF 防护或主机验证的 PHP 应用</p>
+                <p><strong>触发条件：</strong>应用使用非规范 URL 格式进行安全检查</p>
+                <p><strong>潜在危害：</strong>SSRF、访问内部服务、信任边界绕过</p>
+                <p><strong>可利用性：</strong>有详细原理和示例</p>
+                <p><strong>修复建议：</strong>升级到 Guzzle 7.15.2 或 8.0.1 及以上版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v5mv-p594-2x33" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 12. AIOHTTP OOB Read -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 AIOHTTP C 解析器越界堆读取漏洞</div>
+                    <div class="advisory-id">GHSA-cq5v-8q36-5273 | CVE: CVE-2026-69244</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 16,510</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>AIOHTTP 的 C 响应解析器在构建畸形响应的错误消息时可能发生越界堆读取。攻击者控制的服务器或意外的响应可在客户端触发拒绝服务。</p>
+                <p><strong>影响产品：</strong>aio-libs/aiohttp ⭐16,510</p>
+                <p><strong>影响版本：</strong>&lt;= 3.14.2</p>
+                <p><strong>攻击面：</strong>使用 AIOHTTP C 扩展的客户端，接收畸形 HTTP 响应</p>
+                <p><strong>触发条件：</strong>服务器发送格式错误的 chunked 响应</p>
+                <p><strong>潜在危害：</strong>客户端拒绝服务、可能的信息泄露</p>
+                <p><strong>可利用性：</strong>有补丁链接可分析触发条件</p>
+                <p><strong>修复建议：</strong>升级到 AIOHTTP 3.14.3 或更高版本；临时方案：设置 <code>AIOHTTP_NO_EXTENSIONS=1</code> 使用 Python 解析器</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cq5v-8q36-5273" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 13. GitPython File Overwrite -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 GitPython 任意文件覆盖和读取漏洞</div>
+                    <div class="advisory-id">GHSA-3f7w-8rr8-f37f</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 5,159</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython 通过 <code>Git.check_unsafe_options()</code> 阻止危险的 git 选项，但该检查是按调用站点应用的。任何将 <code>**kwargs</code> 转发到 git 命令而不进行检查的 API 都会将调用者控制的选项直接传递给 git。对 14 个未保护调用点的扫描发现 2 个可达到接受文件系统路径的 git 选项：<code>IndexFile.checkout()</code> 和 <code>TagReference.create()</code>。</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5,159</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.56</p>
+                <p><strong>攻击面：</strong>使用 GitPython API 处理不受信任仓库的应用</p>
+                <p><strong>触发条件：</strong>调用 IndexFile.checkout() 或 TagReference.create() 时传入恶意 kwargs</p>
+                <p><strong>潜在危害：</strong>任意文件覆盖、任意文件读取</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码和 14 个未保护调用点的分析</p>
+                <p><strong>修复建议：</strong>升级到 GitPython 3.1.57 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-3f7w-8rr8-f37f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 14. python-cryptography DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 python-cryptography 证书链指数级路径构建 DoS</div>
+                    <div class="advisory-id">GHSA-jwv3-5hgf-82ww | CVE: CVE-2026-69249</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7,685</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>在解析包含重复自签名证书的无效证书链时，处理会递归调用同一候选项，导致指数级膨胀。虽然链深度限制防止了无限递归，但攻击者控制的证书链可轻松使处理时间超过 5 秒，形成资源耗尽拒绝服务攻击的基础。</p>
+                <p><strong>影响产品：</strong>pyca/cryptography ⭐7,685</p>
+                <p><strong>影响版本：</strong>&lt;= 48.0.0</p>
+                <p><strong>攻击面：</strong>处理不受信任证书链的应用</p>
+                <p><strong>触发条件：</strong>提供包含重复自签名中间证书的恶意证书链</p>
+                <p><strong>潜在危害：</strong>CPU 资源耗尽、拒绝服务</p>
+                <p><strong>可利用性：</strong>有详细原理说明</p>
+                <p><strong>修复建议：</strong>升级到 cryptography 49.0.0 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jwv3-5hgf-82ww" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 15. cryptography Bleichenbacher Oracle -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 python-cryptography PKCS#7 Bleichenbacher Oracle 漏洞</div>
+                    <div class="advisory-id">GHSA-g6cj-pr64-35w5 | CVE: CVE-2026-69247</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7,685</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong><code>pkcs7_decrypt_der</code>、<code>pkcs7_decrypt_pem</code> 和 <code>pkcs7_decrypt_smime</code> 以多种可区分的方式报告解密 RecipientInfo encryptedKey 的结果，其中一种泄露了从 RSA 操作恢复的确切长度。这种区别也可通过计时观察到。解密攻击者提供的 EnvelopedData 并反映结果的应用为攻击者提供了针对内容加密密钥的 Bleichenbacher oracle。</p>
+                <p><strong>影响产品：</strong>pyca/cryptography ⭐7,685</p>
+                <p><strong>影响版本：</strong>44.0.0 - 49.x</p>
+                <p><strong>攻击面：</strong>使用 PKCS#7 解密功能的应用</p>
+                <p><strong>触发条件：</strong>应用解密攻击者提供的 EnvelopedData 并泄露解密结果</p>
+                <p><strong>潜在危害：</strong>内容加密密钥恢复、加密数据解密</p>
+                <p><strong>可利用性：</strong>有详细原理说明，包含各阶段失败方式的分析</p>
+                <p><strong>修复建议：</strong>升级到 cryptography 50.0.0 或更高版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g6cj-pr64-35w5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 16. undici Cache Disclosure -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 undici 跨用户信息泄露和解析崩溃漏洞</div>
+                    <div class="advisory-id">GHSA-4cwx-7wf7-3272 | CVE: CVE-2026-13697</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7,653</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>undici 的缓存拦截器存在两个问题：(1) 共享缓存泄露——带有格式错误的 qualified <code>Cache-Control: private</code> 指令（如 <code>private=""</code> 或 <code>private=","</code>）的响应可能被错误存储在默认共享缓存中，然后提供给后续调用者；(2) 解析时崩溃——同一头部中混合 unqualified 和 qualified private 指令会导致未捕获的 TypeError，终止请求。</p>
+                <p><strong>影响产品：</strong>nodejs/undici ⭐7,653</p>
+                <p><strong>影响版本：</strong>7.0.0 - 7.28.x, 8.0.0 - 8.8.x</p>
+                <p><strong>攻击面：</strong>使用 undici 共享缓存模式的应用</p>
+                <p><strong>触发条件：</strong>服务器返回畸形 Cache-Control 头</p>
+                <p><strong>潜在危害：</strong>跨用户敏感数据泄露、服务崩溃</p>
+                <p><strong>可利用性：</strong>有详细原理说明</p>
+                <p><strong>修复建议：</strong>升级到 undici 7.29.0 或 8.9.0 及以上版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4cwx-7wf7-3272" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-mhc6-2gfq-xx62</code></td>
+                    <td>rancher/rancher</td>
+                    <td>25.8k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mhc6-2gfq-xx62" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-v8fg-2rw7-q452</code></td>
+                    <td>sequelize/sequelize</td>
+                    <td>30.4k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v8fg-2rw7-q452" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-wg5r-wc3x-39vc</code></td>
+                    <td>OpenIdentityPlatform/OpenAM</td>
+                    <td>881</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-wg5r-wc3x-39vc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-fxc7-fm93-6q77</code></td>
+                    <td>ArcadeData/arcadedb</td>
+                    <td>1.1k</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-fxc7-fm93-6q77" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-hmjq-crxp-7rjw</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hmjq-crxp-7rjw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jxwr-g6r6-j3fx</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jxwr-g6r6-j3fx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jj27-h5hq-8x99</code></td>
+                    <td>angular/angular</td>
+                    <td>100.7k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jj27-h5hq-8x99" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3936-cmfr-pm3m</code></td>
+                    <td>psf/black</td>
+                    <td>41.8k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3936-cmfr-pm3m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-v5mv-p594-2x33</code></td>
+                    <td>guzzle/guzzle</td>
+                    <td>23.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v5mv-p594-2x33" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-cq5v-8q36-5273</code></td>
+                    <td>aio-libs/aiohttp</td>
+                    <td>16.5k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cq5v-8q36-5273" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3f7w-8rr8-f37f</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-3f7w-8rr8-f37f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-vpx6-8pjr-4g3v</code></td>
+                    <td>angular/angular</td>
+                    <td>100.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vpx6-8pjr-4g3v" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-jhpw-976m-542j</code></td>
+                    <td>angular/angular</td>
+                    <td>100.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jhpw-976m-542j" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-g6cj-pr64-35w5</code></td>
+                    <td>pyca/cryptography</td>
+                    <td>7.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g6cj-pr64-35w5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-4cwx-7wf7-3272</code></td>
+                    <td>nodejs/undici</td>
+                    <td>7.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4cwx-7wf7-3272" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-jwv3-5hgf-82ww</code></td>
+                    <td>pyca/cryptography</td>
+                    <td>7.7k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jwv3-5hgf-82ww" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-mwp4-54f8-5fhr</code></td>
+                    <td>ip-address</td>
+                    <td>613</td>
+                    <td>High</td>
+                    <td>SSRF绕过，Address4解码前导零为十进制而网络栈解码为八进制</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-7p8r-x3mc-p8w7</code></td>
+                    <td>fast-uri</td>
+                    <td>115</td>
+                    <td>High</td>
+                    <td>主机混淆，反斜杠权威引入器绕过URI解析</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-rgw5-rvv9-x895</code></td>
+                    <td>brace-expansion</td>
+                    <td>226</td>
+                    <td>High</td>
+                    <td>DoS，25KB输入即可导致不可捕获的OOM崩溃</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r7wm-3cxj-wff9</code></td>
+                    <td>jackson-core</td>
+                    <td>2.4k</td>
+                    <td>High</td>
+                    <td>异步解析器maxNumberLength绕过，分块数字累积</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wxhm-2mq7-7697</code></td>
+                    <td>prompty</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>任意文件读取，${file:...}引用扩展无路径限制</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-86vw-mfpg-wwv9</code></td>
+                    <td>jsonata</td>
+                    <td>2.7k</td>
+                    <td>High</td>
+                    <td>资源耗尽，$toMillis函数ISO-8601正则回溯</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-2m8v-j782-fhvr</code></td>
+                    <td>socket.io-parser</td>
+                    <td>140</td>
+                    <td>High</td>
+                    <td>内存耗尽，零附件Socket.IO数据包导致OOM</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Rancher Manager 命令注入 (CVE-2026-44939)</strong>：影响 25.8k star 的 Kubernetes 管理平台，无需认证即可触发，可能导致集群完全接管。建议立即检查并升级。</li>
+                    <li><strong>Sequelize SQL 注入 (CVE-2026-69240)</strong>：影响 30.4k star 的 ORM 库，使用 Oracle 数据库的应用存在 SQL 注入风险。</li>
+                    <li><strong>OpenAM RCE (CVE-2026-62379)</strong>：预认证远程代码执行，默认配置下可被利用，影响所有 OpenAM 部署。</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>Open WebUI 授权绕过 (CVE-2026-44570, CVE-2026-44569)</strong>：影响 147.7k star 的 AI 界面项目，存在记忆泄露和消息篡改风险。</li>
+                    <li><strong>Angular 多个 XSS 漏洞 (CVE-2026-69151, CVE-2026-69149, CVE-2026-68945)</strong>：影响 100.7k star 的前端框架，i18n 和 SSR 场景存在 XSS 风险。</li>
+                    <li><strong>Black 任意文件写入 (CVE-2026-32274)</strong>：影响 41.8k star 的 Python 格式化工具，可能导致任意文件覆盖。</li>
+                    <li><strong>Guzzle 主机绕过 (CVE-2026-69246)</strong>：影响 23.5k star 的 PHP HTTP 客户端，可绕过 SSRF 防护。</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>python-cryptography</strong>：证书链 DoS 和 Bleichenbacher Oracle 漏洞，建议升级到 50.0.0。</li>
+                    <li><strong>undici 缓存泄露</strong>：共享缓存模式下的跨用户信息泄露。</li>
+                    <li><strong>GitPython 文件操作</strong>：不受信任仓库可能导致任意文件覆盖/读取。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
