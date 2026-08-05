@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-05</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-05 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">43</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">36</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">32</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 今日热点 -->
+        <div class="advisory-card" style="border-left-color: #f85149; background: linear-gradient(135deg, #161b22, #1a1015);">
+            <div class="advisory-content">
+                <p><strong>🔥 今日热点：</strong>过去24小时内，<strong>Flowise</strong>（⭐55k）集中披露了<strong>13个Critical + 17个High</strong>级别漏洞，其中多个为<strong>远程代码执行（RCE）</strong>漏洞，攻击者可无需认证即可获取服务器 root 权限。<strong>Open WebUI</strong>（⭐148k）也披露了6个高危漏洞，包括 SSRF、账户接管和存储型 XSS。<strong>强烈建议立即升级这两个项目的最新版本。</strong></p>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: CSV Agent Prompt Injection Remote Code Execution Vulnerability</div>
+                    <div class="advisory-id">GHSA-5xvg-pmgg-3mxr | CVE: CVE-2026-70477</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在CSV Agent Prompt Injection Remote Code Execution Vulnerability。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>详见漏洞描述</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>严重影响系统安全，可能导致数据泄露或权限提升</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5xvg-pmgg-3mxr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: RCE via CSVAgent csvFile data URI base64 segment is interpolated into Python source without validation</div>
+                    <div class="advisory-id">GHSA-4j8x-x6v7-w9rq | CVE: CVE-2026-69264</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在RCE via CSVAgent csvFile data URI base64 segment is interpolated into Python source without validation。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94, CWE-95</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4j8x-x6v7-w9rq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Pyodide validator Unicode homoglyph bypass leads to RCE</div>
+                    <div class="advisory-id">GHSA-52fh-8v99-63c2 | CVE: CVE-2026-70470</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Pyodide validator Unicode homoglyph bypass leads to RCE。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-184</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-52fh-8v99-63c2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise RCE via SQLite Record Manager Node</div>
+                    <div class="advisory-id">GHSA-x3hf-7cj6-3r4m | CVE: CVE-2026-69259</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Flowise RCE via SQLite Record Manager Node。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x3hf-7cj6-3r4m" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Remote Code Execution Vulnerability in CSVAgent</div>
+                    <div class="advisory-id">GHSA-x6vm-w76m-8j7g | CVE: CVE-2026-69256</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Remote Code Execution Vulnerability in CSVAgent。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>严重影响系统安全，可能导致数据泄露或权限提升</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x6vm-w76m-8j7g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: CSV Agent Remote Code Execution via Pyodide Code Injection — Root Shell Verified</div>
+                    <div class="advisory-id">GHSA-vmv7-4m6c-3cg5 | CVE: CVE-2026-69255</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在CSV Agent Remote Code Execution via Pyodide Code Injection — Root Shell Verified。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vmv7-4m6c-3cg5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: RCE via NodeVM Sandbox Escape in executeJavaScriptCode() nodeVMOptions Override</div>
+                    <div class="advisory-id">GHSA-3769-jgqc-cxm7 | CVE: CVE-2026-69254</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在RCE via NodeVM Sandbox Escape in executeJavaScriptCode() nodeVMOptions Override。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3769-jgqc-cxm7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise Sandbox Escape to RCE</div>
+                    <div class="advisory-id">GHSA-wg86-r78f-74mp | CVE: CVE-2026-69253</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Flowise Sandbox Escape to RCE。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-95</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wg86-r78f-74mp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise RCE via TypeORM DataSource</div>
+                    <div class="advisory-id">GHSA-g32j-mmxr-gfq5 | CVE: CVE-2026-69251</div>
+                </div>
+                <span class="priority-score">优先级: 100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Flowise RCE via TypeORM DataSource。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-94</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g32j-mmxr-gfq5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Unauthenticated OAuth2 token refresh endpoint returns access tokens — enables token theft for any connected service</div>
+                    <div class="advisory-id">GHSA-qgvm-j2hm-6m38 | CVE: CVE-2026-70478</div>
+                </div>
+                <span class="priority-score">优先级: 95</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 55.1k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Unauthenticated OAuth2 token refresh endpoint returns access tokens — enables token theft for any connected service。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>拒绝服务攻击（DoS），导致服务不可用</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>服务器完全被控制，数据泄露、服务中断</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-200</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qgvm-j2hm-6m38" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Stored XSS via unescaped KaTeX render-error fallback in rendered messages</div>
+                    <div class="advisory-id">GHSA-pwxh-7358-jq2x | CVE: CVE-2026-70492</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 147.9k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 存在Stored XSS via unescaped KaTeX render-error fallback in rendered messages。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147.9k</p>
+                <p><strong>影响版本：</strong>>= 0.10.0, < 0.11.0</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-79</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pwxh-7358-jq2x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Open WebUI: Any authenticated user can reach internal services and cloud metadata via NAT64-encoded URLs</div>
+                    <div class="advisory-id">GHSA-8x5v-cpv7-8jjp | CVE: CVE-2026-70485</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 147.9k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 存在Any authenticated user can reach internal services and cloud metadata via NAT64-encoded URLs。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147.9k</p>
+                <p><strong>影响版本：</strong>>= 0.9.0, < 0.11.0</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），可访问内部服务和云元数据</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-918</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8x5v-cpv7-8jjp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Broken Access Control in Stripe Subscription Endpoints Allows Cross-Tenant Billing Manipulation</div>
+                    <div class="advisory-id">GHSA-gmmw-qg98-6j6p | CVE: CVE-2026-70476</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Broken Access Control in Stripe Subscription Endpoints Allows Cross-Tenant Billing Manipulation。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-284, CWE-639</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gmmw-qg98-6j6p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Missing Authorization on Execution Update Endpoint</div>
+                    <div class="advisory-id">GHSA-fm2f-4339-4p2f | CVE: CVE-2026-70475</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Missing Authorization on Execution Update Endpoint。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>授权绕过，可越权访问其他租户/用户数据</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-862</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fm2f-4339-4p2f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Cross-Workspace OAuth2 Credential Metadata Leak</div>
+                    <div class="advisory-id">GHSA-wch5-xp77-fxg4 | CVE: CVE-2026-70474</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Cross-Workspace OAuth2 Credential Metadata Leak。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-863</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wch5-xp77-fxg4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Information Disclosure in GET /api/v1/upsert-history returns the entire server-wide upsert history</div>
+                    <div class="advisory-id">GHSA-fr6g-7cq8-fg82 | CVE: CVE-2026-70473</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Information Disclosure in GET /api/v1/upsert-history returns the entire server-wide upsert history。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-200, CWE-202, CWE-862</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fr6g-7cq8-fg82" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: CVE-2025-8943 Patch Bypass: npm_config_yes bypasses MCP environment variable blocklist (Unauthenticated RCE)</div>
+                    <div class="advisory-id">GHSA-xc48-889x-5qmw | CVE: CVE-2026-69263</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在npm_config_yes bypasses MCP environment variable blocklist (Unauthenticated RCE)。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-184</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xc48-889x-5qmw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: `DELETE /api/v1/chatflows/:id` does not validate resource type, allowing `agentflows:delete` and `chatflows:delete` to delete each other’s flow type</div>
+                    <div class="advisory-id">GHSA-p5w8-m249-4r4v | CVE: CVE-2026-69262</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在delete` to delete each other’s flow type。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要API密钥</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-863</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p5w8-m249-4r4v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Unauthenticated Property Injection into Flow Execution Context via Ungated `overrideConfig` Spread in Prediction API</div>
+                    <div class="advisory-id">GHSA-6vh2-wg4h-4vwj | CVE: CVE-2026-69258</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Unauthenticated Property Injection into Flow Execution Context via Ungated `overrideConfig` Spread in Prediction API。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>详见漏洞描述</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-639, CWE-915</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6vh2-wg4h-4vwj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: SSRF Protection Bypass via IPv4-Mapped IPv6 Addresses</div>
+                    <div class="advisory-id">GHSA-c6xh-wv4j-ppv5 | CVE: CVE-2026-69257</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在SSRF Protection Bypass via IPv4-Mapped IPv6 Addresses。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），可访问内部服务和云元数据</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>内部服务暴露，云环境面临横向移动风险</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-918, CWE-1389</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c6xh-wv4j-ppv5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Missing authorization on `/api/v1/files` allows low-privileged API keys to list and delete files across workspaces within the same organization</div>
+                    <div class="advisory-id">GHSA-wp74-f5hh-5f3r | CVE: CVE-2026-69252</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Missing authorization on `/api/v1/files` allows low-privileged API keys to list and delete files across workspaces within the same organization。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要API密钥</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-862</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wp74-f5hh-5f3r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Flowise: Unauthenticated OAuth2 Refresh Enables Non-Blind SSRF and Secret Exfiltration</div>
+                    <div class="advisory-id">GHSA-r745-8hwv-h473 | CVE: CVE-2026-69250</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Unauthenticated OAuth2 Refresh Enables Non-Blind SSRF and Secret Exfiltration。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），可访问内部服务和云元数据</p>
+                <p><strong>触发条件：</strong>无需认证即可触发</p>
+                <p><strong>潜在危害：</strong>内部服务暴露，云环境面临横向移动风险</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-639</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r745-8hwv-h473" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Open WebUI: Same-origin XSS to account takeover via terminal file-preview iframe hardcoding allow-same-origin</div>
+                    <div class="advisory-id">GHSA-3xpf-xq7r-v8c5 | CVE: CVE-2026-70486</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 147.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 存在Same-origin XSS to account takeover via terminal file-preview iframe hardcoding allow-same-origin。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147.9k</p>
+                <p><strong>影响版本：</strong>>= 0.9.0, <= 0.10.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>受害者账户被完全接管</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-79, CWE-1021</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3xpf-xq7r-v8c5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Open WebUI: Account takeover via OAuth token exchange accepting tokens issued to any client</div>
+                    <div class="advisory-id">GHSA-rq84-p6rr-vf89 | CVE: CVE-2026-70482</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 147.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 存在Account takeover via OAuth token exchange accepting tokens issued to any client。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147.9k</p>
+                <p><strong>影响版本：</strong>>= 0.8.0, < 0.11.0</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>受害者账户被完全接管</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-287</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rq84-p6rr-vf89" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Open WebUI: SSRF into internal services via unvalidated sub-resource requests in the Playwright web loader</div>
+                    <div class="advisory-id">GHSA-w2rx-84hp-gg95 | CVE: CVE-2026-70479</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 147.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Open WebUI 存在SSRF into internal services via unvalidated sub-resource requests in the Playwright web loader。</p>
+                <p><strong>影响产品：</strong>open-webui/open-webui ⭐147.9k</p>
+                <p><strong>影响版本：</strong>>= 0.9.6, < 0.11.0</p>
+                <p><strong>攻击面：</strong>服务端请求伪造（SSRF），可访问内部服务和云元数据</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>内部服务暴露，云环境面临横向移动风险</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-918</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w2rx-84hp-gg95" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Flowise: Cross-workspace credential IDOR in openai-assistants-vector-store</div>
+                    <div class="advisory-id">GHSA-chm3-vqcf-52rx | CVE: CVE-2026-70472</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Cross-workspace credential IDOR in openai-assistants-vector-store。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>凭证/信息泄露，暴露敏感配置和密钥</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-285, CWE-863</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-chm3-vqcf-52rx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Flowise: Authenticated arbitrary file write in the `S3 Directory` document loader via unsanitized S3 object keys                                                                                                  </div>
+                    <div class="advisory-id">GHSA-88pr-878c-24wf | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 55.1k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flowise 存在Authenticated arbitrary file write in the `S3 Directory` document loader via unsanitized S3 object keys。</p>
+                <p><strong>影响产品：</strong>FlowiseAI/Flowise ⭐55.1k</p>
+                <p><strong>影响版本：</strong><= 3.1.2</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭证</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-22, CWE-73</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-88pr-878c-24wf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Microsoft Security Advisory CVE-2026-50527 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-mmjf-rqrv-855v | CVE: CVE-2026-50527</div>
+                </div>
+                <span class="priority-score">优先级: 75</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 18.1k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>.NET 运行时存在拒绝服务漏洞。</p>
+                <p><strong>影响产品：</strong>dotnet/runtime ⭐18.1k</p>
+                <p><strong>影响版本：</strong>>= 8.0.0, <= 8.0.3</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE分类：</strong>CWE-121</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mmjf-rqrv-855v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty HTTP/3 QPACK Blocked Streams Memory Exhaustion</div>
+                    <div class="advisory-id">GHSA-4grm-h2qv-h6w6 | CVE: CVE-2026-48748</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 框架存在HTTP/3 QPACK Blocked Streams Memory Exhaustion。</p>
+                <p><strong>影响产品：</strong>netty/netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.14.Final</p>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），可在服务器端执行任意命令</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-770</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4grm-h2qv-h6w6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc | CVE: CVE-2026-45674</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 35.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty 框架存在Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records。</p>
+                <p><strong>影响产品：</strong>netty/netty ⭐35.0k</p>
+                <p><strong>影响版本：</strong><= 4.1.134.Final</p>
+                <p><strong>攻击面：</strong>DNS缓存投毒，可将流量重定向到恶意服务器</p>
+                <p><strong>触发条件：</strong>详见漏洞描述</p>
+                <p><strong>潜在危害：</strong>影响系统完整性和用户数据安全</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE分类：</strong>CWE-345, CWE-346</p>
+                <p><strong>修复建议：</strong>升级到官方最新修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-5xvg-pmgg-3mxr</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5xvg-pmgg-3mxr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-4j8x-x6v7-w9rq</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4j8x-x6v7-w9rq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-52fh-8v99-63c2</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-52fh-8v99-63c2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-x3hf-7cj6-3r4m</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x3hf-7cj6-3r4m" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-x6vm-w76m-8j7g</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x6vm-w76m-8j7g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-vmv7-4m6c-3cg5</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vmv7-4m6c-3cg5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-3769-jgqc-cxm7</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3769-jgqc-cxm7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-wg86-r78f-74mp</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wg86-r78f-74mp" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-g32j-mmxr-gfq5</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g32j-mmxr-gfq5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-qgvm-j2hm-6m38</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qgvm-j2hm-6m38" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-pwxh-7358-jq2x</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.9k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pwxh-7358-jq2x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-8x5v-cpv7-8jjp</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.9k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8x5v-cpv7-8jjp" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-gmmw-qg98-6j6p</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gmmw-qg98-6j6p" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-fm2f-4339-4p2f</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fm2f-4339-4p2f" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-wch5-xp77-fxg4</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wch5-xp77-fxg4" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-fr6g-7cq8-fg82</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fr6g-7cq8-fg82" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xc48-889x-5qmw</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xc48-889x-5qmw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p5w8-m249-4r4v</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p5w8-m249-4r4v" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6vh2-wg4h-4vwj</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6vh2-wg4h-4vwj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-c6xh-wv4j-ppv5</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-c6xh-wv4j-ppv5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-wp74-f5hh-5f3r</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wp74-f5hh-5f3r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-r745-8hwv-h473</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-r745-8hwv-h473" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-3xpf-xq7r-v8c5</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3xpf-xq7r-v8c5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-rq84-p6rr-vf89</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rq84-p6rr-vf89" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-w2rx-84hp-gg95</code></td>
+                    <td>open-webui/open-webui</td>
+                    <td>147.9k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w2rx-84hp-gg95" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-chm3-vqcf-52rx</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-chm3-vqcf-52rx" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-88pr-878c-24wf</code></td>
+                    <td>FlowiseAI/Flowise</td>
+                    <td>55.1k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-88pr-878c-24wf" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mmjf-rqrv-855v</code></td>
+                    <td>dotnet/runtime</td>
+                    <td>18.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mmjf-rqrv-855v" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-4grm-h2qv-h6w6</code></td>
+                    <td>netty/netty</td>
+                    <td>35.0k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4grm-h2qv-h6w6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-676x-f7gg-47vc</code></td>
+                    <td>netty/netty</td>
+                    <td>35.0k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>GHSA-6wcc-39rp-hh9p</code></td>
+                    <td>benatsampouris/hypequery</td>
+                    <td>0</td>
+                    <td>CRITICAL</td>
+                    <td>含代码示例、有利用步骤</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-fxhp-mv3v-67qp</code></td>
+                    <td>oras-project/oras-go</td>
+                    <td>274</td>
+                    <td>HIGH</td>
+                    <td>含代码示例、有利用步骤</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+<li><strong>Flowise: CSV Agent Prompt Injection Remote Code Execution Vu</strong>（GHSA-5xvg-pmgg-3mxr）— 立即升级到最新修复版本</li>
+<li><strong>Flowise: RCE via CSVAgent csvFile data URI base64 segment is</strong>（GHSA-4j8x-x6v7-w9rq）— 立即升级到最新修复版本</li>
+<li><strong>Flowise: Pyodide validator Unicode homoglyph bypass leads to</strong>（GHSA-52fh-8v99-63c2）— 立即升级到最新修复版本</li>
+<li><strong>Flowise RCE via SQLite Record Manager Node</strong>（GHSA-x3hf-7cj6-3r4m）— 立即升级到最新修复版本</li>
+<li><strong>Flowise: Remote Code Execution Vulnerability in CSVAgent</strong>（GHSA-x6vm-w76m-8j7g）— 立即升级到最新修复版本</li>
+
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+<li><strong>Open WebUI: Same-origin XSS to account takeover via terminal</strong>（GHSA-3xpf-xq7r-v8c5）— 尽快评估影响并升级</li>
+<li><strong>Open WebUI: Account takeover via OAuth token exchange accept</strong>（GHSA-rq84-p6rr-vf89）— 尽快评估影响并升级</li>
+<li><strong>Open WebUI: SSRF into internal services via unvalidated sub-</strong>（GHSA-w2rx-84hp-gg95）— 尽快评估影响并升级</li>
+<li><strong>Flowise: Cross-workspace credential IDOR in openai-assistant</strong>（GHSA-chm3-vqcf-52rx）— 尽快评估影响并升级</li>
+<li><strong>Flowise: Authenticated arbitrary file write in the `S3 Direc</strong>（GHSA-88pr-878c-24wf）— 尽快评估影响并升级</li>
+
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+<li>今日无中危级别漏洞</li>
+                </ul>
+                <p style="color:#8b949e;margin-top:12px;">另有 4 个 Star≥5k 项目漏洞暂无公开PoC，建议持续关注。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
