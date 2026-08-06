@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-06",
+      "title": "GitHub安全公告日报 - 2026-08-06",
+      "url": "reports/report-2026-08-06.html",
+      "stats": {
+        "total": 22,
+        "critical": 1,
+        "high": 21,
+        "star5k": 17,
+        "with_poc": 9
+      },
+      "summary": "今日发现22个高危/严重漏洞，其中1个Critical级别，17个影响Star≥5k项目，9个含PoC或详细分析。重点关注Nuxt DevTools RCE、Electron沙箱逃逸、rclone多个高危漏洞。"
+    },
+    {
       "date": "2026-08-05",
       "title": "GitHub安全公告日报 - 2026-08-05",
       "url": "reports/report-2026-08-05.html",
@@ -376,19 +389,6 @@
         "with_poc": 6
       },
       "summary": "发现2个Critical和13个High级别漏洞。Dgraph DQL注入（⭐21k，未认证，完整PoC）和Kanidm SCIM Filter栈溢出DoS（⭐5k，未认证进程abort，完整PoC）为紧急级别；Mattermost双漏洞（⭐38k）、Scriban模板DoS（完整PoC）、Netty HTTP走私为高危。"
-    },
-    {
-      "date": "2026-06-28",
-      "title": "GitHub安全公告日报 - 2026-06-28",
-      "url": "reports/report-2026-06-28.html",
-      "stats": {
-        "total": 3,
-        "critical": 0,
-        "high": 3,
-        "star5k": 1,
-        "with_poc": 3
-      },
-      "summary": "今日发现3个High级别pnpm供应链漏洞（GHSA-qrv3-253h-g69c/GHSA-72r4-9c5j-mj57/GHSA-fr4h-3cph-29xv），其中1个含完整PoC，均影响pnpm < 10.34.4和11.0.0-11.7.0版本，建议立即升级。"
     }
   ]
 }
