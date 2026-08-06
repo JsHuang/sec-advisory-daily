@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-06</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-06 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">22</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Unauthenticated Nuxt DevTools RPC allows arbitrary command execution on the developer's host</div>
+                    <div class="advisory-id">GHSA-279x-mwfv-vcqv | CVE: CVE-2026-71319</div>
+                </div>
+                <span class="priority-score">优先级: 12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Unauthenticated Nuxt DevTools RPC allows arbitrary command execution on the developer's host</p>
+                <p><strong>影响产品：</strong>npm/@nuxt/devtools ⭐60,723</p>
+                <p><strong>影响版本：</strong>@nuxt/devtools@3.3.1</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-279x-mwfv-vcqv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Nuxt: Server-Side Remote Code Execution via Runtime Template Injection in Nuxt Server Island Props</div>
+                    <div class="advisory-id">GHSA-9473-5f9j-94wq | CVE: CVE-2026-71320</div>
+                </div>
+                <span class="priority-score">优先级: 11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuxt: Server-Side Remote Code Execution via Runtime Template Injection in Nuxt Server Island Props</p>
+                <p><strong>影响产品：</strong>npm/nuxt, npm/nuxt ⭐60,723</p>
+                <p><strong>影响版本：</strong>nuxt@4.5.1, nuxt@3.21.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-9473-5f9j-94wq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 rclone `serve restic --private-repos` authorization bypass: `..` in the URL path lets an authenticated user read, overwrite and delete other users' repositories</div>
+                    <div class="advisory-id">GHSA-fqj9-69pf-6pjg | CVE: CVE-2026-59733</div>
+                </div>
+                <span class="priority-score">优先级: 11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 58,965</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>rclone `serve restic --private-repos` authorization bypass: `..` in the URL path lets an authenticated user read, overwrite and delete other users' repositories</p>
+                <p><strong>影响产品：</strong>go/github.com/rclone/rclone ⭐58,965</p>
+                <p><strong>影响版本：</strong>github.com/rclone/rclone@1.74.4</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-fqj9-69pf-6pjg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 rclone: PowerShell Smart-Quote Filename Injection Enables SFTP Server-Side Command Execution</div>
+                    <div class="advisory-id">GHSA-2m8m-jhrm-w6j2 | CVE: CVE-2026-71312</div>
+                </div>
+                <span class="priority-score">优先级: 11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 58,965</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>rclone: PowerShell Smart-Quote Filename Injection Enables SFTP Server-Side Command Execution</p>
+                <p><strong>影响产品：</strong>go/github.com/rclone/rclone ⭐58,965</p>
+                <p><strong>影响版本：</strong>github.com/rclone/rclone@1.75.0</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-2m8m-jhrm-w6j2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 rclone: Unvalidated symlink target in local `--links` — arbitrary file write from an untrusted remote</div>
+                    <div class="advisory-id">GHSA-cf44-9pgv-m4xc | CVE: CVE-2026-54572</div>
+                </div>
+                <span class="priority-score">优先级: 11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 58,965</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>rclone: Unvalidated symlink target in local `--links` — arbitrary file write from an untrusted remote</p>
+                <p><strong>影响产品：</strong>go/github.com/rclone/rclone ⭐58,965</p>
+                <p><strong>影响版本：</strong>github.com/rclone/rclone@1.74.4</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-cf44-9pgv-m4xc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 rclone: Incomplete path validation allows backend root escape in serve restic</div>
+                    <div class="advisory-id">GHSA-45pq-889g-fcgh | CVE: CVE-2026-71309</div>
+                </div>
+                <span class="priority-score">优先级: 11</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 58,965</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>rclone: Incomplete path validation allows backend root escape in serve restic</p>
+                <p><strong>影响产品：</strong>go/github.com/rclone/rclone ⭐58,965</p>
+                <p><strong>影响版本：</strong>github.com/rclone/rclone@1.75.0</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-45pq-889g-fcgh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Electron: Custom protocol with supportFetchAPI but not corsEnabled allows cross-origin reads</div>
+                    <div class="advisory-id">GHSA-v3j7-r9gq-3gjw | CVE: CVE-2026-70604</div>
+                </div>
+                <span class="priority-score">优先级: 10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 122,362</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Electron: Custom protocol with supportFetchAPI but not corsEnabled allows cross-origin reads</p>
+                <p><strong>影响产品：</strong>npm/electron, npm/electron, npm/electron, npm/electron ⭐122,362</p>
+                <p><strong>影响版本：</strong>electron@42.0.0, electron@41.4.0, electron@40.9.3, electron@39.8.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-v3j7-r9gq-3gjw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Electron: Context isolation bypass via Function.prototype.bind hijack</div>
+                    <div class="advisory-id">GHSA-h7rp-cf8h-j98x | CVE: CVE-2026-70601</div>
+                </div>
+                <span class="priority-score">优先级: 10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 122,362</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Electron: Context isolation bypass via Function.prototype.bind hijack</p>
+                <p><strong>影响产品：</strong>npm/electron, npm/electron, npm/electron, npm/electron ⭐122,362</p>
+                <p><strong>影响版本：</strong>electron@39.8.9, electron@40.9.2, electron@41.2.2, electron@42.0.0-beta.5</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-h7rp-cf8h-j98x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Nuxt: Unauthenticated CPU exhaustion parsing and hashing the Nuxt island endpoint body before hash validation</div>
+                    <div class="advisory-id">GHSA-9pgf-384g-p7mv | CVE: CVE-2026-71321</div>
+                </div>
+                <span class="priority-score">优先级: 10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuxt: Unauthenticated CPU exhaustion parsing and hashing the Nuxt island endpoint body before hash validation</p>
+                <p><strong>影响产品：</strong>npm/nuxt, npm/nuxt ⭐60,723</p>
+                <p><strong>影响版本：</strong>nuxt@4.5.1, nuxt@3.21.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-9pgf-384g-p7mv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Nuxt route rules silently dropped for mixed-case paths, bypassing appMiddleware auth gates (incomplete fix for CVE-2026-53721)</div>
+                    <div class="advisory-id">GHSA-hxvh-4h3w-prp9 | CVE: CVE-2026-71315</div>
+                </div>
+                <span class="priority-score">优先级: 10</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuxt route rules silently dropped for mixed-case paths, bypassing appMiddleware auth gates (incomplete fix for CVE-2026-53721)</p>
+                <p><strong>影响产品：</strong>npm/nuxt, npm/nuxt ⭐60,723</p>
+                <p><strong>影响版本：</strong>nuxt@4.5.1, nuxt@3.21.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-hxvh-4h3w-prp9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Electron: Sandboxed iframe can bypass the allow-popups restriction via the OpenURL navigation path</div>
+                    <div class="advisory-id">GHSA-9f4c-93c8-jc8g | CVE: CVE-2026-70608</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 122,362</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Electron: Sandboxed iframe can bypass the allow-popups restriction via the OpenURL navigation path</p>
+                <p><strong>影响产品：</strong>npm/electron, npm/electron, npm/electron ⭐122,362</p>
+                <p><strong>影响版本：</strong>electron@42.0.1, electron@41.10.3, electron@39.8.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-9f4c-93c8-jc8g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Nuxt runtime payload cache discloses another user's SSR data across users and to unauthenticated clients</div>
+                    <div class="advisory-id">GHSA-wm8w-6qjm-cv43 | CVE: CVE-2026-71316</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuxt runtime payload cache discloses another user's SSR data across users and to unauthenticated clients</p>
+                <p><strong>影响产品：</strong>npm/nuxt ⭐60,723</p>
+                <p><strong>影响版本：</strong>nuxt@4.5.1</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-wm8w-6qjm-cv43" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Nuxt: Unauthenticated out-of-memory crash via unbounded v-for expansion in island rendering</div>
+                    <div class="advisory-id">GHSA-hxcr-hm88-mpq6 | CVE: CVE-2026-71314</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 60,723</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nuxt: Unauthenticated out-of-memory crash via unbounded v-for expansion in island rendering</p>
+                <p><strong>影响产品：</strong>npm/nuxt, npm/nuxt ⭐60,723</p>
+                <p><strong>影响版本：</strong>nuxt@4.5.1, nuxt@3.21.10</p>
+                <p><strong>产品影响力：</strong>极高</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-hxcr-hm88-mpq6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Concurrent Ruby : `AtomicReference#update` livelocks when the stored value is `Float::NAN`</div>
+                    <div class="advisory-id">GHSA-h8w8-99g7-qmvj | CVE: CVE-2026-54904</div>
+                </div>
+                <span class="priority-score">优先级: 9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 5,833</span>
+<span class="badge badge-poc">🔴 PoC Available</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Concurrent Ruby : `AtomicReference#update` livelocks when the stored value is `Float::NAN`</p>
+                <p><strong>影响产品：</strong>rubygems/concurrent-ruby ⭐5,833</p>
+                <p><strong>影响版本：</strong>concurrent-ruby@1.3.7</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-h8w8-99g7-qmvj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Leads to Memory Exhaustion</div>
+                    <div class="advisory-id">GHSA-h2qv-fj59-j46j | CVE: CVE-2026-48059</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 35,014</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Leads to Memory Exhaustion</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-codec-haproxy, maven/io.netty:netty-codec-haproxy ⭐35,014</p>
+                <p><strong>影响版本：</strong>io.netty:netty-codec-haproxy@4.2.15.Final, io.netty:netty-codec-haproxy@4.1.135.Final</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty's Lack of Lifecycle Cleanup Leads to Pooled ByteBuf Leak in RedisArrayAggregator</div>
+                    <div class="advisory-id">GHSA-6jv9-x5w9-2ccm | CVE: CVE-2026-48006</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 35,014</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty's Lack of Lifecycle Cleanup Leads to Pooled ByteBuf Leak in RedisArrayAggregator</p>
+                <p><strong>影响产品：</strong>maven/io.netty:netty-codec-redis, maven/io.netty:netty-codec-redis ⭐35,014</p>
+                <p><strong>影响版本：</strong>io.netty:netty-codec-redis@4.2.15.Final, io.netty:netty-codec-redis@4.1.135.Final</p>
+                <p><strong>产品影响力：</strong>高</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Spinnaker has non-safe yaml deserialization, allowing RCE when using specific types</div>
+                    <div class="advisory-id">GHSA-c8q4-9h32-2ww8 | CVE: CVE-2026-44795</div>
+                </div>
+                <span class="priority-score">优先级: 8</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+<span class="badge badge-stars">⭐ 9,762</span>
+<span class="badge badge-analysis">📖 详细分析</span>
+
+            </div>
+            
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spinnaker has non-safe yaml deserialization, allowing RCE when using specific types</p>
+                <p><strong>影响产品：</strong>maven/io.spinnaker.rosco:rosco-core, maven/io.spinnaker.orca:orca-core, maven/io.spinnaker.rosco:rosco-core, maven/io.spinnaker.rosco:rosco-core, maven/io.spinnaker.orca:orca-core, maven/io.spinnaker.orca:orca-core ⭐9,762</p>
+                <p><strong>影响版本：</strong>io.spinnaker.rosco:rosco-core@2025.3.3, io.spinnaker.orca:orca-core@2025.3.3, io.spinnaker.rosco:rosco-core@2025.4.4, io.spinnaker.rosco:rosco-core@2026.0.3, io.spinnaker.orca:orca-core@2025.4.4, io.spinnaker.orca:orca-core@2026.0.3</p>
+                <p><strong>产品影响力：</strong>中</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+            </div>
+
+            
+            <a href="https://github.com/advisories/GHSA-c8q4-9h32-2ww8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-279x-mwfv-vcqv</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-279x-mwfv-vcqv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-9473-5f9j-94wq</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9473-5f9j-94wq" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-fqj9-69pf-6pjg</code></td>
+                    <td>rclone/rclone</td>
+                    <td>58,965</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fqj9-69pf-6pjg" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-2m8m-jhrm-w6j2</code></td>
+                    <td>rclone/rclone</td>
+                    <td>58,965</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2m8m-jhrm-w6j2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-cf44-9pgv-m4xc</code></td>
+                    <td>rclone/rclone</td>
+                    <td>58,965</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cf44-9pgv-m4xc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-45pq-889g-fcgh</code></td>
+                    <td>rclone/rclone</td>
+                    <td>58,965</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-45pq-889g-fcgh" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-v3j7-r9gq-3gjw</code></td>
+                    <td>electron/electron</td>
+                    <td>122,362</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v3j7-r9gq-3gjw" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-h7rp-cf8h-j98x</code></td>
+                    <td>electron/electron</td>
+                    <td>122,362</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h7rp-cf8h-j98x" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-9pgf-384g-p7mv</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9pgf-384g-p7mv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hxvh-4h3w-prp9</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hxvh-4h3w-prp9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-9f4c-93c8-jc8g</code></td>
+                    <td>electron/electron</td>
+                    <td>122,362</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9f4c-93c8-jc8g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wm8w-6qjm-cv43</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wm8w-6qjm-cv43" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hxcr-hm88-mpq6</code></td>
+                    <td>nuxt/nuxt</td>
+                    <td>60,723</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hxcr-hm88-mpq6" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-h8w8-99g7-qmvj</code></td>
+                    <td>ruby-concurrency/concurrent-ruby</td>
+                    <td>5,833</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-h8w8-99g7-qmvj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>15</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-h2qv-fj59-j46j</code></td>
+                    <td>netty/netty</td>
+                    <td>35,014</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h2qv-fj59-j46j" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6jv9-x5w9-2ccm</code></td>
+                    <td>netty/netty</td>
+                    <td>35,014</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6jv9-x5w9-2ccm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-c8q4-9h32-2ww8</code></td>
+                    <td>spinnaker/spinnaker</td>
+                    <td>9,762</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-c8q4-9h32-2ww8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><code>GHSA-7xpr-hc2w-34m9</code></td>
+                    <td>maven/com.squareup.wire:wire-runtime, maven/com.squareup.wire:wire-runtime, maven/com.squareup.wire:wire-runtime-jvm, maven/com.squareup.wire:wire-runtime-jvm</td>
+                    <td>4,422</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-h2xq-h7f9-vh6c</code></td>
+                    <td>maven/org.xwiki.contrib.blog:application-blog-ui</td>
+                    <td>2</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-v7gr-mqpj-wwh3</code></td>
+                    <td>maven/org.openhab.ui.bundles:org.openhab.ui.cometvisu</td>
+                    <td>257</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-5cjr-mxj5-wmrx</code></td>
+                    <td>composer/simplesamlphp/saml2, composer/simplesamlphp/saml2-legacy, composer/simplesamlphp/saml2, composer/simplesamlphp/saml2-legacy</td>
+                    <td>304</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-4c8g-83qw-93j6</code></td>
+                    <td>npm/fast-uri, npm/fast-uri, npm/fast-uri</td>
+                    <td>118</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-279x-mwfv-vcqv</strong> - Unauthenticated Nuxt DevTools RPC allows arbitrary command execution on the developer's host (nuxt/nuxt)</li>
+                    <li><strong>GHSA-9473-5f9j-94wq</strong> - Nuxt: Server-Side Remote Code Execution via Runtime Template Injection in Nuxt Server Island Props (nuxt/nuxt)</li>
+                    <li><strong>GHSA-fqj9-69pf-6pjg</strong> - rclone `serve restic --private-repos` authorization bypass: `..` in the URL path lets an authenticated user read, overwrite and delete other users' repositories (rclone/rclone)</li>
+                    <li><strong>GHSA-2m8m-jhrm-w6j2</strong> - rclone: PowerShell Smart-Quote Filename Injection Enables SFTP Server-Side Command Execution (rclone/rclone)</li>
+                    <li><strong>GHSA-cf44-9pgv-m4xc</strong> - rclone: Unvalidated symlink target in local `--links` — arbitrary file write from an untrusted remote (rclone/rclone)</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-9f4c-93c8-jc8g</strong> - Electron: Sandboxed iframe can bypass the allow-popups restriction via the OpenURL navigation path (electron/electron)</li>
+                    <li><strong>GHSA-wm8w-6qjm-cv43</strong> - Nuxt runtime payload cache discloses another user's SSR data across users and to unauthenticated clients (nuxt/nuxt)</li>
+                    <li><strong>GHSA-hxcr-hm88-mpq6</strong> - Nuxt: Unauthenticated out-of-memory crash via unbounded v-for expansion in island rendering (nuxt/nuxt)</li>
+                    <li><strong>GHSA-h8w8-99g7-qmvj</strong> - Concurrent Ruby : `AtomicReference#update` livelocks when the stored value is `Float::NAN` (ruby-concurrency/concurrent-ruby)</li>
+                    <li><strong>GHSA-h2qv-fj59-j46j</strong> - Netty HAProxy: Unbalanced Reference Count in Nested PP2_TYPE_SSL TLV Parsing Leads to Memory Exhaustion (netty/netty)</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-v7gr-mqpj-wwh3</strong> - CometVisu Backend for openHAB affected by SSRF/XSS (openhab/openhab-webui)</li>
+                    <li><strong>GHSA-5cjr-mxj5-wmrx</strong> - SimpleSAMLphp has Possible DoS via XPath Transform (simplesamlphp/saml2)</li>
+                    <li><strong>GHSA-4c8g-83qw-93j6</strong> - fast-uri vulnerable to host confusion via failed IDN canonicalization (fastify/fast-uri)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
