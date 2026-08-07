@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-07</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; margin-top:4px; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content p { margin-bottom: 10px; }
+        .advisory-content code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44; white-space: nowrap;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; font-size: 0.9em; }
+        .summary-table tr:hover { background: #1c2128; }
+        .summary-table code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .advisory-header { flex-direction: column; }
+            .summary-table { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-07 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">27</div>
+                <div class="stat-label">总公告数（去重后）</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">25</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik: Authentication Bypass via Path Traversal in ReplacePathRegex Middleware</div>
+                    <div class="advisory-id">GHSA-cxjq-mrr5-89rv | CVE: CVE-2026-65600</div>
+                </div>
+                <span class="priority-score">优先级: 9/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 64k (traefik/traefik)</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  There is a critical authentication-bypass vulnerability in Traefik's `ReplacePathRegex` middleware. When it is configured with a regular expression that captures user-controlled path segments without a mandatory separator (for example `regex: "^/api(.*)"`, `replacement: "/$1"`), a crafted request can produce an un-normalized replacement path such as `/../admin`, which Traefik forwarded to the backend without validation. A backend that normalizes the path may resolve it to a protected</p>
+                <p><strong>影响产品：</strong>traefik/traefik ⭐64k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/traefik/traefik/v2</code> 范围: <= 2.11.51 → 修复: 2.11.52</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: <= 3.6.22 → 修复: 3.6.23</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.7.0, <= 3.7.6 → 修复: 3.7.7</li>
+<li><code>go/github.com/traefik/traefik</code> 范围: <= 1.7.34 → 修复: N/A</li></ul>
+                <p><strong>攻击面：</strong>网络层</p>
+                <p><strong>触发条件：</strong>发送包含路径遍历的 HTTP 请求（如 /api../admin），利用 ReplacePathRegex 正则替换后产生未规范化的路径</p>
+                <p><strong>潜在危害：</strong>未认证攻击者可绕过身份验证访问受保护资源，可能导致敏感数据泄露、权限提升</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码（公告中包含代码示例和复现步骤）</p>
+                <p><strong>修复建议：</strong>升级到修复版本: github.com/traefik/traefik/v2 → <strong>2.11.52</strong>, github.com/traefik/traefik/v3 → <strong>3.6.23</strong>, github.com/traefik/traefik/v3 → <strong>3.7.7</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cxjq-mrr5-89rv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik: Gateway API route identity collision allows cross-namespace backend hijacking</div>
+                    <div class="advisory-id">GHSA-fgjj-px3w-67xx | CVE: CVE-2026-71327</div>
+                </div>
+                <span class="priority-score">优先级: 8/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64k (traefik/traefik)</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  There is a high severity vulnerability in Traefik's Kubernetes Gateway API provider. Router and service identities for `HTTPRoute`, `GRPCRoute`, `TCPRoute` and `TLSRoute` objects were built by hyphen-concatenating the route namespace, the route name, the Gateway identity, the entry point and the rule index, a construction that is not injective because Kubernetes names may themselves contain hyphens. Two distinct Routes attached to the same Gateway with equivalent match rules can ther</p>
+                <p><strong>影响产品：</strong>traefik/traefik ⭐64k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.0.0, < 3.6.25 → 修复: 3.6.25</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.7.0, < 3.7.10 → 修复: 3.7.10</li></ul>
+                <p><strong>攻击面：</strong>网络层</p>
+                <p><strong>触发条件：</strong>参见公告详情</p>
+                <p><strong>潜在危害：</strong>跨命名空间流量劫持，可能导致数据泄露或服务中断</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码（公告中包含代码示例和复现步骤）</p>
+                <p><strong>修复建议：</strong>升级到修复版本: github.com/traefik/traefik/v3 → <strong>3.6.25</strong>, github.com/traefik/traefik/v3 → <strong>3.7.10</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fgjj-px3w-67xx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Nx: Zip-Slip in the self-hosted remote cache</div>
+                    <div class="advisory-id">GHSA-vp3h-ghgh-jr7g | CVE: CVE-2026-71476</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 29k (nrwl/nx)</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  The Nx **self-hosted HTTP remote cache** extracts downloaded cache artifacts without constraining where files are written. A malicious — or on-path (MITM) — remote cache server can return a crafted tar archive whose entries escape the cache directory and write to arbitrary locations on the machine running Nx. This arbitrary file write can be escalated to remote code execution. The directly exploitable issue is the self-hosted HTTP remote cache.  ## Affected Packages  > [!IMPORTANT] ></p>
+                <p><strong>影响产品：</strong>nrwl/nx ⭐29k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>npm/nx</code> 范围: >= 20.8.0, < 22.7.7 → 修复: 22.7.7</li>
+<li><code>npm/@nx/s3-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/gcs-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/azure-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/shared-fs-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/powerpack-s3-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/powerpack-gcs-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/powerpack-azure-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/@nx/powerpack-shared-fs-cache</code> 范围: <= 5.0.7 → 修复: N/A</li>
+<li><code>npm/nx</code> 范围: >= 23.0.0, < 23.0.2 → 修复: 23.0.2</li></ul>
+                <p><strong>攻击面：</strong>供应链/缓存层 - 需要控制或中间人远程缓存服务器</p>
+                <p><strong>触发条件：</strong>参见公告详情</p>
+                <p><strong>潜在危害：</strong>远程代码执行，可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码（公告中包含代码示例和复现步骤）</p>
+                <p><strong>修复建议：</strong>升级到修复版本: nx → <strong>22.7.7</strong>, nx → <strong>23.0.2</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vp3h-ghgh-jr7g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Traefik: Cross-user response poisoning via proxied CONNECT on Traefik's shared backend keep-alive pool</div>
+                    <div class="advisory-id">GHSA-3ccp-42pg-hgv6 | CVE: CVE-2026-71324</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64k (traefik/traefik)</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  There is a critical vulnerability in Traefik's default HTTP reverse proxy that leads to unauthenticated cross-user response poisoning. When a client opens an HTTP/2 or HTTP/3 `CONNECT` request, Traefik forwards it — body included — to an HTTP/1.1 upstream over a shared `net/http.Transport`. If the upstream answers the CONNECT with a keep-alive non-2xx response without draining the body, the now-desynchronized backend socket is returned to Traefik's shared connection pool and reused f</p>
+                <p><strong>影响产品：</strong>traefik/traefik ⭐64k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/traefik/traefik/v2</code> 范围: <= 2.11.52 → 修复: 2.11.53</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: <= 3.6.23 → 修复: 3.6.24</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.7.0, <= 3.7.8 → 修复: 3.7.9</li>
+<li><code>go/github.com/traefik/traefik</code> 范围: <= 1.7.34 → 修复: N/A</li></ul>
+                <p><strong>攻击面：</strong>网络层</p>
+                <p><strong>触发条件：</strong>通过 Kubernetes Ingress rewrite-target 注解的路径遍历，发送精心构造的请求路径</p>
+                <p><strong>潜在危害：</strong>跨用户响应污染，可能导致敏感数据泄露给攻击者</p>
+                <p><strong>可利用性：</strong>有详细漏洞原理分析（包含攻击向量和 payload 描述）</p>
+                <p><strong>修复建议：</strong>升级到修复版本: github.com/traefik/traefik/v2 → <strong>2.11.53</strong>, github.com/traefik/traefik/v3 → <strong>3.6.24</strong>, github.com/traefik/traefik/v3 → <strong>3.7.9</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3ccp-42pg-hgv6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 PDF.js: Arbitrary JavaScript execution upon opening a malicious PDF </div>
+                    <div class="advisory-id">GHSA-hq66-cqwq-w95j | CVE: CVE-2026-16633</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 54k (mozilla/pdf.js)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>### Impact  If PDF.js is used to load a malicious PDF, and PDF.js is configured with `enableScripting` set to true (which is the default value) and no CSP for disallowing script-src, unrestricted attacker-controlled JavaScript will be executed in the context of the hosting domain.  ### Patches  ### Workarounds Set `enableScripting` to `false` or set a CSP.</p>
+                <p><strong>影响产品：</strong>mozilla/pdf.js ⭐54k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>npm/pdfjs-dist</code> 范围: >= 5.6.83, < 6.2.108 → 修复: 6.2.108</li></ul>
+                <p><strong>攻击面：</strong>客户端 - 需要诱使用户打开恶意 PDF 文件</p>
+                <p><strong>触发条件：</strong>使用 PDF.js 加载特制的恶意 PDF 文件，且 enableScripting 为默认开启状态</p>
+                <p><strong>潜在危害：</strong>在用户浏览器中执行任意 JavaScript，可能导致会话劫持、数据窃取</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: pdfjs-dist → <strong>6.2.108</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hq66-cqwq-w95j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported</div>
+                    <div class="advisory-id">GHSA-5p4m-2wfm-xmqj | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 7k (nodeca/js-yaml)</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong># Quadratic CPU consumption in `!!omap` resolution (js-yaml 3.x and 4.x)  ## Summary  `resolveYamlOmap()` enforces key uniqueness for `!!omap` sequences with a linear scan (`objectKeys.indexOf(...)`) inside the per-element loop, making resolution **O(n²)** in the number of entries. A modestly sized YAML document therefore consumes disproportionate CPU inside `yaml.load()`, giving a denial of service against any consumer that parses untrusted YAML.  `!!omap` is registered in the **default schema*</p>
+                <p><strong>影响产品：</strong>nodeca/js-yaml ⭐7k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>npm/js-yaml</code> 范围: >= 4.0.0, < 4.3.1 → 修复: 4.3.1</li>
+<li><code>npm/js-yaml</code> 范围: >= 3.0.0, < 3.15.1 → 修复: 3.15.1</li></ul>
+                <p><strong>攻击面：</strong>应用层 - 需要应用解析攻击者控制的 YAML 输入</p>
+                <p><strong>触发条件：</strong>向目标应用发送包含大量 !!omap 条目的 YAML 文档，触发 O(n²) 复杂度计算</p>
+                <p><strong>潜在危害：</strong>远程代码执行，可能导致服务器完全控制</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码（公告中包含代码示例和复现步骤）</p>
+                <p><strong>修复建议：</strong>升级到修复版本: js-yaml → <strong>4.3.1</strong>, js-yaml → <strong>3.15.1</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5p4m-2wfm-xmqj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Traefik: Incomplete fix for CVE-2026-33433 + CVE-2026-39858 cross-cohort: headerField underscore-variant identity spoofing in BasicAuth / DigestAuth / ForwardAuth</div>
+                    <div class="advisory-id">GHSA-x677-9fxg-v5c5 | CVE: CVE-2026-54763</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64k (traefik/traefik)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  There is a high severity vulnerability in Traefik's BasicAuth, DigestAuth, and ForwardAuth middlewares. The fix for CVE-2026-33433 stripped canonical-cased spoofed identity headers (e.g. `X-Auth-User`) before writing Traefik's own value, but did not account for underscore-variant header names (e.g. `X_Auth_User`), which many backends normalize identically to the dashed form. An attacker able to reach a protected route could inject an underscore-variant header that survives Traefik's</p>
+                <p><strong>影响产品：</strong>traefik/traefik ⭐64k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/traefik/traefik/v2</code> 范围: <= 2.11.50 → 修复: 2.11.51</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: <= 3.6.21 → 修复: 3.6.22</li>
+<li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.7.0, <= 3.7.5 → 修复: 3.7.6</li></ul>
+                <p><strong>攻击面：</strong>网络层</p>
+                <p><strong>触发条件：</strong>攻击者发送包含下划线变体 header 的请求（如 X_Auth_User），绕过 Traefik 的 header 清洗机制</p>
+                <p><strong>潜在危害：</strong>身份欺骗，可能绕过认证获取未授权访问</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: github.com/traefik/traefik/v2 → <strong>2.11.51</strong>, github.com/traefik/traefik/v3 → <strong>3.6.22</strong>, github.com/traefik/traefik/v3 → <strong>3.7.6</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-x677-9fxg-v5c5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Traefik: Kubernetes Ingress NGINX RewriteTarget Path Traversal Allows Route-Level Authentication Bypass</div>
+                    <div class="advisory-id">GHSA-8rxv-jg7p-wvg3 | CVE: CVE-2026-67309</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64k (traefik/traefik)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>## Summary  There is a high severity vulnerability in Traefik's Kubernetes Ingress NGINX provider. When an Ingress uses the `nginx.ingress.kubernetes.io/rewrite-target` annotation with a regular expression that captures attacker-controlled text without requiring a path separator (for example path `/api(.*)` with rewrite target `/$1`), the generated `RewriteTarget` middleware can turn an initially safe request path into a dot-segment traversal path after the router has already been selected.  ##</p>
+                <p><strong>影响产品：</strong>traefik/traefik ⭐64k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/traefik/traefik/v3</code> 范围: >= 3.7.0, <= 3.7.7 → 修复: 3.7.8</li></ul>
+                <p><strong>攻击面：</strong>网络层</p>
+                <p><strong>触发条件：</strong>发送包含路径遍历的 HTTP 请求（如 /api../admin），利用 ReplacePathRegex 正则替换后产生未规范化的路径</p>
+                <p><strong>潜在危害：</strong>认证绕过，未授权访问受保护的后端路由</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: github.com/traefik/traefik/v3 → <strong>3.7.8</strong></p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8rxv-jg7p-wvg3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Gophish contains a denial of service vulnerability</div>
+                    <div class="advisory-id">GHSA-42jc-v69j-g38f | CVE: CVE-2026-39904</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (中危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 14k (gophish/gophish)</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Gophish through 0.12.1 contains a denial of service vulnerability that allows authenticated users with the User role to exhaust server memory by uploading a crafted Office document as an email template attachment. The ApplyTemplate() function in models/attachment.go processes Office documents as ZIP archives and calls ioutil.ReadAll() on each contained file entry without enforcing size restrictions on uncompressed content, allowing a zip bomb payload to expand to several gigabytes in memory and</p>
+                <p><strong>影响产品：</strong>gophish/gophish ⭐14k</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>go/github.com/gophish/gophish</code> 范围: <= 0.12.1 → 修复: N/A</li></ul>
+                <p><strong>攻击面：</strong>应用层 - 需要 Gophish 认证用户权限</p>
+                <p><strong>触发条件：</strong>上传精心构造的 Office 文档（zip bomb）作为邮件模板附件</p>
+                <p><strong>潜在危害：</strong>服务拒绝，导致应用不可用</p>
+                <p><strong>可利用性：</strong>仅有漏洞描述，无公开 PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本: 暂无补丁</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-42jc-v69j-g38f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;" target="_blank">查看完整公告 →</a>
+        </div>
+
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-cxjq-mrr5-89rv</code></td>
+                    <td>traefik/traefik</td>
+                    <td>64k</td>
+                    <td>Critical</td>
+                    <td>极高</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cxjq-mrr5-89rv" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-fgjj-px3w-67xx</code></td>
+                    <td>traefik/traefik</td>
+                    <td>64k</td>
+                    <td>High</td>
+                    <td>极高</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fgjj-px3w-67xx" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>3</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-vp3h-ghgh-jr7g</code></td>
+                    <td>nrwl/nx</td>
+                    <td>29k</td>
+                    <td>High</td>
+                    <td>极高</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vp3h-ghgh-jr7g" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-3ccp-42pg-hgv6</code></td>
+                    <td>traefik/traefik</td>
+                    <td>64k</td>
+                    <td>High</td>
+                    <td>高</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-3ccp-42pg-hgv6" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-hq66-cqwq-w95j</code></td>
+                    <td>mozilla/pdf.js</td>
+                    <td>54k</td>
+                    <td>High</td>
+                    <td>中</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hq66-cqwq-w95j" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-5p4m-2wfm-xmqj</code></td>
+                    <td>nodeca/js-yaml</td>
+                    <td>7k</td>
+                    <td>High</td>
+                    <td>极高</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-5p4m-2wfm-xmqj" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-x677-9fxg-v5c5</code></td>
+                    <td>traefik/traefik</td>
+                    <td>64k</td>
+                    <td>High</td>
+                    <td>中</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-x677-9fxg-v5c5" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-8rxv-jg7p-wvg3</code></td>
+                    <td>traefik/traefik</td>
+                    <td>64k</td>
+                    <td>High</td>
+                    <td>中</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-8rxv-jg7p-wvg3" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+<tr>
+                    <td>9</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-42jc-v69j-g38f</code></td>
+                    <td>gophish/gophish</td>
+                    <td>14k</td>
+                    <td>High</td>
+                    <td>中</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-42jc-v69j-g38f" style="color:#58a6ff;" target="_blank">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC 的高价值漏洞 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div style="overflow-x:auto;">
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code><a href="https://github.com/advisories/GHSA-86vw-x4ww-x467" style="color:#58a6ff;">GHSA-86vw-x4ww-x467</a></code></td>
+                    <td>craftcms/cms<br><small style="color:#8b949e">Craft CMS: RCE via missing cleanseConfig in Fields</small></td>
+                    <td>4k</td>
+                    <td>High</td>
+                    <td>有 PoC 代码</td>
+                </tr>
+<tr>
+                    <td><code><a href="https://github.com/advisories/GHSA-7m8f-hgjq-8gc9" style="color:#58a6ff;">GHSA-7m8f-hgjq-8gc9</a></code></td>
+                    <td>vovchic17/aiosend<br><small style="color:#8b949e">aiosend: Deserialization of request body before si</small></td>
+                    <td>57</td>
+                    <td>High</td>
+                    <td>有 PoC 代码</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Traefik: Authentication Bypass via Path Traversal in ReplacePathRegex Middleware</strong> (traefik/traefik) - 立即升级至修复版本</li>
+<li><strong>Traefik: Gateway API route identity collision allows cross-namespace backend hijacking</strong> (traefik/traefik) - 立即升级至修复版本</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Nx: Zip-Slip in the self-hosted remote cache</strong> (nrwl/nx) - 尽快安排升级</li>
+<li><strong>Traefik: Cross-user response poisoning via proxied CONNECT on Traefik's shared backend keep-alive pool</strong> (traefik/traefik) - 尽快安排升级</li>
+<li><strong>PDF.js: Arbitrary JavaScript execution upon opening a malicious PDF </strong> (mozilla/pdf.js) - 尽快安排升级</li>
+<li><strong>JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported</strong> (nodeca/js-yaml) - 尽快安排升级</li>
+<li><strong>Traefik: Incomplete fix for CVE-2026-33433 + CVE-2026-39858 cross-cohort: headerField underscore-variant identity spoofing in BasicAuth / DigestAuth / ForwardAuth</strong> (traefik/traefik) - 尽快安排升级</li>
+<li><strong>Traefik: Kubernetes Ingress NGINX RewriteTarget Path Traversal Allows Route-Level Authentication Bypass</strong> (traefik/traefik) - 尽快安排升级</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>Gophish contains a denial of service vulnerability</strong> (gophish/gophish) - 关注并计划升级</li>
+                </ul>
+                <p style="margin-top:16px;"><strong>⚠️ 注意事项：</strong></p>
+                <ul>
+                    <li>今日 Traefik 项目集中披露了 <strong>7个</strong> 安全公告（含2个重复），涉及认证绕过、路径遍历、身份欺骗、响应污染等多种漏洞类型，使用 Traefik 作为反向代理的用户应<strong>立即升级</strong>至修复版本</li>
+                    <li>PDF.js 存在任意 JavaScript 执行漏洞（CVE-2026-16633），影响所有默认配置（enableScripting=true）的部署</li>
+                    <li>Nx 构建工具的自托管远程缓存存在 Zip-Slip 漏洞，可导致远程代码执行</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories" target="_blank">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily" target="_blank">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
