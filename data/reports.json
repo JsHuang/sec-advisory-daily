@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-07",
+      "title": "GitHub安全公告日报 - 2026-08-07",
+      "url": "reports/report-2026-08-07.html",
+      "stats": {
+        "total": 27,
+        "critical": 2,
+        "high": 25,
+        "star5k": 9,
+        "with_poc": 7
+      },
+      "summary": "今日发现27个高危/严重公告（去重后），Traefik集中披露7个漏洞含认证绕过和响应污染，PDF.js存在任意JS执行，Nx远程缓存Zip-Slip可RCE"
+    },
+    {
       "date": "2026-08-06",
       "title": "GitHub安全公告日报 - 2026-08-06",
       "url": "reports/report-2026-08-06.html",
@@ -376,19 +389,6 @@
         "with_poc": 8
       },
       "summary": "发现16个高危/严重漏洞，其中9个影响Star≥5k项目。Fission存在4个Critical级Kubernetes特权逃逸漏洞（CVSS 9.9），需立即升级到v1.24.0。Open Babel堆溢出、AdonisJS原型污染修复不完整可远程利用。"
-    },
-    {
-      "date": "2026-06-30",
-      "title": "GitHub安全公告日报 - 2026-06-30",
-      "url": "reports/report-2026-06-30.html",
-      "stats": {
-        "total": 15,
-        "critical": 2,
-        "high": 13,
-        "star5k": 4,
-        "with_poc": 6
-      },
-      "summary": "发现2个Critical和13个High级别漏洞。Dgraph DQL注入（⭐21k，未认证，完整PoC）和Kanidm SCIM Filter栈溢出DoS（⭐5k，未认证进程abort，完整PoC）为紧急级别；Mattermost双漏洞（⭐38k）、Scriban模板DoS（完整PoC）、Netty HTTP走私为高危。"
     }
   ]
 }
