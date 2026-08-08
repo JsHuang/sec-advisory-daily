@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-08</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-08 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. crypto-js -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 crypto-js: Insufficient Entropy in Cryptographic Secret Generation</div>
+                    <div class="advisory-id">GHSA-rg76-677x-56q9 | CVE: CVE-2026-71851</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 16,399</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>crypto-js 3.x 版本中 <code>CryptoJS.lib.WordArray.random()</code> 使用基于 <code>Math.random()</code> 的自定义 MWC PRNG，而非密码学安全随机数生成器。名义上请求128或256位熵，实际搜索空间仅约 2^39 和 2^47，可在普通硬件上枚举。</p>
+                <p><strong>影响产品：</strong>crypto-js ⭐16,399</p>
+                <p><strong>影响版本：</strong>&lt; 4.0.0</p>
+                <p><strong>攻击面：</strong>任何使用该函数生成安全敏感值（如 BIP39 助记词、密钥、Token）的应用</p>
+                <p><strong>触发条件：</strong>应用调用 <code>CryptoJS.lib.WordArray.random()</code> 生成钱包助记词等长期密钥</p>
+                <p><strong>潜在危害：</strong>攻击者可枚举缩减后的输出空间恢复私钥。Coinspect 记录到协调的资金抽取事件，截至2026年7月13日被盗资产下限约 <strong>$5M</strong>。更新库不会修复已生成的密钥，已生成密钥可能无限期可利用。</p>
+                <p><strong>可利用性：</strong>有详细原理 — Coinspect 完整复现了端到端攻击链（PRNG重实现→枚举输出→生成BIP39助记词→派生私钥→匹配链上地址→恢复资金控制权）</p>
+                <p><strong>修复建议：</strong>升级至 crypto-js ≥ 4.0.0；审计所有依赖链中使用 WordArray.random() 的位置；将所有已生成的长期密钥视为已泄露并轮换；钱包用户应创建全新钱包并迁移资产</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rg76-677x-56q9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 2. fastjson RCE -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 fastjson Remote Code Execution (RCE)</div>
+                    <div class="advisory-id">GHSA-crf3-v9rr-v7hj | CVE: CVE-2026-16723</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.0)</span>
+                <span class="badge badge-stars">⭐ 25,606</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fastjson 1.2.68 至 1.2.83 存在远程代码执行漏洞。该漏洞在 <strong>默认配置</strong> 下即可利用 — 无需启用 AutoType，无需 classpath gadget。</p>
+                <p><strong>影响产品：</strong>com.alibaba:fastjson ⭐25,606</p>
+                <p><strong>影响版本：</strong>≥ 1.2.68, ≤ 1.2.83</p>
+                <p><strong>攻击面：</strong>任何接受不可信 JSON 输入的 Java 应用，使用 fastjson 进行反序列化</p>
+                <p><strong>触发条件：</strong>向使用 fastjson 的服务发送恶意构造的 JSON 数据</p>
+                <p><strong>潜在危害：</strong>远程代码执行，攻击者可在目标服务器上执行任意命令，完全控制系统</p>
+                <p><strong>可利用性：</strong>仅描述 — 公告未包含 PoC，但明确说明默认配置下可利用，无需特殊前提条件</p>
+                <p><strong>修复建议：</strong>升级至 fastjson2（2.0.x），官方已不再维护 fastjson 1.x；若无法升级，开启 safeMode 并配置 AutoType 白名单</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-crf3-v9rr-v7hj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 3. Keras Lambda deserialization -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Keras: Lambda Deserialization Bypasses Safe Mode → RCE</div>
+                    <div class="advisory-id">GHSA-5gwj-m78q-7pq3 | CVE: CVE-2026-12481</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.8)</span>
+                <span class="badge badge-stars">⭐ 64,221</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras 3.14.0 的 <code>Lambda</code> 层反序列化存在逻辑缺陷。<code>_raise_for_lambda_deserialization()</code> 在 <code>safe_mode=None</code>（默认值）时未强制安全检查，将 None（未设置/默认拒绝）与 False（显式禁用）混为一谈，允许攻击者控制的 <code>marshal</code> 字节码被反序列化执行。</p>
+                <p><strong>影响产品：</strong>keras ⭐64,221</p>
+                <p><strong>影响版本：</strong>&lt; 3.12.3 及 ≥ 3.13.0, &lt; 3.15.0</p>
+                <p><strong>攻击面：</strong>加载不可信 Keras 模型配置（<code>from_config()</code>、<code>deserialize()</code>、<code>clone_model()</code>）</p>
+                <p><strong>触发条件：</strong>调用 <code>keras.layers.deserialize(config)</code> 或 <code>Lambda.from_config(config)</code> 处理攻击者构造的配置</p>
+                <p><strong>潜在危害：</strong>任意 OS 级代码执行，可完全控制服务器或用户进程</p>
+                <p><strong>可利用性：</strong>有详细原理 — 明确描述了 safe_mode 逻辑绕过路径和 marshal 字节码注入方法</p>
+                <p><strong>修复建议：</strong>升级至 Keras ≥ 3.15.0；确保所有 Lambda 层反序列化都在 <code>SafeModeScope(True)</code> 上下文中执行；拒绝加载来源不明的模型配置</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5gwj-m78q-7pq3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 4. Keras TorchModuleWrapper -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Keras: TorchModuleWrapper Unsafe PyTorch Pickle Deserialization</div>
+                    <div class="advisory-id">GHSA-v2w2-w228-c444 | CVE: CVE-2026-12484</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.8)</span>
+                <span class="badge badge-stars">⭐ 64,221</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras 的 <code>TorchModuleWrapper.from_config</code> 方法调用 <code>torch.load(..., weights_only=False)</code> 进行 PyTorch pickle 反序列化，无需显式启用 unsafe 模式。在非 <code>SafeModeScope(True)</code> 上下文中，允许反序列化攻击者控制的 pickle 数据。</p>
+                <p><strong>影响产品：</strong>keras ⭐64,221</p>
+                <p><strong>影响版本：</strong>&lt; 3.12.3 及 ≥ 3.13.0, &lt; 3.15.0</p>
+                <p><strong>攻击面：</strong>加载包含 TorchModuleWrapper 配置的不可信 Keras 模型</p>
+                <p><strong>触发条件：</strong>调用 <code>TorchModuleWrapper.from_config(config)</code> 处理恶意配置</p>
+                <p><strong>潜在危害：</strong>通过 pickle 反序列化实现任意代码执行</p>
+                <p><strong>可利用性：</strong>仅描述 — 漏洞路径明确但需构造特定 PyTorch pickle payload</p>
+                <p><strong>修复建议：</strong>升级至 Keras ≥ 3.15.0；不加载来源不明的模型文件；在 SafeModeScope 中操作</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v2w2-w228-c444" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 5. CodeIgniter4 File Upload Bypass -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 CodeIgniter4: Uploaded File Extension Validation Bypass → RCE</div>
+                    <div class="advisory-id">GHSA-mmj4-63m4-r6h5 | CVE: CVE-2026-63223</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 5,958</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CodeIgniter4 的文件上传验证中 <code>is_image</code> 和 <code>mime_in</code> 规则存在绕过漏洞。攻击者可绕过 MIME 类型检查上传恶意文件，在特定配置下实现远程代码执行。</p>
+                <p><strong>影响产品：</strong>codeigniter4/framework ⭐5,958</p>
+                <p><strong>影响版本：</strong>&lt; 4.7.4</p>
+                <p><strong>攻击面：</strong>使用 <code>is_image</code> 或 <code>mime_in</code> 验证上传文件，且使用客户端文件名保存到 Web 可访问目录的应用</p>
+                <p><strong>触发条件：</strong>应用未使用 <code>ext_in</code> 做独立扩展名检查，使用客户端提供的文件名保存，且上传目录允许 PHP 执行</p>
+                <p><strong>潜在危害：</strong>远程代码执行，攻击者可上传 WebShell 控制服务器</p>
+                <p><strong>可利用性：</strong>有详细原理 — 明确了三个前提条件（验证方式+文件名+目录权限）和绕过路径</p>
+                <p><strong>修复建议：</strong>升级至 v4.7.4+；使用 <code>$file->store()</code> 或随机文件名；将上传目录移到 Web 根目录外；禁用上传目录脚本执行</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mmj4-63m4-r6h5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 6. CodeIgniter4 SQL Injection -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 CodeIgniter4: SQL Injection in Query Builder deleteBatch()</div>
+                    <div class="advisory-id">GHSA-c9w5-rwh3-7pm9 | CVE: CVE-2026-63221</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.4)</span>
+                <span class="badge badge-stars">⭐ 5,958</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CodeIgniter4 Query Builder 的 <code>deleteBatch()</code> 方法在与 <code>where()</code> 条件一起使用时，WHERE 子句的绑定值被直接代入生成的 SQL，转义标志被忽略。如果将用户输入传给 <code>where()</code>，即可实现 SQL 注入。</p>
+                <p><strong>影响产品：</strong>codeigniter4/framework ⭐5,958</p>
+                <p><strong>影响版本：</strong>≥ 4.3.0, &lt; 4.7.4</p>
+                <p><strong>攻击面：</strong>使用 <code>deleteBatch()</code> + <code>where()</code> 且接受用户输入的删除操作</p>
+                <p><strong>触发条件：</strong>用户可控输入传入 <code>where()</code> 后调用 <code>deleteBatch()</code></p>
+                <p><strong>潜在危害：</strong>SQL 注入可导致数据泄露、数据篡改、权限提升</p>
+                <p><strong>可利用性：</strong>有详细原理 — 明确指出了受影响代码路径和绕过转义的机制</p>
+                <p><strong>修复建议：</strong>升级至 v4.7.4+；避免将用户输入传给 <code>where()</code> 后调用 <code>deleteBatch()</code>；使用常规 <code>delete()</code> 配合 Query Builder binds</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c9w5-rwh3-7pm9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 7. Keras Path Traversal -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Keras: Archive Extraction Path Traversal → Arbitrary File Write</div>
+                    <div class="advisory-id">GHSA-hqp4-2352-xf5r | CVE: CVE-2026-11816</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.1)</span>
+                <span class="badge badge-stars">⭐ 64,221</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras 的归档解压工具函数 <code>filter_safe_tarinfos()</code> 和 <code>filter_safe_zipinfos()</code> 以进程当前工作目录（CWD）而非实际解压目标目录验证路径。当 CWD 为 <code>/</code>（Docker/CI/CD/Jupyter 环境常见），路径遍历检查失效，允许写入文件系统任意位置。</p>
+                <p><strong>影响产品：</strong>keras ⭐64,221</p>
+                <p><strong>影响版本：</strong>&lt; 3.14.0</p>
+                <p><strong>攻击面：</strong>在 Docker/CI 环境中解压不可信的 Keras 模型归档文件</p>
+                <p><strong>触发条件：</strong>CWD 为 <code>/</code> 时解压包含路径遍历的恶意归档</p>
+                <p><strong>潜在危害：</strong>任意文件写入 — 覆盖配置文件、注入恶意代码、破坏 ML 数据集和训练管道</p>
+                <p><strong>可利用性：</strong>仅描述 — 需构造特定路径遍历归档文件</p>
+                <p><strong>修复建议：</strong>升级至 Keras ≥ 3.14.0；确保解压时 CWD 不是根目录；对模型文件来源进行严格验证</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hqp4-2352-xf5r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 8. nanoid infinite loop -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 nanoid: Infinite Loop in Non-Secure Module (Negative Size)</div>
+                    <div class="advisory-id">GHSA-28wg-ghj8-5hjv | CVE: CVE-2026-67214</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 5.9)</span>
+                <span class="badge badge-stars">⭐ 26,917</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>nanoid 的 non-secure 模块中 <code>customAlphabet</code> 和 <code>nanoid</code> 函数在接收负数 size 时进入无限循环，导致调用线程永久挂起。</p>
+                <p><strong>影响产品：</strong>nanoid ⭐26,917</p>
+                <p><strong>影响版本：</strong>&lt; 3.3.16 及 ≥ 4.0.0, &lt; 5.1.16</p>
+                <p><strong>攻击面：</strong>应用将未验证的用户输入作为 size 参数传入 nanoid/non-secure</p>
+                <p><strong>触发条件：</strong>传入负数 size 值</p>
+                <p><strong>潜在危害：</strong>拒绝服务 — 线程/进程挂起</p>
+                <p><strong>可利用性：</strong>仅描述 — 触发条件简单（负数输入），但仅影响 non-secure 模块</p>
+                <p><strong>修复建议：</strong>升级至 nanoid ≥ 3.3.16 或 ≥ 5.1.16；对用户输入进行校验</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-28wg-ghj8-5hjv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 9. nanoid zero size -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 nanoid: Infinite Loop with Zero Size in Custom Generators</div>
+                    <div class="advisory-id">GHSA-2v37-7h3g-55p8 | CVE: CVE-2026-67213</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 5.9)</span>
+                <span class="badge badge-stars">⭐ 26,917</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>nanoid 的 <code>customAlphabet</code> 和 <code>customRandom</code> 函数在 size=0 时进入无限循环。循环退出条件永远无法满足，导致线程挂起。</p>
+                <p><strong>影响产品：</strong>nanoid ⭐26,917</p>
+                <p><strong>影响版本：</strong>&lt; 3.3.17 及 ≥ 4.0.0, &lt; 5.1.6</p>
+                <p><strong>攻击面：</strong>自定义生成器接受用户可控的 size 参数</p>
+                <p><strong>触发条件：</strong>传入 size=0</p>
+                <p><strong>潜在危害：</strong>拒绝服务</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 ≥ 3.3.17 或 ≥ 5.1.6；校验 size 参数为正整数</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2v37-7h3g-5hjv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 10. Apache Doris -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Doris: Authorization Bypass via Information Schema</div>
+                    <div class="advisory-id">GHSA-jw8v-fr96-q53q | CVE: CVE-2025-65144</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.3)</span>
+                <span class="badge badge-stars">⭐ 15,742</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Doris 2.1.0 至 3.1.1 的 Information Schema 未正确执行基于角色的访问控制，用户无需特定权限即可访问元数据表，泄露内部数据库结构信息。</p>
+                <p><strong>影响产品：</strong>Apache Doris ⭐15,742</p>
+                <p><strong>影响版本：</strong>≥ 2.1.0, ≤ 3.1.1</p>
+                <p><strong>攻击面：</strong>任何有 Doris 连接权限的用户</p>
+                <p><strong>触发条件：</strong>查询 information_schema 表</p>
+                <p><strong>潜在危害：</strong>信息泄露 — 暴露表结构、存储引擎、分区策略等内部信息，为进一步攻击提供情报</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Apache Doris ≥ 3.1.2</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jw8v-fr96-q53q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 11. DolphinScheduler -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache DolphinScheduler: Stored XSS in Tenant Description</div>
+                    <div class="advisory-id">GHSA-rhwp-r959-34q7 | CVE: CVE-2026-62610</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.0)</span>
+                <span class="badge badge-stars">⭐ 14,412</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache DolphinScheduler 3.2.2 和 3.2.3 的租户创建功能存在存储型 XSS 漏洞。租户描述字段未做输出编码，恶意用户创建含恶意脚本的租户后，任何有权访问租户列表的用户将触发脚本执行。</p>
+                <p><strong>影响产品：</strong>Apache DolphinScheduler ⭐14,412</p>
+                <p><strong>影响版本：</strong>3.2.2, 3.2.3</p>
+                <p><strong>攻击面：</strong>租户管理界面</p>
+                <p><strong>触发条件：</strong>创建包含恶意脚本的租户描述 → 其他用户查看租户列表</p>
+                <p><strong>潜在危害：</strong>会话劫持、凭证窃取、界面篡改、钓鱼攻击</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Apache DolphinScheduler ≥ 3.3.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rhwp-r959-34q7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 12. Apache Iceberg DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Iceberg: Parquet DoS via Large Nested Groups</div>
+                    <div class="advisory-id">GHSA-rvjw-q9wx-4m4g | CVE: CVE-2026-33865</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.5)</span>
+                <span class="badge badge-stars">⭐ 9,119</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Iceberg 通过 <code>ParquetSchemaUtil.NameBasedSchemaConverter</code> 处理包含大嵌套组的 Parquet 文件时存在拒绝服务漏洞。攻击者构造的 Parquet 文件可通过嵌套类型转换消耗大量 JVM 堆内存。</p>
+                <p><strong>影响产品：</strong>Apache Iceberg ⭐9,119</p>
+                <p><strong>影响版本：</strong>&lt; 1.10.1</p>
+                <p><strong>攻击面：</strong>处理来自不可信来源的 Parquet 文件</p>
+                <p><strong>触发条件：</strong>读取包含大嵌套组的恶意 Parquet 文件</p>
+                <p><strong>潜在危害：</strong>拒绝服务 — 读取器挂起或 OOM，影响数据管道可用性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Apache Iceberg ≥ 1.10.1；避免处理不可信来源的 Parquet 文件</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rvjw-q9wx-4m4g" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 13. PraisonAI IDOR -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 PraisonAI: Cross-Workspace IDOR and Privilege Escalation</div>
+                    <div class="advisory-id">GHSA-gv23-xrm3-8c62 | CVE: CVE-2026-48169</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.8)</span>
+                <span class="badge badge-stars">⭐ 8,644</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PraisonAI Platform API 存在两个授权缺陷：(1) Service 层的 get/update/delete 方法使用全局主键查询忽略 workspace_id，导致跨工作区 IDOR；(2) 成员管理端点仅要求 min_role="member"，任何成员可自行提升为 owner 并移除原 owner。</p>
+                <p><strong>影响产品：</strong>praisonai-platform ⭐8,644</p>
+                <p><strong>影响版本：</strong>≤ 0.1.2</p>
+                <p><strong>攻击面：</strong>多租户 Platform API</p>
+                <p><strong>触发条件：</strong>任何认证用户替换 API 请求中的 UUID 即可访问其他工作区数据；member 角色用户调用角色更新 API</p>
+                <p><strong>潜在危害：</strong>完全多租户数据泄露、跨工作区数据篡改/删除、工作区接管（自我提升为 owner 后移除原 owner）</p>
+                <p><strong>可利用性：</strong>有完整 PoC — 包含端到端 8 步攻击链（注册→创建 workspace→IDOR 读取/修改→提权为 owner→移除原 owner→验证接管）</p>
+                <p><strong>修复建议：</strong>升级至 praisonai-platform ≥ 0.1.4；Service 层所有操作增加 workspace_id 过滤；成员管理要求 owner 角色</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gv23-xrm3-8c62" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 14. docker-py -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Docker SDK for Python: TAR Filtering Bypass → Arbitrary File Write</div>
+                    <div class="advisory-id">GHSA-m7xq-987c-92mm | CVE: CVE-2026-58558</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.6)</span>
+                <span class="badge badge-stars">⭐ 7,206</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Docker SDK for Python 的 <code>APIClient.put_archive</code> 方法对 TAR 归档过滤不完整，攻击者可通过恶意构造的归档实现任意文件写入。</p>
+                <p><strong>影响产品：</strong>docker-py ⭐7,206</p>
+                <p><strong>影响版本：</strong>&lt; 7.1.0</p>
+                <p><strong>攻击面：</strong>应用接受用户提供的归档并通过 SDK 上传到容器</p>
+                <p><strong>触发条件：</strong>使用 <code>put_archive</code> 处理不可信归档</p>
+                <p><strong>潜在危害：</strong>容器内任意文件写入，可能导致容器逃逸或应用逻辑篡改</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 docker-py ≥ 7.1.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m7xq-987c-92mm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 15. Apache OpenDAL -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache OpenDAL: Unsafe Deserialization in Java Binding</div>
+                    <div class="advisory-id">GHSA-859w-g379-q3f3 | CVE: CVE-2026-33866</div>
+                </div>
+                <span class="priority-score">优先级: 🟡 中危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.1)</span>
+                <span class="badge badge-stars">⭐ 5,300</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache OpenDAL Java 绑定中 <code>JavaValue.deserialize</code> 使用 <code>ObjectInputStream.readObject()</code> 进行不安全的反序列化，可被利用执行远程代码。</p>
+                <p><strong>影响产品：</strong>Apache OpenDAL Java Binding ⭐5,300</p>
+                <p><strong>影响版本：</strong>&lt; 0.49.0（Java 绑定）</p>
+                <p><strong>攻击面：</strong>使用 Java 绑定处理不可信序列化数据的应用</p>
+                <p><strong>触发条件：</strong>反序列化攻击者控制的字节流</p>
+                <p><strong>潜在危害：</strong>远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 Apache OpenDAL Java 绑定 ≥ 0.49.0；使用白名单限制可反序列化的类</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-859w-g379-q3f3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-rg76-677x-56q9</code></td>
+                    <td>crypto-js</td>
+                    <td>16.4k</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rg76-677x-56q9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-crf3-v9rr-v7hj</code></td>
+                    <td>fastjson</td>
+                    <td>25.6k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-crf3-v9rr-v7hj" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴紧急</td>
+                    <td><code>GHSA-5gwj-m78q-7pq3</code></td>
+                    <td>keras (Lambda)</td>
+                    <td>64.2k</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5gwj-m78q-7pq3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-v2w2-w228-c444</code></td>
+                    <td>keras (TorchModule)</td>
+                    <td>64.2k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v2w2-w228-c444" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-mmj4-63m4-r6h5</code></td>
+                    <td>CodeIgniter4 (上传)</td>
+                    <td>6.0k</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mmj4-63m4-r6h5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-c9w5-rwh3-7pm9</code></td>
+                    <td>CodeIgniter4 (SQLi)</td>
+                    <td>6.0k</td>
+                    <td>Critical</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-c9w5-rwh3-7pm9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-gv23-xrm3-8c62</code></td>
+                    <td>PraisonAI</td>
+                    <td>8.6k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv23-xrm3-8c62" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠高危</td>
+                    <td><code>GHSA-hqp4-2352-xf5r</code></td>
+                    <td>keras (路径遍历)</td>
+                    <td>64.2k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hqp4-2352-xf5r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-28wg-ghj8-5hjv</code></td>
+                    <td>nanoid (负数)</td>
+                    <td>26.9k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-28wg-ghj8-5hjv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-2v37-7h3g-55p8</code></td>
+                    <td>nanoid (零)</td>
+                    <td>26.9k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2v37-7h3g-55p8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-jw8v-fr96-q53q</code></td>
+                    <td>Apache Doris</td>
+                    <td>15.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jw8v-fr96-q53q" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-rhwp-r959-34q7</code></td>
+                    <td>DolphinScheduler</td>
+                    <td>14.4k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rhwp-r959-34q7" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-rvjw-q9wx-4m4g</code></td>
+                    <td>Apache Iceberg</td>
+                    <td>9.1k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rvjw-q9wx-4m4g" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-m7xq-987c-92mm</code></td>
+                    <td>docker-py</td>
+                    <td>7.2k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m7xq-987c-92mm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡中危</td>
+                    <td><code>GHSA-859w-g379-q3f3</code></td>
+                    <td>Apache OpenDAL</td>
+                    <td>5.3k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-859w-g379-q3f3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-9gw6-46qc-99vr</code></td>
+                    <td>meta-ads-mcp</td>
+                    <td>1,151</td>
+                    <td>Critical</td>
+                    <td>完整PoC + 源码触发点分析，未认证HTTP MCP工具执行泄露操作员Meta Access Token</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-wg23-69c2-gjc8</code></td>
+                    <td>Craft CMS</td>
+                    <td>3,600</td>
+                    <td>Critical</td>
+                    <td>详细攻击场景：WebAuthn Passkey 重放攻击，可绕过一次性挑战保护</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-mcm9-3c55-495c</code></td>
+                    <td>pymdown-extensions</td>
+                    <td>1,127</td>
+                    <td>High</td>
+                    <td>完整PoC：caret/tilde/magiclink ReDoS正则拒绝服务</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-8w55-9426-7jgc</code></td>
+                    <td>docker-py (pull)</td>
+                    <td>7,206</td>
+                    <td>High</td>
+                    <td>完整PoC：Docker SDK pull_image TAR过滤绕过→任意文件写入</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-4334-h6rq-7jwp</code></td>
+                    <td>docker-py (build)</td>
+                    <td>7,206</td>
+                    <td>High</td>
+                    <td>完整PoC：build() Dockerfile注入→容器内任意命令执行</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-r388-6qx3-jw4v</code></td>
+                    <td>Apache Gravitino</td>
+                    <td>3,155</td>
+                    <td>High</td>
+                    <td>完整PoC脚本 + 详细攻击链：Spark SQL通过外部表执行任意文件读写</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>crypto-js 熵不足</strong> — 影响所有使用 crypto-js 3.x 生成密钥/助记词的区块链应用。已确认 $5M+ 资产被盗。立即排查依赖链，所有已生成密钥视为泄露。</li>
+                    <li><strong>fastjson RCE</strong> — 默认配置即可利用，无需 AutoType 启用。影响 fastjson 1.2.68-1.2.83。强烈建议迁移至 fastjson2。</li>
+                    <li><strong>Keras Lambda 反序列化</strong> — safe_mode 逻辑绕过导致任意代码执行。影响 Keras &lt; 3.15.0，使用 Lambda 层的应用需立即升级。</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>CodeIgniter4</strong> — 两个 Critical 漏洞（上传绕过 RCE + SQL 注入），影响 4.7.4 之前版本，升级到 v4.7.4+。</li>
+                    <li><strong>PraisonAI</strong> — 多租户 IDOR + 权限提升，有完整 PoC。影响 ≤ 0.1.2，升级到 ≥ 0.1.4。</li>
+                    <li><strong>Keras TorchModuleWrapper</strong> — 不安全的 pickle 反序列化，升级至 ≥ 3.15.0。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>nanoid</strong> — non-secure 模块无限循环 DoS，影响面较窄但 star 极高（26.9k），建议升级。</li>
+                    <li><strong>Apache 系列</strong> — Doris/Iceberg/DolphinScheduler/OpenDAL 多个高危漏洞，按各自版本建议升级。</li>
+                    <li><strong>docker-py</strong> — 多个 TAR 处理漏洞，升级到 ≥ 7.1.0。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
