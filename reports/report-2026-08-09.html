@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-09</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-09 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">28</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Keras: Lambda deserialization can bypass safe mode and execute code</div>
+                    <div class="advisory-id">GHSA-5gwj-m78q-7pq3 | CVE: CVE-2026-12481</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64.2k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras: Lambda deserialization can bypass safe mode and execute code</p>
+                <p><strong>影响产品：</strong>keras-team/keras ⭐64.2k</p>
+                <p><strong>影响包：</strong>pip/keras; pip/keras</p>
+                <p><strong>影响版本：</strong>&lt; 3.12.3 → patched: 3.12.3; &gt;= 3.13.0, &lt; 3.15.0 → patched: 3.15.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-502</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5gwj-m78q-7pq3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Keras archive extraction utilities allow path traversal and arbitrary file writes</div>
+                    <div class="advisory-id">GHSA-hqp4-2352-xf5r | CVE: CVE-2026-11816</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64.2k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras archive extraction utilities allow path traversal and arbitrary file writes</p>
+                <p><strong>影响产品：</strong>keras-team/keras ⭐64.2k</p>
+                <p><strong>影响包：</strong>pip/keras</p>
+                <p><strong>影响版本：</strong>&lt; 3.14.0 → patched: 3.14.0</p>
+                <p><strong>攻击面：</strong>路径穿越</p>
+                <p><strong>触发条件：</strong>恶意构造的请求/文件</p>
+                <p><strong>潜在危害：</strong>攻击者可访问或写入文件系统任意位置</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-22</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hqp4-2352-xf5r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 crypto-js: Insufficient Entropy in Cryptographic Secret Generation via Vulnerable CryptoJS Dependency Chain</div>
+                    <div class="advisory-id">GHSA-rg76-677x-56q9 | CVE: CVE-2026-71851</div>
+                </div>
+                <span class="priority-score">优先级: 8/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 16.4k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>`CryptoJS.lib.WordArray.random()` in affected versions is not a cryptographically secure random number generator. Nominal requests for 128 or 256 bits of entropy produce effective search spaces of approximately 2^39 and 2^47 possibilities — small enough to enumerate on commodity hardware. Coinspect's [Ill Bloom](https://www.coinspect.com/blog/ill-bloom-investigation/) investigation confirmed that </p>
+                <p><strong>影响产品：</strong>brix/crypto-js ⭐16.4k</p>
+                <p><strong>影响包：</strong>npm/crypto-js</p>
+                <p><strong>影响版本：</strong>&lt; 4.0.0 → patched: 4.0.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-331, CWE-334, CWE-338</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rg76-677x-56q9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Keras: TorchModuleWrapper can deserialize unsafe PyTorch pickle data</div>
+                    <div class="advisory-id">GHSA-v2w2-w228-c444 | CVE: CVE-2026-12484</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 64.2k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keras: TorchModuleWrapper can deserialize unsafe PyTorch pickle data</p>
+                <p><strong>影响产品：</strong>keras-team/keras ⭐64.2k</p>
+                <p><strong>影响包：</strong>pip/keras; pip/keras</p>
+                <p><strong>影响版本：</strong>&lt; 3.12.3 → patched: 3.12.3; &gt;= 3.13.0, &lt; 3.15.0 → patched: 3.15.0</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-502</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v2w2-w228-c444" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</div>
+                    <div class="advisory-id">GHSA-qwww-vcr4-c8h2 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 56.5k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response</p>
+                <p><strong>影响产品：</strong>remix-run/react-router ⭐56.5k</p>
+                <p><strong>影响包：</strong>npm/react-router; npm/react-router</p>
+                <p><strong>影响版本：</strong>&gt;= 7.12.0, &lt; 7.18.2 → patched: 7.18.2; &gt;= 8.0.0, &lt; 8.3.0 → patched: 8.3.0</p>
+                <p><strong>攻击面：</strong>跨站请求伪造 (CSRF)</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可绕过CSRF保护执行未授权操作</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-352</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 PraisonAI has Cross-Workspace IDOR and Privilege Escalation via Platform API</div>
+                    <div class="advisory-id">GHSA-gv23-xrm3-8c62 | CVE: CVE-2026-48169</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 8.8k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The PraisonAI Platform API has two authorization failures that together break workspace isolation. The service layer for issues and projects performs global primary-key lookups without checking workspace ownership, so any authenticated user can read, modify, and delete resources in any workspace just by swapping UUIDs in their API requests. On top of that, every member management endpoint (add, up</p>
+                <p><strong>影响产品：</strong>MervinPraison/PraisonAI ⭐8.8k</p>
+                <p><strong>影响包：</strong>pip/praisonai-platform</p>
+                <p><strong>影响版本：</strong>&lt;= 0.1.2 → patched: 0.1.4</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-639, CWE-862</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gv23-xrm3-8c62" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 go-git: Worktree operations may follow symlinks</div>
+                    <div class="advisory-id">GHSA-hc8v-wwc9-vgxm | CVE: CVE-2026-71556</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 7.7k</span><span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>go-git: Worktree operations may follow symlinks</p>
+                <p><strong>影响产品：</strong>go-git/go-git ⭐7.7k</p>
+                <p><strong>影响包：</strong>go/github.com/go-git/go-git/v5; go/github.com/go-git/go-git/v6</p>
+                <p><strong>影响版本：</strong>&lt;= 5.19.1 → patched: 5.19.2; &lt;= 6.0.0-alpha.4 → patched: 6.0.0-alpha.5</p>
+                <p><strong>攻击面：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>可能导致安全风险</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-59</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hc8v-wwc9-vgxm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Unsafe git option guard bypass via split_single_char_options=False short-option token smuggling enables command execution</div>
+                    <div class="advisory-id">GHSA-wvpp-8hx9-p66j | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5.2k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `check_unsafe_options` guard can be bypassed on every guarded method (clone/clone_from, fetch/pull/push, ls_remote, iter_commits, blame, archive) by combining a single-character kwarg with `split_single_char_options=False`. The guard's candidate list omits the smuggled option, but `transform_kwarg` emits a JOINED `-n&lt;value&gt;` argv token that git parses as `--upload-pack=&lt;cmd&gt;`, yielding arbitra</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5.2k</p>
+                <p><strong>影响包：</strong>pip/GitPython</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.57 → patched: 3.1.58</p>
+                <p><strong>攻击面：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-88</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-wvpp-8hx9-p66j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: git-config OPTION-name injection via =/#/whitespace bypasses name validator, enabling forged core.sshCommand/hooksPath (RCE)</div>
+                    <div class="advisory-id">GHSA-jm78-9fvv-mhgr | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5.2k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython's config-name validator only neutralizes CR/LF/NUL for the `&quot;option&quot;` label; it does not reject `=`, `#`, `;`, `[`, `]`, or whitespace in an **option name**. `write_section` writes the option name verbatim into the config file, so an option name such as `sshCommand = touch &lt;cmd&gt; #` is written as `\tsshCommand = touch &lt;cmd&gt; # = &lt;value&gt;`, which git parses as `core.sshCommand = touch &lt;cmd&gt;`</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5.2k</p>
+                <p><strong>影响包：</strong>pip/GitPython</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.57 → patched: 3.1.58</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-74, CWE-88</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jm78-9fvv-mhgr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Arbitrary Git Repository Creation Outside the Working Tree via Unvalidated .gitmodules Submodule Name in GitPython</div>
+                    <div class="advisory-id">GHSA-hmq2-w58f-27jc | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5.2k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>GitPython computes the on-disk location of a submodule's separate Git directory (`.git/modules/&lt;name&gt;`) from the submodule's `.gitmodules` section name with no validation. Because that name is fully attacker-controlled content of a cloned repository, a malicious repository can set a submodule name to a traversal string (e.g. `../../../../home/victim/.something`) and cause GitPython to create and i</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5.2k</p>
+                <p><strong>影响包：</strong>pip/GitPython</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.57 → patched: 3.1.58</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-22, CWE-73</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hmq2-w58f-27jc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Unguarded git option forwarding in Repo.init enables arbitrary command execution via --template clone hooks</div>
+                    <div class="advisory-id">GHSA-9rj7-rf2p-w77r | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5.2k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>`Repo.init()` forwards `**kwargs` verbatim to `git init` with no unsafe-option guard and no `allow_unsafe_options` parameter. `git init --template=&lt;dir&gt;` copies `&lt;dir&gt;/hooks/*` into the new repo's `.git/hooks`, so an attacker-controlled `template` kwarg plants a hook that executes on the next git operation → arbitrary code execution. `--template` is already recognized as unsafe for clone (it is on</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5.2k</p>
+                <p><strong>影响包：</strong>pip/GitPython</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.57 → patched: 3.1.58</p>
+                <p><strong>攻击面：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-88, CWE-94</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9rj7-rf2p-w77r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 GitPython: Unguarded git read-tree option forwarding in IndexFile.from_tree/reset/merge_tree enables arbitrary file overwrite</div>
+                    <div class="advisory-id">GHSA-4gmw-gg2m-w46p | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 5.2k</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>`IndexFile.from_tree`, `IndexFile.reset` (→ from_tree) and `IndexFile.merge_tree` append caller-influenced treeish strings positionally to `git read-tree` with no unsafe-option guard, no `allow_unsafe_options` parameter, and no `--` separator. `git read-tree --index-output=&lt;file&gt;` writes the resulting index to an arbitrary path, and last-occurrence-wins lets an injected `--index-output` override t</p>
+                <p><strong>影响产品：</strong>gitpython-developers/GitPython ⭐5.2k</p>
+                <p><strong>影响包：</strong>pip/GitPython</p>
+                <p><strong>影响版本：</strong>&lt;= 3.1.57 → patched: 3.1.58</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>CWE：</strong>CWE-88</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4gmw-gg2m-w46p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 nanoid: non-secure generators can loop indefinitely with negative size</div>
+                    <div class="advisory-id">GHSA-28wg-ghj8-5hjv | CVE: CVE-2026-67214</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 26.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>nanoid: non-secure generators can loop indefinitely with negative size</p>
+                <p><strong>影响产品：</strong>ai/nanoid ⭐26.9k</p>
+                <p><strong>影响包：</strong>npm/nanoid; npm/nanoid</p>
+                <p><strong>影响版本：</strong>&lt; 3.3.16 → patched: 3.3.16; &gt;= 4.0.0, &lt; 5.1.16 → patched: 5.1.16</p>
+                <p><strong>攻击面：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可导致服务不可用，影响业务连续性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-835</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-28wg-ghj8-5hjv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 nanoid: custom generators can loop indefinitely when size is zero</div>
+                    <div class="advisory-id">GHSA-2v37-7h3g-55p8 | CVE: CVE-2026-67213</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 26.9k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>nanoid: custom generators can loop indefinitely when size is zero</p>
+                <p><strong>影响产品：</strong>ai/nanoid ⭐26.9k</p>
+                <p><strong>影响包：</strong>npm/nanoid; npm/nanoid</p>
+                <p><strong>影响版本：</strong>&lt; 3.3.17 → patched: 3.3.17; &gt;= 4.0.0, &lt; 5.1.6 → patched: 5.1.6</p>
+                <p><strong>攻击面：</strong>安全漏洞</p>
+                <p><strong>触发条件：</strong>攻击者控制的输入/资源</p>
+                <p><strong>潜在危害：</strong>攻击者可导致服务不可用，影响业务连续性</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-835</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2v37-7h3g-55p8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 CodeIgniter: Uploaded file extension validation bypass in `is_image` and `mime_in` rules</div>
+                    <div class="advisory-id">GHSA-mmj4-63m4-r6h5 | CVE: CVE-2026-63223</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 6.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CodeIgniter: Uploaded file extension validation bypass in `is_image` and `mime_in` rules</p>
+                <p><strong>影响产品：</strong>codeigniter4/CodeIgniter4 ⭐6.0k</p>
+                <p><strong>影响包：</strong>composer/codeigniter4/framework</p>
+                <p><strong>影响版本：</strong>&lt; 4.7.4 → patched: 4.7.4</p>
+                <p><strong>攻击面：</strong>远程代码执行 (RCE)</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可执行任意命令，完全控制受影响系统</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-434</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mmj4-63m4-r6h5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 CodeIgniter: SQL injection in Query Builder deleteBatch() when used with where() conditions</div>
+                    <div class="advisory-id">GHSA-c9w5-rwh3-7pm9 | CVE: CVE-2026-63221</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 6.0k</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CodeIgniter: SQL injection in Query Builder deleteBatch() when used with where() conditions</p>
+                <p><strong>影响产品：</strong>codeigniter4/CodeIgniter4 ⭐6.0k</p>
+                <p><strong>影响包：</strong>composer/codeigniter4/framework</p>
+                <p><strong>影响版本：</strong>&gt;= 4.3.0, &lt; 4.7.4 → patched: 4.7.4</p>
+                <p><strong>攻击面：</strong>SQL注入</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可读取、修改或删除数据库中的任意数据</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>CWE：</strong>CWE-89</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c9w5-rwh3-7pm9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 CodeIgniter: Path traversal in UploadedFile::move() when using client-provided filenames</div>
+                    <div class="advisory-id">GHSA-hhmc-q9hp-r662 | CVE: CVE-2026-63222</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 6.0k</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CodeIgniter: Path traversal in UploadedFile::move() when using client-provided filenames</p>
+                <p><strong>影响产品：</strong>codeigniter4/CodeIgniter4 ⭐6.0k</p>
+                <p><strong>影响包：</strong>composer/codeigniter4/framework</p>
+                <p><strong>影响版本：</strong>&lt; 4.7.4 → patched: 4.7.4</p>
+                <p><strong>攻击面：</strong>路径穿越</p>
+                <p><strong>触发条件：</strong>特定条件下触发</p>
+                <p><strong>潜在危害：</strong>攻击者可访问或写入文件系统任意位置</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>CWE：</strong>CWE-22</p>
+                <p><strong>修复建议：</strong>升级到 patched 版本或更高版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-hhmc-q9hp-r662" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-5gwj-m78q-7pq3</code></td>
+                    <td>keras-team/keras</td>
+                    <td>64.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5gwj-m78q-7pq3" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-hqp4-2352-xf5r</code></td>
+                    <td>keras-team/keras</td>
+                    <td>64.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hqp4-2352-xf5r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-rg76-677x-56q9</code></td>
+                    <td>brix/crypto-js</td>
+                    <td>16.4k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rg76-677x-56q9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-v2w2-w228-c444</code></td>
+                    <td>keras-team/keras</td>
+                    <td>64.2k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-v2w2-w228-c444" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qwww-vcr4-c8h2</code></td>
+                    <td>remix-run/react-router</td>
+                    <td>56.5k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qwww-vcr4-c8h2" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gv23-xrm3-8c62</code></td>
+                    <td>MervinPraison/PraisonAI</td>
+                    <td>8.8k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv23-xrm3-8c62" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hc8v-wwc9-vgxm</code></td>
+                    <td>go-git/go-git</td>
+                    <td>7.7k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-hc8v-wwc9-vgxm" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-wvpp-8hx9-p66j</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-wvpp-8hx9-p66j" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-jm78-9fvv-mhgr</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-jm78-9fvv-mhgr" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hmq2-w58f-27jc</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-hmq2-w58f-27jc" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-9rj7-rf2p-w77r</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-9rj7-rf2p-w77r" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-4gmw-gg2m-w46p</code></td>
+                    <td>gitpython-developers/GitPython</td>
+                    <td>5.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-4gmw-gg2m-w46p" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-28wg-ghj8-5hjv</code></td>
+                    <td>ai/nanoid</td>
+                    <td>26.9k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-28wg-ghj8-5hjv" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2v37-7h3g-55p8</code></td>
+                    <td>ai/nanoid</td>
+                    <td>26.9k</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2v37-7h3g-55p8" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-mmj4-63m4-r6h5</code></td>
+                    <td>codeigniter4/CodeIgniter4</td>
+                    <td>6.0k</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-mmj4-63m4-r6h5" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-c9w5-rwh3-7pm9</code></td>
+                    <td>codeigniter4/CodeIgniter4</td>
+                    <td>6.0k</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-c9w5-rwh3-7pm9" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-hhmc-q9hp-r662</code></td>
+                    <td>codeigniter4/CodeIgniter4</td>
+                    <td>6.0k</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-hhmc-q9hp-r662" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-crf3-v9rr-v7hj</code></td>
+                    <td>alibaba/fastjson2</td>
+                    <td>4.4k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-hq9q-27g5-qwpj</code></td>
+                    <td>microsoft/kiota</td>
+                    <td>3.8k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-9gw6-46qc-99vr</code></td>
+                    <td>pipeboard-co/meta-ads-mcp</td>
+                    <td>1.2k</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-w3rx-r6r6-pgpr</code></td>
+                    <td>image-size/image-size</td>
+                    <td>2.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-5p2g-fcmc-qvqq</code></td>
+                    <td>image-size/image-size</td>
+                    <td>2.2k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td><code>GHSA-gm37-52c6-37mw</code></td>
+                    <td>facelessuser/pymdown-extensions</td>
+                    <td>1.1k</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul><li><strong>keras-team/keras</strong> (GHSA-5gwj-m78q-7pq3) - Keras: Lambda deserialization can bypass safe mode and execute code，请立即升级</li><li><strong>keras-team/keras</strong> (GHSA-hqp4-2352-xf5r) - Keras archive extraction utilities allow path traversal and arbitrary file write，请立即升级</li><li><strong>brix/crypto-js</strong> (GHSA-rg76-677x-56q9) - crypto-js: Insufficient Entropy in Cryptographic Secret Generation via Vulnerabl，请立即升级</li></ul>
+                <p><strong>重点关注：</strong></p>
+                <ul><li><strong>keras-team/keras</strong> (GHSA-v2w2-w228-c444) - Keras: TorchModuleWrapper can deserialize unsafe PyTorch pickle data，建议尽快升级</li><li><strong>remix-run/react-router</strong> (GHSA-qwww-vcr4-c8h2) - React Router: RSC Mode CSRF Bypass Allows Action Execution Before 400 Response，建议尽快升级</li><li><strong>MervinPraison/PraisonAI</strong> (GHSA-gv23-xrm3-8c62) - PraisonAI has Cross-Workspace IDOR and Privilege Escalation via Platform API，建议尽快升级</li><li><strong>go-git/go-git</strong> (GHSA-hc8v-wwc9-vgxm) - go-git: Worktree operations may follow symlinks，建议尽快升级</li><li><strong>gitpython-developers/GitPython</strong> (GHSA-wvpp-8hx9-p66j) - GitPython: Unsafe git option guard bypass via split_single_char_options=False sh，建议尽快升级</li></ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>定期更新依赖包版本，关注安全公告</li>
+                    <li>对使用 Keras、GitPython、CodeIgniter 等框架的项目进行安全审计</li>
+                    <li>启用自动化依赖扫描工具（如 Dependabot、Snyk）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
