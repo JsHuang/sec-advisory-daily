@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-11</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content p { margin-bottom: 10px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-11 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Flyto2 Core: Unauthenticated flyto-verification /run: callback_url SSRF and internal runner-secret exfiltration</div>
+                    <div class="advisory-id">GHSA-jx74-cqjv-2c67 | CVE: CVE-2026-67426</div>
+                </div>
+                <span class="priority-score">优先级: 68/100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 479</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flyto2 Core 的 flyto-verification 服务在 POST /run 端点无任何身份认证，且绑定在所有网络接口(0.0.0.0:8344)。请求体中的 callback_url 被直接用于出站 POST 请求，并自动附加 X-Internal-Key: $FLYTO_RUNNER_SECRET 头部。该 callback_url 绕过了 target_allowed 白名单检查（仅检查 params.target_url），且未经过任何 SSRF 防护。</p>
+                <p><strong>影响产品：</strong>pip/flyto-core ⭐479</p>
+                <p><strong>影响版本：</strong>flyto-core: >= 2.26.6, < 2.26.7 (修复: 2.26.7)</p>
+                <p><strong>攻击面：</strong>未认证攻击者可通过构造恶意 callback_url 实现：(1) 对内网/云元数据端点的 SSRF 攻击；(2) 窃取 FLYTO_RUNNER_SECRET 到攻击者控制的服务器，进而伪造认证回调。</p>
+                <p><strong>触发条件：</strong>发送 POST 请求到 /run 端点，在请求体中指定恶意 callback_url</p>
+                <p><strong>潜在危害：</strong>SSRF + 内部密钥泄露，可能导致内网渗透和认证绕过</p>
+                <p><strong>可利用性：</strong>有完整PoC - 包含技术细节: 'POST ';  - 包含具体攻击路径和参数;  - 包含修复commit: 1个</p>
+                <p><strong>修复建议：</strong>升级到 flyto-core >= 2.26.7；对 /run 端点添加身份认证；对 callback_url 进行白名单校验</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jx74-cqjv-2c67" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 fast-uri vulnerable to path traversal via percent-encoded dot segments</div>
+                    <div class="advisory-id">GHSA-q3j6-qgpj-74h6 | CVE: CVE-2026-6321</div>
+                </div>
+                <span class="priority-score">优先级: 43/100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 119</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri v3.1.0 及更早版本在 normalize() 和 equal() 函数中，会在执行 dot-segment 移除之前先解码 percent-encoded 的路径分隔符(%2F)和点段(%2E)。这导致编码后的路径数据表现得像真实的 / 和 ..，不同的 URI 会折叠到相同的规范化路径。</p>
+                <p><strong>影响产品：</strong>npm/fast-uri, npm/fast-uri ⭐119</p>
+                <p><strong>影响版本：</strong>fast-uri: >= 3.0.0, <= 3.1.0 (修复: 3.1.1); fast-uri: <= 2.4.0 (修复: 2.4.1)</p>
+                <p><strong>攻击面：</strong>攻击者可利用此漏洞绕过基于路径的访问控制策略。例如 http://example.com/public/%2e%2e/admin 会被规范化为 http://example.com/admin，使看似受限的路径可以访问任意位置。</p>
+                <p><strong>触发条件：</strong>构造包含 percent-encoded dot segments 的 URL，利用 normalize/equal 函数的不一致行为</p>
+                <p><strong>潜在危害：</strong>路径遍历绕过，可能导致未授权访问受限资源</p>
+                <p><strong>可利用性：</strong>有详细原理 - 包含技术细节: 'attacker-controlled';  - 包含编码绕过示例</p>
+                <p><strong>修复建议：</strong>升级到 fast-uri >= 3.1.1 或 v2.4.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q3j6-qgpj-74h6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 fast-uri vulnerable to host confusion via percent-encoded authority delimiters</div>
+                    <div class="advisory-id">GHSA-v39h-62p7-jpjc | CVE: CVE-2026-6322</div>
+                </div>
+                <span class="priority-score">优先级: 43/100</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span><span class="badge badge-stars">⭐ 119</span><span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri v3.1.1 及更早版本在 host 组件中会解码 percent-encoded 的 authority 分隔符（%40 解码为 @，%3A 解码为 :）并将其序列化为原始字符，这会改变 URI 结构，将主机名变为 userinfo 加不同的 host。</p>
+                <p><strong>影响产品：</strong>npm/fast-uri, npm/fast-uri ⭐119</p>
+                <p><strong>影响版本：</strong>fast-uri: >= 3.0.0, <= 3.1.1 (修复: 3.1.2); fast-uri: <= 2.4.0 (修复: 2.4.1)</p>
+                <p><strong>攻击面：</strong>例如 http://trusted.com%40evil.com/ 被规范化为 http://trusted.com@evil.com/，重新解析后 host 变为 evil.com，userinfo 为 trusted.com。攻击者可利用此特性在 host 白名单检查、重定向验证或出站请求路由时，将请求导向恶意主机。</p>
+                <p><strong>触发条件：</strong>构造包含 percent-encoded authority delimiters 的 URL，利用规范化后的 host confusion</p>
+                <p><strong>潜在危害：</strong>Host 混淆，可能导致开放重定向、SSRF 或认证绕过</p>
+                <p><strong>可利用性：</strong>有详细原理 - 包含编码绕过示例</p>
+                <p><strong>修复建议：</strong>升级到 fast-uri >= 3.1.2 或 v2.4.1</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><a href="https://github.com/advisories/GHSA-jx74-cqjv-2c67" style="color:#58a6ff">GHSA-jx74-cqjv-2c67</a></td>
+                    <td>flyto-core</td>
+                    <td>⭐479</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-jx74-cqjv-2c67" style="color:#58a6ff">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><a href="https://github.com/advisories/GHSA-q3j6-qgpj-74h6" style="color:#58a6ff">GHSA-q3j6-qgpj-74h6</a></td>
+                    <td>fast-uri, fast-uri</td>
+                    <td>⭐119</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-q3j6-qgpj-74h6" style="color:#58a6ff">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" style="color:#58a6ff">GHSA-v39h-62p7-jpjc</a></td>
+                    <td>fast-uri, fast-uri</td>
+                    <td>⭐119</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" style="color:#58a6ff">🔗</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://github.com/advisories/GHSA-jx74-cqjv-2c67" style="color:#58a6ff">GHSA-jx74-cqjv-2c67</a></td>
+                    <td>flyto-core</td>
+                    <td>⭐479</td>
+                    <td>CRITICAL</td>
+                    <td>包含技术细节: 'POST '; 包含具体攻击路径和参数</td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/advisories/GHSA-q3j6-qgpj-74h6" style="color:#58a6ff">GHSA-q3j6-qgpj-74h6</a></td>
+                    <td>fast-uri, fast-uri</td>
+                    <td>⭐119</td>
+                    <td>HIGH</td>
+                    <td>包含技术细节: 'attacker-controlled'; 包含编码绕过示例</td>
+                </tr>
+                <tr>
+                    <td><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" style="color:#58a6ff">GHSA-v39h-62p7-jpjc</a></td>
+                    <td>fast-uri, fast-uri</td>
+                    <td>⭐119</td>
+                    <td>HIGH</td>
+                    <td>包含编码绕过示例</td>
+                </tr></tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul><li>🔴 GHSA-jx74-cqjv-2c67 (flyto-core)</li></ul>
+                <p><strong>重点关注：</strong></p>
+                <ul><li>🟠 GHSA-q3j6-qgpj-74h6 (fast-uri, fast-uri)</li><li>🟠 GHSA-v39h-62p7-jpjc (fast-uri, fast-uri)</li></ul>
+                <p><strong>常规关注：</strong></p>
+                <ul><li>无</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
