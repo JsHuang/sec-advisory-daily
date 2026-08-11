@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-11",
+      "title": "GitHub安全公告日报 - 2026-08-11",
+      "url": "reports/report-2026-08-11.html",
+      "stats": {
+        "total": 3,
+        "critical": 1,
+        "high": 2,
+        "star5k": 0,
+        "with_poc": 3
+      },
+      "summary": "今日发现3个高危/严重漏洞，其中1个Critical级别，2个High级别。重点：Flyto2 Core SSRF+密钥泄露(Critical)、fast-uri路径遍历和Host混淆(High)。"
+    },
+    {
       "date": "2026-08-10",
       "title": "GitHub安全公告日报 - 2026-08-10",
       "url": "reports/report-2026-08-10.html",
@@ -376,19 +389,6 @@
         "with_poc": 20
       },
       "summary": "今日发现23个高危公告，Star≥5k项目12个，含PoC 20个。重点：GHSA-7cfm-pqrj-xgq7(decolua/9router); GHSA-pmf6-rcx4-v53v(uutils/coreutils); GHSA-4c7q-4928-8445(uutils/coreutils)"
-    },
-    {
-      "date": "2026-07-06",
-      "title": "GitHub安全公告日报 - 2026-07-06",
-      "url": "reports/report-2026-07-06.html",
-      "stats": {
-        "total": 0,
-        "critical": 0,
-        "high": 0,
-        "star5k": 0,
-        "with_poc": 0
-      },
-      "summary": "最近24小时内无新发布的Critical或High级别安全公告，监控系统正常运行"
     }
   ]
 }
