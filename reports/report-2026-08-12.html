@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-12</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-12 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SeaweedFS: Unauthenticated SSRF with response read-back via VolumeServer.FetchAndWriteNeedle</div>
+                    <div class="advisory-id">GHSA-87fv-vqqr-m4jr | CVE: CVE-2026-73080 | CWE: CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-stars">⭐ 34,023</span><span class="badge badge-analysis">CVSS: 9.3</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SeaweedFS的VolumeServer.FetchAndWriteNeedle RPC在4.24版本之前未进行任何身份验证，也未验证目标地址。任何能够访问volume server gRPC端口的攻击者都可以强制服务器向任意主机发起请求——包括回环地址、链路本地地址、RFC 1918私有地址和云元数据端点(如169.254.169.254)——并读回响应。在云环境中，这会泄露实例元数据和IAM凭证。</p>
+                <p><strong>影响产品：</strong>SeaweedFS ⭐ 34,023</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260512171120-69da20bdaec9</p>
+                <p><strong>攻击面：</strong>gRPC端口（默认无认证），任何可达volume server的网络位置</p>
+                <p><strong>触发条件：</strong>向volume server的gRPC端口发送FetchAndWriteNeedle请求，指定内网/元数据目标URL</p>
+                <p><strong>潜在危害：</strong>SSRF带响应读取，可窃取云环境IAM凭证、访问内网服务、绕过防火墙策略</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到4.24版本，该版本添加了admin授权要求和目标地址过滤（回环/链路本地/RFC1918/IMDS）；或通过防火墙限制gRPC端口访问</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-87fv-vqqr-m4jr" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 pytonapi has a Webhook Custom Path Authentication Bypass</div>
+                    <div class="advisory-id">GHSA-3fcr-jvgp-7f58 | CVE: CVE-2026-54635 | CWE: CWE-287</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.5</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>pytonapi 2.2.0的TonapiWebhookDispatcher在webhook handler使用path=参数注册时，未能验证Authorization头。setup()期间bearer token仅存储在默认后缀路径下（如/hook/account-tx），但自定义路径（如/hook/custom）从未添加到token映射中。当请求到达自定义路径时，self._tokens.get(path)返回None，导致认证检查被静默跳过。未认证的远程攻击者可向自定义webhook端点POST任意伪造payload。</p>
+                <p><strong>影响产品：</strong>pytonapi（TON区块链API库） N/A</p>
+                <p><strong>影响版本：</strong>>= 2.0.0, < 2.2.1</p>
+                <p><strong>攻击面：</strong>使用pytonapi webhook dispatcher并注册自定义路径的TON应用</p>
+                <p><strong>触发条件：</strong>向自定义webhook路径发送未携带Authorization头的POST请求</p>
+                <p><strong>潜在危害：</strong>完全绕过webhook认证，攻击者可注入伪造的交易通知触发应用逻辑</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到pytonapi >= 2.2.1</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-3fcr-jvgp-7f58" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 golang.org/x/crypto doesn't drop invoking agent constraints when forwarding keys</div>
+                    <div class="advisory-id">GHSA-f5wc-c3c7-36mc | CVE: CVE-2026-39832 | CWE: CWE-281, CWE-502</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">CRITICAL</span><span class="badge badge-stars">⭐ 3,336</span><span class="badge badge-analysis">CVSS: 9.1</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>golang.org/x/crypto在将密钥添加到远程agent时，未序列化约束扩展（如restrict-destination-v00@openssh.com）。目标限制在密钥转发时被静默移除，允许在远程主机上无限制使用密钥。此外，NewKeyring()返回的内存密钥环现在会拒绝带有不支持约束扩展的密钥。</p>
+                <p><strong>影响产品：</strong>golang.org/x/crypto (SSH Agent) ⭐ 3,336</p>
+                <p><strong>影响版本：</strong>< 0.52.0</p>
+                <p><strong>攻击面：</strong>使用SSH agent key forwarding的应用程序</p>
+                <p><strong>触发条件：</strong>通过SSH agent转发带有constraint extensions的密钥到远程主机</p>
+                <p><strong>潜在危害：</strong>密钥约束被静默移除，远程主机可无限制使用转发的密钥进行身份认证</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到golang.org/x/crypto >= 0.52.0，该版本正确序列化所有约束扩展</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-f5wc-c3c7-36mc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 golang.org/x/crypto: Invoking client can cause server deadlock on unexpected responses</div>
+                    <div class="advisory-id">GHSA-vgwf-h737-ff37 | CVE: CVE-2026-39830 | CWE: CWE-119, CWE-772</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-high">CRITICAL</span><span class="badge badge-stars">⭐ 3,336</span><span class="badge badge-analysis">CVSS: 9.1</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>golang.org/x/crypto的SSH实现中，恶意SSH对等方可以发送未经请求的全局请求响应来填满内部缓冲区，阻塞连接的读取循环。被阻塞的goroutine无法通过调用Close()释放，导致每个连接产生资源泄漏。</p>
+                <p><strong>影响产品：</strong>golang.org/x/crypto (SSH库) ⭐ 3,336</p>
+                <p><strong>影响版本：</strong>< 0.52.0</p>
+                <p><strong>攻击面：</strong>任何使用golang.org/x/crypto/ssh的服务端或客户端</p>
+                <p><strong>触发条件：</strong>恶意SSH对端发送意外的全局请求响应（unsolicited global request responses）</p>
+                <p><strong>潜在危害：</strong>资源泄漏导致服务不可用（DoS），每个恶意连接泄漏一个goroutine</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到golang.org/x/crypto >= 0.52.0，该版本会丢弃未经请求的全局响应</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Flawfinder output manipulation via untrusted filenames and source text</div>
+                    <div class="advisory-id">GHSA-4c3c-r6p8-c863 | CVE: CVE-2026-48813 | CWE: CWE-74</div>
+                </div>
+                <span class="priority-score">优先级: 7/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">⭐ 580</span><span class="badge badge-poc">🔴 PoC Available</span><span class="badge badge-analysis">📖 详细分析</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Flawfinder存在输入净化不当漏洞，导致输出操纵问题：1) 终端输出欺骗——恶意文件名包含ANSI转义序列可操纵终端输出，隐藏关键扫描结果；2) CSV和XML注入——文件名、分类或代码上下文等不可信字段在生成结构化报告时未正确消毒，攻击者可破坏CSV格式或向SonarQube输出注入任意XML属性。</p>
+                <p><strong>影响产品：</strong>Flawfinder（C/C++安全扫描工具） ⭐ 580</p>
+                <p><strong>影响版本：</strong>< 2.0.20</p>
+                <p><strong>攻击面：</strong>CI/CD管道中使用flawfinder扫描不可信代码库</p>
+                <p><strong>触发条件：</strong>用flawfinder扫描包含恶意文件名或恶意源码内容的代码库</p>
+                <p><strong>潜在危害：</strong>隐藏真实安全漏洞、注入恶意内容到CI/CD输出、绕过安全审查</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到flawfinder >= 2.0.20；如无法升级，预扫描文件名移除控制字符</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4c3c-r6p8-c863" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-62871 – .NET Elevation of Privilege Vulnerability</div>
+                    <div class="advisory-id">GHSA-vg44-h755-9hw7 | CVE: CVE-2026-62871 | CWE: CWE-122, CWE-787</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.8</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Windows Presentation Foundation (WPF)中存在越界写入漏洞，未经身份验证的攻击者可在本地提升权限。包含堆缓冲区溢出（CWE-122）和越界写入（CWE-787）。</p>
+                <p><strong>影响产品：</strong>.NET WPF (Windows桌面) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用WPF的Windows桌面应用程序</p>
+                <p><strong>触发条件：</strong>本地攻击者触发WPF中的越界写入</p>
+                <p><strong>潜在危害：</strong>本地权限提升/代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Windows Desktop Runtime到最新版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vg44-h755-9hw7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-62897 – .NET Remote Code Execution Vulnerability</div>
+                    <div class="advisory-id">GHSA-fx4q-gjrx-2jw6 | CVE: CVE-2026-62897 | CWE: CWE-190</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.0</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Windows Presentation Foundation (WPF)中存在整数溢出漏洞，未经身份验证的攻击者可在本地执行代码。CVSS 7.0。</p>
+                <p><strong>影响产品：</strong>.NET WPF (Windows桌面) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用WPF的Windows桌面应用程序</p>
+                <p><strong>触发条件：</strong>本地攻击者触发WPF中的整数溢出</p>
+                <p><strong>潜在危害：</strong>本地代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Windows Desktop Runtime到最新版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-fx4q-gjrx-2jw6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-70354 – .NET Core Remote Code Execution Vulnerability</div>
+                    <div class="advisory-id">GHSA-gg8c-3338-xw2f | CVE: CVE-2026-70354 | CWE: CWE-787</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.8</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Windows Presentation Foundation (WPF)中存在越界写入漏洞，未经身份验证的攻击者可在本地执行代码。CVSS 7.8。</p>
+                <p><strong>影响产品：</strong>.NET WPF (Windows桌面) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用WPF的Windows桌面应用程序</p>
+                <p><strong>触发条件：</strong>本地攻击者触发WPF中的越界写入</p>
+                <p><strong>潜在危害：</strong>本地代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Windows Desktop Runtime到最新版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gg8c-3338-xw2f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-62886 – .NET Elevation of Privilege Vulnerability</div>
+                    <div class="advisory-id">GHSA-jqhp-238x-qhgf | CVE: CVE-2026-62886 | CWE: CWE-122, CWE-190</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.8</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Windows Presentation Foundation (WPF)中存在整数溢出或环绕漏洞，未经身份验证的攻击者可在本地提升权限。影响.NET 8/9/10 Windows Desktop Runtime。</p>
+                <p><strong>影响产品：</strong>.NET WPF (Windows桌面) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用WPF的Windows桌面应用程序</p>
+                <p><strong>触发条件：</strong>本地攻击者触发WPF中的整数溢出</p>
+                <p><strong>潜在危害：</strong>本地权限提升</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Windows Desktop Runtime到最新版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jqhp-238x-qhgf" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-62901 – .NET Denial of Service Vulnerability</div>
+                    <div class="advisory-id">GHSA-m93f-wj8c-rp8p | CVE: CVE-2026-62901 | CWE: CWE-606</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.5</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>.NET的System.Net.WebSockets中存在未检查输入循环条件漏洞，未经身份验证的攻击者可通过网络发起拒绝服务攻击。影响.NET 8/9/10全平台Runtime包。</p>
+                <p><strong>影响产品：</strong>.NET Runtime (WebSockets) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用System.Net.WebSockets的服务端应用</p>
+                <p><strong>触发条件：</strong>发送特制的WebSocket帧触发无限循环</p>
+                <p><strong>潜在危害：</strong>拒绝服务，导致WebSocket服务不可用</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Runtime到最新版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m93f-wj8c-rp8p" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Microsoft Security Advisory CVE-2026-62898 – .NET Information Disclosure Vulnerability</div>
+                    <div class="advisory-id">GHSA-c494-m2fq-59mx | CVE: CVE-2026-62898 | CWE: CWE-416</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">N/A</span><span class="badge badge-analysis">CVSS: 7.5</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Microsoft QUIC实现中存在use-after-free漏洞，未经身份验证的攻击者可通过网络进行信息泄露。影响.NET 8/9/10所有Windows平台的Runtime包。</p>
+                <p><strong>影响产品：</strong>.NET Runtime (Windows QUIC) N/A</p>
+                <p><strong>影响版本：</strong>>= 10.0.0, <= 10.0.10</p>
+                <p><strong>攻击面：</strong>使用.NET QUIC的网络应用程序</p>
+                <p><strong>触发条件：</strong>发送特制的QUIC数据包触发use-after-free</p>
+                <p><strong>潜在危害：</strong>信息泄露，可能暴露内存中的敏感数据</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>更新.NET Runtime到最新版本（8.0.30/9.0.19/10.0.11）</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c494-m2fq-59mx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 OpenStack Ironic Python Agent Includes Functionality from Untrusted Control Sphere</div>
+                    <div class="advisory-id">GHSA-rmxr-45gj-889w | CVE: CVE-2026-43003 | CWE: CWE-78, CWE-829</div>
+                </div>
+                <span class="priority-score">优先级: 6/12</span>
+            </div>
+            <div class="advisory-meta"><span class="badge badge-medium">HIGH</span><span class="badge badge-stars">⭐ 133</span><span class="badge badge-analysis">CVSS: 8.0</span></div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenStack Ironic Python Agent (IPA) 1.0.0到11.5.0版本中，IPA有时会在已部署分区镜像的chroot环境中执行grub-install，导致恶意镜像中的代码被执行。</p>
+                <p><strong>影响产品：</strong>OpenStack Ironic Python Agent ⭐ 133</p>
+                <p><strong>影响版本：</strong>>= 1.0.0, <= 11.5.0</p>
+                <p><strong>攻击面：</strong>OpenStack裸金属部署环境中使用恶意镜像</p>
+                <p><strong>触发条件：</strong>部署包含恶意grub配置的分区镜像</p>
+                <p><strong>潜在危害：</strong>在部署过程中执行任意代码，完全控制裸金属节点</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级ironic-python-agent到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rmxr-45gj-889w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th>
+                    <th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-87fv-vqqr-m4jr</td>
+                    <td>SeaweedFS</td>
+                    <td>34,023</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-87fv-vqqr-m4jr" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-3fcr-jvgp-7f58</td>
+                    <td>pytonapi（TON区块链API库）</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3fcr-jvgp-7f58" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-f5wc-c3c7-36mc</td>
+                    <td>golang.org/x/crypto (SSH Agent)</td>
+                    <td>3,336</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f5wc-c3c7-36mc" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-vgwf-h737-ff37</td>
+                    <td>golang.org/x/crypto (SSH库)</td>
+                    <td>3,336</td>
+                    <td>CRITICAL</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-4c3c-r6p8-c863</td>
+                    <td>Flawfinder（C/C++安全扫描工具）</td>
+                    <td>580</td>
+                    <td>HIGH</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4c3c-r6p8-c863" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-vg44-h755-9hw7</td>
+                    <td>.NET WPF (Windows桌面)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vg44-h755-9hw7" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-fx4q-gjrx-2jw6</td>
+                    <td>.NET WPF (Windows桌面)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-fx4q-gjrx-2jw6" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-gg8c-3338-xw2f</td>
+                    <td>.NET WPF (Windows桌面)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-gg8c-3338-xw2f" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-jqhp-238x-qhgf</td>
+                    <td>.NET WPF (Windows桌面)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-jqhp-238x-qhgf" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-m93f-wj8c-rp8p</td>
+                    <td>.NET Runtime (WebSockets)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-m93f-wj8c-rp8p" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-c494-m2fq-59mx</td>
+                    <td>.NET Runtime (Windows QUIC)</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-c494-m2fq-59mx" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-rmxr-45gj-889w</td>
+                    <td>OpenStack Ironic Python Agent</td>
+                    <td>133</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rmxr-45gj-889w" target="_blank" style="color:#58a6ff;">GitHub</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-3fcr-jvgp-7f58</td>
+                    <td>pytonapi（TON区块链API库）</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>PoC, 详细分析</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-f5wc-c3c7-36mc</td>
+                    <td>golang.org/x/crypto (SSH Agent)</td>
+                    <td>3,336</td>
+                    <td>CRITICAL</td>
+                    <td>详细分析</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-vgwf-h737-ff37</td>
+                    <td>golang.org/x/crypto (SSH库)</td>
+                    <td>3,336</td>
+                    <td>CRITICAL</td>
+                    <td>详细分析</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-4c3c-r6p8-c863</td>
+                    <td>Flawfinder（C/C++安全扫描工具）</td>
+                    <td>580</td>
+                    <td>HIGH</td>
+                    <td>PoC, 详细分析</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul><li>SeaweedFS (GHSA-87fv-vqqr-m4jr) - SeaweedFS的VolumeServer.FetchAndWriteNeedle RPC在4.24版本之前未进行任何身份验证，也未验证目标地址。任何能够访问...</li></ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul><li>pytonapi（TON区块链API库） (GHSA-3fcr-jvgp-7f58) - 有完整PoC</li><li>golang.org/x/crypto (SSH Agent) (GHSA-f5wc-c3c7-36mc) - 有详细原理</li><li>golang.org/x/crypto (SSH库) (GHSA-vgwf-h737-ff37) - 有详细原理</li></ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul><li>Flawfinder（C/C++安全扫描工具） (GHSA-4c3c-r6p8-c863)</li><li>.NET WPF (Windows桌面) (GHSA-vg44-h755-9hw7)</li><li>.NET WPF (Windows桌面) (GHSA-fx4q-gjrx-2jw6)</li><li>.NET WPF (Windows桌面) (GHSA-gg8c-3338-xw2f)</li><li>.NET WPF (Windows桌面) (GHSA-jqhp-238x-qhgf)</li><li>.NET Runtime (WebSockets) (GHSA-m93f-wj8c-rp8p)</li><li>.NET Runtime (Windows QUIC) (GHSA-c494-m2fq-59mx)</li><li>OpenStack Ironic Python Agent (GHSA-rmxr-45gj-889w)</li></ul>
+                <p style="margin-top:16px;"><strong>通用建议：</strong></p>
+                <ul>
+                    <li>及时升级受影响组件到最新版本</li>
+                    <li>对于SeaweedFS用户，检查gRPC端口是否暴露到公网，通过防火墙限制访问</li>
+                    <li>对于Go SSH相关项目，尽快升级golang.org/x/crypto到0.52.0+</li>
+                    <li>对于.NET用户，更新所有Windows平台的Runtime包</li>
+                    <li>持续关注GitHub Advisory Database获取最新安全公告</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
