@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-13",
+      "title": "GitHub安全公告日报 - 2026-08-13",
+      "url": "reports/report-2026-08-13.html",
+      "stats": {
+        "total": 26,
+        "critical": 4,
+        "high": 22,
+        "star5k": 13,
+        "with_poc": 18
+      },
+      "summary": "今日发现4个Critical和22个High级别漏洞，涉及etcd、Astro、Auth.js、NLTK、Budibase等高星项目，多个漏洞含PoC或详细利用分析"
+    },
+    {
       "date": "2026-08-12",
       "title": "GitHub安全公告日报 - 2026-08-12",
       "url": "reports/report-2026-08-12.html",
@@ -376,19 +389,6 @@
         "with_poc": 19
       },
       "summary": "今日发现21个高危/严重漏洞，其中3个Critical级别，3个影响Star≥5k项目，19个含PoC或详细分析。重点关注：mint HTTP/2 DoS（⭐16k）、Micronaut无限重定向（⭐6.4k）、YesWiki多个RCE/SQLi漏洞。"
-    },
-    {
-      "date": "2026-07-08",
-      "title": "GitHub安全公告日报 - 2026-07-08",
-      "url": "reports/report-2026-07-08.html",
-      "stats": {
-        "total": 47,
-        "critical": 14,
-        "high": 33,
-        "star5k": 28,
-        "with_poc": 12
-      },
-      "summary": "今日监控到47个高危漏洞公告，其中14个Critical级别，28个影响Star≥5k项目，12个含完整PoC或详细分析。重点关注Langflow、Open WebUI、FlowiseAI等多个超高Star项目的可利用漏洞。"
     }
   ]
 }
