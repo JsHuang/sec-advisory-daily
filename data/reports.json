@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-14",
+      "title": "GitHub安全公告日报 - 2026-08-14",
+      "url": "reports/report-2026-08-14.html",
+      "stats": {
+        "total": 32,
+        "critical": 9,
+        "high": 23,
+        "star5k": 16,
+        "with_poc": 11
+      },
+      "summary": "今日发现32个Critical/High级别漏洞，其中9个Critical级别。重点关注：Home Assistant路径遍历RCE、Vitest多个RCE漏洞、OpenZeppelin投票损坏、Django DoS、PostCSS路径遍历、SVGO XSS绕过。16个Star≥5k项目受影响，11个含PoC或详细分析。"
+    },
+    {
       "date": "2026-08-13",
       "title": "GitHub安全公告日报 - 2026-08-13",
       "url": "reports/report-2026-08-13.html",
@@ -376,19 +389,6 @@
         "with_poc": 33
       },
       "summary": "今日监控到 36 个高危漏洞公告（12 Critical, 24 High），其中 9 个影响 Star≥5k 的热门项目，33 个包含PoC或详细利用分析。重点关注 MLflow 环境变量注入、SiYuan 多个XSS/RCE漏洞、File Browser 命令注入、Gogs RCE等。"
-    },
-    {
-      "date": "2026-07-10",
-      "title": "GitHub安全公告日报 - 2026-07-10",
-      "url": "reports/report-2026-07-10.html",
-      "stats": {
-        "total": 21,
-        "critical": 3,
-        "high": 18,
-        "star5k": 3,
-        "with_poc": 19
-      },
-      "summary": "今日发现21个高危/严重漏洞，其中3个Critical级别，3个影响Star≥5k项目，19个含PoC或详细分析。重点关注：mint HTTP/2 DoS（⭐16k）、Micronaut无限重定向（⭐6.4k）、YesWiki多个RCE/SQLi漏洞。"
     }
   ]
 }
