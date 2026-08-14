@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-14</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600;
+        }
+        .priority-urgent { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .priority-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .priority-medium { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-14 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">32</div><div class="stat-label">总公告数</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Critical</div></div>
+            <div class="stat-card"><div class="stat-number">23</div><div class="stat-label">High</div></div>
+            <div class="stat-card"><div class="stat-number">16</div><div class="stat-label">Star≥5k 项目</div></div>
+            <div class="stat-card"><div class="stat-number">11</div><div class="stat-label">含PoC/详细分析</div></div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Home Assistant Core: 初始引导期间通过备份上传实现路径遍历</div>
+                    <div class="advisory-id">GHSA-5hxg-r395-fqxx | CVE: CVE-2026-64825</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 89,903</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Home Assistant Core在初始引导窗口期间，未认证攻击者可通过上传构造的备份档案，利用pathlib.Path.__truediv__丢弃备份目录前缀，写入任意文件到主机文件系统。</p>
+                <p><strong>影响产品：</strong>homeassistant (pip) ⭐89,903</p>
+                <p><strong>影响版本：</strong>< 2026.6.0</p>
+                <p><strong>攻击面：</strong>初始引导期间的备份上传端点，无需认证</p>
+                <p><strong>触发条件：</strong>上传构造的备份档案，在backup.json的name字段中注入绝对路径</p>
+                <p><strong>潜在危害：</strong>未认证攻击者写入任意文件到主机文件系统，root权限下可完全控制</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 2026.6.0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5hxg-r395-fqxx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Django: MultiPartParser和parse_header_parameters()中未经验证的HTTP Content-Disposition参数</div>
+                    <div class="advisory-id">GHSA-q5r2-3659-2w3p | CVE: CVE-2026-59324</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 88,422</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Django 6.0、5.2和更早版本的MultiPartParser和parse_header_parameters()在处理特制的Content-Disposition头部时可能发生崩溃。</p>
+                <p><strong>影响产品：</strong>django (pip) ⭐88,422</p>
+                <p><strong>影响版本：</strong>>= 6.0 < 6.0.3, >= 5.2 < 5.2.12</p>
+                <p><strong>攻击面：</strong>HTTP请求的Content-Disposition头部</p>
+                <p><strong>触发条件：</strong>发送特制的Content-Disposition头部</p>
+                <p><strong>潜在危害：</strong>应用崩溃（DoS）</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 6.0.3 或 >= 5.2.12</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q5r2-3659-2w3p" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 PostCSS: Previous Source Map自动加载中的路径遍历导致任意.map文件泄露</div>
+                    <div class="advisory-id">GHSA-r28c-9q8g-f849 | CVE: CVE-2026-73646</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 28,979</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>PostCSS自动检测CSS中的sourceMappingURL注释并加载对应.map文件，但路径未做沙箱限制。攻击者可通过../../../读取任意位置的.map文件。</p>
+                <p><strong>影响产品：</strong>postcss (npm) ⭐28,979</p>
+                <p><strong>影响版本：</strong><= 8.5.17</p>
+                <p><strong>攻击面：</strong>postcss.parse()/process()处理用户提交的CSS</p>
+                <p><strong>触发条件：</strong>CSS中包含sourceMappingURL=../../../../path/to/file.map注释</p>
+                <p><strong>潜在危害：</strong>泄露任意.map文件内容（可能包含源码）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 >= 8.5.18；或在调用时设置 map: false</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-r28c-9q8g-f849" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenZeppelin Contracts: Governor和VoteDistributor使用非标准ABI编码导致静默数据损坏</div>
+                    <div class="advisory-id">GHSA-478w-6673-q94x | CVE: CVE-2026-59435</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 27,214</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenZeppelin Contracts的Governor和VoteDistributor使用非标准ABI编码（手动mstore），在多个边界条件下静默丢弃数据，导致投票计数和提案参数损坏。</p>
+                <p><strong>影响产品：</strong>@openzeppelin/contracts (npm) ⭐27,214</p>
+                <p><strong>影响版本：</strong>Governor >=5.4.0 <5.7.0; VoteDistributor >=5.6.0 <5.7.0</p>
+                <p><strong>攻击面：</strong>链上治理投票系统（Governor提案、VoteDistributor快照）</p>
+                <p><strong>触发条件：</strong>提案参数>=2^224或params长度>=2^16；快照记录>=2^16账户</p>
+                <p><strong>潜在危害：</strong>投票计数损坏、提案参数被截断、治理流程完全破坏</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 >= 5.7.0；已部署实例应审计历史提案</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-478w-6673-q94x" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SVGO: removeScripts插件未移除部分可执行脚本</div>
+                    <div class="advisory-id">GHSA-2p49-hgcm-8545 | CVE: CVE-2026-73650</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 22,629</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SVGO的removeScripts插件未处理命名空间script标签(如<svg:script>)和大小写不敏感的JavaScript URI，导致依赖此插件进行SVG消毒的应用面临XSS风险。</p>
+                <p><strong>影响产品：</strong>svgo (npm) ⭐22,629</p>
+                <p><strong>影响版本：</strong>1.0.0-<2.8.3, 3.0.0-<3.3.4, 4.0.0-<4.0.2</p>
+                <p><strong>攻击面：</strong>SVG上传处理（依赖removeScripts进行消毒时）</p>
+                <p><strong>触发条件：</strong>提交包含<svg:script>或命名空间JavaScript URI的SVG</p>
+                <p><strong>潜在危害：</strong>XSS - 读取localStorage或cookies</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到修复版本；考虑使用专门的SVG消毒工具</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2p49-hgcm-8545" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Vitest Browser: 暴露的Browser Mode API可代理CDP并覆写配置文件导致RCE</div>
+                    <div class="advisory-id">GHSA-g8mr-85jm-7xhm | CVE: CVE-2026-53633</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 16,944</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Vitest Browser Mode暴露的cdp() API不受allowWrite/allowExec限制，攻击者可通过CDP覆写vite.config.ts实现RCE。当API暴露到网络时可远程利用。</p>
+                <p><strong>影响产品：</strong>@vitest/browser (npm) ⭐16,944</p>
+                <p><strong>影响版本：</strong>3.0.0-3.2.4, 4.0.0-4.1.7, 5.0.0-beta.0-beta.3</p>
+                <p><strong>攻击面：</strong>Browser Mode WebSocket API（暴露到网络时）</p>
+                <p><strong>触发条件：</strong>通过CDP Page.setDownloadBehavior覆写vite.config.ts</p>
+                <p><strong>潜在危害：</strong>RCE - 覆写配置文件执行任意Node.js代码</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本；不要将Browser Mode API暴露到网络</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g8mr-85jm-7xhm" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Vitest: UI server监听时可读写执行任意文件</div>
+                    <div class="advisory-id">GHSA-5xrq-8626-4rwp | CVE: CVE-2026-47429</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 16,944</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Vitest UI server的/__vitest_attachment__端点错误使用isFileServingAllowed，Windows上可通过\\?\\..\\绕过检查读取任意文件。API还具有rerun和文件写入功能，等同于脚本执行权限。</p>
+                <p><strong>影响产品：</strong>vitest (npm) ⭐16,944</p>
+                <p><strong>影响版本：</strong>>= 4.0.0 < 4.1.0, < 3.2.6</p>
+                <p><strong>攻击面：</strong>Vitest UI API（暴露到网络或Windows环境）</p>
+                <p><strong>触发条件：</strong>利用\\?\\..\\绕过isFileServingAllowed检查</p>
+                <p><strong>潜在危害：</strong>任意文件读取 + 通过saveTestFile+rerun实现RCE</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 >= 4.1.0 或 >= 3.2.6；不要将UI暴露到网络</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5xrq-8626-4rwp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 @vitest/browser: Browser Mode provider命令绕过文件访问权限控制</div>
+                    <div class="advisory-id">GHSA-p63j-vcc4-9vmv | CVE: CVE-2026-73653</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 16,944</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Browser Mode的多个provider命令（upload、takeScreenshot、stopChunkTrace等）接受客户端文件路径但不检查allowWrite权限，可读写删除任意文件。</p>
+                <p><strong>影响产品：</strong>@vitest/browser (npm) ⭐16,944</p>
+                <p><strong>影响版本：</strong>4.0.0-<4.1.10, <3.2.7, 5.0.0-beta.1-<beta.6</p>
+                <p><strong>攻击面：</strong>Browser Mode provider命令（upload、takeScreenshot等）</p>
+                <p><strong>触发条件：</strong>通过provider命令传入绝对路径或../遍历路径</p>
+                <p><strong>潜在危害：</strong>任意文件读取(upload)、任意文件写入/删除(screenshot/tracing)</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p63j-vcc4-9vmv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 Trigger.dev: Prototype pollution via run metadata operations → process-wide cross-tenant DoS</div>
+                    <div class="advisory-id">GHSA-p28v-f755-9qrg | CVE: CVE-2026-73654</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 16,008</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Trigger.dev的run-metadata更新端点将攻击者控制的operation.key直接传入JSONHeroPath().set()，无原型污染防护。单个请求即可污染共享webapp进程中的Object.prototype，破坏其他租户的Prisma查询和Prometheus指标，导致跨租户DoS和进程崩溃。</p>
+                <p><strong>影响产品：</strong>@trigger.dev/core (npm) ⭐16,008</p>
+                <p><strong>影响版本：</strong>>= 3.3.8, <= 4.5.5</p>
+                <p><strong>攻击面：</strong>API端点 (PUT /api/v1/runs/:runId/metadata)，仅需普通环境API密钥</p>
+                <p><strong>触发条件：</strong>发送一个包含 key="$.__proto__.polluted" 的metadata更新请求</p>
+                <p><strong>潜在危害：</strong>跨租户DoS - 污染Object.prototype导致所有租户worker认证失败，进程崩溃</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 >= 4.5.6；或在operation.key中过滤__proto__/constructor/prototype</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p28v-f755-9qrg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 NLTK: nltk.data.load()通过URL编码序列实现任意文件读取</div>
+                    <div class="advisory-id">GHSA-m42h-3232-vpv3 | CVE: CVE-2026-12243</div>
+                </div>
+                <span class="priority-score priority-urgent">优先级: 极高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,694</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>nltk.data.load()使用url2pathname()解码百分号编码序列，但安全检查在解码之前执行。攻击者通过%2e%2e绕过路径验证，读取任意文件。</p>
+                <p><strong>影响产品：</strong>nltk (pip) ⭐14,694</p>
+                <p><strong>影响版本：</strong>< 3.10.0</p>
+                <p><strong>攻击面：</strong>nltk.data.load() / nltk.data.find() 函数，接受用户控制的资源名</p>
+                <p><strong>触发条件：</strong>传入%2e%2e等URL编码的路径遍历序列</p>
+                <p><strong>潜在危害：</strong>读取进程权限范围内的任意文件（凭据、SSH密钥、配置文件等）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 >= 3.10.0；确保解码在路径验证之前进行</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m42h-3232-vpv3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty BrotliDecoder: 畸形Brotli流导致压缩状态损坏和OOB写入</div>
+                    <div class="advisory-id">GHSA-j86r-7c6x-33hp | CVE: CVE-2026-40249</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 35,033</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty的BrotliDecoder在处理畸形Brotli流时，未能正确处理压缩状态，导致内存损坏和越界写入。</p>
+                <p><strong>影响产品：</strong>io.netty:netty-codec-compression-brotli (Maven) ⭐35,033</p>
+                <p><strong>影响版本：</strong>>= 4.1.119.Final, < 4.1.135.Final</p>
+                <p><strong>攻击面：</strong>Brotli内容解码管道（HTTP/gRPC压缩）</p>
+                <p><strong>触发条件：</strong>发送特制的畸形Brotli流</p>
+                <p><strong>潜在危害：</strong>进程内存损坏、崩溃或潜在代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 4.1.135.Final</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j86r-7c6x-33hp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Netty: NS记录的管辖域验证不足导致DNS缓存投毒</div>
+                    <div class="advisory-id">GHSA-5pvg-856g-cp85 | CVE: CVE-2026-47691</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 35,033</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty的DnsResolveContext对NS记录的管辖域验证不足，子域的权威服务器可向缓存注入父域的NS记录，导致DNS缓存投毒。</p>
+                <p><strong>影响产品：</strong>io.netty:netty-resolver-dns (Maven) ⭐35,033</p>
+                <p><strong>影响版本：</strong>4.2.0-4.2.14, <= 4.1.134</p>
+                <p><strong>攻击面：</strong>DNS解析器（DnsResolveContext）</p>
+                <p><strong>触发条件：</strong>控制子域的权威DNS服务器返回针对父域的NS记录</p>
+                <p><strong>潜在危害：</strong>DNS缓存投毒 - 可劫持父域（如.co.uk）的所有DNS解析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 4.2.15.Final 或 >= 4.1.135.Final</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Auth.js: getToken()对畸形Bearer Authorization头抛出未捕获异常</div>
+                    <div class="advisory-id">GHSA-xmf8-cvqr-rfgj | CVE: CVE-2026-73418</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 28,325</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>getToken()在无session cookie时URL-decode Bearer值，畸形百分号编码导致decode抛出异常而非返回null，造成未捕获异常导致DoS。</p>
+                <p><strong>影响产品：</strong>next-auth / @auth/core (npm) ⭐28,325</p>
+                <p><strong>影响版本：</strong>next-auth 4.0.6-4.24.14, 5.0.0-beta.0-beta.31; @auth/core 0.1.0-<0.41.3</p>
+                <p><strong>攻击面：</strong>任何调用getToken()的API路由/中间件</p>
+                <p><strong>触发条件：</strong>发送包含畸形百分号编码的Bearer Authorization头</p>
+                <p><strong>潜在危害：</strong>DoS - 单个未认证请求可导致请求处理器崩溃</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本；或用try/catch包裹getToken()调用</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xmf8-cvqr-rfgj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 MLflow: trace API端点缺乏适当的授权验证</div>
+                    <div class="advisory-id">GHSA-2cm6-r77w-6g96 | CVE: CVE-2026-8147</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 27,503</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MLflow在启用认证时，trace API端点缺乏授权验证，任何认证用户可绕过实验级授权控制操作traces。</p>
+                <p><strong>影响产品：</strong>mlflow (pip) ⭐27,503</p>
+                <p><strong>影响版本：</strong>>= 2.14.0rc0, < 3.13.0rc0</p>
+                <p><strong>攻击面：</strong>trace API端点（读取/删除/修改traces）</p>
+                <p><strong>触发条件：</strong>认证用户访问无权限的实验的trace端点</p>
+                <p><strong>潜在危害：</strong>暴露敏感数据、破坏审计日志、未授权修改</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 3.13.0rc0</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2cm6-r77w-6g96" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Jenkins: 通过攻击者控制的config.xml实现任意类型反序列化RCE</div>
+                    <div class="advisory-id">GHSA-g2xq-2v27-4rh3 | CVE: CVE-2026-53435</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 26,457</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Jenkins允许攻击者通过提交控制的config.xml反序列化任意类型，可用于模拟用户和执行任意代码。</p>
+                <p><strong>影响产品：</strong>org.jenkins-ci.main:jenkins-core (Maven) ⭐26,457</p>
+                <p><strong>影响版本：</strong>< 2.555.3, 2.556~<2.568</p>
+                <p><strong>攻击面：</strong>config.xml提交接口</p>
+                <p><strong>触发条件：</strong>提交包含恶意类型定义的config.xml</p>
+                <p><strong>潜在危害：</strong>RCE、用户身份模拟、读取任意文件</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 2.555.3 或 >= 2.568</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g2xq-2v27-4rh3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Wazuh File Integrity Monitoring: MD5验证不足允许通过FIM API注入恶意文件</div>
+                    <div class="advisory-id">GHSA-gc89-3836-94q5 | CVE: CVE-2026-73624</div>
+                </div>
+                <span class="priority-score priority-high">优先级: 高</span>
+            </div>
+            <div>
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 16,522</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Wazuh FIM模块仅使用MD5哈希验证文件完整性，允许攻击者通过FIM API注入恶意文件替换被监控的关键系统文件。</p>
+                <p><strong>影响产品：</strong>wazuh (Python) ⭐16,522</p>
+                <p><strong>影响版本：</strong>>= 5.0.0 < 5.0.4</p>
+                <p><strong>攻击面：</strong>FIM API端点 PUT /fim/files/{filename}/upload</p>
+                <p><strong>触发条件：</strong>通过FIM API上传恶意文件替换被监控文件</p>
+                <p><strong>潜在危害：</strong>持久化访问、恶意软件分发、RCE</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 >= 5.0.4</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gc89-3836-94q5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead><tr>
+                <th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th>
+                <th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th>
+            </tr></thead><tbody>
+            <tr>
+                <td>1</td><td>🔴 紧急</td><td>GHSA-5hxg-r395-fqxx</td>
+                <td>homeassistant</td><td>⭐89,903</td>
+                <td>CRITICAL</td><td>仅描述</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-5hxg-r395-fqxx" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>2</td><td>🔴 紧急</td><td>GHSA-q5r2-3659-2w3p</td>
+                <td>django</td><td>⭐88,422</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-q5r2-3659-2w3p" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>3</td><td>🔴 紧急</td><td>GHSA-r28c-9q8g-f849</td>
+                <td>postcss</td><td>⭐28,979</td>
+                <td>HIGH</td><td>有完整PoC</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-r28c-9q8g-f849" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>4</td><td>🔴 紧急</td><td>GHSA-478w-6673-q94x</td>
+                <td>@openzeppelin/contracts</td><td>⭐27,214</td>
+                <td>CRITICAL</td><td>有详细原理</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-478w-6673-q94x" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>5</td><td>🔴 紧急</td><td>GHSA-2p49-hgcm-8545</td>
+                <td>svgo</td><td>⭐22,629</td>
+                <td>HIGH</td><td>有完整PoC</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-2p49-hgcm-8545" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>6</td><td>🔴 紧急</td><td>GHSA-g8mr-85jm-7xhm</td>
+                <td>@vitest/browser</td><td>⭐16,944</td>
+                <td>CRITICAL</td><td>有详细原理</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-g8mr-85jm-7xhm" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>7</td><td>🔴 紧急</td><td>GHSA-5xrq-8626-4rwp</td>
+                <td>vitest</td><td>⭐16,944</td>
+                <td>CRITICAL</td><td>有完整PoC</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-5xrq-8626-4rwp" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>8</td><td>🔴 紧急</td><td>GHSA-p63j-vcc4-9vmv</td>
+                <td>@vitest/browser</td><td>⭐16,944</td>
+                <td>CRITICAL</td><td>有详细原理</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-p63j-vcc4-9vmv" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>9</td><td>🔴 紧急</td><td>GHSA-p28v-f755-9qrg</td>
+                <td>@trigger.dev/core</td><td>⭐16,008</td>
+                <td>HIGH</td><td>有完整PoC</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-p28v-f755-9qrg" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>10</td><td>🔴 紧急</td><td>GHSA-m42h-3232-vpv3</td>
+                <td>nltk</td><td>⭐14,694</td>
+                <td>HIGH</td><td>有完整PoC</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-m42h-3232-vpv3" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>11</td><td>🟠 高危</td><td>GHSA-j86r-7c6x-33hp</td>
+                <td>io.netty:netty-codec-compression-brotli</td><td>⭐35,033</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-j86r-7c6x-33hp" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>12</td><td>🟠 高危</td><td>GHSA-5pvg-856g-cp85</td>
+                <td>io.netty:netty-resolver-dns</td><td>⭐35,033</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>极高</td>
+                <td><a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>13</td><td>🟠 高危</td><td>GHSA-xmf8-cvqr-rfgj</td>
+                <td>next-auth / @auth/core</td><td>⭐28,325</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-xmf8-cvqr-rfgj" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>14</td><td>🟠 高危</td><td>GHSA-2cm6-r77w-6g96</td>
+                <td>mlflow</td><td>⭐27,503</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-2cm6-r77w-6g96" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>15</td><td>🟠 高危</td><td>GHSA-g2xq-2v27-4rh3</td>
+                <td>org.jenkins-ci.main:jenkins-core</td><td>⭐26,457</td>
+                <td>HIGH</td><td>仅描述</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-g2xq-2v27-4rh3" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            <tr>
+                <td>16</td><td>🟠 高危</td><td>GHSA-gc89-3836-94q5</td>
+                <td>wazuh</td><td>⭐16,522</td>
+                <td>CRITICAL</td><td>仅描述</td>
+                <td>高</td>
+                <td><a href="https://github.com/advisories/GHSA-gc89-3836-94q5" style="color:#58a6ff;text-decoration:none;">查看</a></td>
+            </tr>
+            </tbody></table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead><tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr></thead><tbody>
+            <tr>
+                <td><a href="https://github.com/advisories/GHSA-7gfh-x38p-prh3" style="color:#58a6ff;text-decoration:none;">GHSA-7gfh-x38p-prh3</a></td>
+                <td>velocityjs</td><td>⭐615</td>
+                <td>CRITICAL</td><td>完整Node.js RCE代码：$x.constructor.constructor("return process.m...</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/advisories/GHSA-p279-2cqp-84jg" style="color:#58a6ff;text-decoration:none;">GHSA-p279-2cqp-84jg</a></td>
+                <td>org.openidentityplatform.opendj:opendj-core</td><td>⭐436</td>
+                <td>CRITICAL</td><td>RFC规范分析 + 代码级根因定位</td>
+            </tr>
+            <tr>
+                <td><a href="https://github.com/advisories/GHSA-fp43-vj7g-pg92" style="color:#58a6ff;text-decoration:none;">GHSA-fp43-vj7g-pg92</a></td>
+                <td>org.omnifaces:omnifaces</td><td>⭐310</td>
+                <td>HIGH</td><td>详细的安全审计报告，包含多个独立漏洞家族的深入分析</td>
+            </tr>
+            </tbody></table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p><ul>
+                    <li><strong>homeassistant</strong> (GHSA-5hxg-r395-fqxx) — Home Assistant Core: 初始引导期间通过备份上传实现路径遍历。升级到 >= 2026.6.0</li>
+                    <li><strong>django</strong> (GHSA-q5r2-3659-2w3p) — Django: MultiPartParser和parse_header_parameters()中未经验证的HTTP ...。升级到 >= 6.0.3 或 >= 5.2.12</li>
+                    <li><strong>postcss</strong> (GHSA-r28c-9q8g-f849) — PostCSS: Previous Source Map自动加载中的路径遍历导致任意.map文件泄露。升级到 >= 8.5.18；或在调用时设置 map: false</li>
+                    <li><strong>@openzeppelin/contracts</strong> (GHSA-478w-6673-q94x) — OpenZeppelin Contracts: Governor和VoteDistributor使用非标准ABI编码导致...。升级到 >= 5.7.0；已部署实例应审计历史提案</li>
+                    <li><strong>svgo</strong> (GHSA-2p49-hgcm-8545) — SVGO: removeScripts插件未移除部分可执行脚本。升级到修复版本；考虑使用专门的SVG消毒工具</li>
+                    <li><strong>@vitest/browser</strong> (GHSA-g8mr-85jm-7xhm) — Vitest Browser: 暴露的Browser Mode API可代理CDP并覆写配置文件导致RCE。升级到修复版本；不要将Browser Mode API暴露到网络</li>
+                    <li><strong>vitest</strong> (GHSA-5xrq-8626-4rwp) — Vitest: UI server监听时可读写执行任意文件。升级到 >= 4.1.0 或 >= 3.2.6；不要将UI暴露到网络</li>
+                    <li><strong>@vitest/browser</strong> (GHSA-p63j-vcc4-9vmv) — @vitest/browser: Browser Mode provider命令绕过文件访问权限控制。升级到修复版本</li>
+                    <li><strong>@trigger.dev/core</strong> (GHSA-p28v-f755-9qrg) — Trigger.dev: Prototype pollution via run metadata operations...。升级到 >= 4.5.6；或在operation.key中过滤__proto__/constructor/prototype</li>
+                    <li><strong>nltk</strong> (GHSA-m42h-3232-vpv3) — NLTK: nltk.data.load()通过URL编码序列实现任意文件读取。升级到 >= 3.10.0；确保解码在路径验证之前进行</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p><ul>
+                    <li><strong>io.netty:netty-codec-compression-brotli</strong> (GHSA-j86r-7c6x-33hp) — Netty BrotliDecoder: 畸形Brotli流导致压缩状态损坏和OOB写入。升级到 >= 4.1.135.Final</li>
+                    <li><strong>io.netty:netty-resolver-dns</strong> (GHSA-5pvg-856g-cp85) — Netty: NS记录的管辖域验证不足导致DNS缓存投毒。升级到 >= 4.2.15.Final 或 >= 4.1.135.Final</li>
+                    <li><strong>next-auth / @auth/core</strong> (GHSA-xmf8-cvqr-rfgj) — Auth.js: getToken()对畸形Bearer Authorization头抛出未捕获异常。升级到修复版本；或用try/catch包裹getToken()调用</li>
+                    <li><strong>mlflow</strong> (GHSA-2cm6-r77w-6g96) — MLflow: trace API端点缺乏适当的授权验证。升级到 >= 3.13.0rc0</li>
+                    <li><strong>org.jenkins-ci.main:jenkins-core</strong> (GHSA-g2xq-2v27-4rh3) — Jenkins: 通过攻击者控制的config.xml实现任意类型反序列化RCE。升级到 >= 2.555.3 或 >= 2.568</li>
+                    <li><strong>wazuh</strong> (GHSA-gc89-3836-94q5) — Wazuh File Integrity Monitoring: MD5验证不足允许通过FIM API注入恶意文件。升级到 >= 5.0.4</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
