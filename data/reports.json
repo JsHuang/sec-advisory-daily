@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-15",
+      "title": "GitHub安全公告日报 - 2026-08-15",
+      "url": "reports/report-2026-08-15.html",
+      "stats": {
+        "total": 26,
+        "critical": 13,
+        "high": 13,
+        "star5k": 7,
+        "with_poc": 9
+      },
+      "summary": "今日发现26个高危漏洞公告：golang.org/x/crypto SSH死锁(Critical)、KubeVirt请求走私(Critical)、Grav CMS DoS(有PoC)、Immutable.js哈希碰撞DoS(有PoC)、Jetty HTTP请求走私(有PoC)、kin-openapi认证绕过(有PoC)、Budibase SSRF等"
+    },
+    {
       "date": "2026-08-14",
       "title": "GitHub安全公告日报 - 2026-08-14",
       "url": "reports/report-2026-08-14.html",
@@ -376,19 +389,6 @@
         "with_poc": 18
       },
       "summary": "今日发现21个高危及以上安全公告（Critical 10, High 11），涉及SiYuan（5个漏洞含4个Critical XSS→RCE）、File Browser（2个Critical级Pre-Auth RCE+认证绕过）、mcp-atlassian（2个任意文件读取）、BabelDOC（Pickle反序列化RCE）、Excelize（DoS）等高影响力项目。SiYuan和File Browser漏洞最为严重，建议立即升级。"
-    },
-    {
-      "date": "2026-07-11",
-      "title": "GitHub安全公告日报 - 2026-07-11",
-      "url": "reports/report-2026-07-11.html",
-      "stats": {
-        "total": 36,
-        "critical": 12,
-        "high": 24,
-        "star5k": 9,
-        "with_poc": 33
-      },
-      "summary": "今日监控到 36 个高危漏洞公告（12 Critical, 24 High），其中 9 个影响 Star≥5k 的热门项目，33 个包含PoC或详细利用分析。重点关注 MLflow 环境变量注入、SiYuan 多个XSS/RCE漏洞、File Browser 命令注入、Gogs RCE等。"
     }
   ]
 }
