@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-15</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content p { margin-bottom: 8px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-15 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">26</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Grav CMS: 未认证拒绝服务（无限图片尺寸请求）</div>
+                    <div class="advisory-id">GHSA-4x9g-vw65-vvf9 | CVE: CVE-2026-53653</div>
+                </div>
+                <span class="priority-score">优先级: 90</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 15,629</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>未认证访客可通过请求超大尺寸图片导致服务器内存和CPU耗尽。Grav的fallbackUrl()函数未对查询参数中的图片操作尺寸进行上限校验，攻击者可通过forceResize参数请求任意大小的图片，绕过PHP memory_limit限制（libgd使用独立内存分配），少量并发请求即可使服务器宕机。</p>
+                <p><strong>影响产品：</strong>getgrav/grav ⭐15,629</p>
+                <p><strong>影响版本：</strong>< 1.7.53, >= 2.0.0-beta.1 < 2.0.0-rc.8</p>
+                <p><strong>修复版本：</strong>1.7.53, 2.0.0-rc.8</p>
+                <p><strong>攻击面：</strong>HTTP GET请求，无需认证</p>
+                <p><strong>触发条件：</strong>访问任意包含图片的页面并附加超大forceResize参数</p>
+                <p><strong>潜在危害：</strong>未认证DoS，单个请求消耗数GB内存和数十秒CPU</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 Grav 1.7.53 或 2.0.0-rc.8+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4x9g-vw65-vvf9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Immutable.js: Map/Set 哈希碰撞算法复杂度DoS</div>
+                    <div class="advisory-id">GHSA-xvcm-6775-5m9r | CVE: CVE-2026-59880</div>
+                </div>
+                <span class="priority-score">优先级: 88</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 33,043</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Immutable.Map和Immutable.Set将具有相同32位哈希值的key存储在碰撞桶中并线性扫描。字符串哈希算法是公开且确定性的（JVM风格多项式），攻击者可预先计算大量碰撞key，将插入和查找从O(1)降级为O(N)，整体构建为O(N²)。在Node.js单线程环境下可阻塞事件循环导致服务不可用。</p>
+                <p><strong>影响产品：</strong>immutable-js/immutable-js ⭐33,043</p>
+                <p><strong>影响版本：</strong>< 4.3.9, >= 5.0.0-beta.1 < 5.1.8</p>
+                <p><strong>修复版本：</strong>4.3.9, 5.1.8</p>
+                <p><strong>攻击面：</strong>应用将攻击者控制的对象key传入Immutable结构</p>
+                <p><strong>触发条件：</strong>Immutable.Map(req.body)或Immutable.fromJS(req.body)处理恶意构造的key</p>
+                <p><strong>潜在危害：</strong>CPU拒绝服务，事件循环阻塞</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 immutable 4.3.9 或 5.1.8+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xvcm-6775-5m9r" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Budibase: 自动化步骤SSRF绕过IP黑名单</div>
+                    <div class="advisory-id">GHSA-5fpj-28rv-84r7 | CVE: CVE-2026-35219</div>
+                </div>
+                <span class="priority-score">优先级: 88</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 28,203</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Budibase的自动化步骤（Webhook、Zapier、n8n、Slack、Discord等）直接使用node-fetch发起HTTP请求，完全绕过了REST API集成中存在的IP黑名单保护。此外，REST API的黑名单在BLACKLIST_IPS未配置时默认为空。攻击者可通过自动化步骤访问云元数据（169.254.169.254）、内部数据库和K8s API等。</p>
+                <p><strong>影响产品：</strong>Budibase/budibase ⭐28,203</p>
+                <p><strong>影响版本：</strong>< 3.41.3</p>
+                <p><strong>修复版本：</strong>3.41.3</p>
+                <p><strong>攻击面：</strong>Budibase自动化步骤的出站HTTP请求</p>
+                <p><strong>触发条件：</strong>创建包含Webhook/Zapier等步骤的自动化，指向内部IP</p>
+                <p><strong>潜在危害：</strong>SSRF，可访问云元数据、内部服务、K8s API</p>
+                <p><strong>可利用性：</strong>有详细原理</p>
+                <p><strong>修复建议：</strong>升级到 Budibase 3.41.3+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5fpj-28rv-84r7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 golang.org/x/crypto: SSH客户端可导致服务端死锁</div>
+                    <div class="advisory-id">GHSA-vgwf-h737-ff37 | CVE: CVE-2026-39830</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 135,751</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>恶意SSH对端可发送未经请求的全局请求响应来填充内部缓冲区，阻塞连接的读取循环。被阻塞的goroutine无法通过调用Close()释放，导致每个连接都存在资源泄漏。Go的x/crypto/ssh包受影响。</p>
+                <p><strong>影响产品：</strong>golang/go (x/crypto) ⭐135,751</p>
+                <p><strong>影响版本：</strong>< 0.52.0</p>
+                <p><strong>修复版本：</strong>0.52.0</p>
+                <p><strong>攻击面：</strong>使用golang.org/x/crypto/ssh的服务端实现</p>
+                <p><strong>触发条件：</strong>恶意SSH客户端发送大量未经请求的全局请求响应</p>
+                <p><strong>潜在危害：</strong>服务端死锁和资源泄漏，可导致DoS</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 golang.org/x/crypto 到 0.52.0+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 KubeVirt: 磁盘镜像上传请求走私导致越权访问</div>
+                    <div class="advisory-id">GHSA-h5c8-rq56-7f3q | CVE: CVE-2026-23490</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 7,010</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>KubeVirt的上传代理未能完全解析分块(chunked) HTTP请求，攻击者可通过HTTP请求走私将上传请求伪装为来自不同的命名空间或不同的用户，从而绕过RBAC权限检查，访问未授权的虚拟机磁盘镜像数据。</p>
+                <p><strong>影响产品：</strong>kubevirt/kubevirt ⭐7,010</p>
+                <p><strong>影响版本：</strong>< 1.6.0</p>
+                <p><strong>修复版本：</strong>1.6.0</p>
+                <p><strong>攻击面：</strong>KubeVirt CDI上传服务</p>
+                <p><strong>触发条件：</strong>构造恶意分块HTTP请求发送至上传代理</p>
+                <p><strong>潜在危害：</strong>绕过RBAC越权访问其他用户的虚拟机磁盘镜像</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 KubeVirt 1.6.0+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-h5c8-rq56-7f3q" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 KubeVirt: 上传请求走私绕过所有权限制</div>
+                    <div class="advisory-id">GHSA-xr8x-n7h8-4494 | CVE: CVE-2026-23491</div>
+                </div>
+                <span class="priority-score">优先级: 85</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 7,010</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>KubeVirt上传服务器未能完全解析分块HTTP请求，攻击者可通过HTTP请求走私将上传请求伪装为来自不同的用户身份，绕过所有权限制检查，以其他用户身份执行操作。</p>
+                <p><strong>影响产品：</strong>kubevirt/kubevirt ⭐7,010</p>
+                <p><strong>影响版本：</strong>< 1.6.0</p>
+                <p><strong>修复版本：</strong>1.6.0</p>
+                <p><strong>攻击面：</strong>KubeVirt CDI上传服务</p>
+                <p><strong>触发条件：</strong>构造恶意分块HTTP请求绕过身份验证</p>
+                <p><strong>潜在危害：</strong>绕过所有权限制，以其他用户身份执行操作</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 KubeVirt 1.6.0+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-xr8x-n7h8-4494" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Lima: QEMU虚拟机内任意用户可通过guest agent获取root权限</div>
+                    <div class="advisory-id">GHSA-2j9v-p4xj-cjw2 | CVE: CVE-2026-53657</div>
+                </div>
+                <span class="priority-score">优先级: 72</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 21,679</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>在使用qemu驱动的Lima虚拟机中，任意用户可访问/run/lima-guestagent.sock。由于guest agent提供了任意地址隧道服务（包括D-Bus等特权守护进程的Unix socket），攻击者可在虚拟机内以root权限执行任意命令。注意：此漏洞不影响宿主机，vz驱动不受影响。</p>
+                <p><strong>影响产品：</strong>lima-vm/lima ⭐21,679</p>
+                <p><strong>影响版本：</strong><= 2.1.2</p>
+                <p><strong>修复版本：</strong>2.1.3</p>
+                <p><strong>攻击面：</strong>QEMU虚拟机内的guest agent Unix socket</p>
+                <p><strong>触发条件：</strong>VM内非特权用户访问guest agent socket并连接D-Bus</p>
+                <p><strong>潜在危害：</strong>虚拟机内root权限提升（不影响宿主机）</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 Lima 2.1.3+ 或使用vz驱动</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2j9v-p4xj-cjw2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code style="color:#58a6ff">GHSA-r277-6w6q-xmqw</code></td>
+                    <td>getkin/kin-openapi</td>
+                    <td>⭐3,277</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-r277-6w6q-xmqw" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-4x9g-vw65-vvf9</code></td>
+                    <td>getgrav/grav</td>
+                    <td>⭐15,629</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4x9g-vw65-vvf9" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-xvcm-6775-5m9r</code></td>
+                    <td>immutable-js/immutable-js</td>
+                    <td>⭐33,043</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xvcm-6775-5m9r" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-5fpj-28rv-84r7</code></td>
+                    <td>Budibase/budibase</td>
+                    <td>⭐28,203</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5fpj-28rv-84r7" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-vgwf-h737-ff37</code></td>
+                    <td>golang/go (x/crypto)</td>
+                    <td>⭐135,751</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-h5c8-rq56-7f3q</code></td>
+                    <td>kubevirt/kubevirt</td>
+                    <td>⭐7,010</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h5c8-rq56-7f3q" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-xr8x-n7h8-4494</code></td>
+                    <td>kubevirt/kubevirt</td>
+                    <td>⭐7,010</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xr8x-n7h8-4494" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-355h-qmc2-wpwf</code></td>
+                    <td>eclipse/jetty.project</td>
+                    <td>⭐4,092</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-355h-qmc2-wpwf" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code style="color:#58a6ff">GHSA-63vm-454h-vhhq</code></td>
+                    <td>pyasn1/pyasn1</td>
+                    <td>⭐53</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-63vm-454h-vhhq" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-29rf-f4vv-pvq6</code></td>
+                    <td>authorizerdev/authorizer</td>
+                    <td>⭐1,979</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-29rf-f4vv-pvq6" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-2j9v-p4xj-cjw2</code></td>
+                    <td>lima-vm/lima</td>
+                    <td>⭐21,679</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2j9v-p4xj-cjw2" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-49mq-fc6q-3h46</code></td>
+                    <td>ooples/token-optimizer-mcp</td>
+                    <td>⭐485</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-49mq-fc6q-3h46" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-rmj7-2vxq-3g9f</code></td>
+                    <td>FasterXML/jackson-databind</td>
+                    <td>⭐3,745</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-rmj7-2vxq-3g9f" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code style="color:#58a6ff">GHSA-p6jf-79j3-33f3</code></td>
+                    <td>wso2/carbon-apimgt</td>
+                    <td>⭐0</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>未知</td>
+                    <td><a href="https://github.com/advisories/GHSA-p6jf-79j3-33f3" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-cx4m-2p55-rw7j</code></td>
+                    <td>apache/opennlp</td>
+                    <td>⭐1,603</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-cx4m-2p55-rw7j" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-7q66-jgg6-w6m4</code></td>
+                    <td>grafana/pyroscope-go</td>
+                    <td>⭐42</td>
+                    <td>High</td>
+                    <td>有详细原理</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-7q66-jgg6-w6m4" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-h84g-69h7-mw6v</code></td>
+                    <td>swaldman/mchange-commons-java (c3p0)</td>
+                    <td>⭐0</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>未知</td>
+                    <td><a href="https://github.com/advisories/GHSA-h84g-69h7-mw6v" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-w22p-4x9f-486v</code></td>
+                    <td>jenkinsci/github-plugin</td>
+                    <td>⭐301</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-w22p-4x9f-486v" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-fpmh-vx4h-xc33</code></td>
+                    <td>OpenIdentityPlatform/OpenAM</td>
+                    <td>⭐882</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-fpmh-vx4h-xc33" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-4c8g-83qw-93j6</code></td>
+                    <td>fastify/fast-uri</td>
+                    <td>⭐120</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-7j4w-x8x8-5mvg</code></td>
+                    <td>kubev2v/assisted-migration-agent</td>
+                    <td>⭐2</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-7j4w-x8x8-5mvg" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-vf2h-7x3w-97fr</code></td>
+                    <td>kubev2v/migration-planner</td>
+                    <td>⭐10</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vf2h-7x3w-97fr" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-2fqw-7c6r-2cq6</code></td>
+                    <td>kubev2v/migration-planner</td>
+                    <td>⭐10</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2fqw-7c6r-2cq6" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-v5m8-5455-qw2x</code></td>
+                    <td>kubev2v/migration-planner</td>
+                    <td>⭐10</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-v5m8-5455-qw2x" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-8g5p-jxp9-457c</code></td>
+                    <td>kubev2v/assisted-migration-agent</td>
+                    <td>⭐2</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8g5p-jxp9-457c" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟡 中危</td>
+                    <td><code style="color:#58a6ff">GHSA-qcxq-75wr-5cm8</code></td>
+                    <td>kanidm/ldap3</td>
+                    <td>⭐81</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-qcxq-75wr-5cm8" target="_blank" style="color:#58a6ff">链接</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-r277-6w6q-xmqw</code></td>
+                    <td>getkin/kin-openapi</td>
+                    <td>⭐3,277</td>
+                    <td>Critical</td>
+                    <td>Go程序+Docker验证：未认证请求访问受保护端点返回HTTP 200和敏感数据</td>
+                </tr>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-355h-qmc2-wpwf</code></td>
+                    <td>eclipse/jetty.project</td>
+                    <td>⭐4,092</td>
+                    <td>High</td>
+                    <td>Python脚本通过构造恶意chunked extension实现HTTP请求走私，单个TCP连接返回2个HTTP响应</td>
+                </tr>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-63vm-454h-vhhq</code></td>
+                    <td>pyasn1/pyasn1</td>
+                    <td>⭐53</td>
+                    <td>Critical</td>
+                    <td>Python和Go PoC代码，4字节payload即可触发无限递归导致RecursionError</td>
+                </tr>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-29rf-f4vv-pvq6</code></td>
+                    <td>authorizerdev/authorizer</td>
+                    <td>⭐1,979</td>
+                    <td>High</td>
+                    <td>完整的攻击链描述，含源码文件路径和行号（oauth_callback.go:125-219）</td>
+                </tr>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-49mq-fc6q-3h46</code></td>
+                    <td>ooples/token-optimizer-mcp</td>
+                    <td>⭐485</td>
+                    <td>High</td>
+                    <td>完整PoC脚本：username=$(id > /tmp/pwned) 通过MCP tool调用执行任意命令</td>
+                </tr>
+                <tr>
+                    <td><code style="color:#58a6ff">GHSA-7q66-jgg6-w6m4</code></td>
+                    <td>grafana/pyroscope-go</td>
+                    <td>⭐42</td>
+                    <td>High</td>
+                    <td>Go测试代码和Dockerfile验证goroutine无限增长，5分钟可达1214+ goroutines</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li>🟠 <strong>getgrav/grav</strong> — Grav CMS: 未认证拒绝服务（无限图片尺寸请求） (GHSA-4x9g-vw65-vvf9)</li><li>🟠 <strong>immutable-js/immutable-js</strong> — Immutable.js: Map/Set 哈希碰撞算法复杂度DoS (GHSA-xvcm-6775-5m9r)</li><li>🟠 <strong>Budibase/budibase</strong> — Budibase: 自动化步骤SSRF绕过IP黑名单 (GHSA-5fpj-28rv-84r7)</li><li>🟠 <strong>golang/go (x/crypto)</strong> — golang.org/x/crypto: SSH客户端可导致服务端死锁 (GHSA-vgwf-h737-ff37)</li><li>🟠 <strong>kubevirt/kubevirt</strong> — KubeVirt: 磁盘镜像上传请求走私导致越权访问 (GHSA-h5c8-rq56-7f3q)</li><li>🟠 <strong>kubevirt/kubevirt</strong> — KubeVirt: 上传请求走私绕过所有权限制 (GHSA-xr8x-n7h8-4494)</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li>🟡 <strong>lima-vm/lima</strong> — Lima: QEMU虚拟机内任意用户可通过guest agent获取root权限 (GHSA-2j9v-p4xj-cjw2)</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li>OpenShift Migration Advisor 多个漏洞（路径遍历、JWT绕过、访问控制缺陷）影响 kubev2v 组件，如使用该组件请及时升级</li>
+                    <li>jackson-databind 数组子类型白名单绕过可影响大量 Java 应用，建议升级</li>
+                    <li>mchange-commons-java/c3p0 的 JNDI 注入和反序列化问题在旧版 JVM 上风险较高</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: <a href="https://github.com/advisories">GitHub Advisory Database</a></p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a> · 由 OpenClaw 自动化生成</p>
+    </footer>
+</body>
+</html>
