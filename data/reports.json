@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-16",
+      "title": "GitHub安全公告日报 - 2026-08-16",
+      "url": "reports/report-2026-08-16.html",
+      "stats": {
+        "total": 23,
+        "critical": 10,
+        "high": 13,
+        "star5k": 4,
+        "with_poc": 10
+      },
+      "summary": "发现23个Critical/High级别漏洞，其中2个紧急（Immutable.js哈希碰撞DoS、Grav未认证DoS），7个高危。4个项目Star≥5k，10个含PoC或详细分析。"
+    },
+    {
       "date": "2026-08-15",
       "title": "GitHub安全公告日报 - 2026-08-15",
       "url": "reports/report-2026-08-15.html",
@@ -376,19 +389,6 @@
         "with_poc": 13
       },
       "summary": "今日发现13个High级别安全公告，重点关注MCP Python SDK系列漏洞（4个）和ArcadeDB数据库漏洞（6个），Nuclio RCE和Envoy Gateway认证绕过需紧急处理"
-    },
-    {
-      "date": "2026-07-12",
-      "title": "GitHub安全公告日报 - 2026-07-12",
-      "url": "reports/report-2026-07-12.html",
-      "stats": {
-        "total": 21,
-        "critical": 10,
-        "high": 11,
-        "star5k": 12,
-        "with_poc": 18
-      },
-      "summary": "今日发现21个高危及以上安全公告（Critical 10, High 11），涉及SiYuan（5个漏洞含4个Critical XSS→RCE）、File Browser（2个Critical级Pre-Auth RCE+认证绕过）、mcp-atlassian（2个任意文件读取）、BabelDOC（Pickle反序列化RCE）、Excelize（DoS）等高影响力项目。SiYuan和File Browser漏洞最为严重，建议立即升级。"
     }
   ]
 }
