@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-17</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        .no-issues {
+            text-align: center; padding: 40px; color: #8b949e;
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+        }
+        .no-issues .emoji { font-size: 3em; margin-bottom: 16px; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-17 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #8b949e;">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #8b949e;">0</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #8b949e;">0</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 mcp-ssh-tool 文件传输路径策略绕过 & Bearer Token 时序侧信道</div>
+                    <div class="advisory-id">GHSA-j7h9-2jh7-g967 | CVE: 未分配</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ &lt;1k（仓库已删除）</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>mcp-ssh-tool 是一个基于 MCP 协议的 SSH 远程管理工具。该漏洞涉及两个安全问题：(1) 文件传输路径授权策略存在路径遍历绕过（CWE-22），攻击者可通过精心构造的路径绕过 deny-prefix 策略检查，访问受限目录下的文件；(2) HTTP Bearer Token 比较未使用常量时间算法（CWE-208），存在时序侧信道攻击风险，可能导致 Token 泄露。</p>
+                <p><strong>影响产品：</strong>mcp-ssh-tool（npm 生态，仓库已删除，Star 数不可考）</p>
+                <p><strong>影响版本：</strong>≤ 2.1.0</p>
+                <p><strong>攻击面：</strong>MCP 客户端通过 SSH 进行文件传输时的路径授权检查；HTTP 传输层的 Bearer Token 认证</p>
+                <p><strong>触发条件：</strong>(1) 路径遍历：MCP 客户端发起文件传输请求，使用路径分隔符边界或规范化的变体绕过 deny-prefix 检查；(2) 时序攻击：攻击者可对 HTTP 端点发送大量认证请求，通过响应时间差异推断 Bearer Token</p>
+                <p><strong>潜在危害：</strong>路径遍历可导致敏感文件读取/写入；时序侧信道可导致认证令牌泄露</p>
+                <p><strong>可利用性：</strong>无PoC，无详细分析，仅有标准公告描述</p>
+                <p><strong>CVSS v4 评分：</strong>8.7（High）— AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N</p>
+                <p><strong>修复建议：</strong>升级至 mcp-ssh-tool ≥ 2.1.1。如无法立即升级：避免将 HTTP 传输暴露到 loopback 之外；使用严格的文件系统策略配置；监控审计日志中的异常传输操作。</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j7h9-2jh7-g967" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-j7h9-2jh7-g967</code></td>
+                    <td>mcp-ssh-tool</td>
+                    <td>&lt;1k</td>
+                    <td><span class="badge badge-high">High</span></td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-j7h9-2jh7-g967" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <div class="no-issues">
+            <div class="emoji">✅</div>
+            <p>今日无符合条件的漏洞</p>
+        </div>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>今日概况：</strong>过去24小时内 GitHub Advisory 数据库仅有1条 High 级别公告更新，无 Critical 级别公告，无含 PoC 或详细分析的漏洞。整体安全态势平稳。</p>
+                <p style="margin-top: 12px;"><strong>常规关注：</strong></p>
+                <ul>
+                    <li><strong>mcp-ssh-tool（GHSA-j7h9-2jh7-g967）</strong>：路径遍历 + 时序侧信道，影响版本 ≤2.1.0，修复版本 2.1.1。该项目仓库已删除，npm 包数据不完整，属于小众 MCP 工具。如有使用该项目的团队建议尽快升级。</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>MCP 生态安全观察：</strong>mcp-ssh-tool 涉及 MCP（Model Context Protocol）生态，这是当前 AI Agent 工具链的热门协议。随着 MCP 工具快速增长，路径遍历和认证绕过类漏洞可能成为常见攻击面。建议关注 MCP 工具链的整体安全实践。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
