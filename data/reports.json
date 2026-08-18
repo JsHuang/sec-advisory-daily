@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-18",
+      "title": "GitHub安全公告日报 - 2026-08-18",
+      "url": "reports/report-2026-08-18.html",
+      "stats": {
+        "total": 41,
+        "critical": 9,
+        "high": 32,
+        "star5k": 6,
+        "with_poc": 18
+      },
+      "summary": "今日监控到41个Critical/High级别漏洞，其中9个Critical。Glances命令注入绕过、MLflow SSRF、VM2沙箱逃逸等漏洞含完整PoC，需紧急关注。New API存在整数溢出导致自充值、Root令牌泄露等严重问题。"
+    },
+    {
       "date": "2026-08-17",
       "title": "GitHub安全公告日报 - 2026-08-17",
       "url": "reports/report-2026-08-17.html",
@@ -376,19 +389,6 @@
         "with_poc": 6
       },
       "summary": "今日监控到6个高危及以上安全公告：NestJS Fastify中间件绕过（76k Star，URL尾部斜杠即可绕过认证）、LiteLLM Host头注入认证绕过（54k Star）、Jupyter Server存储型XSS致RCE、Avo管理面板授权绕过、Picklescan检测绕过、MCP文档服务器无认证暴露。"
-    },
-    {
-      "date": "2026-07-18",
-      "title": "GitHub安全公告日报 - 2026-07-18",
-      "url": "reports/report-2026-07-18.html",
-      "stats": {
-        "total": 40,
-        "critical": 7,
-        "high": 33,
-        "star5k": 18,
-        "with_poc": 22
-      },
-      "summary": "今日发现40个高危/严重安全公告，vLLM占据15+个漏洞（含完整RCE利用链），golang.org/x/crypto存在4个SSH严重漏洞，axios存在NO_PROXY绕过。建议立即关注vLLM和Go crypto库升级。"
     }
   ]
 }
