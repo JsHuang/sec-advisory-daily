@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-18</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-18 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">41</div><div class="stat-label">总公告数</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Critical</div></div>
+            <div class="stat-card"><div class="stat-number">32</div><div class="stat-label">High</div></div>
+            <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Star≥5k 项目</div></div>
+            <div class="stat-card"><div class="stat-number">18</div><div class="stat-label">含PoC/详细分析</div></div>
+        </div>
+
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 MLflow: Unauthenticated full-read SSRF in webhook delivery: _validate_webhook_url bypassed via unvalidated HTTP redirects (and DNS rebinding)</div>
+                    <div class="advisory-id">GHSA-7gwp-5pfp-969j | CVE: CVE-2026-64849</div>
+                </div>
+                <span class="priority-score">优先级: 11/12 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐27,550</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The default MLflow Tracking Server (`mlflow server`, no authentication, default SQLite backend) exposes the model-registry webhooks API unauthenticated, including a synchronous `POST /api/2.0/mlflow/w</p>
+                <p><strong>影响产品：</strong>mlflow/mlflow ⭐27,550</p>
+                <p><strong>影响版本：</strong>< 3.15.0</p>
+                <p><strong>攻击面：</strong>网络请求/SSRF、认证绕过、重定向</p>
+                <p><strong>触发条件：</strong>无需认证，远程可直接触发</p>
+                <p><strong>潜在危害：</strong>内网探测和数据窃取</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7gwp-5pfp-969j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Glances: `--disable-config-exec` does not cover on-alert action commands (incomplete fix of CVE-2026-53925)</div>
+                    <div class="advisory-id">GHSA-59fj-m2j6-hcxh | CVE: CVE-2026-68519</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐33,366</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>In Glances 4.5.5 the `--disable-config-exec` flag was extended (GHSA-3vwc-qwhc-3mj7) to stop `secure_popen()` from</p>
+                <p><strong>影响产品：</strong>nicolargo/glances ⭐33,366</p>
+                <p><strong>影响版本：</strong><= 4.5.5</p>
+                <p><strong>攻击面：</strong>重定向</p>
+                <p><strong>触发条件：</strong>视具体配置和使用方式而定</p>
+                <p><strong>潜在危害：</strong>潜在安全风险，建议评估影响后及时修复</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-59fj-m2j6-hcxh" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Glances: Incomplete fix of CVE-2026-32608: action-template sanitizer is bypassed by nested stat values (process 'cmdline') → OS command injection</div>
+                    <div class="advisory-id">GHSA-73wf-9vmv-5pv9 | CVE: CVE-2026-62982</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐33,366</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>CVE-2026-32608 ("Command Injection via Process Names in Action Command Templates") was fixed (commit `5680a5d`) by adding `_sanitize_mustache_dict`, which replaces the shell operators `&&`, `|`, `>>`,</p>
+                <p><strong>影响产品：</strong>nicolargo/glances ⭐33,366</p>
+                <p><strong>影响版本：</strong>>= 4.5.2, < 4.5.6</p>
+                <p><strong>攻击面：</strong>注入攻击、命令注入</p>
+                <p><strong>触发条件：</strong>视具体配置和使用方式而定</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-73wf-9vmv-5pv9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Glances has a command injection bypass of action-template sanitizer via cross-field shell-operator reconstruction</div>
+                    <div class="advisory-id">GHSA-qcpp-8x79-hhp3 | CVE: CVE-2026-68518</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐33,366</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The Glances action system lets an administrator configure shell commands that run</p>
+                <p><strong>影响产品：</strong>nicolargo/glances ⭐33,366</p>
+                <p><strong>影响版本：</strong><= 4.5.5</p>
+                <p><strong>攻击面：</strong>注入攻击、命令注入</p>
+                <p><strong>触发条件：</strong>视具体配置和使用方式而定</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-qcpp-8x79-hhp3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 MLflow: CreateModelVersion source validation does not check READ permission on referenced run_id</div>
+                    <div class="advisory-id">GHSA-gqch-g4w5-7qcw | CVE: CVE-2026-69148</div>
+                </div>
+                <span class="priority-score">优先级: 10/12 紧急</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐27,550</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>The `_validate_source_run` and `_validate_source_model` functions in `mlflow/server/handlers.py` verify that a model version source path is within the artifact directory of a specified run or logged m</p>
+                <p><strong>影响产品：</strong>mlflow/mlflow ⭐27,550</p>
+                <p><strong>影响版本：</strong>< 3.15.0</p>
+                <p><strong>攻击面：</strong>远程代码执行</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭据</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gqch-g4w5-7qcw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 New API: Integer overflow in quota billing yields negative charges (self-crediting)</div>
+                    <div class="advisory-id">GHSA-8r8v-xf7q-rcpr | CVE: CVE-2026-71479</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐45,387</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Multiple billing paths multiplied **user-controlled quantity parameters** into the quota calculation without an upper bound or overflow-safe integer conversion. A crafted extreme value (e.g. image `n </p>
+                <p><strong>影响产品：</strong>QuantumNous/new-api ⭐45,387</p>
+                <p><strong>影响版本：</strong><= 1.0.0-rc.17</p>
+                <p><strong>攻击面：</strong>溢出</p>
+                <p><strong>触发条件：</strong>视具体配置和使用方式而定</p>
+                <p><strong>潜在危害：</strong>整数溢出导致业务逻辑异常</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-8r8v-xf7q-rcpr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 New API: User List API Leaks Root User Access Token Leading to Privilege Escalation</div>
+                    <div class="advisory-id">GHSA-6x2c-phff-wx57 | CVE: CVE-2026-64859</div>
+                </div>
+                <span class="priority-score">优先级: 9/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐45,387</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>- **Product**: new-api</p>
+                <p><strong>影响产品：</strong>QuantumNous/new-api ⭐45,387</p>
+                <p><strong>影响版本：</strong>< 1.0.0-rc.7</p>
+                <p><strong>攻击面：</strong>权限提升、令牌泄露</p>
+                <p><strong>触发条件：</strong>需要有效的用户凭据</p>
+                <p><strong>潜在危害：</strong>权限提升，获取系统控制权；敏感信息泄露</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6x2c-phff-wx57" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 New API: Unauthenticated payment webhooks allow memory and disk DoS via unbounded body reads and full-body logging</div>
+                    <div class="advisory-id">GHSA-v828-m3pf-vq9q | CVE: CVE-2026-64868</div>
+                </div>
+                <span class="priority-score">优先级: 8/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐45,387</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Unauthenticated payment webhook endpoints could read and log the entire request body before validating the webhook signature. When a payment webhook was enabled, an unauthenticated attacker could send</p>
+                <p><strong>影响产品：</strong>QuantumNous/new-api ⭐45,387</p>
+                <p><strong>影响版本：</strong>< 1.0.0-rc.11</p>
+                <p><strong>攻击面：</strong>远程代码执行、拒绝服务</p>
+                <p><strong>触发条件：</strong>无需认证，远程可直接触发</p>
+                <p><strong>潜在危害：</strong>服务不可用</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v828-m3pf-vq9q" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty: Memory Exhaustion in SctpMessageCompletionHandler</div>
+                    <div class="advisory-id">GHSA-2qj4-mmr9-4v2f | CVE: CVE-2026-59902</div>
+                </div>
+                <span class="priority-score">优先级: 8/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐35,035</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SctpMessageCompletionHandler does not limit the total size of buffered fragments, allowing an unauthenticated attacker to cause an OutOfMemoryError by sending large SCTP fragments.</p>
+                <p><strong>影响产品：</strong>netty/netty ⭐35,035</p>
+                <p><strong>影响版本：</strong>>= 4.2.0.Final, <= 4.2.16.Final, <= 4.1.136.Final</p>
+                <p><strong>攻击面：</strong>拒绝服务</p>
+                <p><strong>触发条件：</strong>无需认证，远程可直接触发</p>
+                <p><strong>潜在危害：</strong>服务不可用</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2qj4-mmr9-4v2f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Etherpad has stored XSS in HTML export via unescaped attribute-pool values</div>
+                    <div class="advisory-id">GHSA-2jp7-wwpg-3p9w | CVE: CVE-2026-55090</div>
+                </div>
+                <span class="priority-score">优先级: 8/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐18,498</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fix: PR #7905 (ether/etherpad).</p>
+                <p><strong>影响产品：</strong>ether/etherpad-lite ⭐18,498</p>
+                <p><strong>影响版本：</strong><= 1.8.14</p>
+                <p><strong>攻击面：</strong>XSS 跨站脚本、存储型XSS</p>
+                <p><strong>触发条件：</strong>视具体配置和使用方式而定</p>
+                <p><strong>潜在危害：</strong>用户会话劫持、钓鱼攻击</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2jp7-wwpg-3p9w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Answer: AdminToken not invalidated after admin deactivation</div>
+                    <div class="advisory-id">GHSA-4gw2-vg4x-7p29 | CVE: CVE-2026-25700</div>
+                </div>
+                <span class="priority-score">优先级: 8/12 高危</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐15,651</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Improper Restriction of Security Token Assignment vulnerability in Apache Answer.</p>
+                <p><strong>影响产品：</strong>apache/incubator-answer ⭐15,651</p>
+                <p><strong>影响版本：</strong><= 1.4.2-RC1, <= 1.7.1</p>
+                <p><strong>攻击面：</strong>应用层</p>
+                <p><strong>触发条件：</strong>需要管理员权限</p>
+                <p><strong>潜在危害：</strong>敏感信息泄露</p>
+                <p><strong>可利用性：</strong>无PoC</p>
+                <p><strong>修复建议：</strong>关注官方公告，及时应用补丁</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4gw2-vg4x-7p29" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th><th>评级</th><th>GHSA编号</th><th>影响产品</th>
+                    <th>Star数</th><th>严重级别</th><th>可利用性</th><th>产品影响力</th><th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td>1</td>
+        <td>🔴 紧急</td>
+        <td><a href="https://github.com/advisories/GHSA-7gwp-5pfp-969j" style="color:#58a6ff">GHSA-7gwp-5pfp-969j</a></td>
+        <td>mlflow/mlflow</td>
+        <td>27,550</td>
+        <td>Critical</td>
+        <td>有PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-7gwp-5pfp-969j" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>2</td>
+        <td>🔴 紧急</td>
+        <td><a href="https://github.com/advisories/GHSA-59fj-m2j6-hcxh" style="color:#58a6ff">GHSA-59fj-m2j6-hcxh</a></td>
+        <td>nicolargo/glances</td>
+        <td>33,366</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-59fj-m2j6-hcxh" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>3</td>
+        <td>🔴 紧急</td>
+        <td><a href="https://github.com/advisories/GHSA-73wf-9vmv-5pv9" style="color:#58a6ff">GHSA-73wf-9vmv-5pv9</a></td>
+        <td>nicolargo/glances</td>
+        <td>33,366</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-73wf-9vmv-5pv9" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>4</td>
+        <td>🔴 紧急</td>
+        <td><a href="https://github.com/advisories/GHSA-qcpp-8x79-hhp3" style="color:#58a6ff">GHSA-qcpp-8x79-hhp3</a></td>
+        <td>nicolargo/glances</td>
+        <td>33,366</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-qcpp-8x79-hhp3" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>5</td>
+        <td>🔴 紧急</td>
+        <td><a href="https://github.com/advisories/GHSA-gqch-g4w5-7qcw" style="color:#58a6ff">GHSA-gqch-g4w5-7qcw</a></td>
+        <td>mlflow/mlflow</td>
+        <td>27,550</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-gqch-g4w5-7qcw" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>6</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-8r8v-xf7q-rcpr" style="color:#58a6ff">GHSA-8r8v-xf7q-rcpr</a></td>
+        <td>QuantumNous/new-api</td>
+        <td>45,387</td>
+        <td>Critical</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-8r8v-xf7q-rcpr" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>7</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-6x2c-phff-wx57" style="color:#58a6ff">GHSA-6x2c-phff-wx57</a></td>
+        <td>QuantumNous/new-api</td>
+        <td>45,387</td>
+        <td>Critical</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-6x2c-phff-wx57" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>8</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-cfcw-xp6x-25gj" style="color:#58a6ff">GHSA-cfcw-xp6x-25gj</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4,091</td>
+        <td>Critical</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-cfcw-xp6x-25gj" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>9</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-m5w8-4gq2-6f8x" style="color:#58a6ff">GHSA-m5w8-4gq2-6f8x</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4,091</td>
+        <td>Critical</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-m5w8-4gq2-6f8x" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>10</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-m283-3h24-438v" style="color:#58a6ff">GHSA-m283-3h24-438v</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4,091</td>
+        <td>Critical</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-m283-3h24-438v" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>11</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-v828-m3pf-vq9q" style="color:#58a6ff">GHSA-v828-m3pf-vq9q</a></td>
+        <td>QuantumNous/new-api</td>
+        <td>45,387</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-v828-m3pf-vq9q" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>12</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-2qj4-mmr9-4v2f" style="color:#58a6ff">GHSA-2qj4-mmr9-4v2f</a></td>
+        <td>netty/netty</td>
+        <td>35,035</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-2qj4-mmr9-4v2f" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>13</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-2jp7-wwpg-3p9w" style="color:#58a6ff">GHSA-2jp7-wwpg-3p9w</a></td>
+        <td>ether/etherpad-lite</td>
+        <td>18,498</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-2jp7-wwpg-3p9w" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>14</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-4gw2-vg4x-7p29" style="color:#58a6ff">GHSA-4gw2-vg4x-7p29</a></td>
+        <td>apache/incubator-answer</td>
+        <td>15,651</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>高</td>
+        <td><a href="https://github.com/advisories/GHSA-4gw2-vg4x-7p29" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>15</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-v836-6xw4-9cx3" style="color:#58a6ff">GHSA-v836-6xw4-9cx3</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4,091</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-v836-6xw4-9cx3" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>16</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-gmc2-2x9w-cgh9" style="color:#58a6ff">GHSA-gmc2-2x9w-cgh9</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4,091</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-gmc2-2x9w-cgh9" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>17</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-prg7-hcfm-mfcr" style="color:#58a6ff">GHSA-prg7-hcfm-mfcr</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4,014</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-prg7-hcfm-mfcr" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>18</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-pwgv-4x5q-6m9f" style="color:#58a6ff">GHSA-pwgv-4x5q-6m9f</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4,014</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-pwgv-4x5q-6m9f" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>19</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-f2ff-p2ww-7p4p" style="color:#58a6ff">GHSA-f2ff-p2ww-7p4p</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4,014</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-f2ff-p2ww-7p4p" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>20</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-7f3j-j7jj-r3vr" style="color:#58a6ff">GHSA-7f3j-j7jj-r3vr</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-7f3j-j7jj-r3vr" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>21</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-ggr8-5vv4-36mx" style="color:#58a6ff">GHSA-ggr8-5vv4-36mx</a></td>
+        <td>RebeccaStevens/deepmerge-ts</td>
+        <td>301</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-ggr8-5vv4-36mx" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>22</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-8g4w-4ffg-8vgx" style="color:#58a6ff">GHSA-8g4w-4ffg-8vgx</a></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-8g4w-4ffg-8vgx" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>23</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-4q5v-7g7x-j79w" style="color:#58a6ff">GHSA-4q5v-7g7x-j79w</a></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4q5v-7g7x-j79w" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>24</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-fhgh-wq4q-r37x" style="color:#58a6ff">GHSA-fhgh-wq4q-r37x</a></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-fhgh-wq4q-r37x" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>25</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-hq9q-27g5-qwpj" style="color:#58a6ff">GHSA-hq9q-27g5-qwpj</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>Critical</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-hq9q-27g5-qwpj" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>26</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-4jwf-m4wg-8p66" style="color:#58a6ff">GHSA-4jwf-m4wg-8p66</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>Critical</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4jwf-m4wg-8p66" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>27</td>
+        <td>🟠 高危</td>
+        <td><a href="https://github.com/advisories/GHSA-2qvg-qr73-mqxp" style="color:#58a6ff">GHSA-2qvg-qr73-mqxp</a></td>
+        <td>wktk/conflibot</td>
+        <td>10</td>
+        <td>Critical</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-2qvg-qr73-mqxp" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>28</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-2hx3-vp6r-mg3f" style="color:#58a6ff">GHSA-2hx3-vp6r-mg3f</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-2hx3-vp6r-mg3f" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>29</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-rg4h-fpcp-2qm8" style="color:#58a6ff">GHSA-rg4h-fpcp-2qm8</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-rg4h-fpcp-2qm8" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>30</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-4vv7-jj25-4gh6" style="color:#58a6ff">GHSA-4vv7-jj25-4gh6</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4vv7-jj25-4gh6" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>31</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-4rj6-vrwv-wr8m" style="color:#58a6ff">GHSA-4rj6-vrwv-wr8m</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-4rj6-vrwv-wr8m" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>32</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-jqwh-526h-c92j" style="color:#58a6ff">GHSA-jqwh-526h-c92j</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-jqwh-526h-c92j" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>33</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-xg2h-5xr2-29jw" style="color:#58a6ff">GHSA-xg2h-5xr2-29jw</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-xg2h-5xr2-29jw" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>34</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-3hrf-2gc2-mx32" style="color:#58a6ff">GHSA-3hrf-2gc2-mx32</a></td>
+        <td>microsoft/kiota</td>
+        <td>3,804</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-3hrf-2gc2-mx32" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>35</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-g4w2-6h2r-3m3w" style="color:#58a6ff">GHSA-g4w2-6h2r-3m3w</a></td>
+        <td>http4k/http4k</td>
+        <td>2,784</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-g4w2-6h2r-3m3w" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>36</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-p28p-j94q-pg32" style="color:#58a6ff">GHSA-p28p-j94q-pg32</a></td>
+        <td>http4k/http4k</td>
+        <td>2,784</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-p28p-j94q-pg32" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>37</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-m44r-7c5h-m6mj" style="color:#58a6ff">GHSA-m44r-7c5h-m6mj</a></td>
+        <td>medplum/medplum</td>
+        <td>2,611</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-m44r-7c5h-m6mj" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>38</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-gc95-3vw8-vg43" style="color:#58a6ff">GHSA-gc95-3vw8-vg43</a></td>
+        <td>plutext/docx4j</td>
+        <td>2,380</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-gc95-3vw8-vg43" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>39</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-3h3x-2hwv-hr52" style="color:#58a6ff">GHSA-3h3x-2hwv-hr52</a></td>
+        <td>golang-fips/openssl</td>
+        <td>47</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-3h3x-2hwv-hr52" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>40</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-j659-8xh6-5pq5" style="color:#58a6ff">GHSA-j659-8xh6-5pq5</a></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-j659-8xh6-5pq5" style="color:#58a6ff">🔗</a></td>
+    </tr>
+<tr>
+        <td>41</td>
+        <td>🟡 中危</td>
+        <td><a href="https://github.com/advisories/GHSA-xhcr-cqfr-m3hv" style="color:#58a6ff">GHSA-xhcr-cqfr-m3hv</a></td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>无PoC</td>
+        <td>低</td>
+        <td><a href="https://github.com/advisories/GHSA-xhcr-cqfr-m3hv" style="color:#58a6ff">🔗</a></td>
+    </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr><th>GHSA编号</th><th>影响产品</th><th>Star</th><th>级别</th><th>亮点</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+        <td><a href="https://github.com/advisories/GHSA-cfcw-xp6x-25gj" style="color:#58a6ff">GHSA-cfcw-xp6x-25gj</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4091</td>
+        <td>Critical</td>
+        <td>有完整PoC、Critical级别</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-m5w8-4gq2-6f8x" style="color:#58a6ff">GHSA-m5w8-4gq2-6f8x</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4091</td>
+        <td>Critical</td>
+        <td>有完整PoC、Critical级别</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-m283-3h24-438v" style="color:#58a6ff">GHSA-m283-3h24-438v</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4091</td>
+        <td>Critical</td>
+        <td>有完整PoC、Critical级别</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-v836-6xw4-9cx3" style="color:#58a6ff">GHSA-v836-6xw4-9cx3</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4091</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-gmc2-2x9w-cgh9" style="color:#58a6ff">GHSA-gmc2-2x9w-cgh9</a></td>
+        <td>patriksimek/vm2</td>
+        <td>4091</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-prg7-hcfm-mfcr" style="color:#58a6ff">GHSA-prg7-hcfm-mfcr</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4014</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-pwgv-4x5q-6m9f" style="color:#58a6ff">GHSA-pwgv-4x5q-6m9f</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4014</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-f2ff-p2ww-7p4p" style="color:#58a6ff">GHSA-f2ff-p2ww-7p4p</a></td>
+        <td>andialbrecht/sqlparse</td>
+        <td>4014</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-7f3j-j7jj-r3vr" style="color:#58a6ff">GHSA-7f3j-j7jj-r3vr</a></td>
+        <td>microsoft/kiota</td>
+        <td>3804</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-ggr8-5vv4-36mx" style="color:#58a6ff">GHSA-ggr8-5vv4-36mx</a></td>
+        <td>RebeccaStevens/deepmerge-ts</td>
+        <td>301</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-8g4w-4ffg-8vgx" style="color:#58a6ff">GHSA-8g4w-4ffg-8vgx</a></td>
+        <td>9Router: Authenticated Server-</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-4q5v-7g7x-j79w" style="color:#58a6ff">GHSA-4q5v-7g7x-j79w</a></td>
+        <td>compliance-trestle - jinja has</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+<tr>
+        <td><a href="https://github.com/advisories/GHSA-fhgh-wq4q-r37x" style="color:#58a6ff">GHSA-fhgh-wq4q-r37x</a></td>
+        <td>uniget CLI: Metadata signature</td>
+        <td>N/A</td>
+        <td>High</td>
+        <td>有完整PoC</td>
+    </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul><li>GHSA-7gwp-5pfp-969j: MLflow: Unauthenticated full-read SSRF in webhook delivery: </li><li>GHSA-59fj-m2j6-hcxh: Glances: `--disable-config-exec` does not cover on-alert act</li><li>GHSA-73wf-9vmv-5pv9: Glances: Incomplete fix of CVE-2026-32608: action-template s</li><li>GHSA-qcpp-8x79-hhp3: Glances has a command injection bypass of action-template sa</li><li>GHSA-gqch-g4w5-7qcw: MLflow: CreateModelVersion source validation does not check </li></ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul><li>GHSA-8r8v-xf7q-rcpr: New API: Integer overflow in quota billing yields negative c</li><li>GHSA-6x2c-phff-wx57: New API: User List API Leaks Root User Access Token Leading </li><li>GHSA-v828-m3pf-vq9q: New API: Unauthenticated payment webhooks allow memory and d</li><li>GHSA-2qj4-mmr9-4v2f: Netty: Memory Exhaustion in SctpMessageCompletionHandler</li><li>GHSA-2jp7-wwpg-3p9w: Etherpad has stored XSS in HTML export via unescaped attribu</li></ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul><li>GHSA-cfcw-xp6x-25gj: vm2: Sandbox Breakout Using Dangerous Host Proto Mutators</li><li>GHSA-m5w8-4gq2-6f8x: vm2: NodeVM `builtin: ['*']` exposes `os` and `dns` — proces</li><li>GHSA-m283-3h24-438v: VM2 has Missing Error.cause Sanitization that Enables Sandbo</li><li>GHSA-v836-6xw4-9cx3: vm2 has Memory Exhaustion DoS via bufferAllocLimit Bypass</li><li>GHSA-gmc2-2x9w-cgh9: vm2's bufferAllocLimit cap bypassed by Buffer.concat and Buf</li></ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
