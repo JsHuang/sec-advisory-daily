@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-28</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-28 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">16</div>
+                <div class="stat-label">总公告数（去重后）</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">含详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 1. OpenClaw -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 OpenClaw: QQBot streaming command could mutate config without explicit allowFrom</div>
+                    <div class="advisory-id">GHSA-jvm4-4j77-39p6 | CVE: CVE-2026-53833</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 387,844</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>QQBot streaming command 可在没有显式 allowFrom 白名单的情况下修改配置。攻击者可绕过非通配符白名单限制，篡改 QQBot streaming 配置，影响管理员策略。</p>
+                <p><strong>影响产品：</strong>openclaw ⭐387,844</p>
+                <p><strong>影响版本：</strong>&lt;= 2026.4.27</p>
+                <p><strong>攻击面：</strong>QQBot 渠道可达的 streaming command 接口</p>
+                <p><strong>触发条件：</strong>QQBot sender 能触达受影响命令，且未配置显式非通配符 allowFrom</p>
+                <p><strong>潜在危害：</strong>配置篡改，可能影响工具/渠道策略，导致非预期的命令执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 2026.4.29+，或禁用受影响命令，收窄 allowFrom 白名单</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-jvm4-4j77-39p6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 2. Prometheus -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Prometheus Azure AD remote write OAuth client secret exposed via config API</div>
+                    <div class="advisory-id">GHSA-wg65-39gg-5wfj | CVE: CVE-2026-42151</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 65,862</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Prometheus 的 Azure AD remote write OAuth 配置中，<code>client_secret</code> 字段类型为 <code>string</code> 而非 <code>Secret</code>，导致通过 <code>/-/config</code> HTTP API 端点以明文暴露 OAuth client secret。任何能访问该端点的用户或进程均可窃取密钥。</p>
+                <p><strong>影响产品：</strong>prometheus ⭐65,862</p>
+                <p><strong>影响版本：</strong>&gt;= 0.45.2, &lt; 0.311.3</p>
+                <p><strong>攻击面：</strong>HTTP API <code>/-/config</code> 端点</p>
+                <p><strong>触发条件：</strong>使用 Azure AD remote write + OAuth 认证，且 API 端点可被非授权方访问</p>
+                <p><strong>潜在危害：</strong>Azure OAuth client secret 泄露，攻击者可冒充服务身份访问 Azure 资源</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 3.11.3+ 或 3.5.3 LTS；或改用 Managed Identity / Workload Identity 认证</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-wg65-39gg-5wfj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 3. Jenkins -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Jenkins arbitrary type deserialization from attacker-controlled config.xml allows RCE</div>
+                    <div class="advisory-id">GHSA-g2xq-2v27-4rh3 | CVE: CVE-2026-53435</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 26,506</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Jenkins 2.567 及更早版本中，攻击者可通过提交的 config.xml 触发任意类型反序列化，进而接管 HTTP 请求处理。可用于冒充任意用户、通过 Script Console 执行任意代码、读取控制器上的任意文件。</p>
+                <p><strong>影响产品：</strong>jenkins ⭐26,506</p>
+                <p><strong>影响版本：</strong>&lt; 2.555.3 (LTS) / &gt;= 2.556, &lt; 2.568</p>
+                <p><strong>攻击面：</strong>config.xml 提交接口</p>
+                <p><strong>触发条件：</strong>攻击者能向 Jenkins 提交 config.xml（需要一定权限）</p>
+                <p><strong>潜在危害：</strong>远程代码执行、用户冒充、任意文件读取</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 2.555.3 LTS 或 2.568+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g2xq-2v27-4rh3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 4. Firefly III -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Firefly III webhook management incorrect access control</div>
+                    <div class="advisory-id">GHSA-9mmg-q95p-gp67 | CVE: CVE-2026-50886</div>
+                </div>
+                <span class="priority-score">优先级: 极高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 24,435</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Firefly III v6.5.9 的 webhook 管理组件存在访问控制缺陷，攻击者可通过构造 POST 请求扫描内部资源（SSRF）。</p>
+                <p><strong>影响产品：</strong>firefly-iii ⭐24,435</p>
+                <p><strong>影响版本：</strong>&lt;= 6.5.9</p>
+                <p><strong>攻击面：</strong>webhook 管理 API</p>
+                <p><strong>触发条件：</strong>构造恶意 POST 请求发送到 webhook 管理端点</p>
+                <p><strong>潜在危害：</strong>内网扫描、内部服务探测、可能的数据泄露</p>
+                <p><strong>可利用性：</strong>仅描述（暂无修复版本）</p>
+                <p><strong>修复建议：</strong>关注上游修复，限制 webhook 目标地址为公网，部署网络隔离</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-9mmg-q95p-gp67" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 5. Filestash -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Filestash privilege escalation via crafted admin config request</div>
+                    <div class="advisory-id">GHSA-rcqf-cpv9-g5jf | CVE: CVE-2026-50891</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14,556</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Filestash v0.4.0 的 <code>/admin/api/config</code> 组件存在访问控制缺陷，攻击者可通过构造请求实现权限提升。</p>
+                <p><strong>影响产品：</strong>filestash ⭐14,556</p>
+                <p><strong>影响版本：</strong>&lt;= 0.2.2 (实际为 v0.4.0)</p>
+                <p><strong>攻击面：</strong>管理配置 API</p>
+                <p><strong>触发条件：</strong>发送特制的 HTTP 请求到 /admin/api/config</p>
+                <p><strong>潜在危害：</strong>权限提升至管理员级别</p>
+                <p><strong>可利用性：</strong>仅描述（暂无修复版本）</p>
+                <p><strong>修复建议：</strong>关注上游修复，限制管理 API 访问权限，部署 WAF 规则</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rcqf-cpv9-g5jf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 6. Crossplane -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Crossplane TOCTOU between cosign verification and image fetch bypasses signature check</div>
+                    <div class="advisory-id">GHSA-mf7q-r4rv-jv94 | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 11,981</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Crossplane 在安装使用 tag 引用（如语义化版本号）的包时，签名验证和镜像拉取分别解析 tag。恶意 OCI 注册表可在验证时提供已签名镜像，安装时提供未签名镜像，绕过签名检查。</p>
+                <p><strong>影响产品：</strong>crossplane-runtime ⭐11,981</p>
+                <p><strong>影响版本：</strong>= 2.4.0-rc.0 / &gt;= 2.3.0, &lt;= 2.3.2</p>
+                <p><strong>攻击面：</strong>使用非受控 OCI 注册表的包安装流程</p>
+                <p><strong>触发条件：</strong>启用签名验证 + 使用 tag 引用安装 + 非受控注册表</p>
+                <p><strong>潜在危害：</strong>安装恶意/未签名的包，供应链攻击</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 2.3.3 或 2.4.0-rc.1；使用 digest 引用代替 tag 引用</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mf7q-r4rv-jv94" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 7. Phalcon -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Phalcon Volt compiler join filter SSTI leads to RCE</div>
+                    <div class="advisory-id">GHSA-hrwp-4hh9-c8r8 | CVE: CVE-2026-59989</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 10,828</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Phalcon 的 Volt 模板编译器在处理 <code>join</code> 过滤器时，直接将模板参数的原始字节拼接到生成的 PHP 代码中，无任何转义。攻击者可构造恶意 Volt 模板，打破 <code>join('…')</code> 调用结构，注入任意 PHP 代码。编译后的模板被写入缓存文件并通过 <code>require()</code> 执行，导致编译时 PHP 代码注入（SSTI → RCE）。</p>
+                <p><strong>影响产品：</strong>cphalcon ⭐10,828</p>
+                <p><strong>影响版本：</strong>&lt;= 5.15.0</p>
+                <p><strong>攻击面：</strong>Volt 模板编译（用户可控模板内容时）</p>
+                <p><strong>触发条件：</strong>应用程序编译攻击者可控的 Volt 模板源码，且模板中包含恶意 join 过滤器参数</p>
+                <p><strong>潜在危害：</strong>远程代码执行，完全控制服务器</p>
+                <p><strong>可利用性：</strong>有详细原理 — 源码级分析定位到 <code>Compiler.zep:2544-2546</code>，包含 C 层实现验证</p>
+                <p><strong>修复建议：</strong>升级至 5.16.0+；禁止用户提交模板内容</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hrwp-4hh9-c8r8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 8. Shlink -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Shlink SSRF via automatic short URL title resolution</div>
+                    <div class="advisory-id">GHSA-p85r-x2wj-mxqj | CVE: CVE-2026-50887</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 5,250</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>shlink v5.0.1 在自动解析短 URL 标题时存在 SSRF 漏洞，攻击者可通过构造恶意 longUrl 扫描内部资源。</p>
+                <p><strong>影响产品：</strong>shlink ⭐5,250</p>
+                <p><strong>影响版本：</strong>&lt;= 5.0.1</p>
+                <p><strong>攻击面：</strong>短 URL 创建 API（longUrl 参数）</p>
+                <p><strong>触发条件：</strong>提交指向内网地址的 longUrl</p>
+                <p><strong>潜在危害：</strong>内网扫描、服务探测、可能的数据泄露</p>
+                <p><strong>可利用性：</strong>仅描述（暂无修复版本）</p>
+                <p><strong>修复建议：</strong>关注上游修复，限制 longUrl 只允许公网地址，部署网络隔离</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-p85r-x2wj-mxqj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 9. node-opcua -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 node-opcua: Unbounded nonce cache enables unauthenticated heap exhaustion DoS</div>
+                    <div class="advisory-id">GHSA-6wvw-vrw4-363w | CVE: CVE-2026-54156</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1,655</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>node-opcua 的全局 nonce 缓存（<code>g_alreadyUsedNonce</code>）没有淘汰策略。未认证攻击者可通过 <code>CreateSession</code> 路径（无需证书）无限累积 nonce 条目，导致堆内存耗尽、进程崩溃。实测 5000 个 nonce → +1.23 MB 常驻堆，推算 10^6 个 nonce → ~246 MB。</p>
+                <p><strong>影响产品：</strong>node-opcua ⭐1,655</p>
+                <p><strong>影响版本：</strong>&lt; 2.166.0（测试版本 2.165.0）</p>
+                <p><strong>攻击面：</strong>OPC UA CreateSession 端点（无需认证）</p>
+                <p><strong>触发条件：</strong>反复打开 session 连接</p>
+                <p><strong>潜在危害：</strong>拒绝服务，进程崩溃</p>
+                <p><strong>可利用性：</strong>有详细原理 — 源码级分析定位到 <code>server_secure_channel_layer.ts:156</code>，含内存增长测量数据</p>
+                <p><strong>修复建议：</strong>升级至 2.166.0+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-6wvw-vrw4-363w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 10. statping-ng -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 statping-ng privilege escalation to Administrator</div>
+                    <div class="advisory-id">GHSA-5442-mh7f-72px | CVE: CVE-2026-50884</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1,987</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>statping-ng v0.93.0 存在访问控制缺陷，攻击者可提升至管理员权限并访问敏感组件。</p>
+                <p><strong>影响产品：</strong>statping-ng ⭐1,987</p>
+                <p><strong>影响版本：</strong>&lt;= 0.93.0（暂无修复版本）</p>
+                <p><strong>攻击面：</strong>权限管理接口</p>
+                <p><strong>触发条件：</strong>利用访问控制缺陷发送特制请求</p>
+                <p><strong>潜在危害：</strong>权限提升、敏感数据访问</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注上游修复，加强访问控制策略</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5442-mh7f-72px" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 11. Koillection -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Koillection authenticated SSRF via custom scraper</div>
+                    <div class="advisory-id">GHSA-gmxh-hjfv-qc2w | CVE: CVE-2026-50888</div>
+                </div>
+                <span class="priority-score">优先级: 中</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 1,295</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Koillection v1.8.0 的自定义爬虫子系统存在已认证 SSRF，攻击者可通过提供恶意 URL 扫描内部资源。</p>
+                <p><strong>影响产品：</strong>koillection ⭐1,295</p>
+                <p><strong>影响版本：</strong>&lt; 1.8.4</p>
+                <p><strong>攻击面：</strong>自定义爬虫 URL 输入</p>
+                <p><strong>触发条件：</strong>已认证用户提交指向内网的 URL</p>
+                <p><strong>潜在危害：</strong>内网扫描、服务探测</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 1.8.4+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gmxh-hjfv-qc2w" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 12. fast-uri IDN -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 fast-uri host confusion via failed IDN canonicalization</div>
+                    <div class="advisory-id">GHSA-4c8g-83qw-93j6 | CVE: CVE-2026-13676</div>
+                </div>
+                <span class="priority-score">优先级: 低</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 124</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri 在解析 HTTP URL 时未能正确规范化 Unicode/IDN 主机名。<code>URL.domainToASCII()</code> 调用失败后 TypeError 被静默吞掉，主机名保留原始 Unicode 形式。例如 <code>http://127。0。0。1/</code> 被视为 host <code>127。0。0。1</code>，而 Node 的 fetch 会规范化为 <code>127.0.0.1</code>。导致策略检查与实际请求目标不一致。</p>
+                <p><strong>影响产品：</strong>fast-uri ⭐124</p>
+                <p><strong>影响版本：</strong>&gt;= 2.3.1, &lt;= 4.0.0</p>
+                <p><strong>攻击面：</strong>基于主机的策略检查（denylist、redirect 验证等）</p>
+                <p><strong>触发条件：</strong>使用 fast-uri 进行 URL 规范化后再传递给 fetch/WHATWG URL</p>
+                <p><strong>潜在危害：</strong>SSRF 绕过、策略绕过</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 v4.0.1 / v3.1.3 / v2.4.2</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 13. fast-uri percent -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 fast-uri host confusion via percent-encoded authority delimiters</div>
+                    <div class="advisory-id">GHSA-v39h-62p7-jpjc | CVE: CVE-2026-6322</div>
+                </div>
+                <span class="priority-score">优先级: 低</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 124</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri v3.1.1 及更早版本在 host 组件内解码百分号编码的 authority 分隔符（<code>%40</code>→<code>@</code>、<code>%3A</code>→<code>:</code>），并将其序列化为原始字符，改变 URI 结构。例如 <code>http://trusted.com%40evil.com/</code> 规范化为 <code>http://trusted.com@evil.com/</code>，实际 host 变为 <code>evil.com</code>。</p>
+                <p><strong>影响产品：</strong>fast-uri ⭐124</p>
+                <p><strong>影响版本：</strong>&gt;= 3.0.0, &lt;= 3.1.1 / &lt;= 2.4.0</p>
+                <p><strong>攻击面：</strong>URL 规范化后的 host allowlist 检查</p>
+                <p><strong>触发条件：</strong>应用先使用 fast-uri 规范化 URL，再基于 host 做 allowlist/redirect 校验</p>
+                <p><strong>潜在危害：</strong>SSRF 绕过、重定向绕过</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 v3.1.2+ 或 v2.4.1+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 14. pacote -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 pacote DoS via addGitSha regex ReDoS</div>
+                    <div class="advisory-id">GHSA-w4pp-8pjf-rmxw | CVE: CVE-2026-9496</div>
+                </div>
+                <span class="priority-score">优先级: 低</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 0 (npm internal)</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>pacote &gt;= 11.2.7 的 <code>addGitSha</code> 函数存在 ReDoS 漏洞，攻击者可通过特制的 <code>spec.rawSpec</code> 触发过度的 CPU 消耗，导致进程挂起或崩溃。</p>
+                <p><strong>影响产品：</strong>pacote（npm 内部依赖）</p>
+                <p><strong>影响版本：</strong>&gt;= 11.2.7, &lt; 21.5.1</p>
+                <p><strong>攻击面：</strong>npm install 处理 git 依赖时</p>
+                <p><strong>触发条件：</strong>恶意 package.json 中的 git 依赖 spec</p>
+                <p><strong>潜在危害：</strong>拒绝服务（CI/CD 流水线挂起）</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 21.5.1+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-w4pp-8pjf-rmxw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 15. silverstripe-advancedworkflow -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 silverstripe-advancedworkflow RCE via email template</div>
+                    <div class="advisory-id">GHSA-39mm-rwm3-29jp | CVE: CVE-2026-54718</div>
+                </div>
+                <span class="priority-score">优先级: 低</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 46</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>silverstripe-advancedworkflow 的邮件模板字段存在 RCE 漏洞，攻击者可通过特制 payload 在服务器上执行任意代码。</p>
+                <p><strong>影响产品：</strong>symbiote/silverstripe-advancedworkflow ⭐46</p>
+                <p><strong>影响版本：</strong>&lt; 6.4.5 / &gt;= 7.0.0, &lt; 7.1.3 / &gt;= 7.2.0, &lt; 7.2.1</p>
+                <p><strong>攻击面：</strong>CMS 中的邮件模板编辑</p>
+                <p><strong>触发条件：</strong>具有 CMS 编辑权限的用户提交恶意模板内容</p>
+                <p><strong>潜在危害：</strong>远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 6.4.5 / 7.1.3 / 7.2.1+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-39mm-rwm3-29jp" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 16. silverstripe/userforms -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 silverstripe/userforms RCE via email subject</div>
+                    <div class="advisory-id">GHSA-g8wr-r2v2-vqc6 | CVE: CVE-2026-54721</div>
+                </div>
+                <span class="priority-score">优先级: 低</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ N/A</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>silverstripe/userforms 的 CMS 邮件主题字段存在 RCE 漏洞，攻击者可通过特制 payload 在服务器上执行任意代码。</p>
+                <p><strong>影响产品：</strong>silverstripe/userforms</p>
+                <p><strong>影响版本：</strong>&lt; 6.4.9 / &gt;= 7.0.0, &lt; 7.0.7 / &gt;= 7.1.0, &lt; 7.1.1</p>
+                <p><strong>攻击面：</strong>CMS 中的邮件主题编辑</p>
+                <p><strong>触发条件：</strong>具有 CMS 编辑权限的用户提交恶意主题</p>
+                <p><strong>潜在危害：</strong>远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级至 6.4.9 / 7.0.7 / 7.1.1+</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-g8wr-r2v2-vqc6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td>GHSA-jvm4-4j77-39p6</td>
+                    <td>OpenClaw</td>
+                    <td>387,844</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-jvm4-4j77-39p6" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td>GHSA-wg65-39gg-5wfj</td>
+                    <td>Prometheus</td>
+                    <td>65,862</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-wg65-39gg-5wfj" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td>GHSA-g2xq-2v27-4rh3</td>
+                    <td>Jenkins</td>
+                    <td>26,506</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-g2xq-2v27-4rh3" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td>GHSA-9mmg-q95p-gp67</td>
+                    <td>Firefly III</td>
+                    <td>24,435</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9mmg-q95p-gp67" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td>GHSA-rcqf-cpv9-g5jf</td>
+                    <td>Filestash</td>
+                    <td>14,556</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-rcqf-cpv9-g5jf" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td>GHSA-mf7q-r4rv-jv94</td>
+                    <td>Crossplane</td>
+                    <td>11,981</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mf7q-r4rv-jv94" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td>GHSA-hrwp-4hh9-c8r8</td>
+                    <td>Phalcon</td>
+                    <td>10,828</td>
+                    <td>Critical</td>
+                    <td>详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-hrwp-4hh9-c8r8" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟡 中危</td>
+                    <td>GHSA-p85r-x2wj-mxqj</td>
+                    <td>shlink</td>
+                    <td>5,250</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-p85r-x2wj-mxqj" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡 中危</td>
+                    <td>GHSA-6wvw-vrw4-363w</td>
+                    <td>node-opcua</td>
+                    <td>1,655</td>
+                    <td>High</td>
+                    <td>详细分析</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-6wvw-vrw4-363w" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td>GHSA-5442-mh7f-72px</td>
+                    <td>statping-ng</td>
+                    <td>1,987</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5442-mh7f-72px" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td>GHSA-gmxh-hjfv-qc2w</td>
+                    <td>Koillection</td>
+                    <td>1,295</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-gmxh-hjfv-qc2w" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡 低危</td>
+                    <td>GHSA-4c8g-83qw-93j6</td>
+                    <td>fast-uri</td>
+                    <td>124</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟡 低危</td>
+                    <td>GHSA-v39h-62p7-jpjc</td>
+                    <td>fast-uri</td>
+                    <td>124</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡 低危</td>
+                    <td>GHSA-w4pp-8pjf-rmxw</td>
+                    <td>pacote</td>
+                    <td>-</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-w4pp-8pjf-rmxw" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡 低危</td>
+                    <td>GHSA-39mm-rwm3-29jp</td>
+                    <td>silverstripe-advancedworkflow</td>
+                    <td>46</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-39mm-rwm3-29jp" style="color:#58a6ff">查看</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡 低危</td>
+                    <td>GHSA-g8wr-r2v2-vqc6</td>
+                    <td>silverstripe/userforms</td>
+                    <td>-</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g8wr-r2v2-vqc6" style="color:#58a6ff">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含详细分析的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>GHSA-6wvw-vrw4-363w</td>
+                    <td>node-opcua</td>
+                    <td>1,655</td>
+                    <td>High</td>
+                    <td>详细源码分析 + 内存增长实测数据，未认证 DoS</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>OpenClaw (GHSA-jvm4-4j77-39p6)</strong>：影响 387k+ star 的超级项目，QQBot 渠道配置篡改漏洞，使用 QQBot 集成且未配置显式 allowFrom 的用户应立即升级至 2026.4.29+</li>
+                    <li><strong>Prometheus (GHSA-wg65-39gg-5wfj)</strong>：Azure AD OAuth client secret 明文泄露，所有使用 Azure AD remote write 的用户必须立即升级</li>
+                    <li><strong>Jenkins (GHSA-g2xq-2v27-4rh3)</strong>：反序列化 RCE + 用户冒充，影响 26k+ star 的 CI/CD 核心组件</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Firefly III (GHSA-9mmg-q95p-gp67)</strong>：Critical 级别 SSRF，暂无修复版本</li>
+                    <li><strong>Phalcon (GHSA-hrwp-4hh9-c8r8)</strong>：Volt 模板 SSTI→RCE，有详细源码分析，攻击链清晰</li>
+                    <li><strong>Crossplane (GHSA-mf7q-r4rv-jv94)</strong>：TOCTOU 签名绕过，供应链安全风险</li>
+                    <li><strong>Filestash (GHSA-rcqf-cpv9-g5jf)</strong>：管理 API 权限提升，暂无修复版本</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>fast-uri</strong> 两个 host confusion 漏洞：影响使用 fastify 等框架的 URL 校验场景</li>
+                    <li><strong>node-opcua</strong>：有详细技术分析的 DoS 漏洞，OPC UA 工业场景用户需关注</li>
+                    <li><strong>pacote ReDoS</strong>：影响 npm 依赖安装流程，注意恶意 package.json 风险</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
