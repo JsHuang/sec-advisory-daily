@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-28",
+      "title": "GitHub安全公告日报 - 2026-08-28",
+      "url": "reports/report-2026-08-28.html",
+      "stats": {
+        "total": 16,
+        "critical": 3,
+        "high": 13,
+        "star5k": 8,
+        "with_poc": 2
+      },
+      "summary": "16个高危/严重漏洞，重点关注OpenClaw QQBot配置篡改(Prometheus secret泄露/Jenkins反序列化RCE/Firefly III SSRF/Phalcon SSTI→RCE"
+    },
+    {
       "date": "2026-08-18",
       "title": "GitHub安全公告日报 - 2026-08-18",
       "url": "reports/report-2026-08-18.html",
@@ -376,19 +389,6 @@
         "with_poc": 40
       },
       "summary": "今日发现41个Critical/High漏洞，3个Critical（LightRAG认证绕过+CORS缺陷），重点影响Axios(109k⭐)、vLLM(86.7k⭐)、Astro(61.2k⭐)、LightRAG(37.9k⭐)、Pillow(13.7k⭐)等项目。多个漏洞含PoC/详细分析。"
-    },
-    {
-      "date": "2026-07-19",
-      "title": "GitHub安全公告日报 - 2026-07-19",
-      "url": "reports/report-2026-07-19.html",
-      "stats": {
-        "total": 6,
-        "critical": 3,
-        "high": 3,
-        "star5k": 2,
-        "with_poc": 6
-      },
-      "summary": "今日监控到6个高危及以上安全公告：NestJS Fastify中间件绕过（76k Star，URL尾部斜杠即可绕过认证）、LiteLLM Host头注入认证绕过（54k Star）、Jupyter Server存储型XSS致RCE、Avo管理面板授权绕过、Picklescan检测绕过、MCP文档服务器无认证暴露。"
     }
   ]
 }
