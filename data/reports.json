@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-29",
+      "title": "GitHub安全公告日报 - 2026-08-29",
+      "url": "reports/report-2026-08-29.html",
+      "stats": {
+        "total": 60,
+        "critical": 13,
+        "high": 47,
+        "star5k": 32,
+        "with_poc": 20
+      },
+      "summary": "今日监控到60个Critical/High级别漏洞，其中13个Critical、47个High。重点关注：Keycloak未认证账户接管、Portainer管理员接管、SeaweedFS路径遍历、Docling双重漏洞、Apache Camel批量18个漏洞。"
+    },
+    {
       "date": "2026-08-28",
       "title": "GitHub安全公告日报 - 2026-08-28",
       "url": "reports/report-2026-08-28.html",
@@ -376,19 +389,6 @@
         "with_poc": 47
       },
       "summary": "今日发现49个高危/严重漏洞，其中Gitea发布22个安全修复（含5个Critical），GitPython多个命令注入漏洞，Immutable.js哈希碰撞DoS，.NET SignalR DoS及Negotiate认证提权漏洞。36个漏洞影响Star≥5k项目，47个含PoC或详细分析。"
-    },
-    {
-      "date": "2026-07-21",
-      "title": "GitHub安全公告日报 - 2026-07-21",
-      "url": "reports/report-2026-07-21.html",
-      "stats": {
-        "total": 41,
-        "critical": 3,
-        "high": 38,
-        "star5k": 25,
-        "with_poc": 40
-      },
-      "summary": "今日发现41个Critical/High漏洞，3个Critical（LightRAG认证绕过+CORS缺陷），重点影响Axios(109k⭐)、vLLM(86.7k⭐)、Astro(61.2k⭐)、LightRAG(37.9k⭐)、Pillow(13.7k⭐)等项目。多个漏洞含PoC/详细分析。"
     }
   ]
 }
