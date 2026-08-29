@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-29</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-29 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">60</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">47</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">32</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">20</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Incus has a project restriction bypass in instance copy across projects</div>
+                    <div class="advisory-id">GHSA-c9f5-j9c3-mhrg | CVE: CVE-2026-55622</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Incus 容器管理平台在跨项目复制实例时存在项目限制绕过漏洞，允许用户将实例复制到未被授权的项目中。</p>
+                <p><strong>影响产品：</strong>lxc/incus ⭐6.1k</p>
+                <p><strong>影响版本：</strong>< 7.2.0</p>
+                <p><strong>攻击面：</strong>需要项目级别权限</p>
+                <p><strong>触发条件：</strong>执行跨项目的实例复制操作</p>
+                <p><strong>潜在危害：</strong>绕过项目隔离，可能将恶意实例注入受限项目</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级 Incus 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c9f5-j9c3-mhrg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Incus has a project restriction bypass for custom volume copy across projects</div>
+                    <div class="advisory-id">GHSA-64f3-v33m-w89f | CVE: CVE-2026-55621</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.1k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Incus 在跨项目复制自定义卷时存在项目限制绕过漏洞，允许用户绕过项目隔离策略。</p>
+                <p><strong>影响产品：</strong>lxc/incus ⭐6.1k</p>
+                <p><strong>影响版本：</strong>< 7.2.0, <= 0.7.0</p>
+                <p><strong>攻击面：</strong>需要项目级别权限</p>
+                <p><strong>触发条件：</strong>执行跨项目的自定义卷复制操作</p>
+                <p><strong>潜在危害：</strong>绕过项目隔离，数据泄露风险</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级 Incus 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-64f3-v33m-w89f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Bifrost's SSRF deny-list is incomplete: isPublicIP permits CGNAT, IPv6 6to4/NAT64, and site-local in</div>
+                    <div class="advisory-id">GHSA-w98g-5w9p-p3rc | CVE: CVE-2026-55245</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 7.6k</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Bifrost AI代理框架的SSRF防护列表不完整，isPublicIP函数允许CGNAT、IPv6 6to4/NAT64等地址通过，攻击者可利用此缺陷发起SSRF攻击访问内部网络。</p>
+                <p><strong>影响产品：</strong>maximhq/bifrost ⭐7.6k</p>
+                <p><strong>影响版本：</strong>< 1.5.17</p>
+                <p><strong>攻击面：</strong>通过AI代理的HTTP请求远程触发</p>
+                <p><strong>触发条件：</strong>向Bifrost代理发送目标为CGNAT/NAT64等地址的请求</p>
+                <p><strong>潜在危害：</strong>服务端请求伪造(SSRF)，可能访问内部服务和元数据API</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级 Bifrost 到修复版本，完善IP地址黑名单</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-w98g-5w9p-p3rc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Keycloak: Unauthenticated account takeover via reset-credentials flow bypass</div>
+                    <div class="advisory-id">GHSA-4gv3-mc9p-5wqc | CVE: CVE-2026-18963</div>
+                </div>
+                <span class="priority-score">优先级: 60</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 36.5k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Keycloak 的 reset-credentials 流程存在绕过漏洞，未认证攻击者可利用该漏洞接管任意用户账户。该漏洞影响广泛使用的开源身份和访问管理解决方案。</p>
+                <p><strong>影响产品：</strong>keycloak/keycloak ⭐36.5k</p>
+                <p><strong>影响版本：</strong>>= 26.7.0, < 26.7.2, >= 26.5.0, < 26.6.6</p>
+                <p><strong>攻击面：</strong>网络远程，无需认证</p>
+                <p><strong>触发条件：</strong>攻击者通过操纵密码重置流程中的 reset-credentials 步骤，绕过安全验证</p>
+                <p><strong>潜在危害：</strong>任意用户账户被接管，导致未授权访问敏感数据和系统</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Keycloak 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4gv3-mc9p-5wqc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-Undertow: the endpoint discarded the undertow-specific header filter strategy in favour</div>
+                    <div class="advisory-id">GHSA-v7h8-xhh6-gfj4 | CVE: CVE-2026-78329</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Undertow 组件在处理请求时丢弃了 Undertow 特定的请求头过滤规则，可能导致请求头注入或安全绕过。</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.19.0, < 4.22.0, >= 4.15.0, < 4.18.4</p>
+                <p><strong>攻击面：</strong>通过HTTP请求远程触发</p>
+                <p><strong>触发条件：</strong>发送包含特制请求头的HTTP请求到Camel-Undertow端点</p>
+                <p><strong>潜在危害：</strong>请求头注入，可能绕过安全控制</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Apache Camel 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-v7h8-xhh6-gfj4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-Atmosphere-Websocket: WebSocket dispatch header injection - the producer selected its t</div>
+                    <div class="advisory-id">GHSA-m5r8-w65q-8wjf | CVE: CVE-2026-71300</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Atmosphere-Websocket: WebSocket dispatch header injection - the producer selected its target peers through Exchange headers whose names sat outside the filtered Camel namespace</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.15.0, < 4.18.4, >= 4.19.0, < 4.22.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m5r8-w65q-8wjf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-Azure-Storage-Blob: the downloadBlobToFile operation built the local download target fr</div>
+                    <div class="advisory-id">GHSA-2x37-89hj-2j95 | CVE: CVE-2026-66906</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Azure-Storage-Blob 的 downloadBlobToFile 操作在构建本地文件路径时存在路径遍历漏洞，攻击者可通过恶意Blob名称写入任意文件。</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.15.0, < 4.18.4, >= 4.19.0, < 4.22.0</p>
+                <p><strong>攻击面：</strong>通过Azure Blob存储API远程触发</p>
+                <p><strong>触发条件：</strong>创建包含路径遍历字符的Blob名称并触发下载操作</p>
+                <p><strong>潜在危害：</strong>任意文件写入，可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Apache Camel 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2x37-89hj-2j95" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-Solr: The SolrParam. and SolrField. Exchange header prefixes used non-Camel-prefixed na</div>
+                    <div class="advisory-id">GHSA-4h4f-v54q-7pq8 | CVE: CVE-2026-48203</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Solr 组件的 SolrParam 和 SolrField Exchange 头部前缀使用不安全映射，可能导致Solr查询参数注入。</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>通过Exchange头部远程触发</p>
+                <p><strong>触发条件：</strong>设置包含恶意Solr参数的Exchange头部</p>
+                <p><strong>潜在危害：</strong>Solr查询注入，可能导致数据泄露或服务器配置修改</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Apache Camel 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-4h4f-v54q-7pq8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-AWS2-SQS: Inbound message attributes are mapped into the Exchange without an inbound He</div>
+                    <div class="advisory-id">GHSA-cmc3-hr79-8mmv | CVE: CVE-2026-46456</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-AWS2-SQS 将入站消息属性映射到Exchange时未使用前缀隔离，攻击者可通过SQS消息属性注入Camel内部头部。</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>通过SQS消息远程触发</p>
+                <p><strong>触发条件：</strong>发送包含特制属性的SQS消息</p>
+                <p><strong>潜在危害：</strong>Camel内部头部注入，可能影响路由和安全决策</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Apache Camel 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cmc3-hr79-8mmv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Camel-Keycloak: The access-token validity window is not verified because the IS_ACTIVE check </div>
+                    <div class="advisory-id">GHSA-mqwc-6qwc-v9gq | CVE: CVE-2026-46455</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Keycloak 组件未正确验证访问令牌的有效性窗口，导致过期令牌可能被接受。</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.18.0, < 4.18.3, >= 4.19.0, < 4.21.0</p>
+                <p><strong>攻击面：</strong>使用过期令牌远程触发</p>
+                <p><strong>触发条件：</strong>使用已过期的Keycloak访问令牌访问受保护端点</p>
+                <p><strong>潜在危害：</strong>认证绕过，使用过期凭据访问受保护资源</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Apache Camel 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mqwc-6qwc-v9gq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Docling: Unsafe XML Entity Expansion in USPTO Patent Backend</div>
+                    <div class="advisory-id">GHSA-m88r-rg27-5xfg | CVE: CVE-2026-44020</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 65.7k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Docling 的 USPTO 专利后端存在不安全的 XML 实体扩展漏洞，攻击者可通过构造恶意 XML 文档触发 XXE 攻击，可能导致服务器端请求伪造或拒绝服务。</p>
+                <p><strong>影响产品：</strong>DS4SD/docling ⭐65.7k</p>
+                <p><strong>影响版本：</strong>>= 2.13.0, < 2.74.0</p>
+                <p><strong>攻击面：</strong>通过提交恶意XML文档远程触发</p>
+                <p><strong>触发条件：</strong>向USPTO专利后端提交包含外部实体引用的XML文档</p>
+                <p><strong>潜在危害：</strong>服务器端请求伪造(SSRF)、文件读取、拒绝服务</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Docling 到修复版本，禁用外部XML实体解析</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-m88r-rg27-5xfg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Docling: Unsafe Zip Extraction in EasyOCR Model Download</div>
+                    <div class="advisory-id">GHSA-cjqg-rq2h-2fvj | CVE: CVE-2026-44017</div>
+                </div>
+                <span class="priority-score">优先级: 55</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 65.7k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Docling 的 EasyOCR 模型下载功能存在不安全的 ZIP 解压漏洞，攻击者可通过 ZIP Slip 攻击在文件系统中写入任意文件，可能导致远程代码执行。</p>
+                <p><strong>影响产品：</strong>DS4SD/docling ⭐65.7k</p>
+                <p><strong>影响版本：</strong>< 2.91.0</p>
+                <p><strong>攻击面：</strong>通过提供恶意ZIP文件远程触发</p>
+                <p><strong>触发条件：</strong>触发EasyOCR模型下载并解压包含路径遍历的ZIP文件</p>
+                <p><strong>潜在危害：</strong>任意文件写入，可能导致远程代码执行</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Docling 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-cjqg-rq2h-2fvj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Snipe-IT has an Improper Privilege Management issue</div>
+                    <div class="advisory-id">GHSA-j5g3-42wp-gqm3 | CVE: CVE-2026-55843</div>
+                </div>
+                <span class="priority-score">优先级: 45</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.9k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Snipe-IT 资产管理系统存在不当权限管理漏洞，可能导致权限提升。</p>
+                <p><strong>影响产品：</strong>grokability/snipe-it ⭐14.9k</p>
+                <p><strong>影响版本：</strong>< 8.6.0</p>
+                <p><strong>攻击面：</strong>需要已认证用户权限</p>
+                <p><strong>触发条件：</strong>利用权限管理缺陷执行越权操作</p>
+                <p><strong>潜在危害：</strong>权限提升，可能访问未授权的管理功能</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Snipe-IT 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-j5g3-42wp-gqm3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SeaweedFS: Path traversal in the S3 gateway X-Amz-Copy-Source header allows cross-bucket object read</div>
+                    <div class="advisory-id">GHSA-56wq-x3wv-3ff4 | CVE: CVE-2026-55874</div>
+                </div>
+                <span class="priority-score">优先级: 45</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 34.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SeaweedFS 的 S3 网关在处理 X-Amz-Copy-Source 请求头时存在路径遍历漏洞，允许攻击者跨存储桶复制数据，可能导致数据泄露。</p>
+                <p><strong>影响产品：</strong>seaweedfs/seaweedfs ⭐34.3k</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260612000715-b44cf51fe931</p>
+                <p><strong>攻击面：</strong>通过S3兼容API远程触发</p>
+                <p><strong>触发条件：</strong>发送带有特制路径的 X-Amz-Copy-Source 请求头</p>
+                <p><strong>潜在危害：</strong>跨存储桶数据泄露，可能访问其他租户的敏感数据</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 SeaweedFS 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-56wq-x3wv-3ff4" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Portainer has Unauthenticated Restore Endpoint that Allows Admin Takeover on Uninitialized Instances</div>
+                    <div class="advisory-id">GHSA-x626-fcwx-f5pc | CVE: CVE-2026-55761</div>
+                </div>
+                <span class="priority-score">优先级: 45</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 38.4k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Portainer 容器管理平台存在未认证的恢复端点，允许攻击者绕过认证直接执行管理员恢复操作，完全接管 Portainer 实例。</p>
+                <p><strong>影响产品：</strong>portainer/portainer ⭐38.4k</p>
+                <p><strong>影响版本：</strong>>= 2.39.0, < 2.39.4, >= 2.40.0, < 2.43.0</p>
+                <p><strong>攻击面：</strong>网络远程，无需认证</p>
+                <p><strong>触发条件：</strong>访问未受保护的恢复API端点</p>
+                <p><strong>潜在危害：</strong>完全接管 Portainer 管理的所有容器和基础设施</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Portainer 到修复版本，确保恢复端点受认证保护</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-x626-fcwx-f5pc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Snipe-IT vulnerable to cross-company asset maintenance re-parenting via API update</div>
+                    <div class="advisory-id">GHSA-575r-357h-fhch | CVE: CVE-2026-55516</div>
+                </div>
+                <span class="priority-score">优先级: 45</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.9k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Snipe-IT vulnerable to cross-company asset maintenance re-parenting via API update</p>
+                <p><strong>影响产品：</strong>grokability/snipe-it ⭐14.9k</p>
+                <p><strong>影响版本：</strong><= 8.6.1</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-575r-357h-fhch" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Snipe-IT vulnerable to directory traversal in displaySig</div>
+                    <div class="advisory-id">GHSA-c6f4-wj38-m3g3 | CVE: CVE-2026-55474</div>
+                </div>
+                <span class="priority-score">优先级: 45</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 14.9k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Snipe-IT vulnerable to directory traversal in displaySig</p>
+                <p><strong>影响产品：</strong>grokability/snipe-it ⭐14.9k</p>
+                <p><strong>影响版本：</strong>< 8.5.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-c6f4-wj38-m3g3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Fortigate syslog message parser can be exploited to modify or delete fields from the original messag</div>
+                    <div class="advisory-id">GHSA-gqr6-r77p-c2pj | CVE: CVE-2026-55841</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 8.1k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Graylog 的 Fortigate syslog 消息解析器存在漏洞，攻击者可通过特制的syslog消息修改或删除已解析的字段。</p>
+                <p><strong>影响产品：</strong>Graylog2/graylog2-server ⭐8.1k</p>
+                <p><strong>影响版本：</strong>>= 7.0.0, < 7.0.7, < 6.3.12</p>
+                <p><strong>攻击面：</strong>通过发送特制的syslog消息远程触发</p>
+                <p><strong>触发条件：</strong>发送包含恶意构造的Fortigate syslog消息</p>
+                <p><strong>潜在危害：</strong>日志数据篡改，可能影响安全审计和告警</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级 Graylog 到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-gqr6-r77p-c2pj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-platform-http-main: when JWT authentication was configured with a keystore but no issue</div>
+                    <div class="advisory-id">GHSA-fpm2-m4qq-wghr | CVE: CVE-2026-66908</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-platform-http-main: when JWT authentication was configured with a keystore but no issuer or audience, the iss and aud claims were never validated, so any unexpired token signed by a trusted key was accepted</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.8.0, < 4.22.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-fpm2-m4qq-wghr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Google-Storage: the consumer appended the remote object name to the configured download</div>
+                    <div class="advisory-id">GHSA-f78g-9385-qxqj | CVE: CVE-2026-66907</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Google-Storage: the consumer appended the remote object name to the configured downloadFileName directory without constraining the result</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.15.0, < 4.18.4, >= 4.19.0, < 4.22.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-f78g-9385-qxqj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Vertx-Websocket: The inbound consumer maps externally-supplied WebSocket query and path</div>
+                    <div class="advisory-id">GHSA-hgg5-gp4c-gpcg | CVE: CVE-2026-46726</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Vertx-Websocket: The inbound consumer maps externally-supplied WebSocket query and path parameters into the Exchange without a HeaderFilterStrategy</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hgg5-gp4c-gpcg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Langchain4j-Tools: Tool argument headers are not filtered against declared parameters</div>
+                    <div class="advisory-id">GHSA-hh8r-75r6-qrg9 | CVE: CVE-2026-49042</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Langchain4j-Tools: Tool argument headers are not filtered against declared parameters</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.8.0, < 4.18.3, >= 4.19.0, < 4.21.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-hh8r-75r6-qrg9" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Atmosphere-Websocket: The inbound consumer maps externally-supplied WebSocket query par</div>
+                    <div class="advisory-id">GHSA-rcvm-6r79-cf4r | CVE: CVE-2026-55993</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Atmosphere-Websocket: The inbound consumer maps externally-supplied WebSocket query parameters into the Exchange without a HeaderFilterStrategy</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-rcvm-6r79-cf4r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Iggy: The inbound consumer maps externally-supplied Iggy message user-headers into the </div>
+                    <div class="advisory-id">GHSA-pw9q-pq7c-rfqw | CVE: CVE-2026-55994</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Iggy: The inbound consumer maps externally-supplied Iggy message user-headers into the Exchange without a HeaderFilterStrategy</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.17.0, < 4.18.3, >= 4.19.0, < 4.21.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-pw9q-pq7c-rfqw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-CouchDB: Non-Camel-prefixed Exchange headers bypass HeaderFilterStrategy allowing opera</div>
+                    <div class="advisory-id">GHSA-5g68-f6xg-vf2r | CVE: CVE-2026-46588</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-CouchDB: Non-Camel-prefixed Exchange headers bypass HeaderFilterStrategy allowing operation override from untrusted input</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-5g68-f6xg-vf2r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Couchbase: Non-Camel-prefixed Exchange headers bypass HeaderFilterStrategy allowing ope</div>
+                    <div class="advisory-id">GHSA-46jf-c9vx-hh79 | CVE: CVE-2026-46587</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Couchbase: Non-Camel-prefixed Exchange headers bypass HeaderFilterStrategy allowing operation override from untrusted input</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-46jf-c9vx-hh79" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-CXF: The SOAP operation-selection headers used non-Camel-prefixed names (operationName,</div>
+                    <div class="advisory-id">GHSA-mrrp-9gjm-749v | CVE: CVE-2026-46592</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-CXF: The SOAP operation-selection headers used non-Camel-prefixed names (operationName, operationNamespace) that bypass the HTTP header filter, allowing an HTTP client to redirect the invoked SOAP operation</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-mrrp-9gjm-749v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Neo4j: JSON property names from the CamelNeo4jMatchProperties header are interpolated i</div>
+                    <div class="advisory-id">GHSA-q86m-qjpm-vqcw | CVE: CVE-2026-46591</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Neo4j: JSON property names from the CamelNeo4jMatchProperties header are interpolated into the Cypher WHERE clause without validation, allowing Cypher injection (incomplete remediation of CVE-2025-66169)</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.10.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-q86m-qjpm-vqcw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-PQC: The HashiCorp Vault and AWS Secrets Manager key-lifecycle managers deserialize per</div>
+                    <div class="advisory-id">GHSA-857v-xvh8-7hjc | CVE: CVE-2026-46590</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-PQC: The HashiCorp Vault and AWS Secrets Manager key-lifecycle managers deserialize persisted key metadata with java.io.ObjectInputStream and no ObjectInputFilter (incomplete remediation of CVE-2026-40048)</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.18.0, < 4.18.3, >= 4.19.0, < 4.21.0</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-857v-xvh8-7hjc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-Lucene: The query control headers used non-Camel-prefixed names (QUERY, RETURN_LUCENE_D</div>
+                    <div class="advisory-id">GHSA-566h-v38h-3xp3 | CVE: CVE-2026-46585</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-Lucene: The query control headers used non-Camel-prefixed names (QUERY, RETURN_LUCENE_DOCS) that bypass the HTTP header filter, allowing an HTTP client to inject the full-text search query</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-566h-v38h-3xp3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Apache Camel-NATS: Inbound NATS message headers are mapped into the Exchange without a configured He</div>
+                    <div class="advisory-id">GHSA-7v55-q9x3-83cj | CVE: CVE-2026-46457</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.3k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Camel-NATS: Inbound NATS message headers are mapped into the Exchange without a configured HeaderFilterStrategy, allowing a client that can publish to the subject to inject Camel control headers</p>
+                <p><strong>影响产品：</strong>apache/camel ⭐6.3k</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.14.8, >= 4.15.0, < 4.18.3</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-7v55-q9x3-83cj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 Weblate has IDOR in GroupViewSet that allows authenticated project manager to gain unauthorized read</div>
+                    <div class="advisory-id">GHSA-2q2q-jr9g-v9rf | CVE: CVE-2026-55228</div>
+                </div>
+                <span class="priority-score">优先级: 40</span>
+            </div>
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6.0k</span>
+                
+            </div>
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Weblate has IDOR in GroupViewSet that allows authenticated project manager to gain unauthorized read access to any private project</p>
+                <p><strong>影响产品：</strong>WeblateOrg/weblate ⭐6.0k</p>
+                <p><strong>影响版本：</strong>< 2026.7</p>
+                <p><strong>攻击面：</strong>需进一步分析</p>
+                <p><strong>触发条件：</strong>需进一步分析</p>
+                <p><strong>潜在危害：</strong>需进一步分析</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到修复版本</p>
+            </div>
+            <a href="https://github.com/advisories/GHSA-2q2q-jr9g-v9rf" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-9x44-4gxf-8c25</td>
+                    <td>pimcore/pimcore</td>
+                    <td>3.8k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-9x44-4gxf-8c25" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-w23p-wrp7-ch38</td>
+                    <td>pimcore/pimcore</td>
+                    <td>3.8k</td>
+                    <td>Critical</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-w23p-wrp7-ch38" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-c9f5-j9c3-mhrg</td>
+                    <td>lxc/incus</td>
+                    <td>6.1k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-c9f5-j9c3-mhrg" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-64f3-v33m-w89f</td>
+                    <td>lxc/incus</td>
+                    <td>6.1k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-64f3-v33m-w89f" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🔴</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-w98g-5w9p-p3rc</td>
+                    <td>maximhq/bifrost</td>
+                    <td>7.6k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-w98g-5w9p-p3rc" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-786w-p5pm-cvgh</td>
+                    <td>phpsysinfo/phpsysinfo</td>
+                    <td>1.4k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-786w-p5pm-cvgh" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-p6gw-4frg-j7jw</td>
+                    <td>mar10/wsgidav</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-p6gw-4frg-j7jw" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-4gv3-mc9p-5wqc</td>
+                    <td>keycloak/keycloak</td>
+                    <td>36.5k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4gv3-mc9p-5wqc" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-ffg3-p8fm-mjx2</td>
+                    <td>zopefoundation/RestrictedPython</td>
+                    <td>740</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-ffg3-p8fm-mjx2" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-5v29-34h8-v68r</td>
+                    <td>mapfish/mapfish-print</td>
+                    <td>197</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5v29-34h8-v68r" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-5789-5fc7-67v3</td>
+                    <td>jupyter-server/jupyter_server</td>
+                    <td>567</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5789-5fc7-67v3" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-2gh4-jmwq-rr8w</td>
+                    <td>piccolo-orm/piccolo_admin</td>
+                    <td>467</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2gh4-jmwq-rr8w" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-mrpp-v6pg-p54x</td>
+                    <td>klever-io/klever-go</td>
+                    <td>31</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-mrpp-v6pg-p54x" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-v7h8-xhh6-gfj4</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-v7h8-xhh6-gfj4" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-m5r8-w65q-8wjf</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-m5r8-w65q-8wjf" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-2x37-89hj-2j95</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-2x37-89hj-2j95" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-4h4f-v54q-7pq8</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-4h4f-v54q-7pq8" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-v358-wf77-39xv</td>
+                    <td>klever-io/klever-go</td>
+                    <td>31</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-v358-wf77-39xv" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-cmc3-hr79-8mmv</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-cmc3-hr79-8mmv" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-mqwc-6qwc-v9gq</td>
+                    <td>apache/camel</td>
+                    <td>6.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-mqwc-6qwc-v9gq" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-hr6j-w4mw-g9mj</td>
+                    <td>guno1928/alos-http</td>
+                    <td>5</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-hr6j-w4mw-g9mj" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-f97c-ph8j-8vff</td>
+                    <td>pimcore/studio-backend-bundle</td>
+                    <td>20</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f97c-ph8j-8vff" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-79cw-hfcc-7mw9</td>
+                    <td>pimcore/studio-backend-bundle</td>
+                    <td>20</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-79cw-hfcc-7mw9" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-h854-c3m3-mh5v</td>
+                    <td>pimcore/studio-backend-bundle</td>
+                    <td>20</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-h854-c3m3-mh5v" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-wjmf-p669-5m5p</td>
+                    <td>scrapy/protego</td>
+                    <td>92</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-wjmf-p669-5m5p" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-86m2-fcxq-5q7c</td>
+                    <td>N/A</td>
+                    <td>0</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-86m2-fcxq-5q7c" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-8gmq-j984-vp4r</td>
+                    <td>N/A</td>
+                    <td>0</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>极低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8gmq-j984-vp4r" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-m88r-rg27-5xfg</td>
+                    <td>DS4SD/docling</td>
+                    <td>65.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m88r-rg27-5xfg" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-cjqg-rq2h-2fvj</td>
+                    <td>DS4SD/docling</td>
+                    <td>65.7k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cjqg-rq2h-2fvj" style="color:#58a6ff">链接</a></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>🟠</td>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-vgwf-h737-ff37</td>
+                    <td>golang/crypto</td>
+                    <td>3.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" style="color:#58a6ff">链接</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-9x44-4gxf-8c25</td>
+                    <td>pimcore/pimcore</td>
+                    <td>3.8k</td>
+                    <td>Critical</td>
+                    <td>PoC章节: ## Reproduction</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-w23p-wrp7-ch38</td>
+                    <td>pimcore/pimcore</td>
+                    <td>3.8k</td>
+                    <td>Critical</td>
+                    <td>PoC章节: ## Proof of Concept</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-786w-p5pm-cvgh</td>
+                    <td>phpsysinfo/phpsysinfo</td>
+                    <td>1.4k</td>
+                    <td>High</td>
+                    <td>PoC章节: ## Proof of Concept</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-p6gw-4frg-j7jw</td>
+                    <td>mar10/wsgidav</td>
+                    <td>1.2k</td>
+                    <td>High</td>
+                    <td>PoC章节: ### PoC</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-ffg3-p8fm-mjx2</td>
+                    <td>zopefoundation/RestrictedPython</td>
+                    <td>740</td>
+                    <td>High</td>
+                    <td>PoC章节: ### Proof of concept</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-5v29-34h8-v68r</td>
+                    <td>mapfish/mapfish-print</td>
+                    <td>197</td>
+                    <td>High</td>
+                    <td>PoC章节: ### PoC</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-5789-5fc7-67v3</td>
+                    <td>jupyter-server/jupyter_server</td>
+                    <td>567</td>
+                    <td>High</td>
+                    <td>PoC章节: ### PoC</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-2gh4-jmwq-rr8w</td>
+                    <td>piccolo-orm/piccolo_admin</td>
+                    <td>467</td>
+                    <td>High</td>
+                    <td>完整可利用代码块</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-mrpp-v6pg-p54x</td>
+                    <td>klever-io/klever-go</td>
+                    <td>31</td>
+                    <td>High</td>
+                    <td>PoC章节: ## Proof of concept</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em">GHSA-v358-wf77-39xv</td>
+                    <td>klever-io/klever-go</td>
+                    <td>31</td>
+                    <td>High</td>
+                    <td>PoC章节: ## Proof of concept</td>
+                </tr>
+
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>Keycloak (⭐36.5k)</strong> - 未认证账户接管漏洞 (GHSA-4gv3-mc9p-5wqc)，影响所有使用 Keycloak 的组织，建议立即升级</li>
+                    <li><strong>Portainer (⭐38.4k)</strong> - 未认证管理员接管 (GHSA-x626-fcwx-f5pc)，容器管理平台严重漏洞，建议立即修补</li>
+                    <li><strong>SeaweedFS (⭐34.3k)</strong> - S3网关路径遍历 (GHSA-56wq-x3wv-3ff4)，可能导致跨桶数据泄露</li>
+                    <li><strong>Docling (⭐65.7k)</strong> - XXE和ZIP Slip双重漏洞 (GHSA-m88r-rg27-5xfg, GHSA-cjqg-rq2h-2fvj)，AI文档处理库存在严重安全风险</li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>Apache Camel (⭐6.3k)</strong> - 批量发布18个高危/严重漏洞，涉及消息头注入、路径遍历、认证绕过等多类问题，使用Camel的组织需全面排查</li>
+                    <li><strong>Incus (⭐6k)</strong> - 项目隔离绕过 (GHSA-c9f5-j9c3-mhrg, GHSA-64f3-v33m-w89f)，含PoC，容器虚拟化安全受影响</li>
+                    <li><strong>Bifrost (⭐7.6k)</strong> - SSRF防护绕过 (GHSA-w98g-5w9p-p3rc)，含PoC，AI代理框架安全问题</li>
+                    <li><strong>golang.org/x/crypto (⭐3.3k)</strong> - SSH死锁漏洞 (GHSA-vgwf-h737-ff37)，影响Go生态的SSH实现</li>
+                    <li><strong>Snipe-IT (⭐14.9k)</strong> - 3个漏洞涉及权限管理和目录遍历</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li>Pimcore CMS 存在4个漏洞（含RCE和反序列化），star较低但危害严重</li>
+                    <li>RestrictedPython 沙箱绕过漏洞，影响Python代码沙箱安全</li>
+                    <li>Jupyter Server 路径遍历和XSS漏洞</li>
+                    <li>多个小型项目发现完整PoC漏洞（9router、WsgiDAV等），建议关注供应链安全</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
