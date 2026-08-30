@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-30",
+      "title": "GitHub安全公告日报 - 2026-08-30",
+      "url": "reports/report-2026-08-30.html",
+      "stats": {
+        "total": 25,
+        "critical": 5,
+        "high": 20,
+        "star5k": 19,
+        "with_poc": 9
+      },
+      "summary": "今日监控到25个Critical/High级别漏洞，其中5个Critical、20个High。重点关注Keycloak未认证账户接管、Portainer未授权管理员接管、Apache Camel批量Header注入漏洞。"
+    },
+    {
       "date": "2026-08-29",
       "title": "GitHub安全公告日报 - 2026-08-29",
       "url": "reports/report-2026-08-29.html",
@@ -376,19 +389,6 @@
         "with_poc": 39
       },
       "summary": "今日监控到 39 个高危漏洞公告（1个Critical + 38个High），涉及 n8n(197k⭐)、Next.js(141k⭐)、vLLM(87k⭐)、LiteLLM(54k⭐)、JupyterLab(15k⭐) 等热门项目，其中 25 个紧急级别需重点关注"
-    },
-    {
-      "date": "2026-07-22",
-      "title": "GitHub安全公告日报 - 2026-07-22",
-      "url": "reports/report-2026-07-22.html",
-      "stats": {
-        "total": 49,
-        "critical": 7,
-        "high": 42,
-        "star5k": 36,
-        "with_poc": 47
-      },
-      "summary": "今日发现49个高危/严重漏洞，其中Gitea发布22个安全修复（含5个Critical），GitPython多个命令注入漏洞，Immutable.js哈希碰撞DoS，.NET SignalR DoS及Negotiate认证提权漏洞。36个漏洞影响Star≥5k项目，47个含PoC或详细分析。"
     }
   ]
 }
