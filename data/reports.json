@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-08-31",
+      "title": "GitHub安全公告日报 - 2026-08-31",
+      "url": "reports/report-2026-08-31.html",
+      "stats": {
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "star5k": 0,
+        "with_poc": 1
+      },
+      "summary": "发现1个Critical级别漏洞：vm2沙箱逃逸（CVE-2026-47698），CVSS 9.8，有完整PoC，影响版本<=3.11.5，需立即升级至3.11.6。"
+    },
+    {
       "date": "2026-08-30",
       "title": "GitHub安全公告日报 - 2026-08-30",
       "url": "reports/report-2026-08-30.html",
@@ -376,19 +389,6 @@
         "with_poc": 10
       },
       "summary": "今日发现10个Critical/High漏洞：PostCSS任意文件读取(🔴)、PHPSpreadsheet多个DoS和SSRF(🔴)、Auth.js认证绕过和DoS(🟠)、pypdf无限循环DoS(🟡)。重点关注PostCSS和PHPSpreadsheet的SSRF绕过漏洞。"
-    },
-    {
-      "date": "2026-07-23",
-      "title": "GitHub安全公告日报 - 2026-07-23",
-      "url": "reports/report-2026-07-23.html",
-      "stats": {
-        "total": 39,
-        "critical": 1,
-        "high": 38,
-        "star5k": 39,
-        "with_poc": 39
-      },
-      "summary": "今日监控到 39 个高危漏洞公告（1个Critical + 38个High），涉及 n8n(197k⭐)、Next.js(141k⭐)、vLLM(87k⭐)、LiteLLM(54k⭐)、JupyterLab(15k⭐) 等热门项目，其中 25 个紧急级别需重点关注"
     }
   ]
 }
