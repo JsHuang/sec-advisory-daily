@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-09-01</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; margin-top: 4px; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content p { margin-bottom: 8px; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; font-size: 0.9em; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-09-01 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 OpenMetadata's Server-Side Template Injection (SSTI) in FreeMarker email templates leads to RCE</div>
+                    <div class="advisory-id">GHSA-5f29-2333-h9c7 | CVE: CVE-2026-22244 | CWE: CWE-1336</div>
+                </div>
+                <span class="priority-score">优先级: 7/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 9.1)</span>
+                <span class="badge badge-stars">⭐ 15.0k (open-metadata/OpenMetadata)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenMetadata的FreeMarker邮件模板存在服务端模板注入(SSTI)漏洞，经过身份验证的管理员可通过注入恶意FreeMarker指令实现远程代码执行(RCE)。攻击者可利用此漏洞获取服务器完全控制权。</p>
+                <p><strong>影响产品：</strong>maven/org.open-metadata:platform ⭐15.0k</p>
+                <p><strong>影响版本：</strong>>= 1.5.0, < 1.11.4</p>
+                <p><strong>修复版本：</strong>1.11.4</p>
+                <p><strong>攻击面：</strong>管理后台API接口（/api/v1/util/email/test），需要管理员权限</p>
+                <p><strong>触发条件：</strong>管理员修改邮件模板注入FreeMarker RCE payload，触发测试邮件发送即可执行</p>
+                <p><strong>潜在危害：</strong>服务器完全控制、数据泄露、权限提升、横向移动</p>
+                <p><strong>可利用性：</strong>有完整PoC，含分步复现流程和多种攻击场景（提权、数据窃取、反向Shell）</p>
+                <p><strong>修复建议：</strong>升级至OpenMetadata >= 1.12.0，立即审查并清理自定义邮件模板</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5f29-2333-h9c7" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Apache Dolphinscheduler Code Injection vulnerability</div>
+                    <div class="advisory-id">GHSA-2fm6-mv57-p2qh | CVE: CVE-2024-43202 | CWE: CWE-94</div>
+                </div>
+                <span class="priority-score">优先级: 6/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 14.5k (apache/dolphinscheduler)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache DolphinScheduler存在代码注入漏洞，攻击者可在任务执行上下文中注入并执行任意代码，实现远程代码执行。</p>
+                <p><strong>影响产品：</strong>maven/org.apache.dolphinscheduler:dolphinscheduler-task-api ⭐14.5k</p>
+                <p><strong>影响版本：</strong>>= 3.1.0, < 3.2.2</p>
+                <p><strong>修复版本：</strong>3.2.2</p>
+                <p><strong>攻击面：</strong>DolphinScheduler任务配置接口</p>
+                <p><strong>触发条件：</strong>在任务参数或脚本中注入恶意代码</p>
+                <p><strong>潜在危害：</strong>远程代码执行、数据泄露、基础设施控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级至Apache DolphinScheduler修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2fm6-mv57-p2qh" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Apache Pinot Vulnerable to Authentication Bypass</div>
+                    <div class="advisory-id">GHSA-6jwp-4wvj-6597 | CVE: CVE-2024-56325 | CWE: CWE-288</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 6.1k (apache/pinot)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Pinot存在身份验证绕过漏洞，攻击者可在未授权的情况下访问Pinot集群的Broker和Controller接口，读取或篡改数据。</p>
+                <p><strong>影响产品：</strong>maven/org.apache.pinot:pinot-broker ⭐6.1k</p>
+                <p><strong>影响版本：</strong>>= 0.8.0, < 1.3.0</p>
+                <p><strong>修复版本：</strong>1.3.0</p>
+                <p><strong>攻击面：</strong>Pinot Broker和Controller的HTTP API</p>
+                <p><strong>触发条件：</strong>构造绕过认证检查的HTTP请求</p>
+                <p><strong>潜在危害：</strong>未授权数据访问、数据篡改、集群控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级至Apache Pinot修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6jwp-4wvj-6597" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications</div>
+                    <div class="advisory-id">GHSA-c4q5-6c82-3qpw | CVE: CVE-2024-38821 | CWE: CWE-285, CWE-770</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.1)</span>
+                <span class="badge badge-stars">⭐ 9.6k (spring-projects/spring-security)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spring Security在WebFlux应用中存在静态资源授权绕过漏洞(CVSS 9.1)，攻击者可通过特殊URL路径绕过安全配置直接访问受保护的静态资源。</p>
+                <p><strong>影响产品：</strong>maven/org.springframework.security:spring-security-web ⭐9.6k</p>
+                <p><strong>影响版本：</strong>>= 5.8.0, < 5.8.15</p>
+                <p><strong>修复版本：</strong>5.8.15</p>
+                <p><strong>攻击面：</strong>WebFlux应用的静态资源路径</p>
+                <p><strong>触发条件：</strong>构造特殊URL路径绕过Spring Security的授权检查</p>
+                <p><strong>潜在危害：</strong>未授权访问敏感静态资源（配置文件、前端代码等）</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Spring Security至修复版本，审查WebFlux安全配置</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c4q5-6c82-3qpw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Apache Tomcat - HTTP/2 request headers not validated</div>
+                    <div class="advisory-id">GHSA-r29c-68gh-xp6x | CVE: CVE-2026-41293 | CWE: CWE-20</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 8.2k (apache/tomcat)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Tomcat在处理HTTP/2请求时未正确验证请求头(CVSS 9.8)，可能导致HTTP请求走私、缓存污染或安全绕过。</p>
+                <p><strong>影响产品：</strong>maven/org.apache.tomcat.embed:tomcat-embed-core ⭐8.2k</p>
+                <p><strong>影响版本：</strong>>= 10.1.0-M1, < 10.1.55</p>
+                <p><strong>修复版本：</strong>10.1.55</p>
+                <p><strong>攻击面：</strong>Tomcat HTTP/2连接器</p>
+                <p><strong>触发条件：</strong>发送包含特殊构造头部的HTTP/2请求</p>
+                <p><strong>潜在危害：</strong>HTTP请求走私、缓存污染、认证绕过</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Apache Tomcat至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-r29c-68gh-xp6x" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 elFinder: SSRF protection bypass via DNS rebinding in the `fsock_get_contents()` fallback</div>
+                    <div class="advisory-id">GHSA-8x3q-jpjh-qh5c | CVE: CVE-2026-81889 | CWE: CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.6)</span>
+                <span class="badge badge-stars">⭐ 4.8k (Studio-42/elFinder)</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>elFinder文件管理器存在SSRF防护绕过漏洞(CVSS 8.6)，攻击者可通过DNS重绑定技术绕过fsock_get_contents()回退路径中的SSRF防护，访问内部网络服务。</p>
+                <p><strong>影响产品：</strong>composer/studio-42/elfinder ⭐4.8k</p>
+                <p><strong>影响版本：</strong><= 2.1.69</p>
+                <p><strong>修复版本：</strong>2.1.70</p>
+                <p><strong>攻击面：</strong>elFinder文件管理器的URL访问功能</p>
+                <p><strong>触发条件：</strong>通过DNS重绑定将外部域名解析为内网IP，绕过SSRF检查</p>
+                <p><strong>潜在危害：</strong>内网服务访问、内网数据泄露、横向移动</p>
+                <p><strong>可利用性：</strong>有完整PoC，含DNS重绑定的详细复现步骤</p>
+                <p><strong>修复建议：</strong>升级elFinder至修复版本，加强SSRF防护（禁用fsock回退或增加IP白名单）</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-8x3q-jpjh-qh5c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危  MLflow AI Gateway permits SSRF through an unvalidated api_base</div>
+                    <div class="advisory-id">GHSA-h7x2-h6g9-p789 | CVE: CVE-2026-71211 | CWE: CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.1)</span>
+                <span class="badge badge-stars">⭐ 27.8k (mlflow/mlflow)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>MLflow AI Gateway未验证api_base参数(CVSS 7.1)，允许攻击者通过构造恶意api_base实现服务端请求伪造(SSRF)，访问内部网络资源。</p>
+                <p><strong>影响产品：</strong>pip/mlflow ⭐27.8k</p>
+                <p><strong>影响版本：</strong>>= 3.13.0, <= 3.15.2</p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>攻击面：</strong>MLflow AI Gateway API配置接口</p>
+                <p><strong>触发条件：</strong>在AI Gateway配置中设置指向内网地址的api_base</p>
+                <p><strong>潜在危害：</strong>内网服务探测与访问、内网数据泄露</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级MLflow至修复版本，对api_base参数进行URL白名单验证</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h7x2-h6g9-p789" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 lmdeploy: Hardcoded trust_remote_code=True is an implicit unsafe remote-code load path with no user opt-out</div>
+                    <div class="advisory-id">GHSA-9xq9-36w5-q796 | CVE: CVE-2026-46517 | CWE: CWE-94, CWE-915, CWE-1188</div>
+                </div>
+                <span class="priority-score">优先级: 5/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.8)</span>
+                <span class="badge badge-stars">⭐ 8.0k (InternLM/lmdeploy)</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>lmdeploy硬编码了trust_remote_code=True(CVSS 7.8)，在加载HuggingFace模型时隐式启用不安全的远程代码加载，用户无法禁用。攻击者可通过投毒HuggingFace模型仓库实现供应链RCE。</p>
+                <p><strong>影响产品：</strong>pip/lmdeploy ⭐8.0k</p>
+                <p><strong>影响版本：</strong><= 0.12.3</p>
+                <p><strong>修复版本：</strong>0.13.0</p>
+                <p><strong>攻击面：</strong>lmdeploy模型加载函数（多处）</p>
+                <p><strong>触发条件：</strong>加载包含恶意config.py的HuggingFace模型</p>
+                <p><strong>潜在危害：</strong>供应链攻击、远程代码执行、模型投毒</p>
+                <p><strong>可利用性：</strong>有详细源码级分析（4处代码位置），无独立PoC章节但攻击路径清晰</p>
+                <p><strong>修复建议：</strong>升级lmdeploy至修复版本，将trust_remote_code改为可配置参数并默认关闭</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9xq9-36w5-q796" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 hermes-management is vulnerable to RCE due to Apache commons-jxpath</div>
+                    <div class="advisory-id">GHSA-2gh6-wc3m-g37f | CVE: N/A | CWE: CWE-1395</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 866 (allegro/hermes)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>hermes-management组件因依赖Apache commons-jxpath库存在远程代码执行漏洞，攻击者可通过构造恶意JXPath表达式实现RCE。</p>
+                <p><strong>影响产品：</strong>maven/pl.allegro.tech.hermes:hermes-management ⭐866</p>
+                <p><strong>影响版本：</strong>>= 0.8.2, < 2.2.9</p>
+                <p><strong>修复版本：</strong>2.2.9</p>
+                <p><strong>攻击面：</strong>hermes-management管理接口</p>
+                <p><strong>触发条件：</strong>发送包含恶意JXPath表达式的请求</p>
+                <p><strong>潜在危害：</strong>远程代码执行，服务器完全控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级hermes-management至修复版本，移除或替换commons-jxpath依赖</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2gh6-wc3m-g37f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Apache Polaris has an Improper Input Validation issue</div>
+                    <div class="advisory-id">GHSA-w76p-3cgp-qfcm | CVE: CVE-2026-42812 | CWE: CWE-20</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.9)</span>
+                <span class="badge badge-stars">⭐ 2.0k (apache/polaris)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Polaris存在不当输入验证问题(CVSS 9.9)，攻击者可通过精心构造的输入数据绕过安全验证，可能导致未授权操作或数据泄露。</p>
+                <p><strong>影响产品：</strong>maven/org.apache.polaris:polaris-runtime-service ⭐2.0k</p>
+                <p><strong>影响版本：</strong>>= 0.9.0, < 1.4.1</p>
+                <p><strong>修复版本：</strong>1.4.1</p>
+                <p><strong>攻击面：</strong>Polaris运行时服务API</p>
+                <p><strong>触发条件：</strong>发送包含特殊构造输入的API请求</p>
+                <p><strong>潜在危害：</strong>未授权操作、数据泄露、服务控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级至Apache Polaris修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w76p-3cgp-qfcm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 dash-uploader has a directory traversal vulnerability</div>
+                    <div class="advisory-id">GHSA-3rf6-x59v-5jfv | CVE: CVE-2026-38360 | CWE: CWE-22</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.8)</span>
+                <span class="badge badge-stars">⭐ 0 (plotly/dash-uploader)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>dash-uploader组件存在目录遍历漏洞(CVSS 9.8)，攻击者可通过路径遍历上传任意文件到服务器任意位置，可能导致远程代码执行。</p>
+                <p><strong>影响产品：</strong>pip/dash-uploader ⭐0</p>
+                <p><strong>影响版本：</strong>>= 0.1.0, <= 0.7.0a2</p>
+                <p><strong>修复版本：</strong>N/A</p>
+                <p><strong>攻击面：</strong>dash-uploader文件上传接口</p>
+                <p><strong>触发条件：</strong>在上传路径中使用../等路径遍历字符</p>
+                <p><strong>潜在危害：</strong>任意文件写入、潜在RCE、服务器控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级dash-uploader至修复版本或停止使用</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-3rf6-x59v-5jfv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Apache Ranger UI vulnerable to Server Side Request Forgery</div>
+                    <div class="advisory-id">GHSA-g9gf-g5jq-9h3v | CVE: CVE-2024-45479 | CWE: CWE-20, CWE-918</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.1)</span>
+                <span class="badge badge-stars">⭐ 1.1k (apache/ranger)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Ranger UI存在服务端请求伪造(SSRF)漏洞(CVSS 9.1)，攻击者可利用Ranger UI服务端发起任意内部网络请求，访问内网服务。</p>
+                <p><strong>影响产品：</strong>maven/org.apache.ranger:ranger ⭐1.1k</p>
+                <p><strong>影响版本：</strong>>= 0.5.0, < 2.5.0</p>
+                <p><strong>修复版本：</strong>2.5.0</p>
+                <p><strong>攻击面：</strong>Apache Ranger Web UI</p>
+                <p><strong>触发条件：</strong>通过Ranger UI的功能接口发起对内网地址的请求</p>
+                <p><strong>潜在危害：</strong>内网服务探测与访问、内网数据泄露、横向移动</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Apache Ranger至修复版本，限制UI可访问的URL范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-g9gf-g5jq-9h3v" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Snowflake Connector for Python improperly verifies TLS hostnames</div>
+                    <div class="advisory-id">GHSA-5cc2-282f-jjq2 | CVE: CVE-2026-15925 | CWE: CWE-297</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS N/A)</span>
+                <span class="badge badge-stars">⭐ 725 (snowflakedb/snowflake-connector-python)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Snowflake Connector for Python存在TLS主机名验证不当漏洞，攻击者可通过中间人攻击(MITM)拦截和篡改Snowflake数据库连接。</p>
+                <p><strong>影响产品：</strong>pip/snowflake-connector-python ⭐725</p>
+                <p><strong>影响版本：</strong>< 3.18.1</p>
+                <p><strong>修复版本：</strong>3.18.1</p>
+                <p><strong>攻击面：</strong>Snowflake数据库连接（网络层）</p>
+                <p><strong>触发条件：</strong>在客户端和Snowflake服务之间进行中间人攻击</p>
+                <p><strong>潜在危害：</strong>数据库通信被窃听或篡改、凭证泄露</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级snowflake-connector-python至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5cc2-282f-jjq2" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 golang.org/x/crypto: Invoking client can cause server deadlock on unexpected responses</div>
+                    <div class="advisory-id">GHSA-vgwf-h737-ff37 | CVE: CVE-2026-39830 | CWE: CWE-119, CWE-772</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">Critical (CVSS 9.1)</span>
+                <span class="badge badge-stars">⭐ 3.3k (golang/crypto)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>golang.org/x/crypto库中存在死锁漏洞(CVSS 9.1)，恶意客户端可通过发送意外响应导致服务端死锁，造成拒绝服务。</p>
+                <p><strong>影响产品：</strong>go/golang.org/x/crypto ⭐3.3k</p>
+                <p><strong>影响版本：</strong>< 0.52.0</p>
+                <p><strong>修复版本：</strong>0.52.0</p>
+                <p><strong>攻击面：</strong>使用golang.org/x/crypto的SSH/TLS服务端</p>
+                <p><strong>触发条件：</strong>客户端在连接过程中发送非预期的响应数据包</p>
+                <p><strong>潜在危害：</strong>服务端死锁、拒绝服务(DoS)</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级golang.org/x/crypto至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危  jsondiffpatch patch APIs are vulnerable to prototype pollution</div>
+                    <div class="advisory-id">GHSA-j4fx-xxwh-2485 | CVE: CVE-2026-8657 | CWE: CWE-1321</div>
+                </div>
+                <span class="priority-score">优先级: 4/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.2)</span>
+                <span class="badge badge-stars">⭐ 5.3k (benjamine/jsondiffpatch)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>jsondiffpatch的patch API存在原型链污染漏洞(CVSS 8.2)，攻击者可通过构造恶意diff对象污染JavaScript对象原型链，可能导致XSS或逻辑绕过。</p>
+                <p><strong>影响产品：</strong>npm/jsondiffpatch ⭐5.3k</p>
+                <p><strong>影响版本：</strong>< 0.7.6</p>
+                <p><strong>修复版本：</strong>0.7.6</p>
+                <p><strong>攻击面：</strong>jsondiffpatch.patch() API调用</p>
+                <p><strong>触发条件：</strong>传入包含__proto__等特殊键的diff对象</p>
+                <p><strong>潜在危害：</strong>原型链污染、潜在XSS、逻辑绕过</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级jsondiffpatch至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-j4fx-xxwh-2485" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Kirby: File upload permissions are not checked during processing of chunk data</div>
+                    <div class="advisory-id">GHSA-67mx-6wf2-92xp | CVE: CVE-2026-71415 | CWE: CWE-862</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS N/A)</span>
+                <span class="badge badge-stars">⭐ 1.5k (getkirby/kirby)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Kirby CMS在处理分块上传数据时未检查文件上传权限，攻击者可能绕过权限检查上传受限文件类型。</p>
+                <p><strong>影响产品：</strong>composer/getkirby/cms ⭐1.5k</p>
+                <p><strong>影响版本：</strong>>= 5.0.0, < 5.5.2</p>
+                <p><strong>修复版本：</strong>5.5.2</p>
+                <p><strong>攻击面：</strong>Kirby CMS文件上传接口（分块上传）</p>
+                <p><strong>触发条件：</strong>通过分块上传(chunk upload)接口上传受限制的文件类型</p>
+                <p><strong>潜在危害：</strong>上传危险文件、潜在RCE</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Kirby CMS至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-67mx-6wf2-92xp" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Kirby: Access to image files and limited access to JSON files outside of the site root via path traversal in the media handling</div>
+                    <div class="advisory-id">GHSA-9vx2-j98c-p72w | CVE: CVE-2026-75594 | CWE: CWE-22</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS N/A)</span>
+                <span class="badge badge-stars">⭐ 1.5k (getkirby/kirby)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Kirby CMS媒体处理存在路径遍历漏洞，攻击者可访问站点根目录之外的图片文件和部分JSON文件。</p>
+                <p><strong>影响产品：</strong>composer/getkirby/cms ⭐1.5k</p>
+                <p><strong>影响版本：</strong><= 4.9.4</p>
+                <p><strong>修复版本：</strong>4.9.5</p>
+                <p><strong>攻击面：</strong>Kirby CMS媒体文件处理接口</p>
+                <p><strong>触发条件：</strong>在媒体请求路径中使用路径遍历字符</p>
+                <p><strong>潜在危害：</strong>敏感文件泄露（图片、JSON配置）</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Kirby CMS至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9vx2-j98c-p72w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Socket.IO: Engine.IO WebTransport SID DoS</div>
+                    <div class="advisory-id">GHSA-gr94-w7qr-f4j3 | CVE: CVE-2026-59724 | CWE: CWE-20</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.5)</span>
+                <span class="badge badge-stars">⭐ 4.6k (socketio/engine.io)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Socket.IO的Engine.IO组件在WebTransport传输中存在SID拒绝服务漏洞(CVSS 7.5)，攻击者可通过操纵SID参数导致服务拒绝。</p>
+                <p><strong>影响产品：</strong>npm/engine.io ⭐4.6k</p>
+                <p><strong>影响版本：</strong>>= 6.5.0, < 6.6.7</p>
+                <p><strong>修复版本：</strong>6.6.7</p>
+                <p><strong>攻击面：</strong>Engine.IO WebTransport连接端点</p>
+                <p><strong>触发条件：</strong>发送包含恶意SID参数的WebTransport连接请求</p>
+                <p><strong>潜在危害：</strong>服务拒绝(DoS)、连接中断</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级engine.io至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gr94-w7qr-f4j3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 Spinnaker has non-safe yaml deserialization, allowing RCE when using specific types</div>
+                    <div class="advisory-id">GHSA-c8q4-9h32-2ww8 | CVE: CVE-2026-44795 | CWE: CWE-470, CWE-502</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 8.5)</span>
+                <span class="badge badge-stars">⭐ 88 (spinnaker/rosco)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Spinnaker在rosco-core和orca-core中存在不安全的YAML反序列化(CVSS 8.5)，攻击者可通过构造恶意YAML数据实现远程代码执行(RCE)。</p>
+                <p><strong>影响产品：</strong>maven/io.spinnaker.rosco:rosco-core ⭐88</p>
+                <p><strong>影响版本：</strong>< 2025.3.3</p>
+                <p><strong>修复版本：</strong>2025.3.3</p>
+                <p><strong>攻击面：</strong>Spinnaker Pipeline配置（YAML解析）</p>
+                <p><strong>触发条件：</strong>在Pipeline YAML中使用特定危险类型触发不安全反序列化</p>
+                <p><strong>潜在危害：</strong>远程代码执行、CI/CD流水线控制</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级Spinnaker rosco-core和orca-core至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c8q4-9h32-2ww8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 fast-uri vulnerable to host confusion via percent-encoded authority delimiters</div>
+                    <div class="advisory-id">GHSA-v39h-62p7-jpjc | CVE: CVE-2026-6322 | CWE: CWE-140, CWE-436</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.5)</span>
+                <span class="badge badge-stars">⭐ 125 (fastify/fast-uri)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri在处理百分号编码的authority分隔符时存在主机混淆漏洞(CVSS 7.5)，可能导致URL解析不一致，被用于SSRF或开放重定向。</p>
+                <p><strong>影响产品：</strong>npm/fast-uri ⭐125</p>
+                <p><strong>影响版本：</strong>>= 3.0.0, <= 3.1.1</p>
+                <p><strong>修复版本：</strong>3.1.2</p>
+                <p><strong>攻击面：</strong>fast-uri URL解析函数</p>
+                <p><strong>触发条件：</strong>构造包含百分号编码分隔符的特殊URL</p>
+                <p><strong>潜在危害：</strong>URL解析不一致、SSRF、开放重定向</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级fast-uri至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 fast-uri vulnerable to host confusion via failed IDN canonicalization</div>
+                    <div class="advisory-id">GHSA-4c8g-83qw-93j6 | CVE: CVE-2026-13676 | CWE: CWE-436, CWE-551</div>
+                </div>
+                <span class="priority-score">优先级: 3/9</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High (CVSS 7.5)</span>
+                <span class="badge badge-stars">⭐ 125 (fastify/fast-uri)</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>fast-uri在IDN(国际化域名)规范化过程中存在主机混淆漏洞(CVSS 7.5)，攻击者可构造看似合法实则指向不同主机的URL。</p>
+                <p><strong>影响产品：</strong>npm/fast-uri ⭐125</p>
+                <p><strong>影响版本：</strong>>= 4.0.0, < 4.0.1</p>
+                <p><strong>修复版本：</strong>4.0.1</p>
+                <p><strong>攻击面：</strong>fast-uri IDN域名处理函数</p>
+                <p><strong>触发条件：</strong>构造包含特殊Unicode字符的域名URL</p>
+                <p><strong>潜在危害：</strong>域名混淆、钓鱼攻击、SSRF</p>
+                <p><strong>可利用性：</strong>仅描述，无PoC</p>
+                <p><strong>修复建议：</strong>升级fast-uri至修复版本</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-5f29-2333-h9c7" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-5f29-2333-h9c7</a></td>
+                    <td>maven/org.open-metadata:platform</td>
+                    <td>15.0k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5f29-2333-h9c7" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-2fm6-mv57-p2qh" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-2fm6-mv57-p2qh</a></td>
+                    <td>maven/org.apache.dolphinscheduler:dolphinscheduler-task-api</td>
+                    <td>14.5k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2fm6-mv57-p2qh" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-6jwp-4wvj-6597" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-6jwp-4wvj-6597</a></td>
+                    <td>maven/org.apache.pinot:pinot-broker</td>
+                    <td>6.1k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-6jwp-4wvj-6597" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-c4q5-6c82-3qpw" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-c4q5-6c82-3qpw</a></td>
+                    <td>maven/org.springframework.security:spring-security-web</td>
+                    <td>9.6k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-c4q5-6c82-3qpw" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-r29c-68gh-xp6x" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-r29c-68gh-xp6x</a></td>
+                    <td>maven/org.apache.tomcat.embed:tomcat-embed-core</td>
+                    <td>8.2k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-r29c-68gh-xp6x" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-8x3q-jpjh-qh5c" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-8x3q-jpjh-qh5c</a></td>
+                    <td>composer/studio-42/elfinder</td>
+                    <td>4.8k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-8x3q-jpjh-qh5c" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-h7x2-h6g9-p789" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-h7x2-h6g9-p789</a></td>
+                    <td>pip/mlflow</td>
+                    <td>27.8k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h7x2-h6g9-p789" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-9xq9-36w5-q796" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-9xq9-36w5-q796</a></td>
+                    <td>pip/lmdeploy</td>
+                    <td>8.0k</td>
+                    <td>High</td>
+                    <td>有详细原理分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-9xq9-36w5-q796" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-2gh6-wc3m-g37f" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-2gh6-wc3m-g37f</a></td>
+                    <td>maven/pl.allegro.tech.hermes:hermes-management</td>
+                    <td>866</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2gh6-wc3m-g37f" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-w76p-3cgp-qfcm" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-w76p-3cgp-qfcm</a></td>
+                    <td>maven/org.apache.polaris:polaris-runtime-service</td>
+                    <td>2.0k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-w76p-3cgp-qfcm" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-3rf6-x59v-5jfv" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-3rf6-x59v-5jfv</a></td>
+                    <td>pip/dash-uploader</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-3rf6-x59v-5jfv" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-g9gf-g5jq-9h3v" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-g9gf-g5jq-9h3v</a></td>
+                    <td>maven/org.apache.ranger:ranger</td>
+                    <td>1.1k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-g9gf-g5jq-9h3v" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-5cc2-282f-jjq2" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-5cc2-282f-jjq2</a></td>
+                    <td>pip/snowflake-connector-python</td>
+                    <td>725</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-5cc2-282f-jjq2" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-vgwf-h737-ff37</a></td>
+                    <td>go/golang.org/x/crypto</td>
+                    <td>3.3k</td>
+                    <td>Critical</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-j4fx-xxwh-2485" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-j4fx-xxwh-2485</a></td>
+                    <td>npm/jsondiffpatch</td>
+                    <td>5.3k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-j4fx-xxwh-2485" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-67mx-6wf2-92xp" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-67mx-6wf2-92xp</a></td>
+                    <td>composer/getkirby/cms</td>
+                    <td>1.5k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-67mx-6wf2-92xp" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-9vx2-j98c-p72w" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-9vx2-j98c-p72w</a></td>
+                    <td>composer/getkirby/cms</td>
+                    <td>1.5k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-9vx2-j98c-p72w" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-gr94-w7qr-f4j3" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-gr94-w7qr-f4j3</a></td>
+                    <td>npm/engine.io</td>
+                    <td>4.6k</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-gr94-w7qr-f4j3" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-c8q4-9h32-2ww8" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-c8q4-9h32-2ww8</a></td>
+                    <td>maven/io.spinnaker.rosco:rosco-core</td>
+                    <td>88</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-c8q4-9h32-2ww8" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-v39h-62p7-jpjc</a></td>
+                    <td>npm/fast-uri</td>
+                    <td>125</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-v39h-62p7-jpjc" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-4c8g-83qw-93j6</a></td>
+                    <td>npm/fast-uri</td>
+                    <td>125</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-4c8g-83qw-93j6" target="_blank" style="color:#58a6ff;text-decoration:none;">🔗</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但值得关注的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-8x3q-jpjh-qh5c" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-8x3q-jpjh-qh5c</a></td>
+                    <td>composer/studio-42/elfinder</td>
+                    <td>4.8k</td>
+                    <td>High</td>
+                    <td>有完整PoC</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-2gh6-wc3m-g37f" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-2gh6-wc3m-g37f</a></td>
+                    <td>maven/pl.allegro.tech.hermes:hermes-management</td>
+                    <td>866</td>
+                    <td>Critical</td>
+                    <td>CVSS 9.8</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-w76p-3cgp-qfcm" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-w76p-3cgp-qfcm</a></td>
+                    <td>maven/org.apache.polaris:polaris-runtime-service</td>
+                    <td>2.0k</td>
+                    <td>Critical</td>
+                    <td>CVSS 9.9</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-3rf6-x59v-5jfv" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-3rf6-x59v-5jfv</a></td>
+                    <td>pip/dash-uploader</td>
+                    <td>0</td>
+                    <td>Critical</td>
+                    <td>CVSS 9.8</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-g9gf-g5jq-9h3v" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-g9gf-g5jq-9h3v</a></td>
+                    <td>maven/org.apache.ranger:ranger</td>
+                    <td>1.1k</td>
+                    <td>Critical</td>
+                    <td>CVSS 9.1</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-5cc2-282f-jjq2" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-5cc2-282f-jjq2</a></td>
+                    <td>pip/snowflake-connector-python</td>
+                    <td>725</td>
+                    <td>Critical</td>
+                    <td>CVSS N/A</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;"><a href="https://github.com/advisories/GHSA-vgwf-h737-ff37" target="_blank" style="color:#58a6ff;text-decoration:none;">GHSA-vgwf-h737-ff37</a></td>
+                    <td>go/golang.org/x/crypto</td>
+                    <td>3.3k</td>
+                    <td>Critical</td>
+                    <td>CVSS 9.1</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（立即修复）：</strong></p>
+                <ul><li>OpenMetadata's Server-Side Template Injection (SSTI) in FreeMarker email templates leads to RCE (GHSA-5f29-2333-h9c7)</li></ul>
+                <p><strong>🟠 重点关注（本周修复）：</strong></p>
+                <ul><li>Apache Dolphinscheduler Code Injection vulnerability (GHSA-2fm6-mv57-p2qh)</li><li>Apache Pinot Vulnerable to Authentication Bypass (GHSA-6jwp-4wvj-6597)</li><li>Spring Security vulnerable to Authorization Bypass of Static Resources in WebFlux Applications (GHSA-c4q5-6c82-3qpw)</li><li>Apache Tomcat - HTTP/2 request headers not validated (GHSA-r29c-68gh-xp6x)</li><li>elFinder: SSRF protection bypass via DNS rebinding in the `fsock_get_contents()` fallback (GHSA-8x3q-jpjh-qh5c)</li><li> MLflow AI Gateway permits SSRF through an unvalidated api_base (GHSA-h7x2-h6g9-p789)</li><li>lmdeploy: Hardcoded trust_remote_code=True is an implicit unsafe remote-code load path with no user opt-out (GHSA-9xq9-36w5-q796)</li></ul>
+                <p><strong>🟡 常规关注（计划修复）：</strong></p>
+                <ul><li>hermes-management is vulnerable to RCE due to Apache commons-jxpath (GHSA-2gh6-wc3m-g37f)</li><li>Apache Polaris has an Improper Input Validation issue (GHSA-w76p-3cgp-qfcm)</li><li>dash-uploader has a directory traversal vulnerability (GHSA-3rf6-x59v-5jfv)</li><li>Apache Ranger UI vulnerable to Server Side Request Forgery (GHSA-g9gf-g5jq-9h3v)</li><li>Snowflake Connector for Python improperly verifies TLS hostnames (GHSA-5cc2-282f-jjq2)</li><li>golang.org/x/crypto: Invoking client can cause server deadlock on unexpected responses (GHSA-vgwf-h737-ff37)</li><li> jsondiffpatch patch APIs are vulnerable to prototype pollution (GHSA-j4fx-xxwh-2485)</li><li>Kirby: File upload permissions are not checked during processing of chunk data (GHSA-67mx-6wf2-92xp)</li><li>Kirby: Access to image files and limited access to JSON files outside of the site root via path traversal in the media handling (GHSA-9vx2-j98c-p72w)</li><li>Socket.IO: Engine.IO WebTransport SID DoS (GHSA-gr94-w7qr-f4j3)</li><li>Spinnaker has non-safe yaml deserialization, allowing RCE when using specific types (GHSA-c8q4-9h32-2ww8)</li><li>fast-uri vulnerable to host confusion via percent-encoded authority delimiters (GHSA-v39h-62p7-jpjc)</li><li>fast-uri vulnerable to host confusion via failed IDN canonicalization (GHSA-4c8g-83qw-93j6)</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a> · <a href="https://jshuang.github.io/sec-advisory-daily/">报告首页</a></p>
+    </footer>
+</body>
+</html>
