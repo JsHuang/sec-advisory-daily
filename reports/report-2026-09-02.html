@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-09-02</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; margin-top: 4px; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .advisory-content code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #79c0ff; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        .summary-table code { background: #21262d; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #79c0ff; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-09-02 · 监控最近24小时 Critical & High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">21</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">19</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 NLTK: JVM argument injection bypass via per-call options in the NLTK Stanford wr</div>
+                    <div class="advisory-id">GHSA-m4rf-3fr8-xwx3 | CVE: CVE-2026-79675</div>
+                </div>
+                <span class="priority-score">优先级: 11/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">严重</span>
+                <span class="badge badge-stars">⭐ 14,709</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Vulnerability
+
+The fix for CVE-2026-12841 (CWE-88, JVM argument injection) added `_validate_java_options()` to block dangerous JVM flags such as `-agentlib`, `-agentpath`, `-javaagent`, `-Xrunjdwp`, and `@argfile` references. However, the validation is only applied when setting global options via...</p>
+                <p><strong>影响产品：</strong><code>nltk</code> ⭐14,709</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>nltk</code>: 受影响 <= 3.10.2 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>身份验证绕过，可越权访问受保护资源</p>
+                <p><strong>触发条件：</strong>满足特定条件即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统安全性，具体危害视攻击场景而定</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 nltk 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m4rf-3fr8-xwx3" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 pnpm: Environment secrets exfiltrated via env-placeholder expansion in proxy set</div>
+                    <div class="advisory-id">GHSA-vx52-2968-3vc6 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 36,356</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+pnpm expands `${VAR}` environment placeholders in the `httpProxy` / `httpsProxy` / `noProxy` settings read from a project's `pnpm-workspace.yaml`. Because a project manifest is repository-controlled, a malicious repository that a victim merely clones and runs `pnpm install` in can route ...</p>
+                <p><strong>影响产品：</strong><code>pnpm</code> ⭐36,356</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>pnpm</code>: 受影响 >= 11.0.0, < 11.11.0 → 修复版本待确认</li>
+<li><code>pnpm</code>: 受影响 >= 10.7.0, < 10.34.5 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>信息泄露，可能暴露敏感数据或凭据</p>
+                <p><strong>触发条件：</strong>受害者克隆恶意仓库并执行 pnpm install</p>
+                <p><strong>潜在危害：</strong>泄露环境变量中的敏感凭据（NPM_TOKEN、GITHUB_TOKEN等）</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 pnpm 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vx52-2968-3vc6" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 nanoid: Integer Overflow or Wraparound</div>
+                    <div class="advisory-id">GHSA-xwg4-73v4-xw9w | CVE: CVE-2026-73086</div>
+                </div>
+                <span class="priority-score">优先级: 10/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 26,957</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+An integer overflow in `nanoid(size)` permanently corrupts the process-wide CSPRNG pool, causing all subsequent ID generation to return the deterministic string `"uuuuuuuuuuuuuuuuuuuuu"`. Any application that passes user-influenced values to the `size` parameter loses all randomness gua...</p>
+                <p><strong>影响产品：</strong><code>nanoid</code> ⭐26,957</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>nanoid</code>: 受影响 < 3.3.12 → 修复版本待确认</li>
+<li><code>nanoid</code>: 受影响 >= 4.0.0, < 5.1.11 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），攻击者可完全控制目标系统</p>
+                <p><strong>触发条件：</strong>传入用户可控的输入参数</p>
+                <p><strong>潜在危害：</strong>泄露环境变量中的敏感凭据（NPM_TOKEN、GITHUB_TOKEN等）；在用户浏览器执行任意JavaScript代码；破坏会话令牌、CSRF令牌等安全机制的随机性</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 nanoid 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xwg4-73v4-xw9w" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Airflow Vulnerable to Deserialization of Untrusted Data</div>
+                    <div class="advisory-id">GHSA-2r5m-76wx-56gx | CVE: CVE-2026-45360</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 46,687</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Airflow's scheduler-side deadline-reference decoder (`SerializedCustomReference.deserialize_reference`) imported and dispatched arbitrary class paths drawn from DAG-author-controlled serialized state without an allowlist or plugin-registry gate. A DAG author whose code reaches the scheduler —...</p>
+                <p><strong>影响产品：</strong><code>apache-airflow</code> ⭐46,687</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>apache-airflow</code>: 受影响 >= 3.2.0, < 3.2.2 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>反序列化漏洞，可能导致远程代码执行</p>
+                <p><strong>触发条件：</strong>DAG作者（调度器可导入DAG代码）</p>
+                <p><strong>潜在危害：</strong>可能执行任意代码</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 apache-airflow 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2r5m-76wx-56gx" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 pnpm: pacquet trust-lockfile install can create dependency symlinks outside the </div>
+                    <div class="advisory-id">GHSA-2rx9-3g3h-c2jv | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 36,356</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+A crafted lockfile alias could reach several install-time filesystem joins. With `--trust-lockfile` or a frozen lockfile, traversal segments could create links outside the intended project or `node_modules` boundary. This patch validates dependency names and every virtual-store slot befo...</p>
+                <p><strong>影响产品：</strong><code>pnpm</code> ⭐36,356</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>pnpm</code>: 受影响 >= 12.0.0-alpha.0, < 12.0.0-alpha.5 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>路径遍历/符号链接攻击，可读写任意文件</p>
+                <p><strong>触发条件：</strong>受害者克隆恶意仓库并执行 pnpm install</p>
+                <p><strong>潜在危害：</strong>影响系统安全性，具体危害视攻击场景而定</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 pnpm 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2rx9-3g3h-c2jv" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Filament: Multi-factor authentication (app) can be bypassed when recovery codes </div>
+                    <div class="advisory-id">GHSA-52xp-w8hr-xv3c | CVE: CVE-2026-77567</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 31,937</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>A flaw in the challenge handling for app-based multi-factor authentication allows the second factor to be bypassed. This issue does not affect email-based MFA. It also only applies when recovery codes are enabled....</p>
+                <p><strong>影响产品：</strong><code>filament/filament</code> ⭐31,937</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>filament/filament</code>: 受影响 >= 4.0.0, < 4.12.0 → 修复版本待确认</li>
+<li><code>filament/filament</code>: 受影响 >= 5.0.0, < 5.7.0 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>身份验证绕过，可越权访问受保护资源</p>
+                <p><strong>触发条件：</strong>满足特定条件即可触发</p>
+                <p><strong>潜在危害：</strong>绕过多因素认证获取未授权访问</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 filament/filament 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-52xp-w8hr-xv3c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 gRPC-Go: Heap Memory Exhaustion (OOM) via HTTP/2 DATA Frame Fragmentation</div>
+                    <div class="advisory-id">GHSA-vp52-pcj8-j9qc | CVE: CVE-2026-84304</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 23,040</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Impact
+An unauthenticated remote attacker can initiate a gRPC stream and purposefully fragment their payload into millions of tiny (e.g., 1-byte) HTTP/2 DATA frames. Even if the total payload volume falls within the configured connection and stream flow-control windows, each independent fragment...</p>
+                <p><strong>影响产品：</strong><code>google.golang.org/grpc</code> ⭐23,040</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>google.golang.org/grpc</code>: 受影响 <= 1.83.0 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>拒绝服务攻击（DoS），可导致服务不可用</p>
+                <p><strong>触发条件：</strong>无需认证，远程即可触发</p>
+                <p><strong>潜在危害：</strong>服务内存耗尽导致崩溃；CPU/内存耗尽导致拒绝服务</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 google.golang.org/grpc 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-vp52-pcj8-j9qc" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 NLTK: Uncontrolled search path when invoking the Graphviz 'dot' binary</div>
+                    <div class="advisory-id">GHSA-6hwm-xvph-95vm | CVE: CVE-2026-78680</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 14,709</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Two NLTK sites executed the Graphviz `dot` program by bare name, so process creation resolved it via the search path — and on Windows via the current working directory — rather than a validated absolute location. An attacker who can place a file named `dot` where resolution looks (the CWD on Windows...</p>
+                <p><strong>影响产品：</strong><code>nltk</code> ⭐14,709</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>nltk</code>: 受影响 <= 3.10.2 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>路径遍历/符号链接攻击，可读写任意文件</p>
+                <p><strong>触发条件：</strong>满足特定条件即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统安全性，具体危害视攻击场景而定</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 nltk 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6hwm-xvph-95vm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 league/commonmark XSS: `on*` event-handler filter in `AttributesExtension` bypas</div>
+                    <div class="advisory-id">GHSA-f8fg-pg57-v4j8 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 2,973</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+The `AttributesExtension` documents a security guarantee:
+
+> Note: Attributes starting with `on` (e.g. `onclick` or `onerror`) are capable of executing
+> JavaScript code and are therefore never allowed by default. You must explicitly add them to
+> the `allow` list if you want to...</p>
+                <p><strong>影响产品：</strong><code>league/commonmark</code> ⭐2,973</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>league/commonmark</code>: 受影响 >= 2.7.0, < 2.9.1 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>跨站脚本攻击（XSS），可窃取用户会话或执行任意操作</p>
+                <p><strong>触发条件：</strong>满足特定条件即可触发</p>
+                <p><strong>潜在危害：</strong>在用户浏览器执行任意JavaScript代码</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 league/commonmark 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f8fg-pg57-v4j8" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 JLine3 Telnet server: Unauthenticated Remote Memory Exhaustion via Unbounded Tel</div>
+                    <div class="advisory-id">GHSA-47qp-hqvx-6r3f | CVE: CVE-2026-56740</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 1,796</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+The JLine3 Telnet server (`remote-telnet` module) does not limit the number of
+environment variables a client may inject via the Telnet NEW-ENVIRON option. An
+unauthenticated attacker can flood the server with a large number of unique
+variable pairs before sending the terminating IAC SE...</p>
+                <p><strong>影响产品：</strong><code>org.jline:jline-remote-telnet</code> ⭐1,796</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>org.jline:jline-remote-telnet</code>: 受影响 >= 4.1.0, < 4.2.1 → 修复版本待确认</li>
+<li><code>org.jline:jline-remote-telnet</code>: 受影响 >= 4.0.0, < 4.0.16 → 修复版本待确认</li>
+<li><code>org.jline:jline-remote-telnet</code>: 受影响 < 3.30.14 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>拒绝服务攻击（DoS），可导致服务不可用</p>
+                <p><strong>触发条件：</strong>无需认证，远程即可触发</p>
+                <p><strong>潜在危害：</strong>服务内存耗尽导致崩溃；CPU/内存耗尽导致拒绝服务</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 org.jline:jline-remote-telnet 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-47qp-hqvx-6r3f" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 JLine3 Telnet server: Unauthenticated Remote DoS via Unbounded Telnet NAWS Termi</div>
+                    <div class="advisory-id">GHSA-2r2c-cx56-8933 | CVE: CVE-2026-56741</div>
+                </div>
+                <span class="priority-score">优先级: 8/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 1,796</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Summary
+
+The JLine3 Telnet server (`remote-telnet` module) does not apply an upper bound to
+terminal dimensions received via the Telnet NAWS (Negotiate About Window Size) option.
+An unauthenticated remote attacker can send a NAWS subnegotiation advertising a
+65535×65535 terminal and repeatedly a...</p>
+                <p><strong>影响产品：</strong><code>org.jline:jline-remote-telnet</code> ⭐1,796</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>org.jline:jline-remote-telnet</code>: 受影响 >= 4.1.0, < 4.2.1 → 修复版本待确认</li>
+<li><code>org.jline:jline-remote-telnet</code>: 受影响 >= 4.0.0, < 4.0.16 → 修复版本待确认</li>
+<li><code>org.jline:jline-remote-telnet</code>: 受影响 < 3.30.14 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>拒绝服务攻击（DoS），可导致服务不可用</p>
+                <p><strong>触发条件：</strong>无需认证，远程即可触发</p>
+                <p><strong>潜在危害：</strong>CPU/内存耗尽导致拒绝服务</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>关注 org.jline:jline-remote-telnet 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2r2c-cx56-8933" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 libp2p nodes vulnerable to attack using large RSA keys</div>
+                    <div class="advisory-id">GHSA-876p-8259-xjgg | CVE: CVE-2023-39533</div>
+                </div>
+                <span class="priority-score">优先级: 7/12</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">高</span>
+                <span class="badge badge-stars">⭐ 6,878</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> Impact
+A malicious peer can use large RSA keys to run a resource exhaustion attack & force a node to spend time doing signature verification of the large key. This vulnerability is present in the core/crypto module of go-libp2p and can occur during the Noise handshake and the libp2p x509 extensi...</p>
+                <p><strong>影响产品：</strong><code>github.com/libp2p/go-libp2p</code> ⭐6,878</p>
+                <p><strong>影响版本：</strong></p>
+                <ul><li><code>github.com/libp2p/go-libp2p</code>: 受影响 < 0.27.8 → 修复版本待确认</li>
+<li><code>github.com/libp2p/go-libp2p</code>: 受影响 >= 0.28.0, < 0.28.2 → 修复版本待确认</li>
+<li><code>github.com/libp2p/go-libp2p</code>: 受影响 = 0.29.0 → 修复版本待确认</li></ul>
+                <p><strong>攻击面：</strong>远程代码执行（RCE），攻击者可完全控制目标系统</p>
+                <p><strong>触发条件：</strong>满足特定条件即可触发</p>
+                <p><strong>潜在危害：</strong>影响系统安全性，具体危害视攻击场景而定</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>关注 github.com/libp2p/go-libp2p 官方发布修复版本并及时升级；检查是否使用了受影响的版本范围</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-876p-8259-xjgg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-m4rf-3fr8-xwx3</code></td>
+                    <td><code>nltk</code></td>
+                    <td>14,709</td>
+                    <td>严重</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m4rf-3fr8-xwx3" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-vx52-2968-3vc6</code></td>
+                    <td><code>pnpm</code></td>
+                    <td>36,356</td>
+                    <td>高</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vx52-2968-3vc6" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xwg4-73v4-xw9w</code></td>
+                    <td><code>nanoid</code></td>
+                    <td>26,957</td>
+                    <td>高</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xwg4-73v4-xw9w" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2r5m-76wx-56gx</code></td>
+                    <td><code>apache-airflow</code></td>
+                    <td>46,687</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2r5m-76wx-56gx" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2rx9-3g3h-c2jv</code></td>
+                    <td><code>pnpm</code></td>
+                    <td>36,356</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2rx9-3g3h-c2jv" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-52xp-w8hr-xv3c</code></td>
+                    <td><code>filament/filament</code></td>
+                    <td>31,937</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-52xp-w8hr-xv3c" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-vp52-pcj8-j9qc</code></td>
+                    <td><code>google.golang.org/grpc</code></td>
+                    <td>23,040</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-vp52-pcj8-j9qc" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-6hwm-xvph-95vm</code></td>
+                    <td><code>nltk</code></td>
+                    <td>14,709</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-6hwm-xvph-95vm" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-f8fg-pg57-v4j8</code></td>
+                    <td><code>league/commonmark</code></td>
+                    <td>2,973</td>
+                    <td>高</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f8fg-pg57-v4j8" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-47qp-hqvx-6r3f</code></td>
+                    <td><code>org.jline:jline-remote-telnet</code></td>
+                    <td>1,796</td>
+                    <td>高</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-47qp-hqvx-6r3f" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2r2c-cx56-8933</code></td>
+                    <td><code>org.jline:jline-remote-telnet</code></td>
+                    <td>1,796</td>
+                    <td>高</td>
+                    <td>有完整PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-2r2c-cx56-8933" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🟡 中危</td>
+                    <td><code>GHSA-876p-8259-xjgg</code></td>
+                    <td><code>github.com/libp2p/go-libp2p</code></td>
+                    <td>6,878</td>
+                    <td>高</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-876p-8259-xjgg" target="_blank" style="color:#58a6ff;">链接</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📌 补充：Star &lt; 5k 的高危漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GHSA-8m85-wqg7-c529</code></td>
+                    <td><code>@sap/approuter</code></td>
+                    <td>0</td>
+                    <td>严重</td>
+                    <td>Star=0</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-265m-7826-wjqm</code></td>
+                    <td><code>craftcms/cms</code></td>
+                    <td>3,606</td>
+                    <td>高</td>
+                    <td>Star=3,606</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-f5wm-88jv-g5hx</code></td>
+                    <td><code>craftcms/cms</code></td>
+                    <td>3,606</td>
+                    <td>高</td>
+                    <td>Star=3,606</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-8rr7-cvq3-gmfh</code></td>
+                    <td><code>league/commonmark</code></td>
+                    <td>2,973</td>
+                    <td>高</td>
+                    <td>Star=2,973</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-jjv6-8j6v-6j52</code></td>
+                    <td><code>league/commonmark</code></td>
+                    <td>2,973</td>
+                    <td>高</td>
+                    <td>Star=2,973</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-j8pm-gj4c-rq4x</code></td>
+                    <td><code>league/commonmark</code></td>
+                    <td>2,973</td>
+                    <td>高</td>
+                    <td>Star=2,973</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-68jx-f42c-7599</code></td>
+                    <td><code>typo3/cms-backend</code></td>
+                    <td>1,206</td>
+                    <td>高</td>
+                    <td>Star=1,206</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-vhh6-v828-x62f</code></td>
+                    <td><code>@sap/approuter</code></td>
+                    <td>0</td>
+                    <td>高</td>
+                    <td>Star=0</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-44p5-3m5g-vfhj</code></td>
+                    <td><code>@sap/approuter</code></td>
+                    <td>0</td>
+                    <td>高</td>
+                    <td>Star=0</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注（3个）：</strong></p>
+                <ul><li><strong>GHSA-m4rf-3fr8-xwx3</strong> NLTK: JVM argument injection bypass via per-call options in  — 立即升级 nltk</li><li><strong>GHSA-vx52-2968-3vc6</strong> pnpm: Environment secrets exfiltrated via env-placeholder ex — 立即升级 pnpm</li><li><strong>GHSA-xwg4-73v4-xw9w</strong> nanoid: Integer Overflow or Wraparound — 立即升级 nanoid</li></ul>
+                <p><strong>🟠 重点关注（5个）：</strong></p>
+                <ul><li><strong>GHSA-2r5m-76wx-56gx</strong> Apache Airflow Vulnerable to Deserialization of Untrusted Da — 检查并升级 apache-airflow</li><li><strong>GHSA-2rx9-3g3h-c2jv</strong> pnpm: pacquet trust-lockfile install can create dependency s — 检查并升级 pnpm</li><li><strong>GHSA-52xp-w8hr-xv3c</strong> Filament: Multi-factor authentication (app) can be bypassed  — 检查并升级 filament/filament</li><li><strong>GHSA-vp52-pcj8-j9qc</strong> gRPC-Go: Heap Memory Exhaustion (OOM) via HTTP/2 DATA Frame  — 检查并升级 google.golang.org/grpc</li><li><strong>GHSA-6hwm-xvph-95vm</strong> NLTK: Uncontrolled search path when invoking the Graphviz 'd — 检查并升级 nltk</li></ul>
+                <p><strong>🟡 常规关注（7个）：</strong></p>
+                <ul><li><strong>GHSA-876p-8259-xjgg</strong> libp2p nodes vulnerable to attack using large RSA keys — 评估影响并按计划修复</li><li><strong>GHSA-265m-7826-wjqm</strong> Craft CMS: Authenticated RCE via `condition.config` JSON cle — 评估影响并按计划修复</li><li><strong>GHSA-f5wm-88jv-g5hx</strong> Craft CMS: Authenticated RCE through Twig sandbox escape — 评估影响并按计划修复</li><li><strong>GHSA-8rr7-cvq3-gmfh</strong> league/commonmark: Denial of service via distinctly-named at — 评估影响并按计划修复</li><li><strong>GHSA-jjv6-8j6v-6j52</strong> league/commonmark: Denial of service in the SmartPunct and A — 评估影响并按计划修复</li><li><strong>GHSA-j8pm-gj4c-rq4x</strong> league/commonmark: Denial of service via crafted code fences — 评估影响并按计划修复</li><li><strong>GHSA-68jx-f42c-7599</strong> TYPO3 CMS - Broken Access Control in Backend and Install Too — 评估影响并按计划修复</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
