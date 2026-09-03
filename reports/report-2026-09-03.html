@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-09-03</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-09-03 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">52</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">42</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">28</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik: HTTP/3 mTLS bypass via exact SNI TLSOptions lookup for wildcard and mixed-case hosts</div>
+                    <div class="advisory-id">GHSA-9cr8-q42q-g8m7 | CVE: CVE-2026-53622</div>
+                </div>
+                <span class="priority-score">优先级: 8/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 64,713</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Traefik: HTTP/3 mTLS bypass via exact SNI TLSOptions lookup for wildcard and mixed-case hosts</p>
+                <p><strong>影响产品：</strong>github.com/traefik/traefik/v2 (go) ⭐ 64,713</p>
+                <p><strong>影响版本：</strong><= 2.11.50</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>10.0 | <strong>CWE：</strong>CWE-288, CWE-289</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Deployments that use router `TLSOptions` as an access-control boundary for HTTP/3 can expose protected backends without client authentication.
+
+The highest-impact case is mTLS:
+
+- normal HTTP/2/TCP access to the protected host requires a client certificate
+- HTTP/3 access to the same route falls bac</p>
+                <p><strong>概要：</strong>There is a critical vulnerability in Traefik's HTTP/3 (QUIC) TLS configuration selection that allows unauthenticated clients to bypass router-specific mTLS enforcement. When HTTP/3 is enabled on an entrypoint, the TLS handshake selects the applicable TLS configuration through an exact, case-sensitiv</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9cr8-q42q-g8m7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik: SNICheck ignores wildcard TLSOptions mappings, allowing domain-fronted mTLS bypass</div>
+                    <div class="advisory-id">GHSA-5r4w-85f3-pw66 | CVE: CVE-2026-48491</div>
+                </div>
+                <span class="priority-score">优先级: 8/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 64,713</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Traefik: SNICheck ignores wildcard TLSOptions mappings, allowing domain-fronted mTLS bypass</p>
+                <p><strong>影响产品：</strong>github.com/traefik/traefik/v2 (go) ⭐ 64,713</p>
+                <p><strong>影响版本：</strong>< 2.11.48</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>10.0 | <strong>CWE：</strong>CWE-288, CWE-807</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Deployments that use wildcard router `TLSOptions` for client certificate authentication can expose protected backends to unauthenticated clients when another permissive SNI exists on the same entrypoint.
+
+The TLS handshake is completed under the permissive/default TLS options selected for the SNI, w</p>
+                <p><strong>概要：</strong>There is a high severity vulnerability in Traefik's domain-fronting protection (`SNICheck`) that allows an unauthenticated client to bypass mutual TLS enforced through wildcard router `TLSOptions`. When a router uses a wildcard host rule such as `Host(`*.example.com`)` with stricter TLS options (for</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5r4w-85f3-pw66" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Traefik has a StripPrefix Route-Level Auth Bypass via Path Normalization</div>
+                    <div class="advisory-id">GHSA-xf64-8mw2-4gr2 | CVE: CVE-2026-48020</div>
+                </div>
+                <span class="priority-score">优先级: 8/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 64,713</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Traefik has a StripPrefix Route-Level Auth Bypass via Path Normalization</p>
+                <p><strong>影响产品：</strong>github.com/traefik/traefik/v2 (go) ⭐ 64,713</p>
+                <p><strong>影响版本：</strong>< 2.11.48</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>10.0 | <strong>CWE：</strong>CWE-22, CWE-288</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>有完整PoC</p>
+                
+                <p><strong>概要：</strong>There is a high severity vulnerability in Traefik's `StripPrefix` middleware that allows an unauthenticated attacker to bypass route-level authentication and authorization. When a public router matches on a `PathPrefix` rule and applies the `StripPrefix` middleware, a request path containing `..` or</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-xf64-8mw2-4gr2" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Scrapy: S3DownloadHandler sends signed S3 requests over plaintext HTTP by default</div>
+                    <div class="advisory-id">GHSA-76g3-c3x4-crvx | CVE: CVE-2026-84366</div>
+                </div>
+                <span class="priority-score">优先级: 8/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 64,177</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Scrapy: S3DownloadHandler sends signed S3 requests over plaintext HTTP by default</p>
+                <p><strong>影响产品：</strong>scrapy (pip) ⭐ 64,177</p>
+                <p><strong>影响版本：</strong>< 2.17.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.4 | <strong>CWE：</strong>CWE-319</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Users making Scrapy `s3://` requests with AWS credentials are impacted.
+
+A network attacker able to observe traffic between Scrapy and S3, such as a public Wi-Fi attacker, compromised router, ISP/corporate network observer, or local network attacker using ARP spoofing, can read:
+
+```text
+bucket/key </p>
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-76g3-c3x4-crvx" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Orval: Import-time RCE via query-parameter default -> zod module-level template literal</div>
+                    <div class="advisory-id">GHSA-p4cg-3328-rvfg | CVE: CVE-2026-72716</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 6,414</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Orval: Import-time RCE via query-parameter default -> zod module-level template literal</p>
+                <p><strong>影响产品：</strong>orval (npm) ⭐ 6,414</p>
+                <p><strong>影响版本：</strong>< 8.21.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>None | <strong>CWE：</strong>CWE-1336</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Code execution at import in any application that imports a zod schema module generated from an
+attacker-controlled or attacker-influenced OpenAPI description.</p>
+                <p><strong>概要：</strong>Orval's zod schema generation emits the **query-parameter** `default` value as a module-level template literal
+(`export const …Default = `<default>`;`) without escaping `${` or the backtick. A default of the form
+`v${<code>}w` injects a live JavaScript expression evaluated when the generated zod sch</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p4cg-3328-rvfg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Orval: Import-time RCE via schema property name -> computed-property-key injection in the zod client</div>
+                    <div class="advisory-id">GHSA-6mr6-jvcr-2f25 | CVE: CVE-2026-71866</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 6,414</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Orval: Import-time RCE via schema property name -> computed-property-key injection in the zod client</p>
+                <p><strong>影响产品：</strong>orval (npm) ⭐ 6,414</p>
+                <p><strong>影响版本：</strong>< 8.21.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>None | <strong>CWE：</strong>CWE-89, CWE-95</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>JavaScript / OS command execution (via child_process) at import time for anyone who generates an orval zod
+client from an attacker-controlled spec and imports it. Estimated Critical, e.g.
+`CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N`.</p>
+                <p><strong>概要：</strong>orval's zod client emits each schema property name as a double-quoted key in the generated zod.object({...})
+WITHOUT escaping the double quote. A " in a property name closes the key and lands in object-literal
+context, where an injected computed property key [expr] is evaluated when zod.object({...}</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-6mr6-jvcr-2f25" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Nginx alias path traversal allows unauthenticated attackers to read all files on /label_studio/core/</div>
+                    <div class="advisory-id">GHSA-cpmr-mw4j-99r7 | CVE: None</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 28,190</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nginx alias path traversal allows unauthenticated attackers to read all files on /label_studio/core/</p>
+                <p><strong>影响产品：</strong>label-studio (pip) ⭐ 28,190</p>
+                <p><strong>影响版本：</strong><= 1.7.1</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-22</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>The impact consists on leaking Django secret keys by default, with also greater risk being possible due to the vulnerability exposing the file located at /label_studio/core/settings/label_studio.py which contains the secret key for Django as well as possibly containing other secrets the user might p</p>
+                <p><strong>概要：</strong>The vulnerability resides on the Nginx config file:
+https://github.com/heartexlabs/label-studio/blob/53944e6bcede75ca5c102d655013f2e5238e85e6/deploy/default.conf#L119
+
+The pattern on location /static indicates a popular misconfiguration on Nginx servers presented in 2018 originally by Orange Tsai. T</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cpmr-mw4j-99r7" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Nodemailer: Message-level raw option bypasses disableFileAccess/disableUrlAccess, enabling arbitrary file read and full-response SSRF in the delivered message</div>
+                    <div class="advisory-id">GHSA-p6gq-j5cr-w38f | CVE: CVE-2026-82659</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 17,665</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Nodemailer: Message-level raw option bypasses disableFileAccess/disableUrlAccess, enabling arbitrary file read and full-response SSRF in the delivered message</p>
+                <p><strong>影响产品：</strong>nodemailer (npm) ⭐ 17,665</p>
+                <p><strong>影响版本：</strong><= 9.0.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.1 | <strong>CWE：</strong>CWE-73, CWE-918</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>- **Confidentiality (High):** arbitrary local file read disclosed in the outgoing message;
+  full-response SSRF to internal/metadata endpoints, also disclosed in the message.
+- **Integrity (Low):** attacker-fetched/file content is injected into the delivered mail.
+- The two protective flags an appli</p>
+                <p><strong>概要：</strong>Nodemailer exposes `disableFileAccess` and `disableUrlAccess` so an application that passes
+**untrusted** message data to the library can forbid that data from reading local files or
+fetching URLs. Every attachment, alternative, `html`/`text`/`watchHtml`/`amp` and `icalEvent`
+content node honors the</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p6gq-j5cr-w38f" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Grav: 2FA Bypass via 'login.regenerate2FASecret' - Secret Rotation During Pending Challenge</div>
+                    <div class="advisory-id">GHSA-7mgc-c7pq-3rr3 | CVE: CVE-2026-62669</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 15,657</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Grav: 2FA Bypass via 'login.regenerate2FASecret' - Secret Rotation During Pending Challenge</p>
+                <p><strong>影响产品：</strong>getgrav/grav (composer) ⭐ 15,657</p>
+                <p><strong>影响版本：</strong>< 2.0.4</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.4 | <strong>CWE：</strong>CWE-287</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Complete 2FA bypass reducing the second factor to password-only. An attacker who knows the victim's password (via credential reuse, phishing, or cracking) can bypass TOTP-based 2FA by forcing a secret rotation during the pending-challenge window, computing a valid TOTP from the attacker-chosen secre</p>
+                <p><strong>概要：</strong>When 2FA is enabled on an account, submitting correct credentials authenticates the user but leaves them unauthorized pending TOTP verification. During this pending-challenge window, the `login.regenerate2FASecret` task which requires only `$user->exists()`, not `$user->authorized`  can be called wi</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7mgc-c7pq-3rr3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Grav: Remote code execution via unrestricted callable in Blueprint::dynamicData()</div>
+                    <div class="advisory-id">GHSA-fj2p-qj2f-74v5 | CVE: CVE-2026-64850</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 15,657</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Grav: Remote code execution via unrestricted callable in Blueprint::dynamicData()</p>
+                <p><strong>影响产品：</strong>getgrav/grav (composer) ⭐ 15,657</p>
+                <p><strong>影响版本：</strong>< 2.0.7</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>None | <strong>CWE：</strong>CWE-94</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Shell command execution as the web-server user, triggered by any visit to the
+page, plantable by any holder of `admin.pages` or `api.pages.write`.
+
+Trust boundary: crossed. `admin.pages` (or `api.pages.write`) grants page
+editing, not code execution; the holder plants the payload and the code runs a</p>
+                <p><strong>概要：</strong>An account with the `admin.pages` permission (or `api.pages.write`) can run shell
+commands on the server. The command executes whenever anyone — including an
+unauthenticated visitor — opens the page.</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fj2p-qj2f-74v5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Mailpit: SMTP command parser buffers unbounded command lines before syntax rejection</div>
+                    <div class="advisory-id">GHSA-w878-pj84-3j5v | CVE: CVE-2026-67445</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,260</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Mailpit: SMTP command parser buffers unbounded command lines before syntax rejection</p>
+                <p><strong>影响产品：</strong>github.com/axllent/mailpit (go) ⭐ 10,260</p>
+                <p><strong>影响版本：</strong><= 1.30.3</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-400</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>An unauthenticated remote client that can reach Mailpit's SMTP listener can force heap allocation proportional to a single command line before any SMTP command is parsed. Repeating the input across concurrent connections can consume process memory and degrade or deny Mailpit service availability. Th</p>
+                <p><strong>概要：</strong>Mailpit's SMTP server reads each command line with an unbounded `bufio.Reader.ReadString('\n')` before parsing the command or enforcing any protocol length limit. A remote SMTP client can send an oversized single command line and force Mailpit to allocate attacker-controlled memory before the server</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-w878-pj84-3j5v" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Mailpit: Unauthenticated remote memory-exhaustion DoS via unlimited SMTP DATA and /api/v1/send body sizes</div>
+                    <div class="advisory-id">GHSA-fpxj-m5q8-fphw | CVE: CVE-2026-45713</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,260</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Mailpit: Unauthenticated remote memory-exhaustion DoS via unlimited SMTP DATA and /api/v1/send body sizes</p>
+                <p><strong>影响产品：</strong>github.com/axllent/mailpit (go) ⭐ 10,260</p>
+                <p><strong>影响版本：</strong>< 1.30.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-400, CWE-770</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Unauthenticated remote attackers can send arbitrarily large emails via SMTP or HTTP, causing unbounded memory and disk growth, leading to out-of-memory (OOM) kills and full Mailpit process crash (DoS)</p>
+                <p><strong>概要：</strong>The Mailpit SMTP server has a Server.MaxSize int field that controls the maximum allowed DATA payload size, but the field is never assigned anywhere outside test code, leaving it at Go's zero value (0 ⇒ "no limit"). The same applies to the HTTP /api/v1/send endpoint, whose request body is decoded wi</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-fpxj-m5q8-fphw" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Mailpit: Thumbnail generation decodes unbounded image dimensions before scaling</div>
+                    <div class="advisory-id">GHSA-75mr-qw9x-3r39 | CVE: CVE-2026-67446</div>
+                </div>
+                <span class="priority-score">优先级: 7/9 (紧急)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 10,260</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Mailpit: Thumbnail generation decodes unbounded image dimensions before scaling</p>
+                <p><strong>影响产品：</strong>github.com/axllent/mailpit (go) ⭐ 10,260</p>
+                <p><strong>影响版本：</strong><= 1.30.3</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-400, CWE-770</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>An unauthenticated remote client can affect availability when Mailpit is deployed with the default unauthenticated HTTP API and SMTP/Send API reachable on the network. The client can store a compact high-dimension image attachment, discover the message and attachment IDs through the API, and repeate</p>
+                <p><strong>概要：</strong>Mailpit's thumbnail endpoint decodes attacker-supplied image attachments into a full raster before checking any decoded-pixel, dimension, or memory budget. A remote client that can store an email and reach the default web API can supply a compact high-dimension image, then request `/api/v1/message/{</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-75mr-qw9x-3r39" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SeaweedFS: Unauthenticated filer IAM gRPC service grants S3 administrative control</div>
+                    <div class="advisory-id">GHSA-2v6v-25fm-p4fg | CVE: CVE-2026-72920</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 34,420</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SeaweedFS: Unauthenticated filer IAM gRPC service grants S3 administrative control</p>
+                <p><strong>影响产品：</strong>github.com/seaweedfs/seaweedfs (go) ⭐ 34,420</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260512171108-5e8f99f40a8a</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>9.8 | <strong>CWE：</strong>CWE-306</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>The filer registered the IAM gRPC service (`SeaweedIdentityAccessManagement`) with no authentication. Any client able to reach the filer gRPC port could invoke IAM RPCs — `CreateUser`, `CreateAccessKey`, `PutUserPolicy`, and related calls — to mint credentials and grant itself S3 administrative priv</p>
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-2v6v-25fm-p4fg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 vLLM: Security Check Bypass via assert Statement in Activation Function Loading Allows Arbitrary Code Execution</div>
+                    <div class="advisory-id">GHSA-q8gq-377p-jq3r | CVE: CVE-2026-41523</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 90,803</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>vLLM: Security Check Bypass via assert Statement in Activation Function Loading Allows Arbitrary Code Execution</p>
+                <p><strong>影响产品：</strong>vllm (pip) ⭐ 90,803</p>
+                <p><strong>影响版本：</strong>< 0.22.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-94, CWE-617</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>**Arbitrary code execution.** A malicious model author publishes a HuggingFace model with a crafted `config.json`. When a victim loads this model with vLLM running under `python -O` or `PYTHONOPTIMIZE=1`, arbitrary code executes during model initialization with the privileges of the vLLM process.
+
+T</p>
+                <p><strong>概要：</strong>An `assert`-based security check in vLLM's activation function loading allows any unauthenticated attacker to achieve arbitrary code execution on the server by publishing a malicious HuggingFace model, when vLLM runs in Python optimized mode (`python -O` or `PYTHONOPTIMIZE=1`).</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q8gq-377p-jq3r" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Denial of Service in Go-Ethereum</div>
+                    <div class="advisory-id">GHSA-pvx3-gm3c-gmpr | CVE: CVE-2022-23327</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 51,328</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Denial of Service in Go-Ethereum</p>
+                <p><strong>影响产品：</strong>github.com/ethereum/go-ethereum (go) ⭐ 51,328</p>
+                <p><strong>影响版本：</strong><= 1.10.12</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-400</p>
+                <p><strong>产品影响力：</strong>极高 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-pvx3-gm3c-gmpr" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Orval: Generation-time SSRF + remote/local file inclusion via unrestricted $ref</div>
+                    <div class="advisory-id">GHSA-cxq5-97v7-87j8 | CVE: CVE-2026-62680</div>
+                </div>
+                <span class="priority-score">优先级: 6/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 6,414</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Orval: Generation-time SSRF + remote/local file inclusion via unrestricted $ref</p>
+                <p><strong>影响产品：</strong>orval (npm) ⭐ 6,414</p>
+                <p><strong>影响版本：</strong>< 8.22.0</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.1 | <strong>CWE：</strong>CWE-22, CWE-829, CWE-918</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>影响分析：</strong>Build-time SSRF from the developer or CI host, disclosure of arbitrary local files, and inclusion of untrusted remote content, from running the generator on an attacker-controlled or attacker-influenced OpenAPI description. No code execution (output escaping is in place post the earlier fixes).</p>
+                <p><strong>概要：</strong>Orval resolves OpenAPI `$ref`s by fetching remote `http(s)` URLs and reading local files (including
+absolute / out-of-tree paths), inlining the referenced schema into the generated client. Running
+`orval` on a spec whose `$ref` points at an attacker/internal URL or an arbitrary local file yields
+SSR</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-cxq5-97v7-87j8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Tomcat's FORM authentication process has an Incorrect Authorization vulnerability</div>
+                    <div class="advisory-id">GHSA-h3x4-894j-xpx5 | CVE: CVE-2026-68525</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 8,239</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Tomcat's FORM authentication process has an Incorrect Authorization vulnerability</p>
+                <p><strong>影响产品：</strong>org.apache.tomcat:tomcat (maven) ⭐ 8,239</p>
+                <p><strong>影响版本：</strong>>= 7.0.0, <= 7.0.109</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>9.1 | <strong>CWE：</strong>CWE-863</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h3x4-894j-xpx5" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Tomcat's DIGEST authenticator has an Authentication Bypass by Capture-replay vulnerability</div>
+                    <div class="advisory-id">GHSA-9xv2-5v5q-p794 | CVE: CVE-2026-65905</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 8,239</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Tomcat's DIGEST authenticator has an Authentication Bypass by Capture-replay vulnerability</p>
+                <p><strong>影响产品：</strong>org.apache.tomcat:tomcat (maven) ⭐ 8,239</p>
+                <p><strong>影响版本：</strong>>= 7.0.30, <= 7.0.109</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>9.8 | <strong>CWE：</strong>CWE-294</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-9xv2-5v5q-p794" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Apache Tomcat has an Improper Access Control, Incorrect Authorization vulnerability</div>
+                    <div class="advisory-id">GHSA-gcx9-497g-6cp6 | CVE: CVE-2026-65182</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 8,239</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Apache Tomcat has an Improper Access Control, Incorrect Authorization vulnerability</p>
+                <p><strong>影响产品：</strong>org.apache.tomcat:tomcat (maven) ⭐ 8,239</p>
+                <p><strong>影响版本：</strong>>= 7.0.0, <= 7.0.109</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>9.1 | <strong>CWE：</strong>CWE-284</p>
+                <p><strong>产品影响力：</strong>中 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gcx9-497g-6cp6" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty has Insufficient Bailiwick Validation for NS Records</div>
+                    <div class="advisory-id">GHSA-5pvg-856g-cp85 | CVE: CVE-2026-47691</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 35,041</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty has Insufficient Bailiwick Validation for NS Records</p>
+                <p><strong>影响产品：</strong>io.netty:netty-resolver-dns (maven) ⭐ 35,041</p>
+                <p><strong>影响版本：</strong><= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>8.7 | <strong>CWE：</strong>CWE-345, CWE-346</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>DNS Cache Poisoning. Any application using Netty's DNS resolver is impacted.</p>
+                <p><strong>概要：</strong>Netty's `DnsResolveContext` insufficiently validates the bailiwick of NS records, enabling DNS Cache Poisoning. An attacker controlling an authoritative name server for a subdomain can poison the cache for parent domains (like `.co.uk`).</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</div>
+                    <div class="advisory-id">GHSA-676x-f7gg-47vc | CVE: CVE-2026-45674</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 35,041</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwick Checks in CNAME Records</p>
+                <p><strong>影响产品：</strong>io.netty:netty-resolver-dns (maven) ⭐ 35,041</p>
+                <p><strong>影响版本：</strong><= 4.1.134.Final</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>8.7 | <strong>CWE：</strong>CWE-345, CWE-346</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>DNS Cache Poisoning (Bailiwick Bypass). Any application using Netty's DNS resolver is impacted.</p>
+                <p><strong>概要：</strong>Netty's DnsResolveContext fails to validate the origin (bailiwick) of CNAME records in DNS responses.</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 SeaweedFS: Filer JWT allowed_prefixes literal prefix match allows cross-tenant access to sibling paths</div>
+                    <div class="advisory-id">GHSA-gv5w-hfx8-8cwq | CVE: CVE-2026-72921</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 34,420</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SeaweedFS: Filer JWT allowed_prefixes literal prefix match allows cross-tenant access to sibling paths</p>
+                <p><strong>影响产品：</strong>github.com/seaweedfs/seaweedfs (go) ⭐ 34,420</p>
+                <p><strong>影响版本：</strong>< 0.0.0-20260512171048-05ed5c9ae8a2</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>8.1 | <strong>CWE：</strong>CWE-863</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>When a filer JWT restricts a token to a set of path prefixes via `allowed_prefixes`, the authorization check used a literal byte-prefix match (`strings.HasPrefix`). A token scoped to `/tenant1` therefore also authorized requests to sibling paths such as `/tenant1234`, `/tenant1-old`, and `/tenant1ba</p>
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-gv5w-hfx8-8cwq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Plate: SSRF with response disclosure in DOCX image embedding</div>
+                    <div class="advisory-id">GHSA-4q39-2jhr-7qx8 | CVE: CVE-2026-65842</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 16,551</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Plate: SSRF with response disclosure in DOCX image embedding</p>
+                <p><strong>影响产品：</strong>@platejs/docx-io (npm) ⭐ 16,551</p>
+                <p><strong>影响版本：</strong>< 53.3.2</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>8.2 | <strong>CWE：</strong>CWE-918</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>Applications are affected when they use `@platejs/docx-io` to convert untrusted HTML that may contain remote image references, especially in server-side conversion workflows or environments with access to internal network resources.
+
+Affected package:
+
+- `@platejs/docx-io` versions `< 53.3.2`</p>
+                <p><strong>概要：</strong>`@platejs/docx-io` can fetch remote image URLs while converting HTML to DOCX. When an application converts attacker-controlled HTML in a server-side or privileged environment, this can cause the application environment to make unintended outbound requests and include fetched image data in the genera</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-4q39-2jhr-7qx8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Snipe-IT: Tenant Isolation Bypass in FMCS Floater Mode</div>
+                    <div class="advisory-id">GHSA-c6w2-j4wq-mvwg | CVE: CVE-2026-55643</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,896</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Snipe-IT: Tenant Isolation Bypass in FMCS Floater Mode</p>
+                <p><strong>影响产品：</strong>snipe/snipe-it (composer) ⭐ 14,896</p>
+                <p><strong>影响版本：</strong>< 8.6.3</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>None | <strong>CWE：</strong>CWE-863</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                <p><strong>影响分析：</strong>Due to inconsistent authorization checks, a company-scoped user can bypass tenant boundaries to read, mutate, and soft-delete users who do not belong to any company (company_id = null). While direct instance authorization (isCurrentUserHasAccess) correctly denies access to these out-of-scope users, </p>
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-c6w2-j4wq-mvwg" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 NLTK: Default ENFORCE=False Disables All pathsec Security Controls</div>
+                    <div class="advisory-id">GHSA-p3m8-78j2-g5p3 | CVE: CVE-2026-62388</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,706</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK: Default ENFORCE=False Disables All pathsec Security Controls</p>
+                <p><strong>影响产品：</strong>nltk (pip) ⭐ 14,706</p>
+                <p><strong>影响版本：</strong><= 3.9.4</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>None | <strong>CWE：</strong>CWE-1188</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-p3m8-78j2-g5p3" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 NLTK AllowlistUnpickler dotted-name validation bypass allows remote code execution</div>
+                    <div class="advisory-id">GHSA-5gh2-94qg-qppq | CVE: CVE-2026-71513</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,706</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>NLTK AllowlistUnpickler dotted-name validation bypass allows remote code execution</p>
+                <p><strong>影响产品：</strong>nltk (pip) ⭐ 14,706</p>
+                <p><strong>影响版本：</strong>>= 3.10.0, < 3.10.3</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>8.8 | <strong>CWE：</strong>CWE-502</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-5gh2-94qg-qppq" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠  NLTK TweetTokenizer vulnerable to denial of service through catastrophic regex backtracking</div>
+                    <div class="advisory-id">GHSA-qx2g-xrx7-vfh8 | CVE: CVE-2026-72818</div>
+                </div>
+                <span class="priority-score">优先级: 5/9 (高危)</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 14,706</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong> NLTK TweetTokenizer vulnerable to denial of service through catastrophic regex backtracking</p>
+                <p><strong>影响产品：</strong>nltk (pip) ⭐ 14,706</p>
+                <p><strong>影响版本：</strong>< 3.10.1</p>
+                <p><strong>修复版本：</strong>暂无修复版本</p>
+                <p><strong>CVSS评分：</strong>7.5 | <strong>CWE：</strong>CWE-1333</p>
+                <p><strong>产品影响力：</strong>高 | <strong>可利用性：</strong>仅描述</p>
+                
+                
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-qx2g-xrx7-vfh8" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-9cr8-q42q-g8m7</code></td>
+                    <td>github.com/traefik/traefik/v2</td>
+                    <td>⭐ 64,713</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-9cr8-q42q-g8m7" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-5r4w-85f3-pw66</code></td>
+                    <td>github.com/traefik/traefik/v2</td>
+                    <td>⭐ 64,713</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5r4w-85f3-pw66" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-xf64-8mw2-4gr2</code></td>
+                    <td>github.com/traefik/traefik/v2</td>
+                    <td>⭐ 64,713</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-xf64-8mw2-4gr2" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-76g3-c3x4-crvx</code></td>
+                    <td>scrapy</td>
+                    <td>⭐ 64,177</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-76g3-c3x4-crvx" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p4cg-3328-rvfg</code></td>
+                    <td>orval</td>
+                    <td>⭐ 6,414</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-p4cg-3328-rvfg" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-6mr6-jvcr-2f25</code></td>
+                    <td>orval</td>
+                    <td>⭐ 6,414</td>
+                    <td>CRITICAL</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-6mr6-jvcr-2f25" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-cpmr-mw4j-99r7</code></td>
+                    <td>label-studio</td>
+                    <td>⭐ 28,190</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-cpmr-mw4j-99r7" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-p6gq-j5cr-w38f</code></td>
+                    <td>nodemailer</td>
+                    <td>⭐ 17,665</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p6gq-j5cr-w38f" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-7mgc-c7pq-3rr3</code></td>
+                    <td>getgrav/grav</td>
+                    <td>⭐ 15,657</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-7mgc-c7pq-3rr3" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-fj2p-qj2f-74v5</code></td>
+                    <td>getgrav/grav</td>
+                    <td>⭐ 15,657</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fj2p-qj2f-74v5" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>11</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-w878-pj84-3j5v</code></td>
+                    <td>github.com/axllent/mailpit</td>
+                    <td>⭐ 10,260</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-w878-pj84-3j5v" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>12</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-fpxj-m5q8-fphw</code></td>
+                    <td>github.com/axllent/mailpit</td>
+                    <td>⭐ 10,260</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-fpxj-m5q8-fphw" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>13</td>
+                    <td>🔴 紧急</td>
+                    <td><code>GHSA-75mr-qw9x-3r39</code></td>
+                    <td>github.com/axllent/mailpit</td>
+                    <td>⭐ 10,260</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-75mr-qw9x-3r39" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>14</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-2v6v-25fm-p4fg</code></td>
+                    <td>github.com/seaweedfs/seaweedfs</td>
+                    <td>⭐ 34,420</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-2v6v-25fm-p4fg" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>15</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-q8gq-377p-jq3r</code></td>
+                    <td>vllm</td>
+                    <td>⭐ 90,803</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q8gq-377p-jq3r" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>16</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-pvx3-gm3c-gmpr</code></td>
+                    <td>github.com/ethereum/go-ethereum</td>
+                    <td>⭐ 51,328</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>极高</td>
+                    <td><a href="https://github.com/advisories/GHSA-pvx3-gm3c-gmpr" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>17</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-cxq5-97v7-87j8</code></td>
+                    <td>orval</td>
+                    <td>⭐ 6,414</td>
+                    <td>HIGH</td>
+                    <td>有完整PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-cxq5-97v7-87j8" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>18</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-h3x4-894j-xpx5</code></td>
+                    <td>org.apache.tomcat:tomcat</td>
+                    <td>⭐ 8,239</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-h3x4-894j-xpx5" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>19</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-9xv2-5v5q-p794</code></td>
+                    <td>org.apache.tomcat:tomcat</td>
+                    <td>⭐ 8,239</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-9xv2-5v5q-p794" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>20</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gcx9-497g-6cp6</code></td>
+                    <td>org.apache.tomcat:tomcat</td>
+                    <td>⭐ 8,239</td>
+                    <td>CRITICAL</td>
+                    <td>仅描述</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-gcx9-497g-6cp6" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>21</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-5pvg-856g-cp85</code></td>
+                    <td>io.netty:netty-resolver-dns</td>
+                    <td>⭐ 35,041</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5pvg-856g-cp85" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>22</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-676x-f7gg-47vc</code></td>
+                    <td>io.netty:netty-resolver-dns</td>
+                    <td>⭐ 35,041</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-676x-f7gg-47vc" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>23</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-gv5w-hfx8-8cwq</code></td>
+                    <td>github.com/seaweedfs/seaweedfs</td>
+                    <td>⭐ 34,420</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-gv5w-hfx8-8cwq" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>24</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-4q39-2jhr-7qx8</code></td>
+                    <td>@platejs/docx-io</td>
+                    <td>⭐ 16,551</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-4q39-2jhr-7qx8" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>25</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-c6w2-j4wq-mvwg</code></td>
+                    <td>snipe/snipe-it</td>
+                    <td>⭐ 14,896</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-c6w2-j4wq-mvwg" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>26</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-p3m8-78j2-g5p3</code></td>
+                    <td>nltk</td>
+                    <td>⭐ 14,706</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-p3m8-78j2-g5p3" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>27</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-5gh2-94qg-qppq</code></td>
+                    <td>nltk</td>
+                    <td>⭐ 14,706</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-5gh2-94qg-qppq" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+
+                <tr>
+                    <td>28</td>
+                    <td>🟠 高危</td>
+                    <td><code>GHSA-qx2g-xrx7-vfh8</code></td>
+                    <td>nltk</td>
+                    <td>⭐ 14,706</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-qx2g-xrx7-vfh8" style="color:#58a6ff;text-decoration:none;">GitHub</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><code>GHSA-hj8m-9fhf-v7jp</code></td>
+                    <td>fief-server</td>
+                    <td>⭐ 715</td>
+                    <td>CRITICAL</td>
+                    <td>有PoC | Critical级别</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-xm98-3vcf-fph7</code></td>
+                    <td>mcp-contextforge-gateway</td>
+                    <td>⭐ 0</td>
+                    <td>CRITICAL</td>
+                    <td>有PoC | Critical级别</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-gxmj-r5rf-ggwq</code></td>
+                    <td>Studio-42/elFinder</td>
+                    <td>⭐ 4,802</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                </tr>
+
+                <tr>
+                    <td><code>GHSA-6m44-fpc8-c3rq</code></td>
+                    <td>mistune</td>
+                    <td>⭐ 3,069</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul><li>🔴 <strong>github.com/traefik/traefik/v2</strong> - Traefik: HTTP/3 mTLS bypass via exact SNI TLSOptions lookup  (<code>GHSA-9cr8-q42q-g8m7</code>)</li>
+<li>🔴 <strong>github.com/traefik/traefik/v2</strong> - Traefik: SNICheck ignores wildcard TLSOptions mappings, allo (<code>GHSA-5r4w-85f3-pw66</code>)</li>
+<li>🔴 <strong>github.com/traefik/traefik/v2</strong> - Traefik has a StripPrefix Route-Level Auth Bypass via Path N (<code>GHSA-xf64-8mw2-4gr2</code>)</li>
+<li>🔴 <strong>scrapy</strong> - Scrapy: S3DownloadHandler sends signed S3 requests over plai (<code>GHSA-76g3-c3x4-crvx</code>)</li>
+<li>🔴 <strong>orval</strong> - Orval: Import-time RCE via query-parameter default -> zod mo (<code>GHSA-p4cg-3328-rvfg</code>)</li>
+<li>🔴 <strong>orval</strong> - Orval: Import-time RCE via schema property name -> computed- (<code>GHSA-6mr6-jvcr-2f25</code>)</li>
+<li>🔴 <strong>label-studio</strong> - Nginx alias path traversal allows unauthenticated attackers  (<code>GHSA-cpmr-mw4j-99r7</code>)</li>
+<li>🔴 <strong>nodemailer</strong> - Nodemailer: Message-level raw option bypasses disableFileAcc (<code>GHSA-p6gq-j5cr-w38f</code>)</li>
+<li>🔴 <strong>getgrav/grav</strong> - Grav: 2FA Bypass via 'login.regenerate2FASecret' - Secret Ro (<code>GHSA-7mgc-c7pq-3rr3</code>)</li>
+<li>🔴 <strong>getgrav/grav</strong> - Grav: Remote code execution via unrestricted callable in Blu (<code>GHSA-fj2p-qj2f-74v5</code>)</li>
+<li>🔴 <strong>github.com/axllent/mailpit</strong> - Mailpit: SMTP command parser buffers unbounded command lines (<code>GHSA-w878-pj84-3j5v</code>)</li>
+<li>🔴 <strong>github.com/axllent/mailpit</strong> - Mailpit: Unauthenticated remote memory-exhaustion DoS via un (<code>GHSA-fpxj-m5q8-fphw</code>)</li>
+<li>🔴 <strong>github.com/axllent/mailpit</strong> - Mailpit: Thumbnail generation decodes unbounded image dimens (<code>GHSA-75mr-qw9x-3r39</code>)</li></ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul><li>🟠 <strong>github.com/seaweedfs/seaweedfs</strong> - SeaweedFS: Unauthenticated filer IAM gRPC service grants S3  (<code>GHSA-2v6v-25fm-p4fg</code>)</li>
+<li>🟠 <strong>fief-server</strong> - fief-server Server-Side Template Injection vulnerability (<code>GHSA-hj8m-9fhf-v7jp</code>)</li>
+<li>🟠 <strong>mcp-contextforge-gateway</strong> - mcp-contextforge-gateway has RestrictedPython sandbox bypass (<code>GHSA-xm98-3vcf-fph7</code>)</li>
+<li>🟠 <strong>vllm</strong> - vLLM: Security Check Bypass via assert Statement in Activati (<code>GHSA-q8gq-377p-jq3r</code>)</li>
+<li>🟠 <strong>github.com/ethereum/go-ethereum</strong> - Denial of Service in Go-Ethereum (<code>GHSA-pvx3-gm3c-gmpr</code>)</li>
+<li>🟠 <strong>orval</strong> - Orval: Generation-time SSRF + remote/local file inclusion vi (<code>GHSA-cxq5-97v7-87j8</code>)</li>
+<li>🟠 <strong>org.apache.tomcat:tomcat</strong> - Apache Tomcat's FORM authentication process has an Incorrect (<code>GHSA-h3x4-894j-xpx5</code>)</li>
+<li>🟠 <strong>org.apache.tomcat:tomcat</strong> - Apache Tomcat's DIGEST authenticator has an Authentication B (<code>GHSA-9xv2-5v5q-p794</code>)</li>
+<li>🟠 <strong>org.apache.tomcat:tomcat</strong> - Apache Tomcat has an Improper Access Control, Incorrect Auth (<code>GHSA-gcx9-497g-6cp6</code>)</li>
+<li>🟠 <strong>io.netty:netty-resolver-dns</strong> - Netty has Insufficient Bailiwick Validation for NS Records (<code>GHSA-5pvg-856g-cp85</code>)</li>
+<li>🟠 <strong>io.netty:netty-resolver-dns</strong> - Netty Vulnerable to DNS Cache Poisoning via Missing Bailiwic (<code>GHSA-676x-f7gg-47vc</code>)</li>
+<li>🟠 <strong>github.com/seaweedfs/seaweedfs</strong> - SeaweedFS: Filer JWT allowed_prefixes literal prefix match a (<code>GHSA-gv5w-hfx8-8cwq</code>)</li>
+<li>🟠 <strong>@platejs/docx-io</strong> - Plate: SSRF with response disclosure in DOCX image embedding (<code>GHSA-4q39-2jhr-7qx8</code>)</li>
+<li>🟠 <strong>snipe/snipe-it</strong> - Snipe-IT: Tenant Isolation Bypass in FMCS Floater Mode (<code>GHSA-c6w2-j4wq-mvwg</code>)</li>
+<li>🟠 <strong>nltk</strong> - NLTK: Default ENFORCE=False Disables All pathsec Security Co (<code>GHSA-p3m8-78j2-g5p3</code>)</li>
+<li>🟠 <strong>nltk</strong> - NLTK AllowlistUnpickler dotted-name validation bypass allows (<code>GHSA-5gh2-94qg-qppq</code>)</li>
+<li>🟠 <strong>nltk</strong> -  NLTK TweetTokenizer vulnerable to denial of service through (<code>GHSA-qx2g-xrx7-vfh8</code>)</li>
+<li>🟠 <strong>Studio-42/elFinder</strong> - elFinder: ZIP extraction bypasses uploadDeny MIME filter all (<code>GHSA-gxmj-r5rf-ggwq</code>)</li>
+<li>🟠 <strong>mistune</strong> - Mistune: Denial of Service — RecursionError via Excessive Em (<code>GHSA-6m44-fpc8-c3rq</code>)</li></ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul><li>无</li></ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
