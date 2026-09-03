@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-09-03",
+      "title": "GitHub安全公告日报 - 2026-09-03",
+      "url": "reports/report-2026-09-03.html",
+      "stats": {
+        "total": 52,
+        "critical": 10,
+        "high": 42,
+        "star5k": 28,
+        "with_poc": 18
+      },
+      "summary": "今日发现52个Critical/High级别漏洞，其中10个Critical、42个High。重点关注：SeaweedFS未授权S3管理控制（⭐34k）、Apache Tomcat认证绕过（⭐8k）、Traefik多个mTLS绕过（⭐65k）、Scrapy S3签名请求明文传输（⭐64k）、vLLM安全检查绕过（⭐91k）。共18个漏洞包含PoC。"
+    },
+    {
       "date": "2026-09-02",
       "title": "GitHub安全公告日报 - 2026-09-02",
       "url": "reports/report-2026-09-02.html",
@@ -376,19 +389,6 @@
         "with_poc": 58
       },
       "summary": "发现65个Critical/High级别漏洞，其中Budibase存在大量高危漏洞（SQL注入、SSRF、账户接管等），React Server Components DoS、Claude Code沙箱逃逸、Open WebUI多个漏洞值得关注。"
-    },
-    {
-      "date": "2026-07-26",
-      "title": "GitHub安全公告日报 - 2026-07-26",
-      "url": "reports/report-2026-07-26.html",
-      "stats": {
-        "total": 12,
-        "critical": 3,
-        "high": 9,
-        "star5k": 3,
-        "with_poc": 3
-      },
-      "summary": "今日监控到12条Critical/High级别公告。Redis RESTORE RCE（含完整PoC仓库）、SiYuan MCP授权绕过（Critical）、NLTK eval注入为最高优先级漏洞。Redis PoC仓库berabuddies/redis-poc已公开，影响75k+ star项目。"
     }
   ]
 }
