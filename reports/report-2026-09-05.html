@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-09-05</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-09-05 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Non-administrator responses from /api/system/getConf omit three secrets that the configuration-export path expli</div>
+                    <div class="advisory-id">GHSA-h4v5-crx2-3cv4 | CVE: CVE-2026-72793</div>
+                </div>
+                <span class="priority-score">优先级: 93</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">HIGH</span>
+                <span class="badge badge-stars">⭐ 46,166</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Non-administrator responses from /api/system/getConf omit three secrets that the configuration-export path explicitly strips, disclosing the session-cookie signing key and the OS username to anonymous readers</p>
+                <p><strong>影响产品：</strong>siyuan ⭐ 46,166</p>
+                <p><strong>影响版本：</strong>kernel: &lt; 0.0.0-20260725132049-2d8b98395a91</p>
+                <p><strong>攻击面：</strong>HTTP API（/api/system/getConf），无需管理员权限，匿名用户可达</p>
+                <p><strong>触发条件：</strong>发送 POST /api/system/getConf 请求即可获取敏感信息</p>
+                <p><strong>潜在危害：</strong>泄露会话Cookie签名密钥，攻击者可伪造任意用户会话；泄露OS用户名和笔记本加密密钥</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 github.com/siyuan-note/siyuan/kernel: 0.0.0-20260725132049-2d8b98395a91</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h4v5-crx2-3cv4" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Embedded (transclusion) block content is returned without publish-access filtering, leaking private and password</div>
+                    <div class="advisory-id">GHSA-h6w7-xxcf-w2mq | CVE: CVE-2026-72795</div>
+                </div>
+                <span class="priority-score">优先级: 93</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">HIGH</span>
+                <span class="badge badge-stars">⭐ 46,166</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Embedded (transclusion) block content is returned without publish-access filtering, leaking private and password-protected document content to anonymous readers</p>
+                <p><strong>影响产品：</strong>siyuan ⭐ 46,166</p>
+                <p><strong>影响版本：</strong>kernel: &lt; 0.0.0-20260725125659-1ca1c3c9d94b</p>
+                <p><strong>攻击面：</strong>HTTP API（/api/block/getBlockDOMWithEmbed），发布读者角色可达</p>
+                <p><strong>触发条件：</strong>请求包含嵌入查询的已发布块，嵌入内容未经发布权限过滤</p>
+                <p><strong>潜在危害：</strong>泄露隐藏、禁止访问或密码保护文档中的私有内容</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 github.com/siyuan-note/siyuan/kernel: 0.0.0-20260725125659-1ca1c3c9d94b</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-h6w7-xxcf-w2mq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: The session-cookie signing key (Conf.CookieKey) is returned to anonymous readers by /api/system/getConf</div>
+                    <div class="advisory-id">GHSA-34fj-mwm6-fjfg | CVE: CVE-2026-72794</div>
+                </div>
+                <span class="priority-score">优先级: 93</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">HIGH</span>
+                <span class="badge badge-stars">⭐ 46,166</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: The session-cookie signing key (Conf.CookieKey) is returned to anonymous readers by /api/system/getConf</p>
+                <p><strong>影响产品：</strong>siyuan ⭐ 46,166</p>
+                <p><strong>影响版本：</strong>kernel: &lt; 0.0.0-20260725123945-77421530be4a</p>
+                <p><strong>攻击面：</strong>HTTP API（/api/system/getConf），无需管理员权限，匿名用户可达</p>
+                <p><strong>触发条件：</strong>发送 POST /api/system/getConf 请求即可获取敏感信息</p>
+                <p><strong>潜在危害：</strong>泄露会话Cookie签名密钥，攻击者可伪造任意用户会话；泄露OS用户名和笔记本加密密钥</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 github.com/siyuan-note/siyuan/kernel: 0.0.0-20260725123945-77421530be4a</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-34fj-mwm6-fjfg" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 紧急 SiYuan: Publish-access filter on renderAttributeView leaves related-database content unfiltered and fails open on non-bl</div>
+                    <div class="advisory-id">GHSA-mfrj-v65r-979c | CVE: CVE-2026-72798</div>
+                </div>
+                <span class="priority-score">优先级: 93</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">HIGH</span>
+                <span class="badge badge-stars">⭐ 46,166</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SiYuan: Publish-access filter on renderAttributeView leaves related-database content unfiltered and fails open on non-block first columns</p>
+                <p><strong>影响产品：</strong>siyuan ⭐ 46,166</p>
+                <p><strong>影响版本：</strong>kernel: &lt; 0.0.0-20260724121519-426991d155c0</p>
+                <p><strong>攻击面：</strong>HTTP API（/api/av/renderAttributeView），发布读者角色可达</p>
+                <p><strong>触发条件：</strong>渲染属性视图时，关联数据库内容未经权限过滤</p>
+                <p><strong>潜在危害：</strong>通过关联数据库关系泄露受保护文档内容</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 github.com/siyuan-note/siyuan/kernel: 0.0.0-20260724121519-426991d155c0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-mfrj-v65r-979c" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 OpenChoreo: cluster-gateway internal proxy performs no caller authentication and is not read-only — data-plane Secret di</div>
+                    <div class="advisory-id">GHSA-rh53-xvx2-j327 | CVE: CVE-2026-73842</div>
+                </div>
+                <span class="priority-score">优先级: 87</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-critical">CRITICAL</span>
+                <span class="badge badge-stars">⭐ 1,471</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>OpenChoreo: cluster-gateway internal proxy performs no caller authentication and is not read-only — data-plane Secret disclosure and arbitrary Kubernetes mutation</p>
+                <p><strong>影响产品：</strong>openchoreo ⭐ 1,471</p>
+                <p><strong>影响版本：</strong>openchoreo: &lt; 1.0.3, openchoreo: &gt;= 1.1.0, &lt; 1.1.3, openchoreo: &gt;= 1.2.0-rc.1, &lt; 1.2.0-rc.2</p>
+                <p><strong>攻击面：</strong>内部控制平面API（/api/proxy/、/api/exec/），无需认证</p>
+                <p><strong>触发条件：</strong>访问内部监听器即可调用代理API，无需任何认证凭据</p>
+                <p><strong>潜在危害：</strong>读取所有连接数据平面的Kubernetes Secret（数据库凭据、KMS密钥、TLS私钥），任意创建/修改/删除工作负载，在Pod中执行命令</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>修复建议：</strong>升级到 github.com/openchoreo/openchoreo: 1.0.3, github.com/openchoreo/openchoreo: 1.1.3, github.com/openchoreo/openchoreo: 1.2.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-rh53-xvx2-j327" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 python-cryptography: Duplicate self-signed intermediates can cause exponential path-building</div>
+                    <div class="advisory-id">GHSA-jwv3-5hgf-82ww | CVE: CVE-2026-69249</div>
+                </div>
+                <span class="priority-score">优先级: 83</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 7,758</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>python-cryptography: Duplicate self-signed intermediates can cause exponential path-building</p>
+                <p><strong>影响产品：</strong>cryptography ⭐ 7,758</p>
+                <p><strong>影响版本：</strong>cryptography: &gt;= 42.0.0, &lt;= 48.0.0</p>
+                <p><strong>攻击面：</strong>证书链验证路径，处理恶意构造的证书</p>
+                <p><strong>触发条件：</strong>提供包含重复自签名中间证书的证书链</p>
+                <p><strong>潜在危害：</strong>资源耗尽型拒绝服务，证书验证时间指数级增长</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 cryptography: 49.0.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-jwv3-5hgf-82ww" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SurrealDB has Denial of Service in JSON parser due to nested objects</div>
+                    <div class="advisory-id">GHSA-q729-696q-g9pq | CVE: CVE-2026-63760</div>
+                </div>
+                <span class="priority-score">优先级: 82</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 32,980</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB has Denial of Service in JSON parser due to nested objects</p>
+                <p><strong>影响产品：</strong>surrealdb ⭐ 32,980</p>
+                <p><strong>影响版本：</strong>surrealdb: &lt; 3.1.0</p>
+                <p><strong>攻击面：</strong>WebSocket /rpc 端点，无需认证</p>
+                <p><strong>触发条件：</strong>发送深层嵌套的JSON对象到WebSocket /rpc端点</p>
+                <p><strong>潜在危害：</strong>服务器内存耗尽导致进程崩溃，完全拒绝服务</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>修复建议：</strong>升级到 surrealdb: 3.1.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-q729-696q-g9pq" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 SurrealDB: Custom API route lets authenticated callers override namespace/database scope via URL path</div>
+                    <div class="advisory-id">GHSA-848m-r628-vrxw | CVE: CVE-2026-63735</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 32,980</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>SurrealDB: Custom API route lets authenticated callers override namespace/database scope via URL path</p>
+                <p><strong>影响产品：</strong>surrealdb ⭐ 32,980</p>
+                <p><strong>影响版本：</strong>surrealdb: &lt; 3.2.0</p>
+                <p><strong>攻击面：</strong>HTTP API（/api/{namespace}/{database}/{endpoint}），需认证但可跨命名空间</p>
+                <p><strong>触发条件：</strong>认证用户在URL中指定其他命名空间/数据库的API端点</p>
+                <p><strong>潜在危害：</strong>跨租户数据访问，可读取其他命名空间的敏感数据</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 surrealdb: 3.2.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-848m-r628-vrxw" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 高危 Uncaught Exception processing HTTP Headers in SurrealDB</div>
+                    <div class="advisory-id">GHSA-m24x-r6q3-2vp9 | CVE: CVE-2024-58368</div>
+                </div>
+                <span class="priority-score">优先级: 80</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">HIGH</span>
+                <span class="badge badge-stars">⭐ 32,980</span>
+                
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Uncaught Exception processing HTTP Headers in SurrealDB</p>
+                <p><strong>影响产品：</strong>surrealdb ⭐ 32,980</p>
+                <p><strong>影响版本：</strong>surrealdb: &lt; 1.1.0</p>
+                <p><strong>攻击面：</strong>HTTP REST API，无需认证</p>
+                <p><strong>触发条件：</strong>在HTTP请求头(ID/DB/NS)中包含特殊字符</p>
+                <p><strong>潜在危害：</strong>服务器panic崩溃，导致拒绝服务</p>
+                <p><strong>可利用性：</strong>仅描述</p>
+                <p><strong>修复建议：</strong>升级到 surrealdb: 1.1.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-m24x-r6q3-2vp9" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 TypeSpec: Unauthenticated Remote Shutdown of Spector Mock Server via POST /.admin/stop</div>
+                    <div class="advisory-id">GHSA-7q9c-hpx7-9cwm | CVE: N/A</div>
+                </div>
+                <span class="priority-score">优先级: 70</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-medium">HIGH</span>
+                <span class="badge badge-stars">⭐ N/A</span>
+                <span class="badge badge-poc">🔴 PoC Available</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>TypeSpec: Unauthenticated Remote Shutdown of Spector Mock Server via POST /.admin/stop</p>
+                <p><strong>影响产品：</strong>spector ⭐ N/A</p>
+                <p><strong>影响版本：</strong>spector: &lt;= 0.1.0-alpha.26</p>
+                <p><strong>攻击面：</strong>HTTP端点（POST /.admin/stop），无需认证，绑定0.0.0.0</p>
+                <p><strong>触发条件：</strong>发送单个 POST /.admin/stop 请求即可关闭服务器</p>
+                <p><strong>潜在危害：</strong>Mock服务器完全关闭，开发/测试流程中断</p>
+                <p><strong>可利用性：</strong>有完整PoC</p>
+                <p><strong>修复建议：</strong>升级到 @typespec/spector: 0.1.0-alpha.27</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-7q9c-hpx7-9cwm" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        <div class="advisory-card medium">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟡 中危 jupyterlab-git extension: Stored XSS leading to RCE</div>
+                    <div class="advisory-id">GHSA-f962-v9hr-pfg5 | CVE: CVE-2026-54527</div>
+                </div>
+                <span class="priority-score">优先级: 57</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-medium">HIGH</span>
+                <span class="badge badge-stars">⭐ 1,611</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>jupyterlab-git extension: Stored XSS leading to RCE</p>
+                <p><strong>影响产品：</strong>jupyterlab-git ⭐ 1,611</p>
+                <p><strong>影响版本：</strong>jupyterlab-git: &gt;= 0.30.0b3, &lt; 0.54.0a1, jupyterlab-git-core: &gt;= 0.30.0b3, &lt; 0.54.0a1, git: &gt;= 0.30.0-beta.3, &lt; 0.54.0-a1</p>
+                <p><strong>攻击面：</strong>JupyterLab Git History UI，通过恶意文件名触发</p>
+                <p><strong>触发条件：</strong>受害者查看包含恶意文件名的Git重命名diff时触发</p>
+                <p><strong>潜在危害：</strong>XSS执行任意JavaScript，窃取XSRF cookie，通过终端API实现完整RCE</p>
+                <p><strong>可利用性：</strong>有详细原理分析</p>
+                <p><strong>修复建议：</strong>升级到 jupyterlab-git: 0.54.0, jupyterlab-git-core: 0.54.0, @jupyterlab/git: 0.54.0</p>
+            </div>
+            
+            <a href="https://github.com/advisories/GHSA-f962-v9hr-pfg5" target="_blank" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-h4v5-crx2-3cv4</td>
+                    <td>siyuan</td>
+                    <td>46,166</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h4v5-crx2-3cv4" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-h6w7-xxcf-w2mq</td>
+                    <td>siyuan</td>
+                    <td>46,166</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-h6w7-xxcf-w2mq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-34fj-mwm6-fjfg</td>
+                    <td>siyuan</td>
+                    <td>46,166</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-34fj-mwm6-fjfg" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-mfrj-v65r-979c</td>
+                    <td>siyuan</td>
+                    <td>46,166</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-mfrj-v65r-979c" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-rh53-xvx2-j327</td>
+                    <td>openchoreo</td>
+                    <td>1,471</td>
+                    <td>CRITICAL</td>
+                    <td>有分析</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-rh53-xvx2-j327" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-jwv3-5hgf-82ww</td>
+                    <td>cryptography</td>
+                    <td>7,758</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/advisories/GHSA-jwv3-5hgf-82ww" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-q729-696q-g9pq</td>
+                    <td>surrealdb</td>
+                    <td>32,980</td>
+                    <td>HIGH</td>
+                    <td>有分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-q729-696q-g9pq" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-848m-r628-vrxw</td>
+                    <td>surrealdb</td>
+                    <td>32,980</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-848m-r628-vrxw" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-m24x-r6q3-2vp9</td>
+                    <td>surrealdb</td>
+                    <td>32,980</td>
+                    <td>HIGH</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/advisories/GHSA-m24x-r6q3-2vp9" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-7q9c-hpx7-9cwm</td>
+                    <td>spector</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>有PoC</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-7q9c-hpx7-9cwm" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-f962-v9hr-pfg5</td>
+                    <td>jupyterlab-git</td>
+                    <td>1,611</td>
+                    <td>HIGH</td>
+                    <td>有分析</td>
+                    <td>低</td>
+                    <td><a href="https://github.com/advisories/GHSA-f962-v9hr-pfg5" target="_blank" style="color:#58a6ff;">查看</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含完整 PoC 的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-rh53-xvx2-j327</td>
+                    <td>openchoreo</td>
+                    <td>1,471</td>
+                    <td>CRITICAL</td>
+                    <td>详细分析</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-7q9c-hpx7-9cwm</td>
+                    <td>spector</td>
+                    <td>N/A</td>
+                    <td>HIGH</td>
+                    <td>完整PoC</td>
+                </tr>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-f962-v9hr-pfg5</td>
+                    <td>jupyterlab-git</td>
+                    <td>1,611</td>
+                    <td>HIGH</td>
+                    <td>详细分析</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>🔴 紧急关注：</strong></p>
+                <ul>
+                    <li><strong>SiYuan 笔记（⭐46,166）</strong>— 4个权限绕过漏洞（CVE-2026-72793/72794/72795/72798），均含完整PoC。核心问题：API 端点对非管理员用户泄露敏感配置（Cookie签名密钥、加密密钥）、嵌入内容未做发布权限过滤、属性视图关联数据库内容泄露。<strong>建议立即升级到修复版本。</strong></li>
+                </ul>
+                <p><strong>🟠 重点关注：</strong></p>
+                <ul>
+                    <li><strong>SurrealDB（⭐32,980）</strong>— 3个漏洞，包括JSON解析器DoS（未认证可达）、跨命名空间API权限绕过、HTTP头DoS。建议升级到 ≥3.1.0。</li>
+                    <li><strong>python-cryptography（⭐7,758）</strong>— 证书链验证DoS（CVE-2026-69249），含PoC。恶意证书可导致指数级处理时间。升级到 ≥49.0.0。</li>
+                    <li><strong>OpenChoreo（⭐1,471）</strong>— Critical级别，内部代理无认证可读取所有数据平面K8s Secret、执行Pod命令。影响严重但Star较低。</li>
+                </ul>
+                <p><strong>🟡 常规关注：</strong></p>
+                <ul>
+                    <li><strong>TypeSpec Spector</strong>— Mock服务器无认证远程关闭（含完整PoC），影响开发/测试环境。</li>
+                    <li><strong>jupyterlab-git（⭐1,611）</strong>— 存储型XSS→RCE，通过恶意文件名触发。升级到 ≥0.54.0。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
