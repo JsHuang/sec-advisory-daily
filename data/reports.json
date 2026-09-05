@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-09-05",
+      "title": "GitHub安全公告日报 - 2026-09-05",
+      "url": "reports/report-2026-09-05.html",
+      "stats": {
+        "total": 11,
+        "critical": 1,
+        "high": 10,
+        "star5k": 8,
+        "with_poc": 9
+      },
+      "summary": "发现11个高危/严重漏洞。SiYuan笔记4个权限绕过漏洞（含完整PoC，⭐46k），SurrealDB 3个漏洞（DoS和权限绕过，⭐33k），python-cryptography证书链DoS（⭐7.7k），OpenChoreo Critical级内部代理无认证。"
+    },
+    {
       "date": "2026-09-03",
       "title": "GitHub安全公告日报 - 2026-09-03",
       "url": "reports/report-2026-09-03.html",
@@ -376,19 +389,6 @@
         "with_poc": 2
       },
       "summary": "今日发现2个高危漏洞：n8n表达式沙箱逃逸（198k star，可通过箭头函数体RCE）和pay-uz未认证PHP文件覆写RCE（CVSS 9.8）。"
-    },
-    {
-      "date": "2026-07-27",
-      "title": "GitHub安全公告日报 - 2026-07-27",
-      "url": "reports/report-2026-07-27.html",
-      "stats": {
-        "total": 65,
-        "critical": 17,
-        "high": 48,
-        "star5k": 35,
-        "with_poc": 58
-      },
-      "summary": "发现65个Critical/High级别漏洞，其中Budibase存在大量高危漏洞（SQL注入、SSRF、账户接管等），React Server Components DoS、Claude Code沙箱逃逸、Open WebUI多个漏洞值得关注。"
     }
   ]
 }
