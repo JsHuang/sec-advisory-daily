@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-09-06",
+      "title": "GitHub安全公告日报 - 2026-09-06",
+      "url": "reports/report-2026-09-06.html",
+      "stats": {
+        "total": 11,
+        "critical": 1,
+        "high": 10,
+        "star5k": 8,
+        "with_poc": 7
+      },
+      "summary": "发现11个独立高危漏洞：SiYuan 4个（getConf泄露/embed内容泄露/数据库视图绕过），SurrealDB 5个（跨租户API/DoS/权限绕过），OpenChoreo 1个Critical（K8s网关零认证），TypeSpec Spector 1个，jupyterlab-git 1个XSS→RCE，cryptography 1个DoS。7个含完整PoC。"
+    },
+    {
       "date": "2026-09-05",
       "title": "GitHub安全公告日报 - 2026-09-05",
       "url": "reports/report-2026-09-05.html",
@@ -376,19 +389,6 @@
         "with_poc": 27
       },
       "summary": "今日发现36个高危漏洞（5 Critical + 31 High），其中7个影响Star≥5k项目，27个含PoC/详细分析。重点关注：GitHub MCP Server DoS、.NET DoS、Pterodactyl权限提升、Fission Zip Slip、Pocket ID OIDC绕过等。"
-    },
-    {
-      "date": "2026-07-28",
-      "title": "GitHub安全公告日报 - 2026-07-28",
-      "url": "reports/report-2026-07-28.html",
-      "stats": {
-        "total": 2,
-        "critical": 1,
-        "high": 1,
-        "star5k": 1,
-        "with_poc": 2
-      },
-      "summary": "今日发现2个高危漏洞：n8n表达式沙箱逃逸（198k star，可通过箭头函数体RCE）和pay-uz未认证PHP文件覆写RCE（CVSS 9.8）。"
     }
   ]
 }
