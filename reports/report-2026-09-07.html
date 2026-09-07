@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub安全公告日报 - 2026-09-07</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0d1117; color: #c9d1d9; min-height: 100vh; line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-bottom: 1px solid #30363d; padding: 40px 20px; text-align: center;
+        }
+        header h1 { font-size: 2em; color: #f0f6fc; margin-bottom: 8px; }
+        header p { color: #8b949e; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 20px; text-align: center;
+        }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #58a6ff; }
+        .stat-label { color: #8b949e; font-size: 0.9em; margin-top: 4px; }
+        .section-title {
+            font-size: 1.5em; color: #f0f6fc; margin: 30px 0 20px;
+            padding-bottom: 8px; border-bottom: 1px solid #21262d;
+        }
+        .advisory-card {
+            background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+            padding: 24px; margin-bottom: 20px; border-left: 4px solid #30363d;
+        }
+        .advisory-card.critical { border-left-color: #f85149; }
+        .advisory-card.high { border-left-color: #d29922; }
+        .advisory-card.medium { border-left-color: #8b949e; }
+        .advisory-header {
+            display: flex; justify-content: space-between; align-items: start;
+            margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+        }
+        .advisory-title { font-size: 1.2em; color: #f0f6fc; }
+        .advisory-id { color: #58a6ff; font-family: monospace; font-size: 0.85em; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8em; font-weight: 600; margin-right: 8px; margin-bottom: 8px;
+        }
+        .badge-critical { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-high { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-stars { background: #d2992222; color: #d29922; border: 1px solid #d2992244; }
+        .badge-poc { background: #da363322; color: #f85149; border: 1px solid #da363344; }
+        .badge-analysis { background: #388bfd22; color: #58a6ff; border: 1px solid #388bfd44; }
+        .advisory-meta { margin-bottom: 16px; }
+        .advisory-content { color: #8b949e; margin-bottom: 16px; }
+        .advisory-content strong { color: #c9d1d9; }
+        .advisory-content ul { margin-left: 20px; margin-top: 8px; }
+        .advisory-content li { margin-bottom: 6px; }
+        .priority-score {
+            display: inline-block; padding: 6px 14px; border-radius: 6px;
+            font-size: 0.85em; font-weight: 600; background: #388bfd22;
+            color: #58a6ff; border: 1px solid #388bfd44;
+        }
+        .summary-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: #161b22; border-radius: 8px; overflow: hidden;
+        }
+        .summary-table th {
+            background: #21262d; color: #f0f6fc; padding: 12px; text-align: left;
+            font-size: 0.85em; text-transform: uppercase;
+        }
+        .summary-table td { padding: 12px; border-top: 1px solid #30363d; }
+        .summary-table tr:hover { background: #1c2128; }
+        .summary-table a { color: #58a6ff; text-decoration: none; }
+        .summary-table a:hover { text-decoration: underline; }
+        footer {
+            text-align: center; padding: 30px; color: #484f58; border-top: 1px solid #21262d;
+            margin-top: 40px; font-size: 0.85em;
+        }
+        footer a { color: #58a6ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ GitHub 安全公告日报</h1>
+        <p>2026-09-07 · 监控最近24小时 Critical &amp; High 级别安全公告</p>
+    </header>
+    
+    <div class="container">
+        <!-- 监控概况 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">总公告数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color:#8b949e">0</div>
+                <div class="stat-label">Critical</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">High</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Star≥5k 项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">含PoC/详细分析</div>
+            </div>
+        </div>
+        
+        <!-- 漏洞详情 -->
+        <h2 class="section-title">🚨 需要关注的漏洞（按优先级排序）</h2>
+        
+        <!-- 漏洞1: Fleet SQL注入 -->
+        <div class="advisory-card critical">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🔴 Fleet: Okta条件访问端点SQL注入可导致数据库完全沦陷及远程代码执行</div>
+                    <div class="advisory-id">GHSA-7q96-f8xw-jv5j | CVE: CVE-2026-54245</div>
+                </div>
+                <span class="priority-score">优先级: 🔴 紧急</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6,814 Stars</span>
+                <span class="badge badge-analysis">📖 详细分析</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fleet设备管理平台Okta条件访问集成模块中存在SQL注入漏洞。当启用Okta条件访问功能时，未认证的请求路径中使用了主机上报的值进行数据库查询，但未做参数化处理。由于该值由主机自身Agent上报并直接存储，任何控制了一台已注册主机的攻击者（产品中的最低权限角色）即可操控查询。</p>
+                <p><strong>影响产品：</strong>Fleet (fleetdm/fleet) ⭐ 6,814</p>
+                <p><strong>影响版本：</strong>&lt; 4.86.2</p>
+                <p><strong>攻击面：</strong>需要启用Fleet Premium + Okta条件访问集成。未认证的请求路径可被利用，攻击者只需控制一台已注册的最低权限主机。</p>
+                <p><strong>触发条件：</strong>① 目标部署了Fleet Premium；② 启用了Okta条件访问集成；③ 攻击者控制了任意一台已注册的Fleet主机（最低权限角色）。</p>
+                <p><strong>潜在危害：</strong>
+                <ul>
+                    <li>读取Fleet数据库中的任意数据，包括凭据和会话令牌</li>
+                    <li>重放泄露的会话令牌获取全局管理员权限</li>
+                    <li>以全局管理员身份在已注册主机上执行远程代码（RCE）</li>
+                </ul>
+                </p>
+                <p><strong>可利用性：</strong>有详细分析 — 公告详细描述了攻击路径（未认证请求 → 主机上报值 → SQL注入 → 数据库读取 → Session重放 → 全局管理员 → RCE），虽然没有独立PoC章节和完整exploit代码，但攻击链清晰。</p>
+                <p><strong>修复建议：</strong>立即升级至 v4.86.2+。如无法立即升级，<strong>禁用Okta条件访问集成</strong>直到部署修补版本。</p>
+            </div>
+            
+            <a href="https://github.com/fleetdm/fleet/security/advisories/GHSA-7q96-f8xw-jv5j" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+        
+        <!-- 漏洞2: Fleet gRPC DoS -->
+        <div class="advisory-card high">
+            <div class="advisory-header">
+                <div>
+                    <div class="advisory-title">🟠 Fleet: gRPC PublishLogs端点拒绝服务漏洞</div>
+                    <div class="advisory-id">GHSA-x67p-9m2r-fxqv | CVE: CVE-2026-26062</div>
+                </div>
+                <span class="priority-score">优先级: 🟠 高危</span>
+            </div>
+            
+            <div class="advisory-meta">
+                <span class="badge badge-high">High</span>
+                <span class="badge badge-stars">⭐ 6,814 Stars</span>
+            </div>
+            
+            <div class="advisory-content">
+                <p><strong>漏洞描述：</strong>Fleet设备管理平台gRPC Launcher的PublishLogs端点存在拒绝服务（DoS）漏洞。在受影响版本中，某些意外输入值未被正确处理，可能导致Fleet服务器进程在处理来自已注册Launcher主机的认证请求时异常终止。</p>
+                <p><strong>影响产品：</strong>Fleet (fleetdm/fleet) ⭐ 6,814</p>
+                <p><strong>影响版本：</strong>&lt; 4.81.0</p>
+                <p><strong>攻击面：</strong>需要拥有已注册Launcher节点的密钥，通过gRPC协议向PublishLogs端点发送特制请求。</p>
+                <p><strong>触发条件：</strong>① 攻击者获取了任意一台已注册Launcher节点的密钥；② 向Fleet服务器的gRPC PublishLogs端点发送单个精心构造的请求。</p>
+                <p><strong>潜在危害：</strong>
+                <ul>
+                    <li>单个请求即可导致Fleet服务器完全崩溃（即时且完全的拒绝服务）</li>
+                    <li>仅影响可用性（Availability），不涉及数据泄露、权限提升或完整性破坏</li>
+                </ul>
+                </p>
+                <p><strong>可利用性：</strong>仅描述 — 公告仅描述了漏洞影响，未提供具体利用细节。</p>
+                <p><strong>修复建议：</strong>升级至 v4.81.0+。临时缓解：限制Fleet gRPC端点的网络访问（如限制入站IP范围），或部署gRPC流量过滤基础设施。</p>
+            </div>
+            
+            <a href="https://github.com/fleetdm/fleet/security/advisories/GHSA-x67p-9m2r-fxqv" style="color:#58a6ff;text-decoration:none;font-size:0.9em;">查看完整公告 →</a>
+        </div>
+
+        <!-- 汇总表 -->
+        <h2 class="section-title">📊 漏洞清单汇总表</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>评级</th>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star数</th>
+                    <th>严重级别</th>
+                    <th>可利用性</th>
+                    <th>产品影响力</th>
+                    <th>链接</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>🔴 紧急</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-7q96-f8xw-jv5j</td>
+                    <td>Fleet (fleetdm/fleet)</td>
+                    <td>⭐ 6,814</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/fleetdm/fleet/security/advisories/GHSA-7q96-f8xw-jv5j">公告</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>🟠 高危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-x67p-9m2r-fxqv</td>
+                    <td>Fleet (fleetdm/fleet)</td>
+                    <td>⭐ 6,814</td>
+                    <td>High</td>
+                    <td>仅描述</td>
+                    <td>高</td>
+                    <td><a href="https://github.com/fleetdm/fleet/security/advisories/GHSA-x67p-9m2r-fxqv">公告</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>🟡 中危</td>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-8cfw-pcwh-v63w</td>
+                    <td>Winter CMS (wintercms/winter)</td>
+                    <td>⭐ 1,514</td>
+                    <td>High</td>
+                    <td>有详细分析</td>
+                    <td>中</td>
+                    <td><a href="https://github.com/wintercms/winter/security/advisories/GHSA-8cfw-pcwh-v63w">公告</a></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 补充 -->
+        <h2 class="section-title">📌 补充：Star &lt; 5k 但含详细分析的高价值漏洞</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>GHSA编号</th>
+                    <th>影响产品</th>
+                    <th>Star</th>
+                    <th>级别</th>
+                    <th>亮点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family:monospace;font-size:0.85em;">GHSA-8cfw-pcwh-v63w</td>
+                    <td>Winter CMS</td>
+                    <td>⭐ 1,514</td>
+                    <td>High (CVSS 8.4)</td>
+                    <td>Twig沙箱逃逸，可执行任意SQL/RCE；公告详细列出了可绕过的函数链（saveQuietly/deleteQuietly/increment/newQuery/getConnection等），攻击路径清晰，是CVE-2024-54149的不完整修复绕过</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 总结与建议 -->
+        <h2 class="section-title">📝 总结与建议</h2>
+        <div class="advisory-card">
+            <div class="advisory-content">
+                <p><strong>紧急关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-7q96-f8xw-jv5j (Fleet SQL注入)：</strong>影响设备管理平台核心数据库安全，攻击链从SQL注入→数据泄露→Session重放→全局管理员→RCE，危害极大。使用Fleet Premium + Okta条件访问的组织应立即升级至 v4.86.2+ 或禁用Okta条件访问集成。</li>
+                </ul>
+                <p><strong>重点关注：</strong></p>
+                <ul>
+                    <li><strong>GHSA-x67p-9m2r-fxqv (Fleet gRPC DoS)：</strong>单个请求即可导致Fleet服务器崩溃，影响设备管理基础设施可用性。升级至 v4.81.0+，并限制gRPC端点网络访问。</li>
+                    <li><strong>GHSA-8cfw-pcwh-v63w (Winter CMS Twig沙箱逃逸)：</strong>虽然Star数不足5k，但CVSS 8.4且攻击路径详细。CMS后台用户可绕过安全模式实现RCE。这是CVE-2024-54149的不完整修复绕过，使用Winter CMS的组织应升级至 v1.2.13+ 并清理Twig编译缓存。</li>
+                </ul>
+                <p><strong>常规关注：</strong></p>
+                <ul>
+                    <li>今日3个高危公告均来自设备管理/CMS领域，建议关注Fleet和Winter CMS相关基础设施的补丁部署进度。</li>
+                    <li>两个Fleet漏洞均由 @fuzzztf 报告，说明可能存在更多相关漏洞，建议持续关注Fleet安全公告。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>每日 08:10 自动生成 · 数据来源: GitHub Advisory Database</p>
+        <p><a href="https://github.com/JsHuang/sec-advisory-daily">GitHub 仓库</a></p>
+    </footer>
+</body>
+</html>
