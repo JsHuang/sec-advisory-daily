@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "date": "2026-09-07",
+      "title": "GitHub安全公告日报 - 2026-09-07",
+      "url": "reports/report-2026-09-07.html",
+      "stats": {
+        "total": 3,
+        "critical": 0,
+        "high": 3,
+        "star5k": 2,
+        "with_poc": 1
+      },
+      "summary": "今日发现3个High级别漏洞：Fleet SQL注入可导致数据库沦陷及RCE（紧急）、Fleet gRPC DoS（高危）、Winter CMS Twig沙箱逃逸（中危）。"
+    },
+    {
       "date": "2026-09-06",
       "title": "GitHub安全公告日报 - 2026-09-06",
       "url": "reports/report-2026-09-06.html",
@@ -376,19 +389,6 @@
         "with_poc": 13
       },
       "summary": "今日发现2个Critical级别和15个High级别漏洞。Quarkus认证绕过漏洞(⭐15.8k)为紧急级别；ZITADEL自我验证漏洞(⭐14.6k)、proot-distro容器逃逸、swagger-typescript-api系列代码注入等14个漏洞为高危级别。"
-    },
-    {
-      "date": "2026-07-29",
-      "title": "GitHub安全公告日报 - 2026-07-29",
-      "url": "reports/report-2026-07-29.html",
-      "stats": {
-        "total": 36,
-        "critical": 5,
-        "high": 31,
-        "star5k": 7,
-        "with_poc": 27
-      },
-      "summary": "今日发现36个高危漏洞（5 Critical + 31 High），其中7个影响Star≥5k项目，27个含PoC/详细分析。重点关注：GitHub MCP Server DoS、.NET DoS、Pterodactyl权限提升、Fission Zip Slip、Pocket ID OIDC绕过等。"
     }
   ]
 }
