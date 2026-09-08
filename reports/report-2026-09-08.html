@@ -3,66 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub 安全公告日报 - 2026-09-08</title>
+<title>GitHub Advisory 安全日报 - 2026-09-08</title>
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
-h1{color:#58a6ff;border-bottom:2px solid #30363d;padding-bottom:12px}
-h2{color:#f0883e;margin-top:28px}
-.advisory{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:12px 0}
+h1{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:12px}
+h2{color:#f0883e;margin-top:30px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin:16px 0}
 .severity-high{border-left:4px solid #f85149}
 .severity-critical{border-left:4px solid #da3633}
-.severity-medium{border-left:4px solid #d29922}
-.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;margin-right:6px}
-.tag-high{background:#f8514933;color:#f85149}
-.tag-critical{background:#da363333;color:#da3633}
-.tag-medium{background:#d2992233;color:#d29922}
-.tag-poc{background:#3fb95033;color:#3fb950}
-.stars{color:#e3b341}
+.meta{color:#8b949e;font-size:14px;margin:8px 0}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;margin-right:6px}
+.tag-high{background:#f8514922;color:#f85149;border:1px solid #f8514944}
+.tag-critical{background:#da363322;color:#da3633;border:1px solid #da363344}
+.tag-poc{background:#3fb95022;color:#3fb950;border:1px solid #3fb95044}
 a{color:#58a6ff;text-decoration:none}
 a:hover{text-decoration:underline}
-.summary{font-size:15px;line-height:1.6;margin:8px 0}
-.meta{font-size:13px;color:#8b949e}
-.stats{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}
-.stat-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 20px;text-align:center}
-.stat-num{font-size:28px;font-weight:700;color:#58a6ff}
-.stat-label{font-size:13px;color:#8b949e}
+.summary{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:16px;margin:12px 0}
+.stars{color:#e3b341}
 </style>
 </head>
 <body>
-<h1>🛡️ GitHub 安全公告日报 - 2026-09-08</h1>
-
-<div class="stats">
-<div class="stat-card"><div class="stat-num">1</div><div class="stat-label">总公告数</div></div>
-<div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Critical</div></div>
-<div class="stat-card"><div class="stat-num">1</div><div class="stat-label">High</div></div>
-<div class="stat-card"><div class="stat-num">1</div><div class="stat-label">含PoC</div></div>
+<h1>🛡️ GitHub Advisory 安全日报 — 2026-09-08</h1>
+<div class="summary">
+<h2>📊 今日概况</h2>
+<ul>
+<li>时间窗口：2026-09-07 08:00 UTC — 2026-09-08 00:06 UTC</li>
+<li>总公告数：<strong>1</strong></li>
+<li>Critical：<strong>0</strong> | High：<strong>1</strong></li>
+<li>含PoC/可利用代码：<strong>1</strong></li>
+</ul>
 </div>
 
-<h2>🚨 重点漏洞速览</h2>
-
-<div class="advisory severity-high">
-<div>
+<div class="card severity-high">
+<h3>🔴 CVE-2026-10050 — Eclipse Jetty Digest Authentication Bypass</h3>
+<div class="meta">
 <span class="tag tag-high">High</span>
-<span class="tag tag-poc">有PoC</span>
-<span class="stars">⭐ 4,093</span>
+<span class="tag tag-poc">✅ PoC</span>
+<span class="stars">⭐ ~5,000+ stars (eclipse-jetty/jetty.project)</span>
 </div>
-<h3><a href="https://github.com/advisories/GHSA-2fvj-hgj9-j2gr" target="_blank">CVE-2026-10050 — Eclipse Jetty Digest Authentication 认证绕过</a></h3>
-<p class="summary">
-Jetty HTTP客户端的 DigestAuthentication.apply() 方法使用 ISO-8859-1 编码计算 Digest auth 响应哈希，导致所有非 Latin-1 字符（中文、日文、西里尔文、阿拉伯文、Emoji等）被静默替换为 0x3F (?)。攻击者知道用户名后，可将密码中所有非 Latin-1 字符替换为 ? 即可绕过 Digest 认证。PoC 已在公告中公开，包含完整代码示例。影响 Jetty 9.4.x 至 12.1.x 全线版本。
-</p>
-<p class="meta">
-GHSA: GHSA-2fvj-hgj9-j2gr | 产品: Eclipse Jetty (jetty/jetty.project) | 修复版本: 9.4.63, 10.0.31, 11.0.31, 12.0.36, 12.1.10
-</p>
+<p><strong>GHSA:</strong> <a href="https://github.com/advisories/GHSA-2fvj-hgj9-j2gr">GHSA-2fvj-hgj9-j2gr</a></p>
+<p><strong>影响组件:</strong> org.eclipse.jetty:jetty-security (Maven)</p>
+<p><strong>影响版本:</strong> 9.4.x ~ 9.4.58, 10.0.x ~ 10.0.26, 11.0.x ~ 11.0.26, 12.0.x ~ 12.0.35, 12.1.x ~ 12.1.9</p>
+<p><strong>修复版本:</strong> 9.4.63, 10.0.31, 11.0.31, 12.0.36, 12.1.10</p>
+<p><strong>漏洞描述:</strong> Jetty HTTP客户端的DigestAuthentication.apply()方法使用ISO-8859-1编码计算Digest认证响应哈希。ISO-8859-1会将所有U+00FF以上的字符（中文、日文、韩文、阿拉伯文、Emoji等）静默替换为0x3F（?），导致所有这些字符产生相同的哈希贡献。攻击者只需知道用户名，即可将密码中所有非Latin-1字符替换为?来绕过Digest认证。</p>
+<p><strong>PoC详情:</strong> 公告包含完整PoC代码，展示了多语言密码（"我爱Java!密码123★"）与全问号碰撞密码产生相同MD5哈希的验证过程。</p>
 </div>
 
 <h2>📝 建议</h2>
 <ul>
-<li><strong>关注：</strong>Eclipse Jetty Digest认证绕过(CVE-2026-10050)，使用Jetty HTTP客户端且依赖Digest认证的项目需升级，特别是使用非ASCII密码的场景</li>
-<li><strong>注意：</strong>本日GitHub Advisory更新较少，大部分High/Critical公告更新于9月4日，未纳入24小时窗口</li>
+<li><strong>Jetty Digest Auth Bypass:</strong> 使用非ASCII密码的场景（特别是CJK语言用户）风险最高。升级至修复版本。</li>
 </ul>
 
-<p class="meta" style="margin-top:32px;border-top:1px solid #30363d;padding-top:12px">
-生成时间: 2026-09-08 08:00 CST | 数据来源: <a href="https://api.github.com/advisories">GitHub Advisory Database</a>
-</p>
+<div class="summary" style="margin-top:30px">
+<p style="color:#8b949e;font-size:13px">报告生成时间: 2026-09-08 08:06 CST | 数据来源: GitHub Advisory Database API</p>
+</div>
 </body>
 </html>
