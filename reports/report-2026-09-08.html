@@ -3,59 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub Advisory 安全日报 - 2026-09-08</title>
+<title>GitHub 安全公告日报 - 2026-09-08</title>
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
-h1{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:12px}
-h2{color:#f0883e;margin-top:30px}
-.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin:16px 0}
-.severity-high{border-left:4px solid #f85149}
-.severity-critical{border-left:4px solid #da3633}
-.meta{color:#8b949e;font-size:14px;margin:8px 0}
-.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;margin-right:6px}
-.tag-high{background:#f8514922;color:#f85149;border:1px solid #f8514944}
-.tag-critical{background:#da363322;color:#da3633;border:1px solid #da363344}
-.tag-poc{background:#3fb95022;color:#3fb950;border:1px solid #3fb95044}
-a{color:#58a6ff;text-decoration:none}
-a:hover{text-decoration:underline}
-.summary{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:16px;margin:12px 0}
-.stars{color:#e3b341}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+.card { background: white; border-radius: 8px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.high { border-left: 4px solid #d73a49; }
+.critical { border-left: 4px solid #b31d28; }
+.medium { border-left: 4px solid #fb8500; }
+h1 { color: #24292e; }
+h2 { color: #0366d6; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin: 2px; }
+.tag-high { background: #ffeef0; color: #d73a49; }
+.tag-poc { background: #dcffe4; color: #22863a; }
+.tag-stars { background: #fff8c5; color: #735c0f; }
+code { background: #f6f8fa; padding: 2px 6px; border-radius: 3px; }
+a { color: #0366d6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.summary { font-size: 14px; color: #586069; margin: 10px 0; }
 </style>
 </head>
 <body>
-<h1>🛡️ GitHub Advisory 安全日报 — 2026-09-08</h1>
-<div class="summary">
+<h1>🛡️ GitHub 安全公告日报</h1>
+<p><strong>日期：</strong>2026-09-08 | <strong>窗口：</strong>最近 24 小时</p>
+
+<div class="card">
 <h2>📊 今日概况</h2>
 <ul>
-<li>时间窗口：2026-09-07 08:00 UTC — 2026-09-08 00:06 UTC</li>
-<li>总公告数：<strong>1</strong></li>
-<li>Critical：<strong>0</strong> | High：<strong>1</strong></li>
-<li>含PoC/可利用代码：<strong>1</strong></li>
+<li>24h 内更新公告：<strong>1 条</strong></li>
+<li>Critical：0 | High：1</li>
+<li>含 PoC 代码：1</li>
 </ul>
+<p class="summary">注：GitHub Advisory API 使用 sort=updated，24h 窗口（2026-09-07 00:12 UTC ~ 2026-09-08 00:12 UTC）内仅有 1 条 High 级别公告更新。大量 Fleet/Winter CMS 等公告更新于 9月6日，超出窗口未纳入。</p>
 </div>
 
-<div class="card severity-high">
-<h3>🔴 CVE-2026-10050 — Eclipse Jetty Digest Authentication Bypass</h3>
-<div class="meta">
+<div class="card high">
+<h2>🔴 CVE-2026-10050 — Eclipse Jetty Digest 认证绕过</h2>
+<p>
 <span class="tag tag-high">High</span>
-<span class="tag tag-poc">✅ PoC</span>
-<span class="stars">⭐ ~5,000+ stars (eclipse-jetty/jetty.project)</span>
-</div>
-<p><strong>GHSA:</strong> <a href="https://github.com/advisories/GHSA-2fvj-hgj9-j2gr">GHSA-2fvj-hgj9-j2gr</a></p>
-<p><strong>影响组件:</strong> org.eclipse.jetty:jetty-security (Maven)</p>
-<p><strong>影响版本:</strong> 9.4.x ~ 9.4.58, 10.0.x ~ 10.0.26, 11.0.x ~ 11.0.26, 12.0.x ~ 12.0.35, 12.1.x ~ 12.1.9</p>
-<p><strong>修复版本:</strong> 9.4.63, 10.0.31, 11.0.31, 12.0.36, 12.1.10</p>
-<p><strong>漏洞描述:</strong> Jetty HTTP客户端的DigestAuthentication.apply()方法使用ISO-8859-1编码计算Digest认证响应哈希。ISO-8859-1会将所有U+00FF以上的字符（中文、日文、韩文、阿拉伯文、Emoji等）静默替换为0x3F（?），导致所有这些字符产生相同的哈希贡献。攻击者只需知道用户名，即可将密码中所有非Latin-1字符替换为?来绕过Digest认证。</p>
-<p><strong>PoC详情:</strong> 公告包含完整PoC代码，展示了多语言密码（"我爱Java!密码123★"）与全问号碰撞密码产生相同MD5哈希的验证过程。</p>
-</div>
-
-<h2>📝 建议</h2>
+<span class="tag tag-poc">✅ 完整 PoC</span>
+<span class="tag tag-stars">⭐ 4,093 stars</span>
+</p>
+<p><strong>GHSA：</strong><a href="https://github.com/advisories/GHSA-2fvj-hgj9-j2gr">GHSA-2fvj-hgj9-j2gr</a></p>
+<p><strong>CVSS v4：</strong>8.7 | <strong>CWE：</strong>CWE-173 / CWE-303</p>
+<p><strong>更新时间：</strong>2026-09-07T08:41:57Z</p>
+<p><strong>影响版本：</strong>9.4.0 ~ 12.1.9 全线版本</p>
+<p><strong>修复版本：</strong>9.4.63 / 10.0.31 / 11.0.31 / 12.0.36 / 12.1.10</p>
+<h3>漏洞描述</h3>
+<p>Jetty 的 <code>DigestAuthentication.apply()</code> 方法使用 <code>ISO-8859-1</code> 编码计算 Digest 认证哈希，导致所有非 Latin-1 字符（中文、日文、韩文、西里尔字母、Emoji 等）被静默替换为 <code>?</code>。攻击者可将密码中所有非 Latin-1 字符替换为 <code>?</code> 生成碰撞密码，绕过 Digest 认证。</p>
+<h3>PoC 摘要</h3>
+<pre><code>原始密码: "我爱Java!密码123★"
+碰撞密码: "??Java!??123?"
+→ 两者 ISO-8859-1 编码后 MD5 哈希完全相同</code></pre>
+<p>多语言确认：中文、韩文、西里尔文、希腊文密码均产生相同哈希碰撞。</p>
+<h3>影响</h3>
 <ul>
-<li><strong>Jetty Digest Auth Bypass:</strong> 使用非ASCII密码的场景（特别是CJK语言用户）风险最高。升级至修复版本。</li>
+<li><strong>认证绕过：</strong>任何含非 Latin-1 字符密码的用户可被碰撞攻击</li>
+<li><strong>功能缺陷：</strong>UTF-8 存储的密码与 ISO-8859-1 计算的哈希不匹配，合法用户也无法认证</li>
+<li><strong>高风险群体：</strong>中文/日文/韩文/俄语用户</li>
 </ul>
-
-<div class="summary" style="margin-top:30px">
-<p style="color:#8b949e;font-size:13px">报告生成时间: 2026-09-08 08:06 CST | 数据来源: GitHub Advisory Database API</p>
+<h3>修复建议</h3>
+<p>升级至对应分支修复版本。如无法立即升级，避免使用 Digest 认证或确保密码仅含 ASCII 字符。</p>
 </div>
+
+<div class="card">
+<h2>📝 备注</h2>
+<p>以下 High/Critical 公告更新于 9月4-6日，超出 24h 窗口但值得关注：</p>
+<ul>
+<li><a href="https://github.com/advisories/GHSA-rh53-xvx2-j327">GHSA-rh53-xvx2-j327</a> — OpenChoreo cluster-gateway 未认证 K8s API 代理（<strong>Critical 9.0</strong>，更新于 9月4日）</li>
+<li><a href="https://github.com/advisories/GHSA-7q96-f8xw-jv5j">GHSA-7q96-f8xw-jv5j</a> — Fleet Okta SQL 注入→RCE（High，更新于 9月6日）</li>
+<li><a href="https://github.com/advisories/GHSA-8cfw-pcwh-v63w">GHSA-8cfw-pcwh-v63w</a> — Winter CMS Twig 沙箱逃逸（High 8.4，更新于 9月6日）</li>
+<li><a href="https://github.com/advisories/GHSA-969w-q76p-585p">GHSA-969w-q76p-585p</a> — RoSys MQTT DoS（High 7.5，更新于 9月5日）</li>
+</ul>
+</div>
+
+<p style="text-align: center; color: #586069; font-size: 12px; margin-top: 30px;">
+Generated by OpenClaw vuln-morning-alert · 2026-09-08 08:12 CST
+</p>
 </body>
 </html>
