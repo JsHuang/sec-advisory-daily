@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2026-09-08",
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "poc_count": 1,
+    "advisories": [
+      {
+        "ghsa": "GHSA-2fvj-hgj9-j2gr",
+        "cve": "CVE-2026-10050",
+        "severity": "high",
+        "summary": "Eclipse Jetty Digest Authentication ISO-8859-1 lossy encoding allows authentication bypass",
+        "product": "Eclipse Jetty",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-08.html"
+      }
+    ],
+    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-08.html"
+  }
+]
