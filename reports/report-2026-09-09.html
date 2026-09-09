@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Advisory 高危报告 - 2026-09-09</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
+h1{color:#58a6ff;border-bottom:2px solid #30363d;padding-bottom:10px}
+h2{color:#f0883e}
+.advisory{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:16px 0}
+.critical{border-left:4px solid #f85149}
+.high{border-left:4px solid #d29922}
+.sev{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold}
+.sev-critical{background:#f8514922;color:#f85149}
+.sev-high{background:#d2992222;color:#d29922}
+.poc{color:#3fb950;font-weight:bold}
+.no-poc{color:#8b949e}
+a{color:#58a6ff}
+.meta{color:#8b949e;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{padding:8px 12px;border:1px solid #30363d;text-align:left}
+th{background:#161b22;color:#58a6ff}
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 高危报告 — 2026-09-09</h1>
+<p class="meta">生成时间：2026-09-09 08:00 CST | 窗口：最近24小时 | 筛选：Critical + High</p>
+
+<h2>📊 概况</h2>
+<p>24小时内更新的高危公告：<strong>5 条</strong>（Critical 1 / High 4）</p>
+
+<div class="advisory critical">
+<h3><span class="sev sev-critical">CRITICAL</span> GHSA-2xp9-vwfh-vxw4 — Next.js Image Optimization AVIF RCE</h3>
+<p><strong>项目：</strong><a href="https://github.com/vercel/next.js">vercel/next.js</a> ⭐ 142,222</p>
+<p><strong>CVSS v4：</strong>9.5 | <strong>CVE：</strong>待分配</p>
+<p><strong>PoC：</strong><span class="no-poc">❌ 无</span></p>
+<p>Next.js 图像优化 API 依赖的底层 libheif/sharp 库存在 RCE 漏洞。攻击者可通过上传特制的 AVIF 文件触发远程代码执行。影响 Next.js 10.0.0 至 15.5.24 和 16.0.0 至 16.3.3 全线版本。修复版本：15.5.24 / 16.3.3，AVIF 优化已临时禁用。</p>
+<p><a href="https://github.com/vercel/next.js/security/advisories/GHSA-2xp9-vwfh-vxw4">查看公告 →</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="sev sev-high">HIGH</span> GHSA-w78r-95g5-v64j — Apache APISIX jwt-auth HMAC 旁路</h3>
+<p><strong>项目：</strong><a href="https://github.com/apache/apisix">apache/apisix</a> ⭐ 17,097</p>
+<p><strong>CVSS v3：</strong>9.8 | <strong>CVE：</strong>CVE-2026-90678</p>
+<p><strong>PoC：</strong><span class="poc">✅ 完整 PoC（HMAC 截断比较，500 次请求暴力破解）</span></p>
+<p>Apache APISIX jwt-auth 插件使用不安全的 <code>resty.hmac</code> 库，其最终比较函数截断为单字节，使 16 字节签名熵从 128 位降至 ~9 位。攻击者可通过约 500 次 HTTP 请求暴力破解签名伪造 JWT。影响 3.13.0 至 3.14.1，修复版本 3.14.2。使用 HMAC-SHA256/384/512 且 <code>accept_expire_claim=false</code> 的部署存在风险。</p>
+<p><a href="https://github.com/apache/apisix/security/advisories/GHSA-w78r-95g5-v64j">查看公告 →</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="sev sev-high">HIGH</span> GHSA-2v4p-qf9q-27wj — gRPC-Go xDS DoS</h3>
+<p><strong>项目：</strong><a href="https://github.com/grpc/grpc-go">grpc/grpc-go</a> ⭐ 23,051</p>
+<p><strong>CVSS：</strong>待评估 | <strong>CVE：</strong>CVE-2026-84445</p>
+<p><strong>PoC：</strong><span class="no-poc">❌ 无</span></p>
+<p>gRPC-Go xDS 服务器在缺少 <code>:authority</code> 和 <code>Host</code> 头的请求下触发 index out of bounds panic，导致整个服务器进程终止。非 TLS 或标准 TLS 配置下任何远程攻击者可触发。修复版本：1.82.2 / 1.83.2。</p>
+<p><a href="https://github.com/grpc/grpc-go/security/advisories/GHSA-2v4p-qf9q-27wj">查看公告 →</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="sev sev-high">HIGH</span> GHSA-w27v-7q3p-w38r — SVGO removeScripts 命名空间/控制字符绕过 XSS</h3>
+<p><strong>项目：</strong><a href="https://github.com/svg/svgo">svg/svgo</a> ⭐ 22,665</p>
+<p><strong>CVSS v3：</strong>8.2 | <strong>CVE：</strong>CVE-2026-84370</p>
+<p><strong>PoC：</strong><span class="no-poc">❌ 无独立 PoC（公告含详细绕过方法描述）</span></p>
+<p>SVGO 的 removeScripts 插件未处理命名空间前缀的 SVG 锚点和含控制字符的 URL scheme，攻击者可绕过脚本移除检查实现 XSS。影响 v1~v4 全线版本。修复：2.8.4 / 3.3.5 / 4.1.0。</p>
+<p><a href="https://github.com/svg/svgo/security/advisories/GHSA-w27v-7q3p-w38r">查看公告 →</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="sev sev-high">HIGH</span> GHSA-c7q8-3ch8-vqpv — xmldom 处理指令目标注入</h3>
+<p><strong>项目：</strong><a href="https://github.com/xmldom/xmldom">xmldom/xmldom</a> ⭐ 1,634</p>
+<p><strong>CVSS v3：</strong>7.5 | <strong>CVE：</strong>CVE-2026-83616</p>
+<p><strong>PoC：</strong><span class="poc">✅ 完整 PoC 代码</span></p>
+<p><code>createProcessingInstruction()</code> 未验证 target 参数中的 <code>></code> 字符，即使启用 <code>requireWellFormed: true</code> 也可注入任意 XML/XHTML 内容。修复：0.8.15 / 0.9.12。</p>
+<p><a href="https://github.com/xmldom/xmldom/security/advisories/GHSA-c7q8-3ch8-vqpv">查看公告 →</a></p>
+</div>
+
+<h2>📋 汇总</h2>
+<table>
+<tr><th>CVE/GHSA</th><th>项目</th><th>Stars</th><th>严重级别</th><th>CVSS</th><th>PoC</th></tr>
+<tr><td>GHSA-2xp9-vwfh-vxw4</td><td>Next.js</td><td>142,222</td><td>Critical</td><td>9.5 (v4)</td><td>❌</td></tr>
+<tr><td>CVE-2026-90678</td><td>Apache APISIX</td><td>17,097</td><td>High</td><td>9.8</td><td>✅</td></tr>
+<tr><td>CVE-2026-84445</td><td>gRPC-Go</td><td>23,051</td><td>High</td><td>待评估</td><td>❌</td></tr>
+<tr><td>CVE-2026-84370</td><td>SVGO</td><td>22,665</td><td>High</td><td>8.2</td><td>❌</td></tr>
+<tr><td>CVE-2026-83616</td><td>xmldom</td><td>1,634</td><td>High</td><td>7.5</td><td>✅</td></tr>
+</table>
+
+<p class="meta">报告由 OpenClaw 自动生成 | <a href="https://jshuang.github.io/sec-advisory-daily/">返回首页</a></p>
+</body>
+</html>
