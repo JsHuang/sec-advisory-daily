@@ -17,5 +17,60 @@
       }
     ],
     "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-08.html"
+  },
+  {
+    "date": "2026-09-09",
+    "total": 5,
+    "critical": 1,
+    "high": 4,
+    "poc_count": 2,
+    "advisories": [
+      {
+        "ghsa": "GHSA-2xp9-vwfh-vxw4",
+        "cve": "N/A (pending)",
+        "severity": "critical",
+        "summary": "Next.js Image Optimization AVIF RCE via libheif",
+        "product": "Next.js",
+        "poc": false,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
+      },
+      {
+        "ghsa": "GHSA-w78r-95g5-v64j",
+        "cve": "CVE-2026-90678",
+        "severity": "high",
+        "summary": "Apache APISIX jwt-auth HMAC truncation comparison bypass",
+        "product": "Apache APISIX",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
+      },
+      {
+        "ghsa": "GHSA-2v4p-qf9q-27wj",
+        "cve": "CVE-2026-84445",
+        "severity": "high",
+        "summary": "gRPC-Go xDS DoS via missing authority/host headers",
+        "product": "gRPC-Go",
+        "poc": false,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
+      },
+      {
+        "ghsa": "GHSA-w27v-7q3p-w38r",
+        "cve": "CVE-2026-84370",
+        "severity": "high",
+        "summary": "SVGO removeScripts namespace/control-char bypass XSS",
+        "product": "SVGO",
+        "poc": false,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
+      },
+      {
+        "ghsa": "GHSA-c7q8-3ch8-vqpv",
+        "cve": "CVE-2026-83616",
+        "severity": "high",
+        "summary": "xmldom Processing Instruction target injection bypass requireWellFormed",
+        "product": "xmldom",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
+      }
+    ],
+    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
   }
 ]
