@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Advisory 安全报告 - 2026-09-10</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:960px;margin:0 auto;padding:20px;background:#f5f5f5;color:#333}
+h1{color:#1a1a2e;border-bottom:3px solid #e94560;padding-bottom:10px}
+h2{color:#16213e;margin-top:30px}
+.advisory{background:#fff;border-radius:8px;padding:16px;margin:16px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.advisory.critical{border-left:4px solid #e94560}
+.advisory.high{border-left:4px solid #ff6b35}
+.severity{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:12px;font-weight:bold}
+.severity.critical{background:#e94560}
+.severity.high{background:#ff6b35}
+.meta{color:#666;font-size:14px;margin:8px 0}
+a{color:#0066cc;text-decoration:none}
+a:hover{text-decoration:underline}
+.summary{margin-top:20px;background:#fff;border-radius:8px;padding:16px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid #eee}
+th{background:#f0f0f0}
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 安全报告</h1>
+<p><strong>日期：</strong>2026-09-10 | <strong>窗口：</strong>最近24小时 | <strong>筛选：</strong>Critical / High</p>
+
+<div class="summary">
+<h2>📊 概况</h2>
+<table>
+<tr><th>级别</th><th>数量</th></tr>
+<tr><td><span class="severity critical">Critical</span></td><td>1</td></tr>
+<tr><td><span class="severity high">High</span></td><td>8</td></tr>
+<tr><td><strong>合计</strong></td><td><strong>9</strong></td></tr>
+</table>
+</div>
+
+<h2>🚨 高危公告详情</h2>
+
+<div class="advisory critical">
+<h3><span class="severity critical">Critical</span> CVE-2026-63310 — NLTK 下载后完整性校验缺失</h3>
+<p class="meta">GHSA-gf32-cmjh-8m9v | CVSS 9.8 | 生态: pip | PoC: ❌</p>
+<p>NLTK &lt; 3.9.3 的 downloader 模块在下载包后未验证文件完整性。攻击者可通过 MITM 或 DNS 投毒注入恶意包内容，在提取时无验证执行任意代码。<strong>⚠️ 重复公告，主公告为 GHSA-5wp5-5229-5g6q</strong></p>
+<p><a href="https://github.com/advisories/GHSA-gf32-cmjh-8m9v">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-77078 — multer 特制字段名 DoS</h3>
+<p class="meta">GHSA-wc9g-mqfw-jrwm | CVSS 7.5 | 生态: npm | ⭐ 11,931 | PoC: ❌</p>
+<p>multer &lt; 2.3.0 允许未认证远程攻击者通过特制 multipart/form-data 请求字段名触发 RangeError 崩溃 Node.js 进程。单个请求即可终止服务，所有使用 multer 解析 multipart 请求的应用均受影响。</p>
+<p><a href="https://github.com/expressjs/multer/security/advisories/GHSA-wc9g-mqfw-jrwm">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-54991 — PwnDB 目录遍历</h3>
+<p class="meta">GHSA-pg77-592f-q7fc | CVSS 7.5 | 生态: pip | PoC: ✅ 有完整利用代码</p>
+<p>PwnDB 1.0.3 存在通过 POST /search/ 的 q 参数的目录遍历漏洞。未经认证的攻击者可发送 ../../../etc/passwd 等 payload 读取服务器任意文件。公告内含完整 PoC 请求示例。</p>
+<p><a href="https://github.com/advisories/GHSA-pg77-592f-q7fc">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-81407 — torchchat RCE</h3>
+<p class="meta">GHSA-63c2-6xq5-3f6c | CVSS 9.1 | 生态: pip | PoC: ❌</p>
+<p>pytorch/torchchat 存在远程代码执行漏洞。</p>
+<p><a href="https://github.com/pytorch/torchchat/security/advisories/GHSA-63c2-6xq5-3f6c">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2025-32433 — PyTorch 未认证 RPC 反序列化</h3>
+<p class="meta">GHSA-g2p8-r49r-4v6c | CVSS 8.1 | 生态: pip | PoC: ❌</p>
+<p>PyTorch 的 torch.distributed.rpc 模块在未认证环境下接受 pickle 反序列化消息，存在远程代码执行风险。</p>
+<p><a href="https://github.com/pytorch/pytorch/security/advisories/GHSA-g2p8-r49r-4v6c">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-38177 — Open WebUI 多组件高危</h3>
+<p class="meta">GHSA-966w-qwhx-79pm | CVSS 8.1 | 生态: pip | PoC: ❌</p>
+<p>Open WebUI 存在多个严重安全问题：路径遍历、SSRF、认证绕过、信息泄露和命令注入，影响 0.1.105 至 0.6.25 全线版本。</p>
+<p><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-966w-qwhx-79pm">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-65399 — pyload 路径遍历</h3>
+<p class="meta">GHSA-9j84-vqf9-wj36 | CVSS 7.2 | 生态: pip | PoC: ❌</p>
+<p>pyload 0.4.21 至 0.5.0b3.dev915 存在路径遍历漏洞，可通过 /api/addPackage 的 folder 参数写入任意目录。</p>
+<p><a href="https://github.com/pyload/pyload/security/advisories/GHSA-9j84-vqf9-wj36">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-53036 — OpenClaw SSRF</h3>
+<p class="meta">GHSA-fm78-4gp7-632w | CVSS 7.5 | 生态: npm | PoC: ❌</p>
+<p>OpenClaw 存在 SSRF 漏洞。</p>
+<p><a href="https://github.com/advisories/GHSA-fm78-4gp7-632w">查看详情</a></p>
+</div>
+
+<div class="advisory high">
+<h3><span class="severity high">High</span> CVE-2026-81421 — Open WebUI 路径遍历</h3>
+<p class="meta">GHSA-hmg3-xqp3-6j3m | CVSS 7.2 | 生态: pip | PoC: ❌</p>
+<p>Open WebUI 0.6.10 至 0.6.25 存在路径遍历漏洞。</p>
+<p><a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-hmg3-xqp3-6j3m">查看详情</a></p>
+</div>
+
+<p style="margin-top:30px;color:#888;font-size:12px">Generated by OpenClaw Vuln Monitor | 2026-09-10 08:00 CST</p>
+</body>
+</html>
