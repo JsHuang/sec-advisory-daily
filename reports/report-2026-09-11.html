@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Advisory 每日漏洞报告 - 2026-09-11</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background: #0d1117; color: #c9d1d9; }
+h1 { color: #58a6ff; border-bottom: 2px solid #30363d; padding-bottom: 10px; }
+h2 { color: #f0883e; margin-top: 30px; }
+.summary { background: #161b22; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #58a6ff; }
+.advisory { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 15px; margin: 15px 0; }
+.advisory.critical { border-left: 4px solid #f85149; }
+.advisory.high { border-left: 4px solid #d29922; }
+.sev { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+.sev-critical { background: #f8514920; color: #f85149; }
+.sev-high { background: #d2992220; color: #d29922; }
+.cve { font-family: monospace; color: #58a6ff; }
+.stars { color: #e3b341; }
+.poc-yes { color: #3fb950; }
+.poc-no { color: #8b949e; }
+a { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+th { background: #21262d; color: #f0f6fc; text-align: left; padding: 10px; }
+td { padding: 10px; border-bottom: 1px solid #30363d; }
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 每日漏洞报告</h1>
+<p>📅 日期：2026-09-11 | 🔍 数据窗口：过去 24 小时 | 📊 共 19 条高危公告（Critical 5 / High 14）</p>
+
+<div class="summary">
+<strong>📊 今日概况</strong><br>
+GitHub Advisory 在过去 24 小时内更新了 19 条 Critical/High 级别公告。<br>
+<strong>重点关注：</strong>Traefik 一夜连爆 4 条高危（含 1 条 Critical HTTP/3 认证绕过 + 3 条 High 请求走私/绕过）；rclone 4 条认证绕过/资源耗尽；Angular 2 条 SSR 漏洞（XSS + SSRF，CVSS 8.6）；Open WebUI 再出 2 条高危（OAuth 身份冒充 + OIDC DoS）。
+</div>
+
+<h2>🔴 Critical 漏洞（5 条）</h2>
+
+<div class="advisory critical">
+<p><span class="sev sev-critical">CRITICAL</span> <span class="cve">CVE-2026-88007</span> <strong>Traefik HTTP/3 后端 NTLM 连接复用 — 跨客户端认证绕过</strong> | CVSS 9.1 | <span class="stars">⭐ 64,808</span></p>
+<p>Traefik HTTP/3 入口点未初始化连接级后端传输持有者（AddTransportOnContext），导致 NTLM/Negotiate 认证绑定的后端连接在不同 HTTP/3 客户端间共享。攻击者无需凭据即可继承已认证受害者的后端身份，读取私密数据并执行状态变更操作。PoC 包含完整 Docker 复现环境。</p>
+<p>🔗 <a href="https://github.com/traefik/traefik/security/advisories/GHSA-qqjf-53cj-pwvv">GHSA-qqjf-53cj-pwvv</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v2.11.57 / v3.7.13</p>
+</div>
+
+<div class="advisory critical">
+<p><span class="sev sev-critical">CRITICAL</span> <span class="cve">CVE-2026-88018</span> <strong>rclone serve s3: --auth-proxy 未配 --auth-key 时 SigV4 签名完全绕过</strong> | CVSS 9.8 | <span class="stars">⭐ 52,000+</span></p>
+<p>当配置 --auth-proxy 但未设置 --auth-key 时，rclone serve s3 的 SigV4 签名验证完全被绕过，未认证用户可访问所有 S3 存储桶。PoC 包含完整复现步骤。</p>
+<p>🔗 <a href="https://github.com/rclone/rclone/security/advisories/GHSA-xwwr-4h3p-r22c">GHSA-xwwr-4h3p-r22c</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v1.72.0</p>
+</div>
+
+<div class="advisory critical">
+<p><span class="sev sev-critical">CRITICAL</span> <span class="cve">CVE-2026-88044</span> <strong>rclone RC per-server auth-proxy 绕过</strong> | CVSS 9.1</p>
+<p>rclone 远程控制（RC）接口的 per-server auth-proxy 存在认证绕过，允许未认证用户通过 RC 接口执行任意操作。</p>
+<p>🔗 <a href="https://github.com/rclone/rclone/security/advisories/GHSA-p569-5gjg-9cmj">GHSA-p569-5gjg-9cmj</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v1.72.0</p>
+</div>
+
+<div class="advisory critical">
+<p><span class="sev sev-critical">CRITICAL</span> <span class="cve">CVE-2026-88062</span> <strong>OmniRoute ACP 自定义 Agent 远程代码执行</strong> | CVSS 9.5</p>
+<p>OmniRoute ACP 的自定义 Agent 功能存在 RCE 漏洞，远程攻击者可执行任意系统命令。</p>
+<p>🔗 <a href="https://github.com/diegosouzapw/OmniRoute/security/advisories/GHSA-hf57-cqmx-p4gr">GHSA-hf57-cqmx-p4gr</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory critical">
+<p><span class="sev sev-critical">CRITICAL</span> <strong>rclone FTP 跨会话 auth-proxy 后端混淆</strong> <span class="cve">CVE-2026-88017</span> | CVSS 7.3</p>
+<p>rclone 的 FTP 后端在 auth-proxy 模式下存在跨会话后端混淆，允许用户访问其他用户的 FTP 后端。</p>
+<p>🔗 <a href="https://github.com/rclone/rclone/security/advisories/GHSA-c476-6w5q-jw77">GHSA-c476-6w5q-jw77</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v1.72.0</p>
+</div>
+
+<h2>🟠 High 漏洞（14 条）</h2>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88009</span> <strong>Traefik: Rootless HTTP/1 请求路径路由绕过</strong> | CVSS 8.8 | <span class="stars">⭐ 64,808</span></p>
+<p>Traefik 的 rootless HTTP/1 请求处理中，请求目标按 "/" 路由但原文转发到后端，导致路径作用域路由、中间件防护和访问日志全部被绕过。攻击者可通过 /@evil.example 形式的请求目标访问任意后端路径。</p>
+<p>🔗 <a href="https://github.com/traefik/traefik/security/advisories/GHSA-f52w-8j3h-j724">GHSA-f52w-8j3h-j724</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v2.11.57 / v3.7.13</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88008</span> <strong>Traefik: h2c 升级请求走私 + 中间件绕过</strong> | CVSS 7.0</p>
+<p>Traefik 转发客户端发起的 Upgrade: h2c 请求到后端，后端返回 101 后进入原始字节隧道，完全绕过 Traefik 路由器和中间件链（认证、IP 白名单、限流等）。</p>
+<p>🔗 <a href="https://github.com/traefik/traefik/security/advisories/GHSA-w4v4-9rw7-5326">GHSA-w4v4-9rw7-5326</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v2.11.57 / v3.7.13</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88004</span> <strong>Traefik: 请求 Trailer 绕过入口点头部净化</strong> | CVSS 7.0</p>
+<p>Traefik 的入口点头部净化（aliasHeadersStrategy/underscoreHeadersStrategy）仅扫描 req.Header 不扫描 req.Trailer，攻击者可通过 HTTP chunked trailer 走私 X-Forwarded-* 等可信头部，在有 retry/buffering 中间件的链路上携带攻击者控制的值。</p>
+<p>🔗 <a href="https://github.com/traefik/traefik/security/advisories/GHSA-v67p-phpq-fc8x">GHSA-v67p-phpq-fc8x</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v3.7.13</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88060</span> <strong>Angular SSR XSS — template 元素跨 DocumentFragment 边界</strong> | CVSS 8.6 | <span class="stars">⭐ 99,000+</span></p>
+<p>Angular SSR 在渲染回退原始内容元素时，未转义的 &lt;template&gt; 内容跨 DocumentFragment 边界导致 XSS。攻击者可通过用户可控输入注入在服务端渲染页面中执行的脚本。</p>
+<p>🔗 <a href="https://github.com/angular/angular/security/advisories/GHSA-v3p8-whq6-r5jg">GHSA-v3p8-whq6-r5jg</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88056</span> <strong>Angular SSR SSRF + 跨域凭据泄露</strong> | CVSS 8.6</p>
+<p>Angular SSR 的 URL 解析差异导致 SSRF 和跨域凭据泄露，攻击者可利用服务端发起任意请求并获取敏感凭据。</p>
+<p>🔗 <a href="https://github.com/angular/angular/security/advisories/GHSA-f6mr-pjwc-34m4">GHSA-f6mr-pjwc-34m4</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-87016</span> <strong>Open WebUI: SQLite 上 OAuth 主题声明通配符冒充其他用户</strong> | CVSS 8.1 | <span class="stars">⭐ 151,566</span></p>
+<p>Open WebUI 使用 SQLite LIKE 模式匹配 OAuth 主题声明，包含 % 或 _ 通配符的声明可匹配多个用户，攻击者可能登录为其他用户。</p>
+<p>🔗 <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-wpmr-8h3q-fwj7">GHSA-wpmr-8h3q-fwj7</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v0.11.1</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-55416</span> <strong>Pimcore: 自定义报表 SQL 注入</strong> | CVSS 8.8</p>
+<p>Pimcore 自定义报表功能存在 SQL 注入，拥有报表配置权限的用户可通过恶意报表配置对共享数据库执行任意 SQL。</p>
+<p>🔗 <a href="https://github.com/pimcore/pimcore/security/advisories/GHSA-23rh-xw42-fq82">GHSA-23rh-xw42-fq82</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v12.3.0</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-86083</span> <strong>n8n: 表达式沙箱逃逸 → 代码执行</strong> | CVSS 7.7</p>
+<p>n8n 工作流自动化的表达式沙箱存在逃逸漏洞，通过共享内建篡改和代码打印机注入实现代码执行。</p>
+<p>🔗 <a href="https://github.com/n8n-io/n8n/security/advisories/GHSA-6xcw-7xm6-48c6">GHSA-6xcw-7xm6-48c6</a> | <span class="poc-no">❌ 无 PoC</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-87011</span> <strong>Open WebUI: OIDC 退出端点未缓存 DoS</strong> | CVSS 7.5 | <span class="stars">⭐ 151,566</span></p>
+<p>Open WebUI 的 OIDC 退出端点对每个请求触发未缓存的 JWKS 获取，低速率请求可导致高延迟和 DoS。</p>
+<p>🔗 <a href="https://github.com/open-webui/open-webui/security/advisories/GHSA-3g9q-v48f-hh9w">GHSA-3g9q-v48f-hh9w</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v0.11.0</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-88045</span> <strong>rclone: S3 多部分声明长度内存耗尽</strong> | CVSS 7.5</p>
+<p>rclone serve s3 接受客户端声明的 Parts 数组长度而不限制，攻击者可通过 32+ MiB 的 XML 文档耗尽服务器内存。</p>
+<p>🔗 <a href="https://github.com/rclone/rclone/security/advisories/GHSA-2p48-j3qc-rx9f">GHSA-2p48-j3qc-rx9f</a> | <span class="poc-yes">✅ PoC 完整</span> | 修复：v1.72.0</p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <strong>mistral.rs: 远程媒体获取 + 视频帧扩展 DoS</strong> | CVSS 7.5</p>
+<p>mistral.rs 媒体加载器可被诱导获取超大远程媒体或扩展视频帧，导致内存耗尽 DoS。</p>
+<p>🔗 <a href="https://github.com/EricLBuehler/mistral.rs/security/advisories/GHSA-m3wp-48jr-vr4g">GHSA-m3wp-48jr-vr4g</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <strong>mistral.rs: SSRF + 任意本地文件读取</strong> | CVSS 7.2</p>
+<p>mistral.rs 媒体加载器通过 image_url 参数可实现 SSRF 或读取本地任意文件。</p>
+<p>🔗 <a href="https://github.com/EricLBuehler/mistral.rs/security/advisories/GHSA-wfgq-w7cq-qj7j">GHSA-wfgq-w7cq-qj7j</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-59965</span> <strong>Payload Alt Text Plugin: 授权绕过</strong> | CVSS 7.1</p>
+<p>payload-alt-text-plugin 的 alt text 端点通过 Payload Local API 遗漏 overrideAccess 导致授权绕过。</p>
+<p>🔗 <a href="https://github.com/jhb-software/payload-plugins/security/advisories/GHSA-4qpv-39hg-f7fx">GHSA-4qpv-39hg-f7fx</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<div class="advisory high">
+<p><span class="sev sev-high">HIGH</span> <span class="cve">CVE-2026-59960</span> <strong>Argos CI: 分支名 OS 命令注入</strong> | CVSS 7.5</p>
+<p>@argos-ci/core 的 CI 分支名未净化直接用于系统命令，攻击者可通过恶意分支名执行任意 OS 命令。</p>
+<p>🔗 <a href="https://github.com/argos-ci/argos-javascript/security/advisories/GHSA-4x45-gxvp-6283">GHSA-4x45-gxvp-6283</a> | <span class="poc-yes">✅ PoC 完整</span></p>
+</div>
+
+<h2>📊 汇总表</h2>
+<table>
+<tr><th>CVE</th><th>项目</th><th>严重性</th><th>CVSS</th><th>PoC</th><th>类型</th></tr>
+<tr><td>CVE-2026-88007</td><td>Traefik ⭐64.8k</td><td><span class="sev sev-critical">Critical</span></td><td>9.1</td><td class="poc-yes">✅</td><td>认证绕过</td></tr>
+<tr><td>CVE-2026-88018</td><td>rclone</td><td><span class="sev sev-critical">Critical</span></td><td>9.8</td><td class="poc-yes">✅</td><td>签名绕过</td></tr>
+<tr><td>CVE-2026-88044</td><td>rclone</td><td><span class="sev sev-critical">Critical</span></td><td>9.1</td><td class="poc-yes">✅</td><td>认证绕过</td></tr>
+<tr><td>CVE-2026-88062</td><td>OmniRoute</td><td><span class="sev sev-critical">Critical</span></td><td>9.5</td><td class="poc-yes">✅</td><td>RCE</td></tr>
+<tr><td>CVE-2026-88009</td><td>Traefik ⭐64.8k</td><td><span class="sev sev-high">High</span></td><td>8.8</td><td class="poc-yes">✅</td><td>路由绕过</td></tr>
+<tr><td>CVE-2026-88060</td><td>Angular ⭐99k+</td><td><span class="sev sev-high">High</span></td><td>8.6</td><td class="poc-yes">✅</td><td>SSR XSS</td></tr>
+<tr><td>CVE-2026-88056</td><td>Angular ⭐99k+</td><td><span class="sev sev-high">High</span></td><td>8.6</td><td class="poc-yes">✅</td><td>SSR SSRF</td></tr>
+<tr><td>CVE-2026-87016</td><td>Open WebUI ⭐151k</td><td><span class="sev sev-high">High</span></td><td>8.1</td><td class="poc-yes">✅</td><td>身份冒充</td></tr>
+<tr><td>CVE-2026-55416</td><td>Pimcore</td><td><span class="sev sev-high">High</span></td><td>8.8</td><td class="poc-yes">✅</td><td>SQL 注入</td></tr>
+<tr><td>CVE-2026-86083</td><td>n8n</td><td><span class="sev sev-high">High</span></td><td>7.7</td><td class="poc-no">❌</td><td>沙箱逃逸</td></tr>
+<tr><td>CVE-2026-88008</td><td>Traefik ⭐64.8k</td><td><span class="sev sev-high">High</span></td><td>7.0</td><td class="poc-yes">✅</td><td>请求走私</td></tr>
+<tr><td>CVE-2026-88004</td><td>Traefik ⭐64.8k</td><td><span class="sev sev-high">High</span></td><td>7.0</td><td class="poc-yes">✅</td><td>头部净化绕过</td></tr>
+<tr><td>CVE-2026-87011</td><td>Open WebUI ⭐151k</td><td><span class="sev sev-high">High</span></td><td>7.5</td><td class="poc-yes">✅</td><td>DoS</td></tr>
+<tr><td>CVE-2026-88045</td><td>rclone</td><td><span class="sev sev-high">High</span></td><td>7.5</td><td class="poc-yes">✅</td><td>内存耗尽</td></tr>
+<tr><td>—</td><td>mistral.rs</td><td><span class="sev sev-high">High</span></td><td>7.5</td><td class="poc-yes">✅</td><td>DoS</td></tr>
+<tr><td>—</td><td>mistral.rs</td><td><span class="sev sev-high">High</span></td><td>7.2</td><td class="poc-yes">✅</td><td>SSRF/文件读取</td></tr>
+<tr><td>CVE-2026-59965</td><td>payload-plugins</td><td><span class="sev sev-high">High</span></td><td>7.1</td><td class="poc-yes">✅</td><td>授权绕过</td></tr>
+<tr><td>CVE-2026-59960</td><td>argos-ci</td><td><span class="sev sev-high">High</span></td><td>7.5</td><td class="poc-yes">✅</td><td>命令注入</td></tr>
+<tr><td>CVE-2026-88017</td><td>rclone</td><td><span class="sev sev-high">High</span></td><td>7.3</td><td class="poc-yes">✅</td><td>后端混淆</td></tr>
+</table>
+
+<p><em>报告生成时间：2026-09-11 08:00 CST | 数据源：GitHub Advisory Database API</em></p>
+</body>
+</html>
