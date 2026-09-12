@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Advisory Report - 2026-09-12</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 960px; margin: 0 auto; padding: 20px; background: #0d1117; color: #c9d1d9; }
+  h1 { color: #58a6ff; border-bottom: 1px solid #21262d; padding-bottom: 12px; }
+  h2 { color: #f0883e; margin-top: 30px; }
+  .summary { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 16px 0; }
+  .summary span { display: inline-block; margin-right: 20px; font-weight: bold; }
+  .critical { color: #f85149; }
+  .high { color: #f0883e; }
+  .advisory { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .advisory-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .advisory-title { font-size: 1.1em; font-weight: bold; }
+  .advisory-title a { color: #58a6ff; text-decoration: none; }
+  .advisory-title a:hover { text-decoration: underline; }
+  .severity-badge { padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+  .badge-critical { background: #f8514922; color: #f85149; border: 1px solid #f85149; }
+  .badge-high { background: #f0883e22; color: #f0883e; border: 1px solid #f0883e; }
+  .advisory-meta { color: #8b949e; font-size: 0.9em; margin: 6px 0; }
+  .advisory-desc { margin: 8px 0; line-height: 1.5; }
+  .poc-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-left: 8px; }
+  .poc-yes { background: #23883522; color: #3fb950; border: 1px solid #238835; }
+  .poc-no { background: #8b949e22; color: #8b949e; border: 1px solid #30363d; }
+  .stars { color: #e3b341; }
+  .footer { text-align: center; color: #484f58; margin-top: 40px; padding-top: 20px; border-top: 1px solid #21262d; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th { text-align: left; padding: 8px; background: #21262d; color: #c9d1d9; }
+  td { padding: 8px; border-bottom: 1px solid #21262d; }
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory Report — 2026-09-12</h1>
+<div class="summary">
+  <span>📅 报告周期: 2026-09-11 ~ 2026-09-12</span><br>
+  <span>📊 总计: 15 条</span>
+  <span class="critical">🔴 Critical: 1</span>
+  <span class="high">🟠 High: 14</span>
+</div>
+
+<h2>🔴 Critical (1)</h2>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/designcomputer/mysql_mcp_server/security-advisories/GHSA-rqfv-2mw9-78g2" target="_blank">CVE-2026-59971 — MySQL MCP Server SSE 传输层缺失 Origin/Host 验证</a></div>
+    <span class="severity-badge badge-critical">Critical 10.0</span>
+  </div>
+  <div class="advisory-meta">
+    📦 mysql-mcp-server (pip) | ⭐ 1,386 | 📅 2026-09-11 | PoC: <span class="poc-badge poc-yes">✅ 完整代码</span>
+  </div>
+  <div class="advisory-desc">SSE/HTTP 传输模式下，<code>SseServerTransport</code> 未传递 <code>security_settings</code>，DNS 重绑定保护被禁用，Starlette 应用无 CORS/TrustedHost 中间件，且默认绑定 <code>0.0.0.0</code> 无任何认证。攻击者可直接网络访问或通过 DNS 重绑定浏览器代理执行任意 SQL，结合 MySQL FILE 权限可实现文件读写和 RCE。已发现 25 个公开可达实例。</div>
+</div>
+
+<h2>🟠 High (14)</h2>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/vllm-project/vllm/security-advisories/GHSA-mcmc-2m55-j8jj" target="_blank">CVE-2026-56340 — vLLM 多模态嵌入未验证稀疏张量 DoS</a></div>
+    <span class="severity-badge badge-high">High 8.8</span>
+  </div>
+  <div class="advisory-meta">
+    📦 vllm (pip) | ⭐ 91,525 | 📅 2026-01-08 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc">vLLM 对 CVE-2025-62164 的修复不充分，仅默认禁用 prompt embeds 而未解决根本原因。启用 prompt embeds 时，PyTorch 禁用的稀疏张量验证导致攻击者可通过畸形张量触发崩溃或内存越界写入。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/open-webui/open-webui/security-advisories/GHSA-gwq4-6v9w-9hrh" target="_blank">GHSA-gwq4-6v9w-9hrh — Open WebUI 静态资源目录遍历</a></div>
+    <span class="severity-badge badge-high">High 8.6</span>
+  </div>
+  <div class="advisory-meta">
+    📦 open-webui (pip) | ⭐ 151,000+ | 📅 2026-09-10 | PoC: <span class="poc-badge poc-yes">✅ curl 命令</span>
+  </div>
+  <div class="advisory-desc">Open WebUI 的 <code>/static/</code> 端点存在路径遍历漏洞，<code>secure_filename</code> 对 <code>..</code> 净化不足，攻击者可通过 <code>/static/../../../../etc/passwd</code> 读取服务器任意文件。已修复于 v0.6.28。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/linkwarden/linkwarden/security-advisories/GHSA-4r88-h793-6cx2" target="_blank">GHSA-4r88-h793-6cx2 — Linkwarden Markdown XSS-to-RCE 链</a></div>
+    <span class="severity-badge badge-high">High 8.5</span>
+  </div>
+  <div class="advisory-meta">
+    📦 linkwarden (npm) | 📅 2026-09-10 | PoC: <span class="poc-badge poc-yes">✅ 完整利用链</span>
+  </div>
+  <div class="advisory-desc">Linkwarden 允许 HTML 嵌入 Markdown 集合描述，<code>innerHTML</code> 注入 + <code>window.name</code> 存储 + Next.js 开发端点 + Docker <code>uid=0</code> 构成 5 步 RCE 链。修复于 v2.17.5。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/FasterXML/jackson-databind/security-advisories/GHSA-rmj7-2vxq-3g9f" target="_blank">CVE-2026-54513 — Jackson-databind 数组子类型白名单绕过</a></div>
+    <span class="severity-badge badge-high">High 8.1</span>
+  </div>
+  <div class="advisory-meta">
+    📦 jackson-databind (maven) | ⭐ 3,746 | 📅 2026-06-23 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc"><code>BasicPolymorphicTypeValidator.allowIfSubTypeIsArray()</code> 仅检查 <code>isArray()</code> 而不验证组件类型，攻击者可通过数组包装实例化非白名单类型，绕过 PTV 防护。修复于 2.18.8/2.21.4/3.1.4。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/FasterXML/jackson-databind/security-advisories/GHSA-5386-6978-9v6c" target="_blank">GHSA-5386-6978-9v6c — Jackson-databind Arrays$AsListDeserializer 多态绕过</a></div>
+    <span class="severity-badge badge-high">High 8.1</span>
+  </div>
+  <div class="advisory-meta">
+    📦 jackson-databind (maven) | ⭐ 3,746 | 📅 2026-09-10 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc"><code>Arrays$AsListDeserializer</code> 在多个 <code>readValue</code> 变体中违反 PTV 约束，<code>ArrayNode.deepCopy()</code> 未检查嵌套非集合类型。修复于 2.18.9/2.19.7/2.20.4/3.0.6。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/FasterXML/jackson-databind/security-advisories/GHSA-jr59-7f8g-8q22" target="_blank">GHSA-jr59-7f8g-8q22 — Jackson-databind 集合/数组反序列化绕过 DefaultTyping 防护</a></div>
+    <span class="severity-badge badge-high">High 8.1</span>
+  </div>
+  <div class="advisory-meta">
+    📦 jackson-databind (maven) | ⭐ 3,746 | 📅 2026-09-10 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc">集合/数组反序列化的类型解析顺序允许通过嵌套非集合类型（如 <code>HashMap$Entry</code>）在类型 ID 到达 PTV 前实例化任意类。修复于 2.18.9/2.19.7/2.20.4/3.0.6。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/FasterXML/jackson-databind/security-advisories/GHSA-64r5-9976-7r47" target="_blank">GHSA-64r5-9976-7r47 — Jackson-databind Arrays.asList/EnumSet 绕过 PTV</a></div>
+    <span class="severity-badge badge-high">High 8.1</span>
+  </div>
+  <div class="advisory-meta">
+    📦 jackson-databind (maven) | ⭐ 3,746 | 📅 2026-09-10 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc"><code>Arrays.asList</code> 和 <code>EnumSet</code> 反序列化器在多个 <code>readValue</code> 变体中违反 PTV 约束，允许非白名单类型实例化。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/netty/netty/security-advisories/GHSA-h2qv-fj59-j46j" target="_blank">CVE-2026-48059 — Netty HAProxy 嵌套 SSL TLV 内存耗尽</a></div>
+    <span class="severity-badge badge-high">High 7.5</span>
+  </div>
+  <div class="advisory-meta">
+    📦 netty (maven) | ⭐ 35,050 | 📅 2026-09-09 | PoC: <span class="poc-badge poc-yes">✅ 完整 PoC</span>
+  </div>
+  <div class="advisory-desc">HAProxy PROXY 协议 v2 编解码器在解析深度 ≥2 的嵌套 <code>PP2_TYPE_SSL</code> TLV 时泄漏内存，每个连接都会导致 ByteBuf 永久固定，可被用于 DoS 攻击。修复于 4.1.135/4.2.15。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/line/centraldogma/security-advisories/GHSA-98q5-5qh2-7w75" target="_blank">CVE-2026-11748 — LINE Central Dogma LDAP 注入</a></div>
+    <span class="severity-badge badge-high">High 6.9</span>
+  </div>
+  <div class="advisory-meta">
+    📦 centraldogma (maven) | ⭐ 667 | 📅 2026-09-11 | PoC: <span class="poc-badge poc-yes">✅ 完整 JUnit 测试</span>
+  </div>
+  <div class="advisory-desc"><code>SearchFirstActiveDirectoryRealm</code> 未对用户输入进行 LDAP 过滤转义，用户名 <code>*</code> 可匹配首个目录条目（通常是 Administrator），<code>bob)(uid=alice</code> 可审计日志逃逸。修复于 0.84.0。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/paullereverend/json-ptr/security-advisories/GHSA-jq55-6948-9v9p" target="_blank">GHSA-jq55-6948-9v9p — json-ptr 原型链污染</a></div>
+    <span class="severity-badge badge-high">High 7.3</span>
+  </div>
+  <div class="advisory-meta">
+    📦 json-ptr (npm) | 📅 2026-09-10 | PoC: <span class="poc-badge poc-yes">✅ 完整 PoC</span>
+  </div>
+  <div class="advisory-desc"><code>JsonPointer</code> 类未验证 JSON Pointer 令牌中的 <code>__proto__</code>/<code>constructor</code>/<code>prototype</code>，攻击者可通过 <code>JSON.parse</code> 输入实现原型链污染。修复于 v4.0.0。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/mmaitre314/picklescan/security-advisories/GHSA-vv6j-3g6g-2pvj" target="_blank">CVE-2025-71348 — Picklescan torch.utils 检测绕过</a></div>
+    <span class="severity-badge badge-high">High 8.1</span>
+  </div>
+  <div class="advisory-meta">
+    📦 picklescan (pip) | ⭐ 423 | 📅 2025-08-22 (updated) | PoC: <span class="poc-badge poc-yes">✅ 完整代码</span>
+  </div>
+  <div class="advisory-desc">通过 <code>torch.utils._config_module.load_config</code> 在 <code>__reduce__</code> 方法中嵌入恶意代码，可绕过 picklescan 安全扫描实现 RCE。修复于 v0.0.28。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/mmaitre314/picklescan/security-advisories/GHSA-j343-8v2j-ff7w" target="_blank">CVE-2025-71357 — Picklescan idlelib.pyshell 检测绕过</a></div>
+    <span class="severity-badge badge-high">High 7.6</span>
+  </div>
+  <div class="advisory-meta">
+    📦 picklescan (pip) | ⭐ 423 | 📅 2025-08-26 (updated) | PoC: <span class="poc-badge poc-yes">✅ 完整代码</span>
+  </div>
+  <div class="advisory-desc">通过 <code>idlelib.pyshell.ModifiedInterpreter.runcommand</code> 绕过 picklescan 检测，执行任意 OS 命令。修复于 v0.0.30。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/jubatus/libdatachannel/security-advisories/GHSA-j758-v49h-4g7j" target="_blank">GHSA-j758-v49h-4g7j — libdatachannel DTLS 双重释放</a></div>
+    <span class="severity-badge badge-high">High</span>
+  </div>
+  <div class="advisory-meta">
+    📦 libdatachannel | 📅 2026-09-11 | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc">libdatachannel DTLS 实现存在双重释放漏洞，可能导致内存损坏和潜在的代码执行。</div>
+</div>
+
+<div class="advisory">
+  <div class="advisory-header">
+    <div class="advisory-title"><a href="https://github.com/advisories/GHSA-jg79-2q75-p6v7" target="_blank">CVE-2026-12902 — Linux Kernel io_uring 越界写入</a></div>
+    <span class="severity-badge badge-high">High 7.8</span>
+  </div>
+  <div class="advisory-meta">
+    📦 Linux Kernel | 📅 2026-08-28 (updated) | PoC: <span class="poc-badge poc-no">❌</span>
+  </div>
+  <div class="advisory-desc"><code>io_uring.c</code> 的 <code>io_send_zc</code> 函数存在越界写入漏洞，可能导致内核内存损坏。NVD 评分 9.8（v4.0）。</div>
+</div>
+
+<div class="footer">
+  <p>Generated by OpenClaw Vuln Monitor · 2026-09-12 08:00 CST</p>
+  <p>Data source: GitHub Advisory Database (reviewed, sort=updated)</p>
+</div>
+</body>
+</html>
