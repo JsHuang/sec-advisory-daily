@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Advisory Daily Report — 2026-09-13</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:960px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
+h1{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:12px}
+h2{color:#f0883e;margin-top:32px}
+.advisory{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:16px 0}
+.advisory.critical{border-left:4px solid #f85149}
+.advisory.high{border-left:4px solid #d29922}
+.advisory.medium{border-left:4px solid #58a6ff}
+.severity{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600}
+.severity.critical{background:#f8514922;color:#f85149}
+.severity.high{background:#d2992222;color:#d29922}
+.severity.medium{background:#58a6ff22;color:#58a6ff}
+.cve{font-family:monospace;color:#58a6ff;font-size:14px}
+.stars{color:#e3b341}
+.poc{color:#3fb950;font-weight:600}
+.no-poc{color:#8b949e}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+.summary{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;margin:20px 0}
+.summary h2{margin-top:0}
+table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid #30363d}
+th{color:#8b949e;font-size:13px}
+.generated{color:#8b949e;font-size:12px;margin-top:40px;border-top:1px solid #30363d;padding-top:12px}
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory Daily Report — 2026-09-13</h1>
+
+<div class="summary">
+<h2>📊 概览</h2>
+<p>过去 24 小时内 GitHub Advisory 更新的 Reviewed 公告（去重后）：</p>
+<ul>
+<li><strong>Critical:</strong> 1 条（MySQL MCP Server — 已在前日报告中覆盖）</li>
+<li><strong>High:</strong> 5 条（Picklescan 3 条绕过 + vLLM DoS + Jackson-databind PTV 绕过）</li>
+<li><strong>Medium:</strong> 2 条新增（Doggyhouse LDAP 注入 + Picklescan cProfile 绕过）</li>
+</ul>
+<p>⚠️ 大量 Picklescan 和 vLLM 重复公告（Duplicate Advisory）已合并去重。</p>
+</div>
+
+<h2>🚨 Critical / High 公告</h2>
+
+<div class="advisory critical">
+<span class="severity critical">CRITICAL</span>
+<span class="cve">CVE-2026-59971</span>
+<span class="stars">⭐ 1,386</span>
+<h3>MySQL MCP Server — SSE 传输层无认证 SQL 执行</h3>
+<p>SSE/HTTP 传输模式下 <code>SseServerTransport</code> 未传递 <code>security_settings</code>，DNS 重绑定保护被禁用，Starlette 无 CORS/TrustedHost 中间件，默认绑定 0.0.0.0 无任何认证。攻击者可直接执行任意 SQL，结合 FILE 权限可实现 RCE。已发现 25 个公开可达实例。</p>
+<p><span class="poc">✅ PoC: 完整攻击场景</span></p>
+<p>修复: v0.4.2 | <a href="https://github.com/designcomputer/mysql_mcp_server/security-advisories/GHSA-rqfv-2mw9-78g2">GHSA-rqfv-2mw9-78g2</a></p>
+</div>
+
+<div class="advisory high">
+<span class="severity high">HIGH</span>
+<span class="cve">CVE-2026-56340</span>
+<span class="stars">⭐ 91,594</span>
+<h3>vLLM 多模态嵌入 DoS / 内存损坏</h3>
+<p>对 CVE-2025-62164 的修复不充分，仅默认禁用 prompt embeds 而未修复稀疏张量验证缺失。启用该功能时可触发崩溃或越界写入。影响 v0.10.2 ~ v0.13.0。</p>
+<p><span class="no-poc">❌ PoC: 无</span></p>
+<p>修复: v0.13.0 | <a href="https://github.com/vllm-project/vllm/security-advisories/GHSA-mcmc-2m55-j8jj">GHSA-mcmc-2m55-j8jj</a></p>
+</div>
+
+<div class="advisory high">
+<span class="severity high">HIGH</span>
+<span class="cve">CVE-2026-54513</span>
+<span class="stars">⭐ 3,746</span>
+<h3>Jackson-databind 数组子类型白名单绕过</h3>
+<p><code>allowIfSubTypeIsArray()</code> 仅检查 <code>isArray()</code> 不验证组件类型，攻击者可通过数组包装绕过 PTV 防护，实例化非白名单类型。今日集中爆发 4 条相关 PTV 绕过漏洞。</p>
+<p><span class="no-poc">❌ PoC: 无公开 PoC</span></p>
+<p>修复: 2.18.8 / 2.21.4 / 3.1.4 | <a href="https://github.com/FasterXML/jackson-databind/security-advisories/GHSA-rmj7-2vxq-3g9f">GHSA-rmj7-2vxq-3g9f</a></p>
+</div>
+
+<div class="advisory high">
+<span class="severity high">HIGH</span>
+<span class="cve">CVE-2025-71348 / CVE-2025-71357</span>
+<span class="stars">⭐ 423</span>
+<h3>Picklescan 检测绕过（torch.utils + idlelib.pyshell）</h3>
+<p>picklescan 通过 <code>torch.utils._config_module.load_config</code> 和 <code>idlelib.pyshell.ModifiedInterpreter.runcommand</code> 两种方式绕过恶意 pickle 检测，实现 RCE。ML 供应链安全工具本身成为攻击目标。</p>
+<p><span class="poc">✅ PoC: 完整代码</span></p>
+<p>修复: v0.0.28 / v0.0.30 | <a href="https://github.com/mmaitre314/picklescan/security-advisories/GHSA-vv6j-3g6g-2pvj">GHSA-vv6j-3g6g-2pvj</a> | <a href="https://github.com/mmaitre314/picklescan/security-advisories/GHSA-j343-8v2j-ff7w">GHSA-j343-8v2j-ff7w</a></p>
+</div>
+
+<div class="advisory high">
+<span class="severity high">HIGH</span>
+<span class="cve">CVE-2026-48059</span>
+<span class="stars">⭐ 35,050</span>
+<h3>Netty HAProxy 嵌套 SSL TLV 内存耗尽</h3>
+<p>HAProxy PROXY 协议 v2 解析深度 ≥2 的嵌套 PP2_TYPE_SSL TLV 时内存泄漏，每个连接导致 ByteBuf 永久固定。</p>
+<p><span class="poc">✅ PoC: 完整 PoC</span></p>
+<p>修复: 4.1.135 / 4.2.15 | <a href="https://github.com/netty/netty/security-advisories/GHSA-h2qv-fj59-j46j">GHSA-h2qv-fj59-j46j</a></p>
+</div>
+
+<h2>📋 Medium 新增</h2>
+
+<div class="advisory medium">
+<span class="severity medium">MEDIUM</span>
+<span class="cve">CVE-2026-11748</span>
+<span class="stars">⭐ —</span>
+<h3>LINE Doggyhouse LDAP 注入（Shiro Realm）</h3>
+<p>LINE 内部 Doggyhouse 项目的 Shiro LDAP Realm 未对用户名进行 RFC 4515 转义，允许 LDAP 过滤器注入。输入 <code>*</code> 可解析为目录第一个条目（通常为管理员），结合已知密码可提权。公告含完整 JUnit PoC 测试。</p>
+<p><span class="poc">✅ PoC: 完整 JUnit 测试代码</span></p>
+<p>修复: 0.84.0 | <a href="https://github.com/line/centraldogma/security-advisories/GHSA-98q5-5qh2-7w75">GHSA-98q5-5qh2-7w75</a></p>
+</div>
+
+<div class="advisory medium">
+<span class="severity medium">MEDIUM</span>
+<span class="cve">CVE-2025-71378</span>
+<span class="stars">⭐ 423</span>
+<h3>Picklescan cProfile.runctx 检测绕过</h3>
+<p>通过 <code>cProfile.runctx</code> 绕过 picklescan 恶意 pickle 检测，实现 RCE。</p>
+<p><span class="poc">✅ PoC: 完整代码</span></p>
+<p>修复: v0.0.30 | <a href="https://github.com/mmaitre314/picklescan/security-advisories/GHSA-9w88-8rmg-7g2p">GHSA-9w88-8rmg-7g2p</a></p>
+</div>
+
+<div class="generated">
+Generated by OpenClaw vuln-morning-alert | 2026-09-13 08:00 CST | Data source: GitHub Advisory Database API
+</div>
+</body>
+</html>
