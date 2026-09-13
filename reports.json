@@ -1,5 +1,87 @@
 [
   {
+    "date": "2026-09-13",
+    "total": 8,
+    "critical": 1,
+    "high": 5,
+    "poc_count": 5,
+    "advisories": [
+      {
+        "ghsa": "GHSA-rqfv-2mw9-78g2",
+        "cve": "CVE-2026-59971",
+        "severity": "critical",
+        "summary": "MySQL MCP Server SSE transport missing authentication enables unauthenticated SQL execution",
+        "product": "mysql-mcp-server",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-mcmc-2m55-j8jj",
+        "cve": "CVE-2026-56340",
+        "severity": "high",
+        "summary": "vLLM insufficient fix for CVE-2025-62164 multimodal embedding DoS",
+        "product": "vLLM",
+        "poc": false,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-rmj7-2vxq-3g9f",
+        "cve": "CVE-2026-54513",
+        "severity": "high",
+        "summary": "Jackson-databind array subtype allowlist bypass in PTV",
+        "product": "jackson-databind",
+        "poc": false,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-vv6j-3g6g-2pvj",
+        "cve": "CVE-2025-71348",
+        "severity": "high",
+        "summary": "Picklescan detection bypass via torch.utils._config_module.load_config",
+        "product": "picklescan",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-j343-8v2j-ff7w",
+        "cve": "CVE-2025-71357",
+        "severity": "high",
+        "summary": "Picklescan detection bypass via idlelib.pyshell.ModifiedInterpreter.runcommand",
+        "product": "picklescan",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-h2qv-fj59-j46j",
+        "cve": "CVE-2026-48059",
+        "severity": "high",
+        "summary": "Netty HAProxy nested SSL TLV memory exhaustion",
+        "product": "Netty",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-98q5-5qh2-7w75",
+        "cve": "CVE-2026-11748",
+        "severity": "medium",
+        "summary": "LINE Doggyhouse LDAP injection in Shiro Realm",
+        "product": "Doggyhouse",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      },
+      {
+        "ghsa": "GHSA-9w88-8rmg-7g2p",
+        "cve": "CVE-2025-71378",
+        "severity": "medium",
+        "summary": "Picklescan detection bypass via cProfile.runctx",
+        "product": "picklescan",
+        "poc": true,
+        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+      }
+    ],
+    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html"
+  },
+  {
     "date": "2026-09-08",
     "total": 1,
     "critical": 0,
@@ -17,60 +99,5 @@
       }
     ],
     "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-08.html"
-  },
-  {
-    "date": "2026-09-09",
-    "total": 5,
-    "critical": 1,
-    "high": 4,
-    "poc_count": 2,
-    "advisories": [
-      {
-        "ghsa": "GHSA-2xp9-vwfh-vxw4",
-        "cve": "N/A (pending)",
-        "severity": "critical",
-        "summary": "Next.js Image Optimization AVIF RCE via libheif",
-        "product": "Next.js",
-        "poc": false,
-        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
-      },
-      {
-        "ghsa": "GHSA-w78r-95g5-v64j",
-        "cve": "CVE-2026-90678",
-        "severity": "high",
-        "summary": "Apache APISIX jwt-auth HMAC truncation comparison bypass",
-        "product": "Apache APISIX",
-        "poc": true,
-        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
-      },
-      {
-        "ghsa": "GHSA-2v4p-qf9q-27wj",
-        "cve": "CVE-2026-84445",
-        "severity": "high",
-        "summary": "gRPC-Go xDS DoS via missing authority/host headers",
-        "product": "gRPC-Go",
-        "poc": false,
-        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
-      },
-      {
-        "ghsa": "GHSA-w27v-7q3p-w38r",
-        "cve": "CVE-2026-84370",
-        "severity": "high",
-        "summary": "SVGO removeScripts namespace/control-char bypass XSS",
-        "product": "SVGO",
-        "poc": false,
-        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
-      },
-      {
-        "ghsa": "GHSA-c7q8-3ch8-vqpv",
-        "cve": "CVE-2026-83616",
-        "severity": "high",
-        "summary": "xmldom Processing Instruction target injection bypass requireWellFormed",
-        "product": "xmldom",
-        "poc": true,
-        "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
-      }
-    ],
-    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-09.html"
   }
 ]
