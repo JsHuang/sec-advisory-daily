@@ -99,5 +99,58 @@
       }
     ],
     "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-08.html"
+  },
+  {
+    "date": "2026-09-14",
+    "summary": {
+      "total_reviewed": 5,
+      "critical": 0,
+      "high": 0,
+      "medium": 4,
+      "low": 1,
+      "note": "今日窗口内无新增 Critical/High，均为旧公告 reviewed 状态更新"
+    },
+    "advisories": [
+      {
+        "cve": "CVE-2026-56666",
+        "ghsa": "GHSA-992q-9gwp-7r79",
+        "project": "ZITADEL",
+        "severity": "medium",
+        "cvss": 4.8,
+        "summary": "IdP 邮箱自动关联未校验上游验证状态"
+      },
+      {
+        "cve": "CVE-2026-54665",
+        "ghsa": "GHSA-8vm2-c32j-mvfr",
+        "project": "Apache NiFi",
+        "severity": "medium",
+        "cvss": 5.3,
+        "summary": "代理 Host 头未验证导致 URL 构造注入"
+      },
+      {
+        "cve": "CVE-2025-62198",
+        "ghsa": "GHSA-v73p-f52r-fmmr",
+        "project": "Apache Atlas",
+        "severity": "medium",
+        "cvss": 5.4,
+        "summary": "已认证用户 XSS"
+      },
+      {
+        "cve": "CVE-2026-59149",
+        "ghsa": "GHSA-8wqc-v2q8-vff2",
+        "project": "Mockoon",
+        "severity": "medium",
+        "cvss": 6.5,
+        "summary": "模板化 filePath 路径穿越"
+      },
+      {
+        "cve": "CVE-2026-44911",
+        "ghsa": "GHSA-qvj8-gwpm-4x49",
+        "project": "Apache NiFi",
+        "severity": "low",
+        "cvss": 2.3,
+        "summary": "只读用户可提交组件配置验证请求"
+      }
+    ]
   }
 ]
