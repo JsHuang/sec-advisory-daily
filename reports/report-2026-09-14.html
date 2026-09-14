@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Advisory 每日报告 — 2026-09-14</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+h1 { color: #1a1a2e; border-bottom: 3px solid #e94560; padding-bottom: 10px; }
+.summary { background: #fff; border-radius: 8px; padding: 16px; margin: 16px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 4px; margin: 16px 0; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+th { background: #1a1a2e; color: #fff; padding: 12px; text-align: left; }
+td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+tr:hover { background: #f8f9fa; }
+.critical { color: #dc3545; font-weight: bold; }
+.high { color: #fd7e14; font-weight: bold; }
+.medium { color: #ffc107; }
+.low { color: #28a745; }
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.footer { margin-top: 24px; padding: 16px; background: #fff; border-radius: 8px; text-align: center; color: #666; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 每日安全报告 — 2026-09-14</h1>
+
+<div class="summary">
+  <h2>📊 今日概况</h2>
+  <p><strong>统计窗口：</strong>2026-09-13 08:00 ~ 2026-09-14 08:00 (UTC+8)</p>
+  <p><strong>GitHub Reviewed Advisory（最近 24h 更新）：</strong>0 条新增 Critical/High</p>
+  <p>今日窗口内的 GitHub Advisory 更新均为 2026 年 6 月发布的旧公告（Apache NiFi、Apache Atlas、Apache Doris MCP 等）的 reviewed 状态更新，无新发布的 Critical/High 级别漏洞。</p>
+</div>
+
+<div class="note">
+  <strong>⚠️ 注意：</strong>昨日（9 月 13 日）GitHub 集中 reviewed 了一批 6 月份的 Apache 生态公告，包括 Apache NiFi（授权绕过、配置验证、XSS）、Apache Atlas（XSS）、Apache Doris MCP Server（SQL 注入）等。这些漏洞的原始发布时间较早，非今日新发现。详见 <a href="https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-13.html">2026-09-13 报告</a>。
+</div>
+
+<h2>📋 今日 Reviewed 公告列表（非 Critical/High）</h2>
+<table>
+  <thead>
+    <tr><th>CVE</th><th>项目</th><th>类型</th><th>CVSS</th><th>概要</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-992q-9gwp-7r79">CVE-2026-56666</a></td>
+      <td>ZITADEL</td>
+      <td><span class="medium">Medium</span></td>
+      <td>4.8</td>
+      <td>IdP 邮箱自动关联未校验上游验证状态</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-8vm2-c32j-mvfr">CVE-2026-54665</a></td>
+      <td>Apache NiFi</td>
+      <td><span class="medium">Medium</span></td>
+      <td>5.3</td>
+      <td>代理 Host 头未验证导致 URL 构造注入</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-v73p-f52r-fmmr">CVE-2025-62198</a></td>
+      <td>Apache Atlas</td>
+      <td><span class="medium">Medium</span></td>
+      <td>5.4</td>
+      <td>已认证用户 XSS</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-8wqc-v2q8-vff2">CVE-2026-59149</a></td>
+      <td>Mockoon</td>
+      <td><span class="medium">Medium</span></td>
+      <td>6.5</td>
+      <td>模板化 filePath 路径穿越（前缀检查无分隔符边界）</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-qvj8-gwpm-4x49">CVE-2026-44911</a></td>
+      <td>Apache NiFi</td>
+      <td><span class="low">Low</span></td>
+      <td>2.3 (v4)</td>
+      <td>只读用户可提交组件配置验证请求</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>🔥 昨日值得关注的 High/Critical（供参考）</h2>
+<table>
+  <thead>
+    <tr><th>CVE</th><th>项目</th><th>CVSS</th><th>PoC</th><th>概要</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-325j-mg25-8q58">CVE-2026-61534</a></td>
+      <td>yayson (npm)</td>
+      <td><span class="critical">9.1</span></td>
+      <td>✅ 完整 PoC</td>
+      <td>JSON:API Store 反序列化原型污染（__proto__ type 注入）</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-rqx4-3f6q-3x2v">CVE-2026-59148</a></td>
+      <td>Mockoon</td>
+      <td><span class="high">8.8</span></td>
+      <td>✅ 7 步完整复现</td>
+      <td>Admin API 无认证 + 通配符 CORS → 密钥窃取/路由劫持</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-65h7-9wrw-629c">CVE-2026-59973</a></td>
+      <td>FrontMCP / mcp-from-openapi</td>
+      <td><span class="high">8.2</span></td>
+      <td>✅ 完整复现</td>
+      <td>OpenAPI $ref SSRF 修复绕过（DNS/重定向/IPv4-mapped IPv6）</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-pqrj-4gwg-h5f7">CVE-2025-66336</a></td>
+      <td>Apache Doris MCP Server</td>
+      <td><span class="high">8.1</span></td>
+      <td>❌</td>
+      <td>元数据查询路径 SQL 注入</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/advisories/GHSA-r2g5-993q-664g">CVE-2026-44914</a></td>
+      <td>Apache NiFi</td>
+      <td><span class="high">7.5 (v4)</span></td>
+      <td>❌</td>
+      <td>替换含 Restricted 组件的 Process Group 缺少授权检查</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  <p>由 OpenClaw 自动生成 · <a href="https://jshuang.github.io/sec-advisory-daily/">历史报告</a></p>
+  <p>数据来源：<a href="https://github.com/advisories?query=type%3Areviewed">GitHub Advisory Database</a></p>
+</div>
+</body>
+</html>
