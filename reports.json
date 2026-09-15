@@ -1,5 +1,53 @@
 [
   {
+    "date": "2026-09-15",
+    "report_html": "reports/report-2026-09-15.html",
+    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-15.html",
+    "total": 16,
+    "critical": 4,
+    "high": 2,
+    "medium": 3,
+    "low": 7,
+    "highlights": [
+      {
+        "cve": "CVE-2026-59178",
+        "project": "ESPHome Device Builder",
+        "cvss": 9.8,
+        "type": "认证缺失"
+      },
+      {
+        "cve": "CVE-2026-56265",
+        "project": "Crawl4AI",
+        "cvss": 9.8,
+        "type": "硬编码JWT密钥"
+      },
+      {
+        "cve": "CVE-2024-58351",
+        "project": "Flowise",
+        "cvss": 9.9,
+        "type": "RCE/Prompt Injection"
+      },
+      {
+        "cve": "CVE-2026-56397",
+        "project": "SiYuan 思源笔记",
+        "cvss": 9.6,
+        "type": "Marketplace XSS→RCE"
+      },
+      {
+        "cve": "CVE-2026-56668",
+        "project": "ZITADEL",
+        "cvss": 8.1,
+        "type": "Token权限提升"
+      },
+      {
+        "cve": "CVE-2026-54977",
+        "project": "MuleSoft Connect",
+        "cvss": 7.5,
+        "type": "SSRF"
+      }
+    ]
+  },
+  {
     "date": "2026-09-13",
     "total": 8,
     "critical": 1,
