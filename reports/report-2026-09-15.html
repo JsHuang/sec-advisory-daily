@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Advisory 漏洞日报 — 2026-09-15</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1100px; margin: 0 auto; padding: 20px; background: #0d1117; color: #c9d1d9; }
+  h1 { color: #58a6ff; border-bottom: 2px solid #21262d; padding-bottom: 12px; }
+  h2 { color: #f0883e; margin-top: 30px; }
+  .summary { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 20px 0; }
+  .summary span { margin-right: 20px; }
+  .critical { color: #f85149; font-weight: bold; }
+  .high { color: #f0883e; font-weight: bold; }
+  .medium { color: #d29922; }
+  .low { color: #8b949e; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th { background: #161b22; color: #58a6ff; text-align: left; padding: 10px; border: 1px solid #30363d; }
+  td { padding: 10px; border: 1px solid #21262d; vertical-align: top; }
+  tr:nth-child(even) { background: #161b22; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+  .badge-critical { background: #f8514933; color: #f85149; border: 1px solid #f85149; }
+  .badge-high { background: #f0883e33; color: #f0883e; border: 1px solid #f0883e; }
+  .badge-medium { background: #d2992233; color: #d29922; border: 1px solid #d29922; }
+  .badge-low { background: #8b949e33; color: #8b949e; border: 1px solid #8b949e; }
+  .poc-yes { color: #3fb950; }
+  .poc-no { color: #8b949e; }
+  .desc { max-width: 500px; font-size: 0.9em; color: #8b949e; }
+  .section-note { font-size: 0.85em; color: #8b949e; margin: 8px 0; font-style: italic; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #21262d; color: #484f58; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 漏洞日报 — 2026-09-15</h1>
+
+<div class="summary">
+  <span>📅 报告时间：2026-09-15 08:00 CST</span>
+  <span>🔍 数据源：GitHub Advisory Database (reviewed, sort=updated)</span><br><br>
+  <span class="critical">● Critical: 4</span>
+  <span class="high">● High: 2</span>
+  <span class="medium">● Medium: 3</span>
+  <span class="low">● Low: 7</span>
+  <span>| 总计 16 条 reviewed（含 1 条 withdrawn 重复）</span>
+</div>
+
+<h2>🚨 Critical 漏洞（CVSS ≥ 9.0）</h2>
+<table>
+<tr><th>CVE</th><th>项目</th><th>CVSS</th><th>Stars</th><th>类型</th><th>PoC</th><th>描述</th></tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-rrxg-g2pf-6hh4">CVE-2026-59178</a></td>
+  <td>ESPHome Device Builder</td>
+  <td><span class="badge badge-critical">9.8</span></td>
+  <td>109</td>
+  <td>认证缺失</td>
+  <td class="poc-no">❌</td>
+  <td class="desc">环境变量重命名后旧 $USERNAME/$PASSWORD 失效，升级后 Dashboard 静默失去认证，攻击者可直接管理 IoT 设备和刷写固件。修复于 1.0.12。</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-8qrg-7j2f-rf2h">CVE-2026-56265</a></td>
+  <td>Crawl4AI</td>
+  <td><span class="badge badge-critical">9.8</span></td>
+  <td>83,480</td>
+  <td>硬编码 JWT 密钥</td>
+  <td class="poc-no">❌</td>
+  <td class="desc">Docker API 服务器硬编码默认 JWT 签名密钥，攻击者可伪造任意用户 token 绕过认证。修复于 0.8.7。</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-5cph-wvm9-45gj">CVE-2024-58351</a></td>
+  <td>Flowise</td>
+  <td><span class="badge badge-critical">9.9</span></td>
+  <td>55,459</td>
+  <td>RCE / Prompt Injection</td>
+  <td class="poc-yes">✅</td>
+  <td class="desc">overrideConfig 参数允许注入配置到 Chainflow，可导致 RCE（含沙箱逃逸）、SSRF、Prompt 注入。2024 年 11 月披露，修复于 2.1.4，至今仍被频繁 review。</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-v3mg-9v85-fcm7">CVE-2026-56397</a></td>
+  <td>SiYuan 思源笔记</td>
+  <td><span class="badge badge-critical">9.6</span></td>
+  <td>46,350</td>
+  <td>Marketplace XSS→RCE</td>
+  <td class="poc-yes">✅ 完整 PoC</td>
+  <td class="desc">Bazaar 市场渲染插件/主题元数据和 README 无 HTML 转义，结合 Electron nodeIntegration=true 可实现零点击 RCE。≤3.5.9 受影响。</td>
+</tr>
+</table>
+
+<h2>⚠️ High 漏洞</h2>
+<table>
+<tr><th>CVE</th><th>项目</th><th>CVSS</th><th>Stars</th><th>类型</th><th>PoC</th><th>描述</th></tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-vrh8-c9cm-wh8v">CVE-2026-56668</a></td>
+  <td>ZITADEL</td>
+  <td><span class="badge badge-high">8.1</span></td>
+  <td>15,024</td>
+  <td>Token 权限提升</td>
+  <td class="poc-no">❌</td>
+  <td class="desc">OAuth2 Token Exchange 端点未验证 access token 归属，低权限用户可换取高权限 token 访问其他应用。修复于 4.15.3。</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/advisories/GHSA-h9hf-4w2r-59cf">CVE-2026-54977</a></td>
+  <td>MuleSoft Connect</td>
+  <td><span class="badge badge-high">7.5</span></td>
+  <td>—</td>
+  <td>SSRF</td>
+  <td class="poc-no">❌</td>
+  <td class="desc">Anypoint Connector Builder 的"Test Connection"功能存在 SSRF，可访问内部网络端点。修复于 2.7.0。</td>
+</tr>
+</table>
+
+<h2>📋 Medium / Low 漏洞摘要</h2>
+<table>
+<tr><th>CVE</th><th>项目</th><th>严重性</th><th>描述</th></tr>
+<tr>
+  <td>CVE-2026-44913</td><td>Apache NiFi</td><td><span class="badge badge-medium">7.2</span></td>
+  <td class="desc">CaptureChangeMySQL 处理器表名转义不当导致 SQL 注入。修复于 2.10.0。</td>
+</tr>
+<tr>
+  <td>CVE-2026-76081</td><td>ZITADEL</td><td><span class="badge badge-medium">5.5</span></td>
+  <td class="desc">Granted Projects 多角色删除时 off-by-one 导致权限未清除。修复于 4.16.0。</td>
+</tr>
+<tr>
+  <td>—</td><td>October CMS</td><td><span class="badge badge-low">3.9</span></td>
+  <td class="desc">Image Resizer scheme 验证不完整，phar:// 可触发反序列化（需模板注入前提）。</td>
+</tr>
+<tr>
+  <td>CVE-2026-12799</td><td>BerriAI LiteLLM</td><td><span class="badge badge-low">4.3</span></td>
+  <td class="desc">UI 用户枚举导致系统信息泄露。</td>
+</tr>
+<tr>
+  <td>CVE-2026-12798</td><td>BerriAI LiteLLM</td><td><span class="badge badge-low">6.3</span></td>
+  <td class="desc">MCP OpenAPI Spec Loader SSRF。</td>
+</tr>
+<tr>
+  <td>CVE-2026-12797</td><td>BerriAI LiteLLM</td><td><span class="badge badge-low">6.3</span></td>
+  <td class="desc">BannedKeywords/AzureContentSafety Guardrails 在异步端点上被绕过。</td>
+</tr>
+<tr>
+  <td>CVE-2026-12796</td><td>BerriAI LiteLLM</td><td><span class="badge badge-low">6.3</span></td>
+  <td class="desc">SSO 登录不会使之前的 UI Session Token 失效。</td>
+</tr>
+</table>
+
+<p class="section-note">注：LiteLLM 4 条漏洞（CVE-2026-12796~12799）均无修复版本发布，≤1.82.5 全版本受影响。</p>
+
+<h2>💡 重点关注</h2>
+<ul>
+  <li><strong>Crawl4AI</strong>（⭐83K+）硬编码 JWT 密钥 — 供应链级影响，使用 Docker 部署的实例默认暴露</li>
+  <li><strong>思源笔记 SiYuan</strong>（⭐46K+）Marketplace XSS→RCE — Electron nodeIntegration 开启下零点击 RCE，已有完整 PoC</li>
+  <li><strong>Flowise</strong>（⭐55K+）overrideConfig RCE — 2024 年披露但至今仍有大量 review，说明利用活跃</li>
+  <li><strong>ESPHome</strong> 环境变量兼容性断裂 — IoT Dashboard 静默失去认证，影响家庭/企业自动化</li>
+  <li><strong>ZITADEL</strong>（⭐15K+）OAuth2 Token Exchange 权限提升 — 身份认证基础设施漏洞</li>
+</ul>
+
+<footer>
+  报告生成时间：2026-09-15 08:00 CST | 数据来源：GitHub Advisory Database API | 
+  由 OpenClaw 自动生成
+</footer>
+</body>
+</html>
