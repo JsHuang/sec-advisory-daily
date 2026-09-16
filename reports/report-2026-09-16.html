@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Advisory Report - 2026-09-16</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 20px; background: #fafafa; color: #333; }
+  h1 { color: #1a1a1a; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; }
+  .stats { display: flex; gap: 20px; margin: 15px 0; }
+  .stat { background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .stat .num { font-size: 2em; font-weight: bold; }
+  .stat.critical .num { color: #d32f2f; }
+  .stat.high .num { color: #f57c00; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  th { background: #263238; color: #fff; padding: 12px 10px; text-align: left; font-size: 0.9em; }
+  td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.85em; vertical-align: top; }
+  tr:hover { background: #f5f5f5; }
+  .badge { color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; }
+  .patch { font-size: 0.8em; margin: 2px 0; }
+  .eco { background: #e3f2fd; padding: 1px 5px; border-radius: 3px; font-weight: bold; }
+  a { color: #1565c0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer { margin-top: 20px; color: #999; font-size: 0.8em; }
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Security Advisory Daily Report — 2026-09-16</h1>
+<div class="stats">
+  <div class="stat"><div class="num">13</div>Total (Critical/High)</div>
+  <div class="stat critical"><div class="num">3</div>Critical</div>
+  <div class="stat high"><div class="num">10</div>High</div>
+</div>
+<table>
+<tr><th>CVE</th><th>Severity</th><th>CVSS</th><th>Summary</th><th>PoC</th><th>Stars</th><th>Patches</th><th>Links</th></tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-2h44-8472-frjj" target="_blank">CVE-2026-61559</a></td>
+      <td><span class="badge" style="background:#d32f2f">Critical</span></td>
+      <td>9.6</td>
+      <td>@zereight/mcp-gitlab Vulnerable to Server-Side Request Forgery</td>
+      <td>✅</td>
+      <td>⭐1977</td>
+      <td><div class="patch"><span class="eco">npm</span> @zereight/mcp-gitlab: >= 0.0.1, < 2.1.27 → <b>2.1.27</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-2h44-8472-frjj" target="_blank">GHSA</a> | <a href="https://github.com/zereight/gitlab-mcp" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-vmp7-252j-cwp7" target="_blank">CVE-2026-61568</a></td>
+      <td><span class="badge" style="background:#d32f2f">Critical</span></td>
+      <td>9.6</td>
+      <td>@zereight/mcp-gitlab: DNS rebinding reaches local Streamable HTTP MCP transport</td>
+      <td>✅</td>
+      <td>⭐1977</td>
+      <td><div class="patch"><span class="eco">npm</span> @zereight/mcp-gitlab: < 2.1.30 → <b>2.1.30</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-vmp7-252j-cwp7" target="_blank">GHSA</a> | <a href="https://github.com/zereight/gitlab-mcp" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-8h4c-x2wg-6xp8" target="_blank">CVE-2026-69204</a></td>
+      <td><span class="badge" style="background:#d32f2f">Critical</span></td>
+      <td>0</td>
+      <td>Http4s Ember accepts Transfer-Encoding combined with Content-Length (CL.TE request smuggling)</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-8h4c-x2wg-6xp8" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-9998-894r-fwvr" target="_blank">CVE-2026-69205</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>8.7</td>
+      <td>Http4s Ember Transfer-Encoding value parsing (TE.CL / TE.0 request smuggling)</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-9998-894r-fwvr" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-5648-rgj9-v224" target="_blank">Pending</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>8.1</td>
+      <td>@zereight/mcp-gitlab has multiple safety-control bypasses: execute_graphql read-only + allow-list bypass, unauthenticated transports, session-exhaustion DoS</td>
+      <td>❌</td>
+      <td>⭐1977</td>
+      <td><div class="patch"><span class="eco">npm</span> @zereight/mcp-gitlab: < 2.1.30 → <b>2.1.30</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-5648-rgj9-v224" target="_blank">GHSA</a> | <a href="https://github.com/zereight/gitlab-mcp" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-4595-rvpx-4q34" target="_blank">CVE-2026-61554</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>emp3r0r has an unauthenticated HTTP Polling DoS</td>
+      <td>✅</td>
+      <td>⭐1757</td>
+      <td><div class="patch"><span class="eco">go</span> github.com/jm33-m0/emp3r0r/core: < 0.0.0-20260531142011-aed3d81641ab → <b>0.0.0-20260531142011-aed3d81641ab</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-4595-rvpx-4q34" target="_blank">GHSA</a> | <a href="https://github.com/jm33-m0/emp3r0r" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-gq9p-f254-h286" target="_blank">CVE-2026-88975</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s: Ember HTTP/2 buffers a frame's declared payload before checking SETTINGS_MAX_FRAME_SIZE</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.36 → <b>0.23.37</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.36 → <b>0.23.37</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.36 → <b>0.23.37</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-gq9p-f254-h286" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-cp4q-fqw9-4hf6" target="_blank">CVE-2026-69218</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s Ember HTTP/2: unbounded continuation frame accumulation</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-cp4q-fqw9-4hf6" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-8f3q-3jmv-7prw" target="_blank">CVE-2026-69213</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s Ember HTTP/2 has an unbounded outbound frame queue</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-8f3q-3jmv-7prw" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-fm4g-76c9-7w69" target="_blank">CVE-2026-69208</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s: DigestAuth nonce map grows unbounded</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-server_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-server_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-server_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-fm4g-76c9-7w69" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-9vwc-pc8p-253q" target="_blank">CVE-2026-69203</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s Ember HTTP/2 does not enforce SETTINGS_MAX_CONCURRENT_STREAMS</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-9vwc-pc8p-253q" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-6m4x-pp6q-5jmm" target="_blank">CVE-2026-69202</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>7.5</td>
+      <td>Http4s Ember HTTP/2: unbounded inbound body buffering</td>
+      <td>❌</td>
+      <td>⭐2626</td>
+      <td><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.12: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_2.13: <= 0.23.34 → <b>0.23.35</b></div><div class="patch"><span class="eco">maven</span> org.http4s:http4s-ember-core_3: <= 0.23.34 → <b>0.23.35</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-6m4x-pp6q-5jmm" target="_blank">GHSA</a> | <a href="https://github.com/http4s/http4s" target="_blank">Source</a></td>
+    </tr>
+<tr>
+      <td><a href="https://github.com/advisories/GHSA-5hq8-qhww-jm7q" target="_blank">CVE-2026-61544</a></td>
+      <td><span class="badge" style="background:#f57c00">High</span></td>
+      <td>0</td>
+      <td>libp2p-quic: Remote panic via certificate expiry race during QUIC handshake</td>
+      <td>❌</td>
+      <td>⭐5612</td>
+      <td><div class="patch"><span class="eco">rust</span> libp2p-quic: < 0.13.1 → <b>0.13.1</b></div></td>
+      <td><a href="https://github.com/advisories/GHSA-5hq8-qhww-jm7q" target="_blank">GHSA</a> | <a href="https://github.com/libp2p/rust-libp2p" target="_blank">Source</a></td>
+    </tr>
+
+</table>
+<div class="footer">Generated by OpenClaw Vuln Monitor at 2026-09-16 08:01 UTC</div>
+</body>
+</html>
