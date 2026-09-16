@@ -1,0 +1,102 @@
+[
+  {
+    "date": "2026-09-16",
+    "total": 13,
+    "critical": 3,
+    "high": 10,
+    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-16.html",
+    "advisories": [
+      {
+        "cve_id": "CVE-2026-61559",
+        "severity": "critical",
+        "cvss_score": 9.6,
+        "summary": "@zereight/mcp-gitlab Vulnerable to Server-Side Request Forgery",
+        "ghsa_id": "GHSA-2h44-8472-frjj"
+      },
+      {
+        "cve_id": "CVE-2026-61568",
+        "severity": "critical",
+        "cvss_score": 9.6,
+        "summary": "@zereight/mcp-gitlab: DNS rebinding reaches local Streamable HTTP MCP transport",
+        "ghsa_id": "GHSA-vmp7-252j-cwp7"
+      },
+      {
+        "cve_id": "CVE-2026-69204",
+        "severity": "critical",
+        "cvss_score": 0,
+        "summary": "Http4s Ember accepts Transfer-Encoding combined with Content-Length (CL.TE request smuggling)",
+        "ghsa_id": "GHSA-8h4c-x2wg-6xp8"
+      },
+      {
+        "cve_id": "CVE-2026-69205",
+        "severity": "high",
+        "cvss_score": 8.7,
+        "summary": "Http4s Ember Transfer-Encoding value parsing (TE.CL / TE.0 request smuggling)",
+        "ghsa_id": "GHSA-9998-894r-fwvr"
+      },
+      {
+        "cve_id": null,
+        "severity": "high",
+        "cvss_score": 8.1,
+        "summary": "@zereight/mcp-gitlab has multiple safety-control bypasses: execute_graphql read-only + allow-list bypass, unauthenticated transports, session-exhaustion DoS",
+        "ghsa_id": "GHSA-5648-rgj9-v224"
+      },
+      {
+        "cve_id": "CVE-2026-61554",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "emp3r0r has an unauthenticated HTTP Polling DoS",
+        "ghsa_id": "GHSA-4595-rvpx-4q34"
+      },
+      {
+        "cve_id": "CVE-2026-88975",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s: Ember HTTP/2 buffers a frame's declared payload before checking SETTINGS_MAX_FRAME_SIZE",
+        "ghsa_id": "GHSA-gq9p-f254-h286"
+      },
+      {
+        "cve_id": "CVE-2026-69218",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s Ember HTTP/2: unbounded continuation frame accumulation",
+        "ghsa_id": "GHSA-cp4q-fqw9-4hf6"
+      },
+      {
+        "cve_id": "CVE-2026-69213",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s Ember HTTP/2 has an unbounded outbound frame queue",
+        "ghsa_id": "GHSA-8f3q-3jmv-7prw"
+      },
+      {
+        "cve_id": "CVE-2026-69208",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s: DigestAuth nonce map grows unbounded",
+        "ghsa_id": "GHSA-fm4g-76c9-7w69"
+      },
+      {
+        "cve_id": "CVE-2026-69203",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s Ember HTTP/2 does not enforce SETTINGS_MAX_CONCURRENT_STREAMS",
+        "ghsa_id": "GHSA-9vwc-pc8p-253q"
+      },
+      {
+        "cve_id": "CVE-2026-69202",
+        "severity": "high",
+        "cvss_score": 7.5,
+        "summary": "Http4s Ember HTTP/2: unbounded inbound body buffering",
+        "ghsa_id": "GHSA-6m4x-pp6q-5jmm"
+      },
+      {
+        "cve_id": "CVE-2026-61544",
+        "severity": "high",
+        "cvss_score": 0,
+        "summary": "libp2p-quic: Remote panic via certificate expiry race during QUIC handshake",
+        "ghsa_id": "GHSA-5hq8-qhww-jm7q"
+      }
+    ]
+  }
+]
