@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Advisory Report - 2026-09-17</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:960px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
+h1{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:12px}
+h2{color:#f0883e;margin-top:30px}
+.advisory{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:12px 0}
+.advisory.critical{border-left:4px solid #f85149}
+.advisory.high{border-left:4px solid #d29922}
+.title{font-size:16px;font-weight:600;color:#f0f6fc}
+.meta{font-size:13px;color:#8b949e;margin:6px 0}
+.cvss{display:inline-block;padding:2px 8px;border-radius:4px;font-weight:600;font-size:13px}
+.cvss.critical{background:#f8514922;color:#f85149}
+.cvss.high{background:#d2992222;color:#d29922}
+.pkg{background:#1f6feb22;color:#58a6ff;padding:2px 6px;border-radius:3px;font-size:12px}
+.desc{margin-top:8px;font-size:14px;line-height:1.5}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+.summary{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin:16px 0}
+.summary h3{margin:0 0 8px 0;color:#58a6ff}
+.poc-yes{color:#3fb950;font-weight:600}
+.poc-no{color:#8b949e}
+</style>
+</head>
+<body>
+<h1>🛡️ GitHub Advisory 每日报告 — 2026-09-17</h1>
+<div class="summary">
+<h3>📊 今日概况</h3>
+<p>最近24小时内 updated 的 reviewed 公告中，Critical/High 共 <strong>19 条</strong>（Critical 3 / High 16）</p>
+<p>重点关注：<strong>djust</strong>（Django LiveView 框架）被密集安全审计，一次曝光 10 个高危漏洞；<strong>MCP 生态</strong>持续告急（mcp-gitlab 任意文件读取 + rmcp OAuth 缺陷）；<strong>LMdeploy</strong> Pickle 反序列化 RCE 有完整 PoC。</p>
+</div>
+
+<h2>🔴 Critical (3)</h2>
+
+<div class="advisory critical">
+<div class="title">CVE-2026-61560 — @zereight/mcp-gitlab 未认证任意文件读取→PAT 窃取→账户接管</div>
+<div class="meta"><span class="cvss critical">CVSS 9.8</span> | <span class="pkg">@zereight/mcp-gitlab</span> | GHSA-cv3r-c5h8-f4g5 | PoC: <span class="poc-yes">✅ 完整利用链</span></div>
+<div class="desc">SSE 传输模式（SSE=true）下所有 MCP 工具无需认证即可访问。upload_markdown 工具通过未过滤的 file_path 参数读取服务器本地任意文件并上传到 GitLab 项目。攻击者可读取 /proc/self/environ 窃取 GITLAB_PERSONAL_ACCESS_TOKEN，实现完整 GitLab 账户接管。这是 Docker 部署的默认配置。<a href="https://github.com/advisories/GHSA-cv3r-c5h8-f4g5">查看公告</a></div>
+</div>
+
+<div class="advisory critical">
+<div class="title">CVE-2025-59953 — LMdeploy Pickle 反序列化 RCE</div>
+<div class="meta"><span class="cvss critical">CVSS 9.8</span> | <span class="pkg">lmdeploy</span> | GHSA-5h8j-6crg-7rmw | PoC: <span class="poc-yes">✅ 完整 PoC</span></div>
+<div class="desc">InterLM/lmdeploy 的 RPC 服务器（AsyncRPCServer in zmq_rpc.py）在 call_and_response() 中直接使用 pickle.loads() 反序列化接收的消息，无任何校验，导致远程代码执行。公告包含完整复现步骤。<a href="https://github.com/advisories/GHSA-5h8j-6crg-7rmw">查看公告</a></div>
+</div>
+
+<div class="advisory critical">
+<div class="title">CVE-2026-61594 — djust WebSocket/SSE 挂载路径授权绕过</div>
+<div class="meta"><span class="cvss critical">CVSS 9.1</span> | <span class="pkg">djust</span> | GHSA-xhhm-f6hp-2qwj | PoC: <span class="poc-no">❌ 技术分析</span></div>
+<div class="desc">djust 的 WebSocket 传输通过 check_view_auth 授权挂载，而非 Django 的 View.dispatch() 链。标准 Django 授权（LoginRequiredMixin、PermissionRequiredMixin 等）在 WebSocket 上被静默绕过。修复于 djust 1.0.7。<a href="https://github.com/advisories/GHSA-xhhm-f6hp-2qwj">查看公告</a></div>
+</div>
+
+<h2>🟠 High (16)</h2>
+
+<div class="advisory high">
+<div class="title">CVE-2026-63127 — RMCP OAuth Protected Resource Metadata 资源字段验证缺失</div>
+<div class="meta"><span class="cvss high">CVSS 8.2</span> | <span class="pkg">rmcp</span> | GHSA-33f5-2c5q-wgwj | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">rmcp 库未验证 OAuth Protected Resource 元数据（RFC 9728）中的 resource 参数，恶意 MCP 服务器可将 OAuth 流程重定向到合法授权服务器并窃取 access token。<a href="https://github.com/advisories/GHSA-33f5-2c5q-wgwj">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61591 — djust 未签名客户端状态快照恢复为可信视图状态（提权/状态注入）</div>
+<div class="meta"><span class="cvss high">CVSS 8.1</span> | <span class="pkg">djust</span> | GHSA-c67v-vqrp-m5wj | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">客户端页面中嵌入的 state_json 在重连时作为可信视图状态恢复，无完整性检查。客户端可篡改 is_admin、account_id 等属性实现提权。<a href="https://github.com/advisories/GHSA-c67v-vqrp-m5wj">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-63671 — @nuxtjs/mdc URL 净化器遗漏 SVG xlink:href 和 data:text/html（XSS）</div>
+<div class="meta"><span class="cvss high">CVSS 8.1</span> | <span class="pkg">@nuxtjs/mdc</span> | GHSA-mxm6-v9r6-r94c | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">@nuxtjs/mdc 默认启用 allowDangerousHtml，其 URL 净化器未过滤 SVG xlink:href 和 data:text/html，允许不受信任的 Markdown 触发 XSS。<a href="https://github.com/advisories/GHSA-mxm6-v9r6-r94c">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61593 — djust SSE 传输跨站请求伪造（CSRF）</div>
+<div class="meta"><span class="cvss high">CVSS 8.1</span> | <span class="pkg">djust</span> | GHSA-pg97-jvmf-qfvc | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">SSE 客户端→服务器 POST 端点标记为 @csrf_exempt，GET 流端点无 Origin 检查。跨域页面可驱动受害者的 cookie 认证 SSE 会话执行状态变更操作。<a href="https://github.com/advisories/GHSA-pg97-jvmf-qfvc">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61599 — djust WebSocket/SSE 未认证任意模块导入</div>
+<div class="meta"><span class="cvss high">CVSS N/A</span> | <span class="pkg">djust</span> | GHSA-7prp-2623-8g45 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">djust 的 live transport 从客户端提供的路径调用 __import__()，在验证对象类型之前运行模块顶层代码。LIVEVIEW_ALLOWED_MODULES 白名单默认 fail-open。<a href="https://github.com/advisories/GHSA-7prp-2623-8g45">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61595 — djust 多租户隔离在 WebSocket/SSE 路径 fail-open</div>
+<div class="meta"><span class="cvss high">CVSS 7.7</span> | <span class="pkg">djust</span> | GHSA-3492-cvg7-9mr2 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">租户隔离仅在 HTTP 路径执行，WebSocket/SSE 路径 get_current_tenant() 始终为 None，tenant-aware QuerySet 返回未过滤的所有租户数据。<a href="https://github.com/advisories/GHSA-3492-cvg7-9mr2">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-63128 — RMCP Streamable HTTP 未认证会话表泄漏（DoS）</div>
+<div class="meta"><span class="cvss high">CVSS 7.5</span> | <span class="pkg">rmcp</span> | GHSA-9pj6-vhgr-3mwh | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">未认证远程攻击者每次 HTTP 请求可泄漏 LocalSessionManager 内存会话表的一个条目，导致资源耗尽和远程 DoS。<a href="https://github.com/advisories/GHSA-9pj6-vhgr-3mwh">查看公告</a></div>
+</div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-59879 — Immutable.js List 32-bit Trie 溢出→不可恢复 DoS</div>
+<div class="meta"><span class="cvss high">CVSS 7.5</span> | <span class="pkg">immutable</span> | GHSA-v56q-mh7h-f735 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">List#set/setSize 等操作在 [2^30, 2^31) 范围的索引处理不当：空 List 进入不可捕获的无限循环，非空 List 导致 OOM。<a href="https://github.com/advisories/GHSA-v56q-mh7h-f735">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61592 — djust SSE 会话未绑定认证用户（会话劫持）</div>
+<div class="meta"><span class="cvss high">CVSS 7.4</span> | <span class="pkg">djust</span> | GHSA-f795-p5jw-j6g2 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">SSE 会话仅由客户端选择的 session_id 标识，未绑定认证用户。攻击者获取 session_id 后可冒充受害者身份执行事件处理。<a href="https://github.com/advisories/GHSA-f795-p5jw-j6g2">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61590 — djust 可观测性端点网络暴露</div>
+<div class="meta"><span class="cvss high">CVSS 7.4</span> | <span class="pkg">djust</span> | GHSA-8g2f-g3gq-5rjv | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">djust 的可观测性端点暴露实时视图/会话状态和远程方法调用接口（eval_handler）。localhost 限制是可选中间件且文档未提及。<a href="https://github.com/advisories/GHSA-8g2f-g3gq-5rjv">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-81192 — OpenTelemetry.Resources.Host macOS 本地 PATH 劫持→代码执行</div>
+<div class="meta"><span class="cvss high">CVSS 7.0</span> | <span class="pkg">OpenTelemetry.Resources.Host</span> | GHSA-v8pv-4842-x354 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">NuGet 包在 macOS 上以裸名称（非绝对路径）启动 sh 和 ioreg，通过 PATH 环境变量解析，本地攻击者可劫持执行任意代码。<a href="https://github.com/advisories/GHSA-v8pv-4842-x354">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-68904 — node-opcua TCP Socket 泄漏（FIN-WAIT-2）资源耗尽</div>
+<div class="meta"><span class="cvss high">CVSS 7.0</span> | <span class="pkg">node-opcua</span> | GHSA-r2pf-9cw4-5j65 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">node-opcua 在自动重连期间因 keepalive 和时钟偏差导致无限 TCP socket 累积（FIN-WAIT-2 状态），最终 OOM kill。<a href="https://github.com/advisories/GHSA-r2pf-9cw4-5j65">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2024-39896 — Directus SSO 用户枚举</div>
+<div class="meta"><span class="cvss high">CVSS 7.5</span> | <span class="pkg">directus</span> | GHSA-jgf4-vwc3-r46v | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">当使用 SSO 提供商与本地认证组合时，可通过登录表单枚举已存在的 SSO 用户（返回"用户属于其他提供商"的错误提示）。<a href="https://github.com/advisories/GHSA-jgf4-vwc3-r46v">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61598 — djust 客户端批量赋值任意视图属性</div>
+<div class="meta"><span class="cvss high">CVSS N/A</span> | <span class="pkg">djust</span> | GHSA-cc7c-9jff-58wj | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">ModelBindingMixin 的 update_model 事件处理器允许客户端设置任意视图属性名称，allowed_model_fields 默认为 None（允许所有）。<a href="https://github.com/advisories/GHSA-cc7c-9jff-58wj">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-61596 — djust 对象级访问控制缺陷（IDOR）</div>
+<div class="meta"><span class="cvss high">CVSS 7.1</span> | <span class="pkg">djust</span> | GHSA-c7c5-5j6r-q957 | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">对象授权在 WebSocket 挂载和事件路径上执行，但不在 HTTP GET 渲染、SPA url_change 导航和嵌入式子视图路径上执行。<a href="https://github.com/advisories/GHSA-c7c5-5j6r-q957">查看公告</a></div>
+
+<div class="advisory high">
+<div class="title">CVE-2026-59965 — Payload CMS Alt Text 插件授权绕过</div>
+<div class="meta"><span class="cvss high">CVSS 7.1</span> | <span class="pkg">@jhb.software/payload-alt-text-plugin</span> | GHSA-4qpv-39hg-f7fx | PoC: <span class="poc-no">❌</span></div>
+<div class="desc">自定义 Payload CMS 端点调用 Local API 时未设置 overrideAccess: false，导致默认绕过访问控制。<a href="https://github.com/advisories/GHSA-4qpv-39hg-f7fx">查看公告</a></div>
+
+<p style="margin-top:30px;color:#8b949e;font-size:12px">Generated by OpenClaw Vuln Monitor | 2026-09-17 08:02 CST</p>
+</body>
+</html>
