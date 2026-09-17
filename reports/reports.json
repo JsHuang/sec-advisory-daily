@@ -1,102 +1,192 @@
 [
   {
-    "date": "2026-09-16",
-    "total": 13,
-    "critical": 3,
-    "high": 10,
-    "report_url": "https://jshuang.github.io/sec-advisory-daily/reports/report-2026-09-16.html",
-    "advisories": [
-      {
-        "cve_id": "CVE-2026-61559",
-        "severity": "critical",
-        "cvss_score": 9.6,
-        "summary": "@zereight/mcp-gitlab Vulnerable to Server-Side Request Forgery",
-        "ghsa_id": "GHSA-2h44-8472-frjj"
-      },
-      {
-        "cve_id": "CVE-2026-61568",
-        "severity": "critical",
-        "cvss_score": 9.6,
-        "summary": "@zereight/mcp-gitlab: DNS rebinding reaches local Streamable HTTP MCP transport",
-        "ghsa_id": "GHSA-vmp7-252j-cwp7"
-      },
-      {
-        "cve_id": "CVE-2026-69204",
-        "severity": "critical",
-        "cvss_score": 0,
-        "summary": "Http4s Ember accepts Transfer-Encoding combined with Content-Length (CL.TE request smuggling)",
-        "ghsa_id": "GHSA-8h4c-x2wg-6xp8"
-      },
-      {
-        "cve_id": "CVE-2026-69205",
-        "severity": "high",
-        "cvss_score": 8.7,
-        "summary": "Http4s Ember Transfer-Encoding value parsing (TE.CL / TE.0 request smuggling)",
-        "ghsa_id": "GHSA-9998-894r-fwvr"
-      },
-      {
-        "cve_id": null,
-        "severity": "high",
-        "cvss_score": 8.1,
-        "summary": "@zereight/mcp-gitlab has multiple safety-control bypasses: execute_graphql read-only + allow-list bypass, unauthenticated transports, session-exhaustion DoS",
-        "ghsa_id": "GHSA-5648-rgj9-v224"
-      },
-      {
-        "cve_id": "CVE-2026-61554",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "emp3r0r has an unauthenticated HTTP Polling DoS",
-        "ghsa_id": "GHSA-4595-rvpx-4q34"
-      },
-      {
-        "cve_id": "CVE-2026-88975",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s: Ember HTTP/2 buffers a frame's declared payload before checking SETTINGS_MAX_FRAME_SIZE",
-        "ghsa_id": "GHSA-gq9p-f254-h286"
-      },
-      {
-        "cve_id": "CVE-2026-69218",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s Ember HTTP/2: unbounded continuation frame accumulation",
-        "ghsa_id": "GHSA-cp4q-fqw9-4hf6"
-      },
-      {
-        "cve_id": "CVE-2026-69213",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s Ember HTTP/2 has an unbounded outbound frame queue",
-        "ghsa_id": "GHSA-8f3q-3jmv-7prw"
-      },
-      {
-        "cve_id": "CVE-2026-69208",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s: DigestAuth nonce map grows unbounded",
-        "ghsa_id": "GHSA-fm4g-76c9-7w69"
-      },
-      {
-        "cve_id": "CVE-2026-69203",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s Ember HTTP/2 does not enforce SETTINGS_MAX_CONCURRENT_STREAMS",
-        "ghsa_id": "GHSA-9vwc-pc8p-253q"
-      },
-      {
-        "cve_id": "CVE-2026-69202",
-        "severity": "high",
-        "cvss_score": 7.5,
-        "summary": "Http4s Ember HTTP/2: unbounded inbound body buffering",
-        "ghsa_id": "GHSA-6m4x-pp6q-5jmm"
-      },
-      {
-        "cve_id": "CVE-2026-61544",
-        "severity": "high",
-        "cvss_score": 0,
-        "summary": "libp2p-quic: Remote panic via certificate expiry race during QUIC handshake",
-        "ghsa_id": "GHSA-5hq8-qhww-jm7q"
-      }
-    ]
+    "cve": "CVE-2026-61560",
+    "ghsa": "GHSA-cv3r-c5h8-f4g5",
+    "severity": "critical",
+    "cvss": 9.8,
+    "package": "@zereight/mcp-gitlab",
+    "summary": "未认证任意文件读取→PAT窃取→账户接管",
+    "poc": true,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2025-59953",
+    "ghsa": "GHSA-5h8j-6crg-7rmw",
+    "severity": "critical",
+    "cvss": 9.8,
+    "package": "lmdeploy",
+    "summary": "Pickle反序列化RCE",
+    "poc": true,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61594",
+    "ghsa": "GHSA-xhhm-f6hp-2qwj",
+    "severity": "critical",
+    "cvss": 9.1,
+    "package": "djust",
+    "summary": "WebSocket/SSE挂载路径授权绕过",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-63127",
+    "ghsa": "GHSA-33f5-2c5q-wgwj",
+    "severity": "high",
+    "cvss": 8.2,
+    "package": "rmcp",
+    "summary": "OAuth资源元数据验证缺失→token窃取",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61591",
+    "ghsa": "GHSA-c67v-vqrp-m5wj",
+    "severity": "high",
+    "cvss": 8.1,
+    "package": "djust",
+    "summary": "未签名客户端状态快照→提权/状态注入",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-63671",
+    "ghsa": "GHSA-mxm6-v9r6-r94c",
+    "severity": "high",
+    "cvss": 8.1,
+    "package": "@nuxtjs/mdc",
+    "summary": "URL净化器XSS绕过(SVG xlink:href)",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61593",
+    "ghsa": "GHSA-pg97-jvmf-qfvc",
+    "severity": "high",
+    "cvss": 8.1,
+    "package": "djust",
+    "summary": "SSE传输CSRF",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61599",
+    "ghsa": "GHSA-7prp-2623-8g45",
+    "severity": "high",
+    "cvss": null,
+    "package": "djust",
+    "summary": "WebSocket/SSE未认证任意模块导入",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61595",
+    "ghsa": "GHSA-3492-cvg7-9mr2",
+    "severity": "high",
+    "cvss": 7.7,
+    "package": "djust",
+    "summary": "多租户隔离fail-open→数据泄露",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-63128",
+    "ghsa": "GHSA-9pj6-vhgr-3mwh",
+    "severity": "high",
+    "cvss": 7.5,
+    "package": "rmcp",
+    "summary": "Streamable HTTP未认证会话表泄漏DoS",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-59879",
+    "ghsa": "GHSA-v56q-mh7h-f735",
+    "severity": "high",
+    "cvss": 7.5,
+    "package": "immutable",
+    "summary": "List 32-bit Trie溢出→不可恢复DoS",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61592",
+    "ghsa": "GHSA-f795-p5jw-j6g2",
+    "severity": "high",
+    "cvss": 7.4,
+    "package": "djust",
+    "summary": "SSE会话未绑定用户→会话劫持",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61590",
+    "ghsa": "GHSA-8g2f-g3gq-5rjv",
+    "severity": "high",
+    "cvss": 7.4,
+    "package": "djust",
+    "summary": "可观测性端点网络暴露",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-81192",
+    "ghsa": "GHSA-v8pv-4842-x354",
+    "severity": "high",
+    "cvss": 7.0,
+    "package": "OpenTelemetry.Resources.Host",
+    "summary": "macOS PATH劫持→代码执行",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-68904",
+    "ghsa": "GHSA-r2pf-9cw4-5j65",
+    "severity": "high",
+    "cvss": 7.0,
+    "package": "node-opcua",
+    "summary": "TCP Socket泄漏FIN-WAIT-2资源耗尽",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2024-39896",
+    "ghsa": "GHSA-jgf4-vwc3-r46v",
+    "severity": "high",
+    "cvss": 7.5,
+    "package": "directus",
+    "summary": "SSO用户枚举",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61598",
+    "ghsa": "GHSA-cc7c-9jff-58wj",
+    "severity": "high",
+    "cvss": null,
+    "package": "djust",
+    "summary": "客户端批量赋值任意视图属性",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-61596",
+    "ghsa": "GHSA-c7c5-5j6r-q957",
+    "severity": "high",
+    "cvss": 7.1,
+    "package": "djust",
+    "summary": "对象级访问控制缺陷IDOR",
+    "poc": false,
+    "date": "2026-09-17"
+  },
+  {
+    "cve": "CVE-2026-59965",
+    "ghsa": "GHSA-4qpv-39hg-f7fx",
+    "severity": "high",
+    "cvss": 7.1,
+    "package": "@jhb.software/payload-alt-text-plugin",
+    "summary": "Payload CMS授权绕过",
+    "poc": false,
+    "date": "2026-09-17"
   }
 ]
